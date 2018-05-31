@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Name: KP
   m_EditorClassIdentifier: 
   name: Karate Person
+  role: Melee All-Arounder
   description: Golden-hearted leader of SHTANK, just a guy who knows karate.
-  defaultSprite: {fileID: 21300000, guid: a6b11553110e3c84b9667bd8b1184d64, type: 3}
   stats:
     hp: 10
     pow: 5
     def: 5
     spd: 5
     mov: 5
+  defaultSprite: {fileID: 21300000, guid: a6b11553110e3c84b9667bd8b1184d64, type: 3}

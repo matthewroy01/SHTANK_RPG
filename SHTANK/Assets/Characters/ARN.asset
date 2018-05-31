@@ -9,16 +9,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83f03cf5a53537e4a918190ffcc7399f, type: 3}
-  m_Name: MM
+  m_Name: ARN
   m_EditorClassIdentifier: 
-  name: Melon Man
-  role: Melee Tank
-  description: Right hand man to Karate Person and cursed to have a melon on his head,
-    no one can understand what he's saying.
+  name: All Real Numbers
+  role: Ranged Attacker
+  description: An arrogant scatter brain with an affinity for math. Uses his powers
+    to make math real but requires focus.
   stats:
     hp: 10
     pow: 5
     def: 5
     spd: 5
     mov: 5
-  defaultSprite: {fileID: 21300000, guid: df76ae007dd9c5c4491eb72b611111d6, type: 3}
+  defaultSprite: {fileID: 21300000, guid: f76866927955fcb478f39e4a37798e1c, type: 3}

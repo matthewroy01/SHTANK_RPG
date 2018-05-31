@@ -6,7 +6,9 @@ using UnityEngine;
 public class Character : ScriptableObject
 {
 	[Header("Name and description")]
+	// writing "new" here allows the creation of a string called "name" because gameobject.name already exists
 	public new string name;
+	public string role;
 	[TextArea(3, 10)]
 	public string description;
 
