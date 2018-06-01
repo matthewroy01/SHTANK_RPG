@@ -9,16 +9,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83f03cf5a53537e4a918190ffcc7399f, type: 3}
-  m_Name: KP
+  m_Name: Avatar
   m_EditorClassIdentifier: 
-  name: Karate Person
-  role: Melee All-Arounder
-  description: The golden-hearted leader of SHTANK, just a guy who knows karate. Some
-    say he descends from a legendary, food-based hero.
+  name: Avatar
+  role: Mixed All-Arounder
+  description: An up and coming maniacal supervillain. She uses her powers of darkness
+    to twist the battlefield in her favor.
   stats:
     hp: 10
     pow: 5
     def: 5
     spd: 5
     mov: 5
-  defaultSprite: {fileID: 21300000, guid: a6b11553110e3c84b9667bd8b1184d64, type: 3}
+  defaultSprite: {fileID: 0}

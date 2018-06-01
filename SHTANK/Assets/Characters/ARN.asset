@@ -13,12 +13,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: All Real Numbers
   role: Ranged Attacker
-  description: An arrogant scatter brain with an affinity for math. Uses his powers
-    to make math real but requires focus.
+  description: A former teacher and arrogant scatter brain with an affinity for math.
+    Uses his powers to make math real but requires focus to expand on his curriculum.
   stats:
     hp: 10
     pow: 5
     def: 5
     spd: 5
     mov: 5
-  defaultSprite: {fileID: 21300000, guid: f76866927955fcb478f39e4a37798e1c, type: 3}
+  defaultSprite: {fileID: 21300000, guid: db0046b72a321a741896bdad6bf0c163, type: 3}
