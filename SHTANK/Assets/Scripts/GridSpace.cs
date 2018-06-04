@@ -5,27 +5,29 @@ using UnityEngine;
 public class GridSpace : MonoBehaviour
 {
 	public GridSpaceType type = GridSpaceType.normal;
-   	public GameObject obj;
-   	public Color col = Color.white;
-   	public Vector3 pos;
    	public Attributes attributes;
+   	public bool occupied;
 
 	private Material refMaterial;
 
    	void Awake()
    	{
+   		// find our render material
    		refMaterial = GetComponent<Renderer>().material;
+
+   		// set the color by default to white
+   		refMaterial.color = Color.white;
    	}
 
-	public void InitGridSpace(GridSpaceType myType, GameObject myObj, Color myCol, Vector3 myPos, Attributes myAttributes)
+	public void InitGridSpace(GridSpaceType myType, Attributes myAttributes, Color myCol)
 	{
+		// set the default values
 		type = myType;
-		obj = myObj;
-		col = myCol;
-		pos = myPos;
 		attributes = myAttributes;
+		occupied = false;
 
-		refMaterial.color = col;
+		// set the color
+		refMaterial.color = myCol;
 	}
 }
 

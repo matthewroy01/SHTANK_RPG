@@ -15,7 +15,6 @@ public class CombatCreateGrid : MonoBehaviour
 
 	[Header("Grid prefabs")]
 	public LayerMask detectable;
-	public GridSpace[] gridObjects;
 	public GameObject gridSpacePrefab;
 
     [Header("Final grid")]
@@ -30,7 +29,7 @@ public class CombatCreateGrid : MonoBehaviour
 		if (CheckForErrors() == true)
 			return;
 
-      grid = new GridSpace[gridWidth, gridHeight];
+      	grid = new GridSpace[gridWidth, gridHeight];
 
 		// scan the surrounding area and create grid objects
 		ScanAndCreate();
@@ -54,9 +53,6 @@ public class CombatCreateGrid : MonoBehaviour
 			{
 	            // calculate the position
 				Vector3 position = new Vector3(startingX + x, defaultY, startingY + y);
-
-	            // by default, a grid space is empty
-	            GridSpace current = gridObjects[0];
 
 	            // instantiate the grid space
 				grid[iX, iY] = Instantiate(gridSpacePrefab, position, gridSpacePrefab.transform.rotation).GetComponent<GridSpace>();
@@ -92,17 +88,17 @@ public class CombatCreateGrid : MonoBehaviour
          if (hit.collider.gameObject.CompareTag("Wall"))
          {
          	Attributes newAttributes = new Attributes(false, false, false);
-			myCurrent.InitGridSpace(GridSpaceType.wall, myCurrent.gameObject, Color.green, myPosition, newAttributes);
+			myCurrent.InitGridSpace(GridSpaceType.wall, newAttributes, Color.green);
          }
          else if (hit.collider.gameObject.CompareTag("Water"))
          {
 			Attributes newAttributes = new Attributes(false, true, true);
-			myCurrent.InitGridSpace(GridSpaceType.water, myCurrent.gameObject, Color.blue, myPosition, newAttributes);
+			myCurrent.InitGridSpace(GridSpaceType.water, newAttributes, Color.blue);
          }
          else
          {
 			Attributes newAttributes = new Attributes(true, true, true);
-			myCurrent.InitGridSpace(GridSpaceType.water, myCurrent.gameObject, Color.white, myPosition, newAttributes);
+			myCurrent.InitGridSpace(GridSpaceType.normal, newAttributes, Color.white);
          }
       }
    }
@@ -127,12 +123,6 @@ public class CombatCreateGrid : MonoBehaviour
 		if (gridHeight <= 0)
 		{
 			Debug.LogError("gridHeight cannot be <= 0.");
-			threwError = true;
-		}
-
-		if (gridObjects.Length == 0)
-		{
-			Debug.LogError("gridObjects is empty.");
 			threwError = true;
 		}
 

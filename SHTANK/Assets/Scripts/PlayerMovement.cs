@@ -11,10 +11,14 @@ public class PlayerMovement : MonoBehaviour
 	private Rigidbody rb;
 	private Vector3 defaultPosition;
 
+	public GridSpace[,] grid;
+
 	void Start()
 	{
 		defaultPosition = transform.position;
 		rb = GetComponent<Rigidbody>();
+
+		grid = GameObject.FindObjectOfType<CombatCreateGrid>().grid;
 	}
 	
 	void Update()
@@ -26,5 +30,7 @@ public class PlayerMovement : MonoBehaviour
 			transform.position = defaultPosition;
 			rb.velocity = Vector3.zero;
 		}
+
+		Debug.Log(grid[4, 5].type);
 	}
 }
