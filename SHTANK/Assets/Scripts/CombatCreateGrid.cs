@@ -16,6 +16,10 @@ public class CombatCreateGrid : MonoBehaviour
 	[Header("Grid prefabs")]
 	public LayerMask detectable;
 	public GridSpace[] gridObjects;
+	public GameObject gridSpacePrefab;
+
+    [Header("Final grid")]
+    public GridSpace[,] grid;
 
 	void Start ()
 	{
@@ -25,6 +29,8 @@ public class CombatCreateGrid : MonoBehaviour
 		// check for impossible values
 		if (CheckForErrors() == true)
 			return;
+
+      grid = new GridSpace[gridWidth, gridHeight];
 
 		// scan the surrounding area and create grid objects
 		ScanAndCreate();
@@ -39,28 +45,34 @@ public class CombatCreateGrid : MonoBehaviour
 		startingX *= distanceBetween;
 		startingY *= distanceBetween;
 
+      int iX = 0, iY = 0;
+
       // loop through for all width and height
-		for (float x = 0; x < gridWidth * distanceBetween; x += distanceBetween)
+		for (float x = 0;  x < gridWidth * distanceBetween; x += distanceBetween)
 		{
 			for (float y = 0; y < gridHeight * distanceBetween; y += distanceBetween)
 			{
-            // calculate the position
+	            // calculate the position
 				Vector3 position = new Vector3(startingX + x, defaultY, startingY + y);
 
-            // by default, a grid space is empty
-            GridSpace current = gridObjects[0];
+	            // by default, a grid space is empty
+	            GridSpace current = gridObjects[0];
 
-            // check to see what is in our grid space
-            CheckGridSpace(position, ref current);
+	            // instantiate the grid space
+				grid[iX, iY] = Instantiate(gridSpacePrefab, position, gridSpacePrefab.transform.rotation).GetComponent<GridSpace>();
 
-            // instantiate the grid space and change the color accordingly
-				GameObject tmp = Instantiate(current.obj, position, transform.rotation);
-				tmp.GetComponent<Renderer>().material.color = current.color;
+				// check to see what is in our grid space
+	            CheckGridSpace(position, ref grid[iX, iY], distanceBetween);
+
+	            ++iY;
 			}
+
+         ++iX;
+         iY = 0;
 		}
 	}
 
-   private void CheckGridSpace(Vector3 myPosition, ref GridSpace myCurrent)
+   private void CheckGridSpace(Vector3 myPosition, ref GridSpace myCurrent, float scale)
    {
       RaycastHit hit;
 
@@ -68,16 +80,29 @@ public class CombatCreateGrid : MonoBehaviour
       // ***THIS DOESN'T SEEM TO WORK EVEN WHEN LOWERING DEFAULT Y TO SOMETHING LESS THAN 100?
       myPosition.y += 100.0f;
 
+      // change the scale according to the distance between grid spaces
+      myCurrent.gameObject.transform.localScale *= distanceBetween;
+
+      // change the parent
+      myCurrent.gameObject.transform.parent = gameObject.transform;
+
       // look for detectable objects and set current to the corresponding object from grid objects
       if (Physics.Raycast(myPosition, Vector3.down, out hit, Mathf.Infinity, detectable))
       {
          if (hit.collider.gameObject.CompareTag("Wall"))
          {
-            myCurrent = gridObjects[1];
+         	Attributes newAttributes = new Attributes(false, false, false);
+			myCurrent.InitGridSpace(GridSpaceType.wall, myCurrent.gameObject, Color.green, myPosition, newAttributes);
          }
          else if (hit.collider.gameObject.CompareTag("Water"))
          {
-            myCurrent = gridObjects[2];
+			Attributes newAttributes = new Attributes(false, true, true);
+			myCurrent.InitGridSpace(GridSpaceType.water, myCurrent.gameObject, Color.blue, myPosition, newAttributes);
+         }
+         else
+         {
+			Attributes newAttributes = new Attributes(true, true, true);
+			myCurrent.InitGridSpace(GridSpaceType.water, myCurrent.gameObject, Color.white, myPosition, newAttributes);
          }
       }
    }
@@ -114,15 +139,3 @@ public class CombatCreateGrid : MonoBehaviour
 		return threwError;
 	}
 }
-
-[System.Serializable]
-public class GridSpace
-{
-	public GameObject obj;
-	public Color color = Color.white;
-	public bool passable = true;
-	public bool transparent = true;
-	public bool canFlyOver = true;
-}
-
-public enum GridSpaceType { normal = 0, wall = 1, water = 2};

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class TestMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
 	[Header("Movement variables")]
 	public float movSpeed;
