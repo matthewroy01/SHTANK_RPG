@@ -17,8 +17,8 @@ public class CombatCreateGrid : MonoBehaviour
 	public LayerMask detectable;
 	public GameObject gridSpacePrefab;
 
-    [Header("Final grid")]
-    public GridSpace[,] grid;
+	[Header("Final grid")]
+	public GridSpace[,] grid;
 
 	void Start ()
 	{
@@ -27,85 +27,85 @@ public class CombatCreateGrid : MonoBehaviour
 
 		// check for impossible values
 		if (CheckForErrors() == true)
-			return;
+		return;
 
-      	grid = new GridSpace[gridWidth, gridHeight];
+		grid = new GridSpace[gridWidth, gridHeight];
 
 		// scan the surrounding area and create grid objects
-		ScanAndCreate();
+//		ScanAndCreate();
 	}
 
-	private void ScanAndCreate()
+	public void ScanAndCreate()
 	{
-      // calculate the starting corner of our grid
+		// calculate the starting corner of our grid
 		float startingX = defaultPosition.x - (gridWidth / 2), startingY = defaultPosition.y - (gridHeight / 2);
 
-      // multiply by distance between to move the corner the proper distance away
+		// multiply by distance between to move the corner the proper distance away
 		startingX *= distanceBetween;
 		startingY *= distanceBetween;
 
-      int iX = 0, iY = 0;
+		int iX = 0, iY = 0;
 
-      // loop through for all width and height
+		// loop through for all width and height
 		for (float x = 0;  x < gridWidth * distanceBetween; x += distanceBetween)
 		{
 			for (float y = 0; y < gridHeight * distanceBetween; y += distanceBetween)
 			{
-	            // calculate the position
+				// calculate the position
 				Vector3 position = new Vector3(startingX + x, defaultY, startingY + y);
 
-	            // instantiate the grid space
+				// instantiate the grid space
 				grid[iX, iY] = Instantiate(gridSpacePrefab, position, gridSpacePrefab.transform.rotation).GetComponent<GridSpace>();
 
 				// check to see what is in our grid space
-	            CheckGridSpace(position, ref grid[iX, iY], distanceBetween);
+				CheckGridSpace(position, ref grid[iX, iY], distanceBetween);
 
-	            ++iY;
+				++iY;
 			}
 
-         ++iX;
-         iY = 0;
+			++iX;
+			iY = 0;
 		}
 	}
 
-   private void CheckGridSpace(Vector3 myPosition, ref GridSpace myCurrent, float scale)
-   {
-      RaycastHit hit;
+	private void CheckGridSpace(Vector3 myPosition, ref GridSpace myCurrent, float scale)
+	{
+		RaycastHit hit;
 
-      // raise our raycast up just in case
-      // ***THIS DOESN'T SEEM TO WORK EVEN WHEN LOWERING DEFAULT Y TO SOMETHING LESS THAN 100?
-      myPosition.y += 100.0f;
+		// raise our raycast up just in case
+		// ***THIS DOESN'T SEEM TO WORK EVEN WHEN LOWERING DEFAULT Y TO SOMETHING LESS THAN 100?
+		myPosition.y += 100.0f;
 
-      // change the scale according to the distance between grid spaces
-      myCurrent.gameObject.transform.localScale *= distanceBetween;
+		// change the scale according to the distance between grid spaces
+		myCurrent.gameObject.transform.localScale *= distanceBetween;
 
-      // change the parent
-      myCurrent.gameObject.transform.parent = gameObject.transform;
+		// change the parent
+		myCurrent.gameObject.transform.parent = gameObject.transform;
 
-      // look for detectable objects and set current to the corresponding object from grid objects
-      if (Physics.Raycast(myPosition, Vector3.down, out hit, Mathf.Infinity, detectable))
-      {
-         if (hit.collider.gameObject.CompareTag("Wall"))
-         {
-         	Attributes newAttributes = new Attributes(false, false, false);
-			myCurrent.InitGridSpace(GridSpaceType.wall, newAttributes, Color.green);
-         }
-         else if (hit.collider.gameObject.CompareTag("Water"))
-         {
-			Attributes newAttributes = new Attributes(false, true, true);
-			myCurrent.InitGridSpace(GridSpaceType.water, newAttributes, Color.blue);
-         }
-         else
-         {
-			Attributes newAttributes = new Attributes(true, true, true);
-			myCurrent.InitGridSpace(GridSpaceType.normal, newAttributes, Color.white);
-         }
-      }
-   }
+		// look for detectable objects and set current to the corresponding object from grid objects
+		if (Physics.Raycast(myPosition, Vector3.down, out hit, Mathf.Infinity, detectable))
+		{
+			if (hit.collider.gameObject.CompareTag("Wall"))
+			{
+				Attributes newAttributes = new Attributes(false, false, false);
+				myCurrent.InitGridSpace(GridSpaceType.wall, newAttributes, Color.green);
+			}
+			else if (hit.collider.gameObject.CompareTag("Water"))
+			{
+				Attributes newAttributes = new Attributes(false, true, true);
+				myCurrent.InitGridSpace(GridSpaceType.water, newAttributes, Color.blue);
+			}
+			else
+			{
+				Attributes newAttributes = new Attributes(true, true, true);
+				myCurrent.InitGridSpace(GridSpaceType.normal, newAttributes, Color.white);
+			}
+		}
+	}
 
 	private bool CheckForErrors()
 	{
-      // this function used to prevent infinite loops via impossible values in the inspector
+		// this function used to prevent infinite loops via impossible values in the inspector
 		bool threwError = false;
 
 		if (distanceBetween <= 0)
