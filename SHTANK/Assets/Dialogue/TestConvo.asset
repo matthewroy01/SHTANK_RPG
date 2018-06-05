@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43b9fd8dbbbdb4e4dbab4fa12511b9a9, type: 3}
+  m_Name: TestConvo
+  m_EditorClassIdentifier: 
+  listOfText:
+  - whoIsSpeaking: Owain
+    text: Nrgh! Sword hand, no! Control yourself! P-power... too great... C-can't
+      contain it...
+    effects:
+      effect: 0
+      fontSizeMultiplier: 1
+      characterSprite: {fileID: 0}
+  - whoIsSpeaking: Chrom
+    text: ' Um, sorry to interrupt your... conversation? But I have a question about
+      your stance.'
+    effects:
+      effect: 0
+      fontSizeMultiplier: 1
+      characterSprite: {fileID: 0}
+  - whoIsSpeaking: Chrom
+    text: You've crafted your own style around it, but it's clearly from the royal
+      house of Ylisse.
+    effects:
+      effect: 0
+      fontSizeMultiplier: 1
+      characterSprite: {fileID: 0}
+  - whoIsSpeaking: Owain
+    text: By the gods old and new! Another future traveler?! And yet, impossible,
+      for I saw none like him in the light...
+    effects:
+      effect: 0
+      fontSizeMultiplier: 1
+      characterSprite: {fileID: 0}
+  - whoIsSpeaking: Owain
+    text: Who are you, villain?! Speak now!
+    effects:
+      effect: 0
+      fontSizeMultiplier: 1
+      characterSprite: {fileID: 0}
+  - whoIsSpeaking: Chrom
+    text: Um, I'm Chrom. ...Of Ylisse? I have no quarrel with you, but if we must
+      fight, then-
+    effects:
+      effect: 0
+      fontSizeMultiplier: 1
+      characterSprite: {fileID: 0}
+  - whoIsSpeaking: Owain
+    text: UNCLE CHROM?!
+    effects:
+      effect: 0
+      fontSizeMultiplier: 1
+      characterSprite: {fileID: 0}

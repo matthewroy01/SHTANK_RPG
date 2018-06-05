@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "New Character", menuName = "Character")]
-public class CharacterObj : ScriptableObject
+public class ObjCharacter : ScriptableObject
 {
 	[Header("Name and description")]
 	// writing "new" here allows the creation of a string called "name" because gameobject.name already exists
