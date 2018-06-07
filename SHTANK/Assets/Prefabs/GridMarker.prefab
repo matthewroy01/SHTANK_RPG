@@ -53,13 +53,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  obj: {fileID: 1683171026360058}
-  col: {r: 1, g: 1, b: 1, a: 1}
-  pos: {x: 0, y: 0, z: 0}
   attributes:
-    passable: 0
-    transparent: 0
-    canFlyOver: 0
+    passable: 1
+    transparent: 1
+    canFlyOver: 1
+  occupied: 0
 --- !u!212 &212306206501613210
 SpriteRenderer:
   m_ObjectHideFlags: 1

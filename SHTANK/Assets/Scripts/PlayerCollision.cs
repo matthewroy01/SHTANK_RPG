@@ -24,7 +24,7 @@ public class PlayerCollision : MonoBehaviour
 		// collision with an enemy in the overworld
 		if (other.CompareTag("Enemy"))
 		{
-			refCreateGrid.ScanAndCreate();
+			//refCreateGrid.ScanAndCreate();
 		}
 	}
 }
