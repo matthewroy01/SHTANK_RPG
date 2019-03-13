@@ -20,6 +20,9 @@ public class CombatCreateGrid : MonoBehaviour
 	[Header("Final grid")]
 	public GridSpace[,] grid;
 
+
+    public GameObject hitpoint;
+
 	void Start ()
 	{
 		// save the default position just in case
@@ -33,6 +36,7 @@ public class CombatCreateGrid : MonoBehaviour
 
 		// scan the surrounding area and create grid objects
 		CreateGrid();
+        ScanGrid();
 	}
 
 	public void CreateGrid()
@@ -87,13 +91,16 @@ public class CombatCreateGrid : MonoBehaviour
 	private void CheckGridSpace(Vector3 myPosition, ref GridSpace myCurrent)
 	{
 		RaycastHit hit;
+        Vector3 endPoint = myPosition + (Vector3.down * 100);
+        //Instantiate(hitpoint, endPoint, Quaternion.identity);
+        Debug.DrawLine(myPosition, endPoint);
 
 		// raise our raycast up just in case
 		// ***THIS DOESN'T SEEM TO WORK EVEN WHEN LOWERING DEFAULT Y TO SOMETHING LESS THAN 100?
-		myPosition.y += 100.0f;
+		//myPosition.y += 100.0f;
 
 		// look for detectable objects and set current to the corresponding object from grid objects
-		if (Physics.Raycast(myPosition, Vector3.down, out hit, Mathf.Infinity, detectable))
+		if (Physics.Raycast(myPosition, Vector3.down, out hit, 100, detectable))
 		{
 			if (hit.collider.gameObject.CompareTag("Wall"))
 			{
@@ -111,6 +118,10 @@ public class CombatCreateGrid : MonoBehaviour
 				myCurrent.InitGridSpace(GridSpaceType.normal, newAttributes, Color.white);
 			}
 		}
+        else
+        {
+            Debug.Log("Didn't see anything");
+        }
 	}
 
 	private bool CheckForErrors()
