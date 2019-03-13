@@ -310,7 +310,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   instructionStack: 
   instructionTest: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  testAction: {fileID: 11400000, guid: 670d1fa53df436d4e88cb6d776dceada, type: 2}
+  testAction: {fileID: 11400000, guid: 8f9bf00e9fc14d54aa13e718d64e3451, type: 2}
 --- !u!4 &655475021
 Transform:
   m_ObjectHideFlags: 0

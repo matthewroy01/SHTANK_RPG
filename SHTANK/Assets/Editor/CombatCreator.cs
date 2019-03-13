@@ -8,14 +8,18 @@ public class CombatCreator : EditorWindow
 {
     string ActionName = "";
     string ActionDescription = "";
-    List<Instruction> instructions;
-    int listSize = 0;
-    Instruction testInstruction;
+    public List<Instruction> instructions;
 
     [MenuItem("SHTANK/CombatCreator")]
     public static void ShowWindow()
     {
          GetWindow<CombatCreator>("Combat Creator");
+    }
+
+    //Called when the window is opened - Initalize variables here
+    public void Awake()
+    {
+        instructions = new List<Instruction>();
     }
 
     private void OnInspectorUpdate()
@@ -25,7 +29,6 @@ public class CombatCreator : EditorWindow
 
     private void OnGUI()
     {
-        
         ActionName = EditorGUI.TextField(new Rect(10, 25, position.width - 20, 20),
             "Action Name:",
             ActionName);
@@ -33,41 +36,49 @@ public class CombatCreator : EditorWindow
            "Action Description:",
            ActionDescription);
 
-        testInstruction = (Instruction)EditorGUI.EnumPopup(new Rect(10, 65, position.width - 20, 20), testInstruction);
+        for(int i  = 0; i < instructions.Count; i++)
+        {
+            instructions[i] = (Instruction)EditorGUI.EnumPopup(new Rect(10, 85 + (20 * i), position.width - 20, 20), 
+                              "Action " + (i+1).ToString(), instructions[i]);
+        }
 
-        if (GUILayout.Button("Create Action"))
+        if (GUI.Button(new Rect(10, 145, position.width - 20, 20), "Add instruction"))
+        {
+            instructions.Add(new Instruction());
+        }
+        if (GUI.Button(new Rect(10, 125, position.width - 20, 20), "Create Action"))
         {
             CreateAsset();
         }
-
-
     }
 
-
-    //Found on the Unify Community website http://wiki.unity3d.com/index.php/CreateScriptableObjectAsset
     public void CreateAsset()
     {
-        Instruction test = testInstruction;
+        //Set up new object variables
         CombatAction asset = ScriptableObject.CreateInstance<CombatAction>();
         asset.name = ActionName;
         asset.description = ActionDescription;
         asset.InstructionList = new List<char>();
-        asset.InstructionList.Add(System.Convert.ToChar(test));
 
-        string path = AssetDatabase.GetAssetPath(Selection.activeObject);
-        if (path == "")
+        for(int i = 0; i < instructions.Count; i++)
         {
-            path = "Assets/Combat Actions";
+            asset.InstructionList.Add(System.Convert.ToChar(instructions[i]));
         }
-        else if (Path.GetExtension(path) != "")
+       
+        //Set the folder path
+        string path = "Assets/Combat Actions";
+        string assetPathAndName;
+        if (ActionName == "")
         {
-            path = path.Replace(Path.GetFileName(AssetDatabase.GetAssetPath(Selection.activeObject)), "");
+            assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path + "/New " + typeof(CombatAction).ToString() + ".asset");
         }
-
-        string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path + "/New " + typeof(CombatAction).ToString() + ".asset");
-
+        else
+        {
+            assetPathAndName = AssetDatabase.GenerateUniqueAssetPath(path + "/" + ActionName + ".asset");
+        }
+        
+        //Create asset object
         AssetDatabase.CreateAsset(asset, assetPathAndName);
-
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
         EditorUtility.FocusProjectWindow();
