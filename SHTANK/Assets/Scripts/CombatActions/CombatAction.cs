@@ -15,11 +15,5 @@ public class CombatAction : ScriptableObject
     [TextArea(3, 10)]
     public string description;
 
-    public List<char> InstructionList;
-   // public List<Instruction> InstructionList;
-    //public 
-    //Insert other stuff here
-
-
-    
+    public List<Instruction> InstructionList;
 }

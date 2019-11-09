@@ -58,11 +58,11 @@ public class CombatCreator : EditorWindow
         CombatAction asset = ScriptableObject.CreateInstance<CombatAction>();
         asset.name = ActionName;
         asset.description = ActionDescription;
-        asset.InstructionList = new List<char>();
+        asset.InstructionList = new List<Instruction>();
 
         for(int i = 0; i < instructions.Count; i++)
         {
-            asset.InstructionList.Add(System.Convert.ToChar(instructions[i]));
+            asset.InstructionList.Add(instructions[i]);
         }
        
         //Set the folder path
