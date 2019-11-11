@@ -14,5 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveCharacter: 0
   ignoreWalls: 0
-  effects: []
-  radius: 0
+  effects:
+  - id: 0
+    value: 1
+    probability: 1
+  radius: 5

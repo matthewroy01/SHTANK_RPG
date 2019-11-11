@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Reflection;
 
-public class ExamplePlayer : Character
+public class PlayerBase : Character
 {
     private bool idle = true;
     private Vector3 defaultPosition;
@@ -87,7 +87,7 @@ public class ExamplePlayer : Character
             }
         }
 
-        // FOR NOW, LET'S ASSUME THE PLAYER IS FACING TO THE RIGHT EACH TIME
+        // REMEMBER, WE ALSO NEED TO TAKE INTO ACCOUNT THE DIRECTION THE PLAYER IS FACING
 
         if (abil != null)
         {
@@ -101,6 +101,7 @@ public class ExamplePlayer : Character
             else if (abilType == "CircleAbility")
             {
                 Debug.Log(abilType + " used.");
+                ProcessCircleAbility((CircleAbility)abil);
             }
             else if (abilType == "ConeAbility")
             {
@@ -208,6 +209,72 @@ public class ExamplePlayer : Character
             // update the current grid space to continue along the path
             currentGridSpace = (GridSpace)currentGridSpace.GetType().GetField(direction).GetValue(currentGridSpace);
         }
+    }
+
+    private void ProcessCircleAbility(CircleAbility abil)
+    {
+        List<GridSpace> toMakeDirty = new List<GridSpace>();
+        Queue<GridSpace> toCheckNext = new Queue<GridSpace>();
+
+        toCheckNext.Enqueue(myGridSpace);
+
+        if (abil.radius > 0)
+        {
+            // FOR NOW WE ARE USING myGridSpace BUT IN THE FUTURE THIS SHOULD BE ABLE TO CHANGE FOR RANGED ATTACKS
+            int radiusCounter = 0;
+            int numToCheck = 0;
+
+            // keep checking until the specified radius has been reached
+            while (radiusCounter < abil.radius)
+            {
+                // keep track of how many GridSpaces there were in ToCheckNext so that we don't loop too much for GridSpaces we end up adding
+                numToCheck = toCheckNext.Count;
+
+                for (int j = 0; j < numToCheck; ++j)
+                {
+                    // check and potentially add all the connections currently in the toCheckNext queue
+                    CheckListAndAdd(ref toMakeDirty, ref toCheckNext, toCheckNext.Peek().up);
+                    CheckListAndAdd(ref toMakeDirty, ref toCheckNext, toCheckNext.Peek().down);
+                    CheckListAndAdd(ref toMakeDirty, ref toCheckNext, toCheckNext.Peek().left);
+                    CheckListAndAdd(ref toMakeDirty, ref toCheckNext, toCheckNext.Peek().right);
+
+                    // remove the GridSpace we just checked
+                    toCheckNext.Dequeue();
+                }
+
+                radiusCounter++;
+            }
+        }
+
+        // include the center GridSpace (either the space the user is on or the center of a ranged attack)
+        toMakeDirty.Add(myGridSpace);
+
+        // mark all found GridSpaces as dirty
+        for (int i = 0; i < toMakeDirty.Count; ++i)
+        {
+            refCombatGrid.MakeDirty(toMakeDirty[i], abil);
+        }
+    }
+
+    private void CheckListAndAdd(ref List<GridSpace> toMakeDirty, ref Queue<GridSpace> toCheckNext, GridSpace toCheckAndMaybeAdd)
+    {
+        if (toCheckAndMaybeAdd != null)
+        {
+            // add the GridSpace we are checking to be made dirty if it's not already in the list
+            if (!toMakeDirty.Contains(toCheckAndMaybeAdd))
+            {
+                // add the GridSpace to be made dirty
+                toMakeDirty.Add(toCheckAndMaybeAdd);
+
+                // and add the GridSpace to have its connections checked next too
+                toCheckNext.Enqueue(toCheckAndMaybeAdd);
+            }
+        }
+    }
+
+    private void ProcessConeAbility(ConeAbility abil)
+    {
+        
     }
 
     public void EndTurn()

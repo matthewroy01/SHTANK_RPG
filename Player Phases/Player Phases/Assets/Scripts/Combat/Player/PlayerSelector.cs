@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerSelector : MonoBehaviour
 {
-    public ExamplePlayer currentPlayer = null;
+    public PlayerBase currentPlayer = null;
     private bool atDefPos = true;
 
     private CombatGrid refCombatGrid;
@@ -44,7 +44,7 @@ public class PlayerSelector : MonoBehaviour
                 if (hit.transform)
                 {
                     // try to set currentPlayer if the hit object has a player component
-                    currentPlayer = hit.transform.GetComponent<ExamplePlayer>();
+                    currentPlayer = hit.transform.GetComponent<PlayerBase>();
                     if (currentPlayer.GetIdle() == true)
                     {
                         currentPlayer = null;

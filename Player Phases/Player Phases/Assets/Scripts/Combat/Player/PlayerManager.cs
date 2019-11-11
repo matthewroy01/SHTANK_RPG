@@ -7,7 +7,7 @@ public class PlayerManager : MonoBehaviour
     private PhaseManager refPhaseManager;
 
     public GameObject playerPrefab;
-    public List<ExamplePlayer> players = new List<ExamplePlayer>();
+    public List<PlayerBase> players = new List<PlayerBase>();
 
     private CombatGrid refCombatGrid;
 
@@ -40,7 +40,7 @@ public class PlayerManager : MonoBehaviour
         for (int i = 0; i < 3; ++i)
         {
             // spawn players and add them to the list
-            ExamplePlayer tmp = Instantiate(playerPrefab, transform).GetComponent<ExamplePlayer>();
+            PlayerBase tmp = Instantiate(playerPrefab, transform).GetComponent<PlayerBase>();
             players.Add(tmp);
             tmp.transform.position = refCombatGrid.grid[i, 0].obj.transform.position;
             refCombatGrid.grid[i, 0].character = tmp;
