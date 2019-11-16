@@ -17,6 +17,15 @@ public class CombatGrid : MonoBehaviour
 
     public GameObject gridSpacePrefab;
 
+    private void Update()
+    {
+        for (int i = 0; i < dirty.Count; ++i)
+        {
+            GridSpace[] tmp = dirty.ToArray();
+            tmp[i].obj.GetComponent<Renderer>().material.color = Color.Lerp(Color.Lerp(Color.green, Color.white, 0.5f), Color.green, Mathf.Sin(Time.time * 10.0f + (0.5f * i)));
+        }
+    }
+
     public void SpawnGrid()
     {
         grid = new GridSpace[gridWidth, gridHeight];
@@ -70,7 +79,20 @@ public class CombatGrid : MonoBehaviour
         // loop through all dirty grid spaces and apply their effects
         while (dirty.Count > 0)
         {
+            dirty.Peek().obj.GetComponent<Renderer>().material.color = Color.white;
             dirty.Pop().Apply();
+        }
+    }
+
+    public void CleanGridWithoutApplying()
+    {
+        Debug.Log("Cleaning grid without applying... " + dirty.Count + " grid spaces were set as dirty.");
+
+        // loop through all dirty grid spaces and apply their effects
+        while (dirty.Count > 0)
+        {
+            dirty.Peek().obj.GetComponent<Renderer>().material.color = Color.white;
+            dirty.Pop();
         }
     }
 
@@ -198,8 +220,6 @@ public class GridSpace
 
     public int Apply()
     {
-        obj.GetComponent<Renderer>().material.color = Color.green;
-
         // only apply effects if the grid space is currently storing a character
         if (character != null)
         {

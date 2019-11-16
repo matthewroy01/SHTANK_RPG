@@ -59,7 +59,7 @@ public class PlayerBase : Character
         return result;
     }
 
-    public void UseAbility(int num, CombatDirection facing, bool flipped)
+    public void PrepareAbility(int num, CombatDirection facing, bool flipped)
     {
         Ability abil = null;
 
@@ -86,8 +86,6 @@ public class PlayerBase : Character
                 break;
             }
         }
-
-        // REMEMBER, WE ALSO NEED TO TAKE INTO ACCOUNT THE DIRECTION THE PLAYER IS FACING
 
         if (abil != null)
         {

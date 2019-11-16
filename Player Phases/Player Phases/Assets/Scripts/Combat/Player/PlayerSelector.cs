@@ -6,9 +6,11 @@ public class PlayerSelector : MonoBehaviour
 {
     public PlayerBase currentPlayer = null;
     private bool atDefPos = true;
+    private bool inputtedAbility = false;
 
     private CombatGrid refCombatGrid;
 
+    private int savedAbilityNum;
     public CombatDirection facing = CombatDirection.up;
     public bool flipped = false;
 
@@ -64,23 +66,19 @@ public class PlayerSelector : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.W))
         {
-            facing = CombatDirection.up;
-            moved = currentPlayer.TryMove(CombatDirection.up);
+            ApplyNewDirection(CombatDirection.up, ref moved);
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
-            facing = CombatDirection.down;
-            moved = currentPlayer.TryMove(CombatDirection.down);
+            ApplyNewDirection(CombatDirection.down, ref moved);
         }
         else if (Input.GetKeyDown(KeyCode.A))
         {
-            facing = CombatDirection.left;
-            moved = currentPlayer.TryMove(CombatDirection.left);
+            ApplyNewDirection(CombatDirection.left, ref moved);
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
-            facing = CombatDirection.right;
-            moved = currentPlayer.TryMove(CombatDirection.right);
+            ApplyNewDirection(CombatDirection.right, ref moved);
         }
 
         if (moved == true)
@@ -89,47 +87,107 @@ public class PlayerSelector : MonoBehaviour
         }
     }
 
+    private void ApplyNewDirection(CombatDirection direction, ref bool moved)
+    {
+        // change the direction we're facing
+        facing = direction;
+
+        if (inputtedAbility)
+        {
+            // if an ability has been input, simply change direction and clean the grid without applying any effects
+            refCombatGrid.CleanGridWithoutApplying();
+
+            // then reattempt the ability
+            TryPrepareAbility();
+        }
+        else
+        {
+            // try to move
+            moved = currentPlayer.TryMove(direction);
+        }
+    }
+
     private void Flip()
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
+            // toggle the flip
             flipped = !flipped;
+
+            // clean the grid to update the rendering of the preview
+            refCombatGrid.CleanGridWithoutApplying();
+
+            // then try to use the ability
+            TryPrepareAbility();
         }
     }
 
     private void DoMoves()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        // before we commit to the ability, we prepare the one we want to use so that a direction can be selected
+        if (!inputtedAbility)
         {
-            // have the selected player use its ability
-            currentPlayer.UseAbility(1, facing, flipped);
-            
-            // end the selected player's turn
-            EndTurn();
+            // have the selected player prepare its ability given the input, the direction we are "facing", and whether or not we are "flipped"
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                savedAbilityNum = 1;
 
-            // make the combat grid apply any effects applied by the player's ability
-            refCombatGrid.CleanGrid();
+                TryPrepareAbility();
+
+                inputtedAbility = true;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                savedAbilityNum = 2;
+
+                TryPrepareAbility();
+
+                inputtedAbility = true;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                savedAbilityNum = 3;
+
+                TryPrepareAbility();
+
+                inputtedAbility = true;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                savedAbilityNum = 4;
+
+                TryPrepareAbility();
+
+                inputtedAbility = true;
+            }
         }
-
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        else
         {
-            currentPlayer.UseAbility(2, facing, flipped);
-            EndTurn();
-            refCombatGrid.CleanGrid();
+            // if we have inputted an ability previously and a button is pressed again, commit to the ability
+            if (Input.GetKeyDown(KeyCode.Alpha1) ||
+                Input.GetKeyDown(KeyCode.Alpha2) ||
+                Input.GetKeyDown(KeyCode.Alpha3) ||
+                Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                // end the selected player's turn
+                EndTurn();
+
+                // make the combat grid apply any effects applied by the player's ability
+                refCombatGrid.CleanGrid();
+
+                inputtedAbility = false;
+            }
         }
+    }
 
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+    private void TryPrepareAbility()
+    {
+        if (currentPlayer != null)
         {
-            currentPlayer.UseAbility(3, facing, flipped);
-            EndTurn();
-            refCombatGrid.CleanGrid();
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            currentPlayer.UseAbility(4, facing, flipped);
-            EndTurn();
-            refCombatGrid.CleanGrid();
+            currentPlayer.PrepareAbility(savedAbilityNum, facing, flipped);
         }
     }
 
