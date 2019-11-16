@@ -60,19 +60,19 @@ public class PlayerSelector : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.W))
         {
-            moved = currentPlayer.TryMove(CombatMovDir.up);
+            moved = currentPlayer.TryMove(CombatDirection.up);
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
-            moved = currentPlayer.TryMove(CombatMovDir.down);
+            moved = currentPlayer.TryMove(CombatDirection.down);
         }
         else if (Input.GetKeyDown(KeyCode.A))
         {
-            moved = currentPlayer.TryMove(CombatMovDir.left);
+            moved = currentPlayer.TryMove(CombatDirection.left);
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
-            moved = currentPlayer.TryMove(CombatMovDir.right);
+            moved = currentPlayer.TryMove(CombatDirection.right);
         }
 
         if (moved == true)
@@ -87,7 +87,7 @@ public class PlayerSelector : MonoBehaviour
         {
             // have the selected player use its ability
             currentPlayer.UseAbility(1);
-
+            
             // end the selected player's turn
             EndTurn();
 
@@ -151,4 +151,4 @@ public class PlayerSelector : MonoBehaviour
     }
 }
 
-public enum CombatMovDir { up = 0, down, left, right }
+public enum CombatDirection { up = 0, down, left, right };

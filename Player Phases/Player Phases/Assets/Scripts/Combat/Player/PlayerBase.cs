@@ -42,7 +42,7 @@ public class PlayerBase : Character
         defaultPosition = transform.position;
     }
 
-    public bool TryMove(CombatMovDir dir)
+    public bool TryMove(CombatDirection dir)
     {
         bool result = false;
 
@@ -106,6 +106,7 @@ public class PlayerBase : Character
             else if (abilType == "ConeAbility")
             {
                 Debug.Log(abilType + " used.");
+                ProcessConeAbility((ConeAbility)abil);
             }
             else if (abilType == "RectangleAbility")
             {
@@ -153,7 +154,7 @@ public class PlayerBase : Character
         }
     }
 
-    private void MakePathDirty(PathAbility abil, GridSpace currentGridSpace, string forward, string sideways, string sidewaysOpposite, string backwards)
+    private void MakePathDirty(PathAbility abil, GridSpace currentGridSpace, string forwards, string sideways, string sidewaysOpposite, string backwards)
     {
         // loop through all the segments of the path
         for (int i = 0; i < abil.path.Count; ++i)
@@ -163,7 +164,7 @@ public class PlayerBase : Character
             {
                 case AbilityDirection.forwards:
                 {
-                    MakePathSegmentDirty(abil, ref currentGridSpace, forward, i);
+                    MakePathSegmentDirty(abil, ref currentGridSpace, forwards, i);
 
                     break;
                 }
@@ -274,7 +275,72 @@ public class PlayerBase : Character
 
     private void ProcessConeAbility(ConeAbility abil)
     {
-        
+        GridSpace currentGridSpace = myGridSpace;
+
+        // depending on the direction the character is facing, the meaning of "forward", etc changes, so do something different for each case
+        // PLACEHOLDER SWITCH STATEMENT, REPLACE WITH DIRECTION THE CHARACTER IS FACING
+        switch (0)
+        {
+            // facing upwards
+            case 0:
+            {
+                MakeConeDirty(abil, currentGridSpace, "up", "left", "right", "down");
+                break;
+            }
+            // facing downwards
+            case 1:
+            {
+                MakeConeDirty(abil, currentGridSpace, "down", "right", "left", "up");
+                break;
+            }
+            // facing left
+            case 2:
+            {
+                MakeConeDirty(abil, currentGridSpace, "left", "down", "up", "right");
+                break;
+            }
+            // facing right
+            case 3:
+            {
+                MakeConeDirty(abil, currentGridSpace, "right", "up", "down", "left");
+                break;
+            }
+        }
+    }
+
+    private void MakeConeDirty(ConeAbility abil, GridSpace startingGridSpace, string forwards, string sideways, string sidewaysOpposite, string backwards)
+    {
+        GridSpace currentGridSpace = startingGridSpace;
+
+        // loop through the length of this ability
+        for (int i = 0; i < abil.length; ++i)
+        {
+            // for this loop, we move along a straight line and spread out in both directions
+            // here, make the center grid space dirty (the one along the straight line)
+            refCombatGrid.MakeDirty(currentGridSpace, abil);
+
+            // row trackers to help spread out from the center line
+            GridSpace rowTrackerSideways = currentGridSpace, rowTrackerSidewaysOpposite = currentGridSpace;
+
+            // be careful to not divide by zero
+            if (abil.angle != 0)
+            {
+                // slowly expand as we move outwards
+                for (int j = 0; j < i / abil.angle; ++j)
+                {
+                    // make grid spaces dirty in both directions from the center line
+                    refCombatGrid.MakeDirty(rowTrackerSideways = (GridSpace)rowTrackerSideways.GetType().GetField(sideways).GetValue(rowTrackerSideways), abil);
+                    refCombatGrid.MakeDirty(rowTrackerSidewaysOpposite = (GridSpace)rowTrackerSidewaysOpposite.GetType().GetField(sidewaysOpposite).GetValue(rowTrackerSidewaysOpposite), abil);
+                }
+            }
+            else
+            {
+                Debug.LogError("PlayerBase, MakeConeDirty, abil.angle cannot be 0. All Real Numbers can divide by zero, but you shouldn't.");
+            }
+
+            // update the current grid space
+            currentGridSpace = (GridSpace)currentGridSpace.GetType().GetField(forwards).GetValue(currentGridSpace);
+        }
     }
 
     public void EndTurn()

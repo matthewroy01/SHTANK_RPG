@@ -97,13 +97,13 @@ public class CombatGrid : MonoBehaviour
         return false;
     }
 
-    public GridSpace TryMove(CombatMovDir dir, GridSpace current)
+    public GridSpace TryMove(CombatDirection dir, GridSpace current)
     {
         System.Tuple<int, int> indices = GetIndicesOfGridSpace(current);
 
         switch (dir)
         {
-            case CombatMovDir.up:
+            case CombatDirection.up:
             {
                 if (CheckSpace(indices.Item1, indices.Item2 + 1))
                 {
@@ -111,7 +111,7 @@ public class CombatGrid : MonoBehaviour
                 }
                 break;
             }
-            case CombatMovDir.down:
+            case CombatDirection.down:
             {
                 if (CheckSpace(indices.Item1, indices.Item2 - 1))
                 {
@@ -119,7 +119,7 @@ public class CombatGrid : MonoBehaviour
                 }
                 break;
             }
-            case CombatMovDir.left:
+            case CombatDirection.left:
             {
                 if (CheckSpace(indices.Item1 - 1, indices.Item2))
                 {
@@ -127,7 +127,7 @@ public class CombatGrid : MonoBehaviour
                 }
                 break;
             }
-            case CombatMovDir.right:
+            case CombatDirection.right:
             {
                 if (CheckSpace(indices.Item1 + 1, indices.Item2))
                 {
