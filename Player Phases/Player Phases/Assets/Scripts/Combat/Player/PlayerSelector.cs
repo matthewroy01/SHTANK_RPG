@@ -9,6 +9,9 @@ public class PlayerSelector : MonoBehaviour
 
     private CombatGrid refCombatGrid;
 
+    public CombatDirection facing = CombatDirection.up;
+    public bool flipped = false;
+
     void Start()
     {
         refCombatGrid = FindObjectOfType<CombatGrid>();
@@ -24,6 +27,7 @@ public class PlayerSelector : MonoBehaviour
         if (currentPlayer != null)
         {
             Movement();
+            Flip();
             CancelOrSave();
             DoMoves();
         }
@@ -60,18 +64,22 @@ public class PlayerSelector : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.W))
         {
+            facing = CombatDirection.up;
             moved = currentPlayer.TryMove(CombatDirection.up);
         }
         else if (Input.GetKeyDown(KeyCode.S))
         {
+            facing = CombatDirection.down;
             moved = currentPlayer.TryMove(CombatDirection.down);
         }
         else if (Input.GetKeyDown(KeyCode.A))
         {
+            facing = CombatDirection.left;
             moved = currentPlayer.TryMove(CombatDirection.left);
         }
         else if (Input.GetKeyDown(KeyCode.D))
         {
+            facing = CombatDirection.right;
             moved = currentPlayer.TryMove(CombatDirection.right);
         }
 
@@ -81,12 +89,20 @@ public class PlayerSelector : MonoBehaviour
         }
     }
 
+    private void Flip()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            flipped = !flipped;
+        }
+    }
+
     private void DoMoves()
     {
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             // have the selected player use its ability
-            currentPlayer.UseAbility(1);
+            currentPlayer.UseAbility(1, facing, flipped);
             
             // end the selected player's turn
             EndTurn();
@@ -97,21 +113,21 @@ public class PlayerSelector : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            currentPlayer.UseAbility(2);
+            currentPlayer.UseAbility(2, facing, flipped);
             EndTurn();
             refCombatGrid.CleanGrid();
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            currentPlayer.UseAbility(3);
+            currentPlayer.UseAbility(3, facing, flipped);
             EndTurn();
             refCombatGrid.CleanGrid();
         }
 
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            currentPlayer.UseAbility(4);
+            currentPlayer.UseAbility(4, facing, flipped);
             EndTurn();
             refCombatGrid.CleanGrid();
         }

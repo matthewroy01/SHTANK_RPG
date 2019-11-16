@@ -271,6 +271,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentPlayer: {fileID: 0}
+  facing: 0
+  flipped: 0
 --- !u!1 &906718562
 GameObject:
   m_ObjectHideFlags: 0
@@ -455,8 +457,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6f4c736db31daf4eaf4b83a8166cea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridWidth: 24
-  gridHeight: 24
+  gridWidth: 12
+  gridHeight: 12
   gridSpacePrefab: {fileID: 7473132725615677968, guid: 06e644e9a4dda52469d715ec3bbef324,
     type: 3}
 --- !u!1 &2039981645

@@ -59,7 +59,7 @@ public class PlayerBase : Character
         return result;
     }
 
-    public void UseAbility(int num)
+    public void UseAbility(int num, CombatDirection facing, bool flipped)
     {
         Ability abil = null;
 
@@ -96,7 +96,7 @@ public class PlayerBase : Character
             if (abilType == "PathAbility")
             {
                 Debug.Log(abilType + " used.");
-                ProcessPathAbility((PathAbility)abil);
+                ProcessPathAbility((PathAbility)abil, facing, flipped);
             }
             else if (abilType == "CircleAbility")
             {
@@ -106,7 +106,7 @@ public class PlayerBase : Character
             else if (abilType == "ConeAbility")
             {
                 Debug.Log(abilType + " used.");
-                ProcessConeAbility((ConeAbility)abil);
+                ProcessConeAbility((ConeAbility)abil, facing);
             }
             else if (abilType == "RectangleAbility")
             {
@@ -119,37 +119,71 @@ public class PlayerBase : Character
         }
     }
 
-    private void ProcessPathAbility(PathAbility abil)
+    private void ProcessPathAbility(PathAbility abil, CombatDirection direction, bool flipped)
     {
         GridSpace currentGridSpace = myGridSpace;
 
         // depending on the direction the character is facing, the meaning of "forward", etc changes, so do something different for each case
         // PLACEHOLDER SWITCH STATEMENT, REPLACE WITH DIRECTION THE CHARACTER IS FACING
-        switch (0)
+
+        if (flipped)
         {
-            // facing upwards
-            case 0:
+            switch (direction)
             {
-                MakePathDirty(abil, currentGridSpace, "up", "left", "right", "down");
-                break;
+                // facing upwards
+                case CombatDirection.up:
+                {
+                    MakePathDirty(abil, currentGridSpace, "up", "right", "left", "down");
+                    break;
+                }
+                // facing downwards
+                case CombatDirection.down:
+                {
+                    MakePathDirty(abil, currentGridSpace, "down", "left", "right", "up");
+                    break;
+                }
+                // facing left
+                case CombatDirection.left:
+                {
+                    MakePathDirty(abil, currentGridSpace, "left", "up", "down", "right");
+                    break;
+                }
+                // facing right
+                case CombatDirection.right:
+                {
+                    MakePathDirty(abil, currentGridSpace, "right", "down", "up", "left");
+                    break;
+                }
             }
-            // facing downwards
-            case 1:
+        }
+        else
+        {
+            switch (direction)
             {
-                MakePathDirty(abil, currentGridSpace, "down", "right", "left", "up");
-                break;
-            }
-            // facing left
-            case 2:
-            {
-                MakePathDirty(abil, currentGridSpace, "left", "down", "up", "right");
-                break;
-            }
-            // facing right
-            case 3:
-            {
-                MakePathDirty(abil, currentGridSpace, "right", "up", "down", "left");
-                break;
+                // facing upwards
+                case CombatDirection.up:
+                {
+                    MakePathDirty(abil, currentGridSpace, "up", "left", "right", "down");
+                    break;
+                }
+                // facing downwards
+                case CombatDirection.down:
+                {
+                    MakePathDirty(abil, currentGridSpace, "down", "right", "left", "up");
+                    break;
+                }
+                // facing left
+                case CombatDirection.left:
+                {
+                    MakePathDirty(abil, currentGridSpace, "left", "down", "up", "right");
+                    break;
+                }
+                // facing right
+                case CombatDirection.right:
+                {
+                    MakePathDirty(abil, currentGridSpace, "right", "up", "down", "left");
+                    break;
+                }
             }
         }
     }
@@ -273,34 +307,34 @@ public class PlayerBase : Character
         }
     }
 
-    private void ProcessConeAbility(ConeAbility abil)
+    private void ProcessConeAbility(ConeAbility abil, CombatDirection direction)
     {
         GridSpace currentGridSpace = myGridSpace;
 
         // depending on the direction the character is facing, the meaning of "forward", etc changes, so do something different for each case
         // PLACEHOLDER SWITCH STATEMENT, REPLACE WITH DIRECTION THE CHARACTER IS FACING
-        switch (0)
+        switch (direction)
         {
             // facing upwards
-            case 0:
+            case CombatDirection.up:
             {
                 MakeConeDirty(abil, currentGridSpace, "up", "left", "right", "down");
                 break;
             }
             // facing downwards
-            case 1:
+            case CombatDirection.down:
             {
                 MakeConeDirty(abil, currentGridSpace, "down", "right", "left", "up");
                 break;
             }
             // facing left
-            case 2:
+            case CombatDirection.left:
             {
                 MakeConeDirty(abil, currentGridSpace, "left", "down", "up", "right");
                 break;
             }
             // facing right
-            case 3:
+            case CombatDirection.right:
             {
                 MakeConeDirty(abil, currentGridSpace, "right", "up", "down", "left");
                 break;
