@@ -351,27 +351,30 @@ public class PlayerBase : Character
             // here, make the center grid space dirty (the one along the straight line)
             refCombatGrid.MakeDirty(currentGridSpace, abil);
 
-            // row trackers to help spread out from the center line
-            GridSpace rowTrackerSideways = currentGridSpace, rowTrackerSidewaysOpposite = currentGridSpace;
-
-            // be careful to not divide by zero
-            if (abil.angle != 0)
+            if (currentGridSpace != null)
             {
-                // slowly expand as we move outwards
-                for (int j = 0; j < i / abil.angle; ++j)
+                // row trackers to help spread out from the center line
+                GridSpace rowTrackerSideways = currentGridSpace, rowTrackerSidewaysOpposite = currentGridSpace;
+
+                // be careful to not divide by zero
+                if (abil.angle != 0)
                 {
-                    // make grid spaces dirty in both directions from the center line
-                    refCombatGrid.MakeDirty(rowTrackerSideways = (GridSpace)rowTrackerSideways.GetType().GetField(sideways).GetValue(rowTrackerSideways), abil);
-                    refCombatGrid.MakeDirty(rowTrackerSidewaysOpposite = (GridSpace)rowTrackerSidewaysOpposite.GetType().GetField(sidewaysOpposite).GetValue(rowTrackerSidewaysOpposite), abil);
+                    // slowly expand as we move outwards
+                    for (int j = 0; j < i / abil.angle; ++j)
+                    {
+                        // make grid spaces dirty in both directions from the center line
+                        refCombatGrid.MakeDirty(rowTrackerSideways = (GridSpace)rowTrackerSideways.GetType().GetField(sideways).GetValue(rowTrackerSideways), abil);
+                        refCombatGrid.MakeDirty(rowTrackerSidewaysOpposite = (GridSpace)rowTrackerSidewaysOpposite.GetType().GetField(sidewaysOpposite).GetValue(rowTrackerSidewaysOpposite), abil);
+                    }
                 }
-            }
-            else
-            {
-                Debug.LogError("PlayerBase, MakeConeDirty, abil.angle cannot be 0. All Real Numbers can divide by zero, but you shouldn't.");
-            }
+                else
+                {
+                    Debug.LogError("PlayerBase, MakeConeDirty, abil.angle cannot be 0. All Real Numbers can divide by zero, but you shouldn't.");
+                }
 
-            // update the current grid space
-            currentGridSpace = (GridSpace)currentGridSpace.GetType().GetField(forwards).GetValue(currentGridSpace);
+                // update the current grid space
+                currentGridSpace = (GridSpace)currentGridSpace.GetType().GetField(forwards).GetValue(currentGridSpace);
+            }
         }
     }
 
@@ -385,8 +388,9 @@ public class PlayerBase : Character
         return idle;
     }
 
-    public void ResetToDefaultPosition()
+    public void ResetToDefaultPosition(GridSpace toReturnTo)
     {
         transform.position = defaultPosition;
+        myGridSpace = toReturnTo;
     }
 }

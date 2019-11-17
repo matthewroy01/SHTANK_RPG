@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerSelector : MonoBehaviour
 {
     public PlayerBase currentPlayer = null;
+    private GridSpace defaultGridSpace;
     private bool atDefPos = true;
     private bool inputtedAbility = false;
 
@@ -54,6 +55,10 @@ public class PlayerSelector : MonoBehaviour
                     if (currentPlayer.GetIdle() == true)
                     {
                         currentPlayer = null;
+                    }
+                    else
+                    {
+                        defaultGridSpace = currentPlayer.myGridSpace;
                     }
                 }
             }
@@ -213,14 +218,22 @@ public class PlayerSelector : MonoBehaviour
 
     private void Cancel()
     {
-        if (atDefPos)
+        if (inputtedAbility)
         {
-            currentPlayer = null;
+            refCombatGrid.CleanGridWithoutApplying();
+            inputtedAbility = false;
         }
         else
         {
-            currentPlayer.ResetToDefaultPosition();
-            atDefPos = true;
+            if (atDefPos)
+            {
+                currentPlayer = null;
+            }
+            else
+            {
+                currentPlayer.ResetToDefaultPosition(defaultGridSpace);
+                atDefPos = true;
+            }
         }
     }
 }

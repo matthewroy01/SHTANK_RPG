@@ -92,7 +92,7 @@ public class CombatGrid : MonoBehaviour
         while (dirty.Count > 0)
         {
             dirty.Peek().obj.GetComponent<Renderer>().material.color = Color.white;
-            dirty.Pop();
+            dirty.Pop().RemoveAllEffects();
         }
     }
 
@@ -235,6 +235,11 @@ public class GridSpace
         }
 
         return effects.Count;
+    }
+
+    public void RemoveAllEffects()
+    {
+        effects.Clear();
     }
 
     public void AddEffect(Effect effect)

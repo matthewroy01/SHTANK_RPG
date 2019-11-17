@@ -18,5 +18,8 @@ MonoBehaviour:
   - id: 0
     value: 1
     probability: 1
+  - id: 2
+    value: 0
+    probability: 0.5
   length: 5
   angle: 2

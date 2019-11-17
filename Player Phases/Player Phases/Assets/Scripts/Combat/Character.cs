@@ -24,14 +24,14 @@ public class Character : MonoBehaviour
 
     public void ApplyEffect(Effect effect)
     {
-        Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
-
         switch(effect.id)
         {
             case Effect_ID.damage:
             {
                 if (Random.Range(0.0f, 1.0f) <= effect.probability)
                 {
+                    Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
+
                     healthCurrent -= effect.value;
                 }
                 break;
@@ -40,20 +40,40 @@ public class Character : MonoBehaviour
             {
                 if (Random.Range(0.0f, 1.0f) <= effect.probability)
                 {
+                    Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
+
                     healthCurrent += effect.value;
                 }
                 break;
             }
             case Effect_ID.paralysis:
             {
+                if (Random.Range(0.0f, 1.0f) <= effect.probability)
+                {
+                    Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
+
+                    // inflict paralysis
+                }
                 break;
             }
             case Effect_ID.poison:
             {
+                if (Random.Range(0.0f, 1.0f) <= effect.probability)
+                {
+                    Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
+
+                    // inflict poison
+                }
                 break;
             }
             case Effect_ID.burn:
             {
+                if (Random.Range(0.0f, 1.0f) <= effect.probability)
+                {
+                    Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
+
+                    // inflict burn
+                }
                 break;
             }
         }
