@@ -129,53 +129,12 @@ public class PlayerSelector : MonoBehaviour
 
     private void DoMoves()
     {
-        // before we commit to the ability, we prepare the one we want to use so that a direction can be selected
-        if (!inputtedAbility)
+        KeyCode[] keys = { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4 };
+
+        // if we have inputted an ability previously and a button is pressed again, commit to the ability
+        for (int i = 0; i < keys.Length; ++i)
         {
-            // have the selected player prepare its ability given the input, the direction we are "facing", and whether or not we are "flipped"
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                savedAbilityNum = 1;
-
-                TryPrepareAbility();
-
-                inputtedAbility = true;
-            }
-
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                savedAbilityNum = 2;
-
-                TryPrepareAbility();
-
-                inputtedAbility = true;
-            }
-
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                savedAbilityNum = 3;
-
-                TryPrepareAbility();
-
-                inputtedAbility = true;
-            }
-
-            if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                savedAbilityNum = 4;
-
-                TryPrepareAbility();
-
-                inputtedAbility = true;
-            }
-        }
-        else
-        {
-            // if we have inputted an ability previously and a button is pressed again, commit to the ability
-            if (Input.GetKeyDown(KeyCode.Alpha1) ||
-                Input.GetKeyDown(KeyCode.Alpha2) ||
-                Input.GetKeyDown(KeyCode.Alpha3) ||
-                Input.GetKeyDown(KeyCode.Alpha4))
+            if (Input.GetKeyDown(keys[i]) && savedAbilityNum == i + 1)
             {
                 // end the selected player's turn
                 EndTurn();
@@ -183,9 +142,34 @@ public class PlayerSelector : MonoBehaviour
                 // make the combat grid apply any effects applied by the player's ability
                 refCombatGrid.CleanGrid();
 
+                // reset our previously inputted ability
                 inputtedAbility = false;
+                savedAbilityNum = 0;
+
+                // don't bother checking for additional input this frame
+                return;
             }
         }
+
+        // if an ability hasn't already been input, or a new one is being input, save that ability's input
+        for (int i = 0; i < keys.Length; ++i)
+        {
+            if (Input.GetKeyDown(keys[i]))
+            {
+                SaveAbilityInput(i + 1);
+            }
+        }
+    }
+
+    private void SaveAbilityInput(int num)
+    {
+        // have the selected player prepare its ability given the input, the direction we are "facing", and whether or not we are "flipped"
+        savedAbilityNum = num;
+
+        refCombatGrid.CleanGridWithoutApplying();
+        TryPrepareAbility();
+
+        inputtedAbility = true;
     }
 
     private void TryPrepareAbility()
@@ -218,17 +202,22 @@ public class PlayerSelector : MonoBehaviour
 
     private void Cancel()
     {
+        // if an ability has been input, cancel it
         if (inputtedAbility)
         {
             refCombatGrid.CleanGridWithoutApplying();
             inputtedAbility = false;
+            savedAbilityNum = 0;
         }
+        // otherwise, reset movement
         else
         {
+            // if the character is already at their default position, deselect them
             if (atDefPos)
             {
                 currentPlayer = null;
             }
+            // otherwise move the character back to their default position
             else
             {
                 currentPlayer.ResetToDefaultPosition(defaultGridSpace);
