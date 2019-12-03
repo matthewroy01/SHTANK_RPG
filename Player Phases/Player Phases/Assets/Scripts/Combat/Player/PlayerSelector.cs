@@ -10,6 +10,7 @@ public class PlayerSelector : MonoBehaviour
     private bool inputtedAbility = false;
 
     private CombatGrid refCombatGrid;
+    private AbilityProcessor refAbilityProcessor;
 
     private int savedAbilityNum;
     public CombatDirection facing = CombatDirection.up;
@@ -18,6 +19,7 @@ public class PlayerSelector : MonoBehaviour
     void Start()
     {
         refCombatGrid = FindObjectOfType<CombatGrid>();
+        refAbilityProcessor = FindObjectOfType<AbilityProcessor>();
     }
 
     void Update()
@@ -99,11 +101,8 @@ public class PlayerSelector : MonoBehaviour
 
         if (inputtedAbility)
         {
-            // if an ability has been input, simply change direction and clean the grid without applying any effects
-            refCombatGrid.CleanGridWithoutApplying();
-
-            // then reattempt the ability
-            TryPrepareAbility();
+            // try to process an ability based on the new direction
+            TryProcessAbility();
         }
         else
         {
@@ -119,11 +118,8 @@ public class PlayerSelector : MonoBehaviour
             // toggle the flip
             flipped = !flipped;
 
-            // clean the grid to update the rendering of the preview
-            refCombatGrid.CleanGridWithoutApplying();
-
-            // then try to use the ability
-            TryPrepareAbility();
+            // try to process an ability based on the new orienatation
+            TryProcessAbility();
         }
     }
 
@@ -139,8 +135,8 @@ public class PlayerSelector : MonoBehaviour
                 // end the selected player's turn
                 EndTurn();
 
-                // make the combat grid apply any effects applied by the player's ability
-                refCombatGrid.CleanGrid();
+                // apply the currently saved ability
+                refAbilityProcessor.ApplyAbility();
 
                 // reset our previously inputted ability
                 inputtedAbility = false;
@@ -166,17 +162,16 @@ public class PlayerSelector : MonoBehaviour
         // have the selected player prepare its ability given the input, the direction we are "facing", and whether or not we are "flipped"
         savedAbilityNum = num;
 
-        refCombatGrid.CleanGridWithoutApplying();
-        TryPrepareAbility();
+        TryProcessAbility();
 
         inputtedAbility = true;
     }
 
-    private void TryPrepareAbility()
+    private void TryProcessAbility()
     {
         if (currentPlayer != null)
         {
-            currentPlayer.PrepareAbility(savedAbilityNum, facing, flipped);
+            refAbilityProcessor.ProcessAbility(currentPlayer, savedAbilityNum, facing, flipped);
         }
     }
 
@@ -205,7 +200,6 @@ public class PlayerSelector : MonoBehaviour
         // if an ability has been input, cancel it
         if (inputtedAbility)
         {
-            refCombatGrid.CleanGridWithoutApplying();
             inputtedAbility = false;
             savedAbilityNum = 0;
         }

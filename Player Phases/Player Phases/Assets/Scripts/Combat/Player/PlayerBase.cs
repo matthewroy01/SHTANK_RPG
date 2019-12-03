@@ -8,16 +8,9 @@ public class PlayerBase : Character
     private bool idle = true;
     private Vector3 defaultPosition;
 
-    private AbilityProcessor refAbilityProcessor;
-
     public Moveset moveset;
 
     private enum PathDirections { up, down, left, right };
-
-    private void Start()
-    {
-        refAbilityProcessor = FindObjectOfType<AbilityProcessor>();
-    }
 
     private void Update()
     {
@@ -65,64 +58,6 @@ public class PlayerBase : Character
         {
             transform.position = toMoveTo.obj.transform.position;
             myGridSpace = toMoveTo;
-        }
-    }
-
-    public void PrepareAbility(int num, CombatDirection facing, bool flipped)
-    {
-        Ability abil = null;
-
-        switch(num)
-        {
-            case 1:
-            {
-                abil = moveset.ability1;
-                break;
-            }
-            case 2:
-            {
-                abil = moveset.ability2;
-                break;
-            }
-            case 3:
-            {
-                abil = moveset.ability3;
-                break;
-            }
-            case 4:
-            {
-                abil = moveset.ability4;
-                break;
-            }
-        }
-
-        if (abil != null)
-        {
-            string abilType = abil.GetType().Name;
-
-            if (abilType == "PathAbility")
-            {
-                Debug.Log(abilType + " used.");
-                refAbilityProcessor.ProcessPathAbility((PathAbility)abil, myGridSpace, facing, flipped);
-            }
-            else if (abilType == "CircleAbility")
-            {
-                Debug.Log(abilType + " used.");
-                refAbilityProcessor.ProcessCircleAbility((CircleAbility)abil, myGridSpace);
-            }
-            else if (abilType == "ConeAbility")
-            {
-                Debug.Log(abilType + " used.");
-                refAbilityProcessor.ProcessConeAbility((ConeAbility)abil, myGridSpace, facing);
-            }
-            else if (abilType == "RectangleAbility")
-            {
-                Debug.Log(abilType + " used.");
-            }
-            else
-            {
-                Debug.LogError(abilType + " is not a valid Ability type.");
-            }
         }
     }
 

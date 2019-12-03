@@ -17,15 +17,6 @@ public class CombatGrid : MonoBehaviour
 
     public GameObject gridSpacePrefab;
 
-    private void Update()
-    {
-        for (int i = 0; i < dirty.Count; ++i)
-        {
-            GridSpace[] tmp = dirty.ToArray();
-            tmp[i].obj.GetComponent<Renderer>().material.color = Color.Lerp(Color.Lerp(Color.green, Color.white, 0.5f), Color.green, Mathf.Sin(Time.time * 10.0f + (0.5f * i)));
-        }
-    }
-
     public void SpawnGrid()
     {
         grid = new GridSpace[gridWidth, gridHeight];

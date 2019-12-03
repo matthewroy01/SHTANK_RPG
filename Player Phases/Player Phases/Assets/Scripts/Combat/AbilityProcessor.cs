@@ -1,17 +1,119 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class AbilityProcessor : MonoBehaviour
 {
     private CombatGrid refCombatGrid;
 
+    private List<GridSpace> gridSpaces = new List<GridSpace>();
+    private Ability savedAbility;
+
     void Start()
     {
         refCombatGrid = FindObjectOfType<CombatGrid>();
     }
 
-    public void ProcessPathAbility(PathAbility abil, GridSpace startingGridSpace, CombatDirection direction, bool flipped)
+    private void Update()
+    {
+        // TEMPORARY CODE FOR SETTING THE COLOR OF THE GRID SPACES, THIS SHOULD PROBABLY BE HANDLED BY A SHADER
+        for (int i = 0; i < gridSpaces.Count; ++i)
+        {
+            gridSpaces[i].obj.GetComponent<Renderer>().material.color = Color.Lerp(Color.Lerp(Color.green, Color.white, 0.5f), Color.green, Mathf.Sin(Time.time * 10.0f + (0.5f * i)));
+        }
+    }
+
+    public void ProcessAbility(PlayerBase player, int abilNum, CombatDirection facing, bool flipped)
+    {
+        CancelAbility();
+
+        switch (abilNum)
+        {
+            case 1:
+            {
+                savedAbility = player.moveset.ability1;
+                break;
+            }
+            case 2:
+            {
+                savedAbility = player.moveset.ability2;
+                break;
+            }
+            case 3:
+            {
+                savedAbility = player.moveset.ability3;
+                break;
+            }
+            case 4:
+            {
+                savedAbility = player.moveset.ability4;
+                break;
+            }
+        }
+
+        if (savedAbility != null)
+        {
+            string abilType = savedAbility.GetType().Name;
+
+            if (abilType == "PathAbility")
+            {
+                Debug.Log(abilType + " processed.");
+                ProcessPathAbility((PathAbility)savedAbility, player.myGridSpace, facing, flipped);
+            }
+            else if (abilType == "CircleAbility")
+            {
+                Debug.Log(abilType + " processed.");
+                ProcessCircleAbility((CircleAbility)savedAbility, player.myGridSpace);
+            }
+            else if (abilType == "ConeAbility")
+            {
+                Debug.Log(abilType + " processed.");
+                ProcessConeAbility((ConeAbility)savedAbility, player.myGridSpace, facing);
+            }
+            else if (abilType == "RectangleAbility")
+            {
+                Debug.Log(abilType + " processed.");
+            }
+            else
+            {
+                Debug.LogError(abilType + " is not a valid Ability type.");
+            }
+        }
+    }
+
+    private void CancelAbility()
+    {
+        // TEMPORARY CODE FOR RESETTING THE COLOR OF THE GRID SPACES, THIS SHOULD PROBABLY BE HANDLED BY A SHADER
+        for (int i = 0; i < gridSpaces.Count; ++i)
+        {
+            gridSpaces[i].obj.GetComponent<Renderer>().material.color = Color.white;
+        }
+
+        gridSpaces.Clear();
+        savedAbility = null;
+    }
+
+    public void ApplyAbility()
+    {
+        if (gridSpaces.Count > 0 && savedAbility != null)
+        {
+            // set saved grid spaces as dirty
+            for (int i = 0; i < gridSpaces.Count; ++i)
+            {
+                refCombatGrid.MakeDirty(gridSpaces[i], savedAbility);
+            }
+
+            string abilType = savedAbility.GetType().Name;
+            Debug.Log(abilType + " applied.");
+
+            // and apply their saved effects
+            refCombatGrid.CleanGrid();
+
+            // then erase whatever ability information is currently saved
+            CancelAbility();
+        }
+    }
+
+    private void ProcessPathAbility(PathAbility abil, GridSpace startingGridSpace, CombatDirection direction, bool flipped)
     {
         GridSpace currentGridSpace = startingGridSpace;
 
@@ -25,25 +127,25 @@ public class AbilityProcessor : MonoBehaviour
                 // facing upwards
                 case CombatDirection.up:
                 {
-                    MakePathDirty(abil, currentGridSpace, "up", "right", "left", "down");
+                    SavePath(abil, currentGridSpace, "up", "right", "left", "down");
                     break;
                 }
                 // facing downwards
                 case CombatDirection.down:
                 {
-                    MakePathDirty(abil, currentGridSpace, "down", "left", "right", "up");
+                    SavePath(abil, currentGridSpace, "down", "left", "right", "up");
                     break;
                 }
                 // facing left
                 case CombatDirection.left:
                 {
-                    MakePathDirty(abil, currentGridSpace, "left", "up", "down", "right");
+                    SavePath(abil, currentGridSpace, "left", "up", "down", "right");
                     break;
                 }
                 // facing right
                 case CombatDirection.right:
                 {
-                    MakePathDirty(abil, currentGridSpace, "right", "down", "up", "left");
+                    SavePath(abil, currentGridSpace, "right", "down", "up", "left");
                     break;
                 }
             }
@@ -55,60 +157,60 @@ public class AbilityProcessor : MonoBehaviour
                 // facing upwards
                 case CombatDirection.up:
                 {
-                    MakePathDirty(abil, currentGridSpace, "up", "left", "right", "down");
+                    SavePath(abil, currentGridSpace, "up", "left", "right", "down");
                     break;
                 }
                 // facing downwards
                 case CombatDirection.down:
                 {
-                    MakePathDirty(abil, currentGridSpace, "down", "right", "left", "up");
+                    SavePath(abil, currentGridSpace, "down", "right", "left", "up");
                     break;
                 }
                 // facing left
                 case CombatDirection.left:
                 {
-                    MakePathDirty(abil, currentGridSpace, "left", "down", "up", "right");
+                    SavePath(abil, currentGridSpace, "left", "down", "up", "right");
                     break;
                 }
                 // facing right
                 case CombatDirection.right:
                 {
-                    MakePathDirty(abil, currentGridSpace, "right", "up", "down", "left");
+                    SavePath(abil, currentGridSpace, "right", "up", "down", "left");
                     break;
                 }
             }
         }
     }
 
-    private void MakePathDirty(PathAbility abil, GridSpace currentGridSpace, string forwards, string sideways, string sidewaysOpposite, string backwards)
+    private void SavePath(PathAbility abil, GridSpace currentGridSpace, string forwards, string sideways, string sidewaysOpposite, string backwards)
     {
         // loop through all the segments of the path
         for (int i = 0; i < abil.path.Count; ++i)
         {
-            // check the direction, and set that part of the segment dirty based on the given direction
+            // check the direction, and save that part of the segment based on the given direction
             switch (abil.path[i].directions)
             {
                 case AbilityDirection.forwards:
                 {
-                    MakePathSegmentDirty(abil, ref currentGridSpace, forwards, i);
+                    SavePathSegment(abil, ref currentGridSpace, forwards, i);
 
                     break;
                 }
                 case AbilityDirection.sideways:
                 {
-                    MakePathSegmentDirty(abil, ref currentGridSpace, sideways, i);
+                    SavePathSegment(abil, ref currentGridSpace, sideways, i);
 
                     break;
                 }
                 case AbilityDirection.sidewaysOpposite:
                 {
-                    MakePathSegmentDirty(abil, ref currentGridSpace, sidewaysOpposite, i);
+                    SavePathSegment(abil, ref currentGridSpace, sidewaysOpposite, i);
 
                     break;
                 }
                 case AbilityDirection.backwards:
                 {
-                    MakePathSegmentDirty(abil, ref currentGridSpace, backwards, i);
+                    SavePathSegment(abil, ref currentGridSpace, backwards, i);
 
                     break;
                 }
@@ -120,18 +222,17 @@ public class AbilityProcessor : MonoBehaviour
         }
     }
 
-    private void MakePathSegmentDirty(PathAbility abil, ref GridSpace currentGridSpace, string direction, int i)
+    private void SavePathSegment(PathAbility abil, ref GridSpace currentGridSpace, string direction, int i)
     {
         GridSpace toMoveTo = currentGridSpace;
 
-        // for the amount of spaces specified for this part of the path, set each grid space dirty
+        // for the amount of spaces specified for this part of the path, save each grid space
         for (int j = 0; j < abil.path[i].amount; ++j)
         {
             // use reflection to get the field using a string
             // in this case, one of four GridSpaces (up, down, left, and right) representing connections
-            if (!refCombatGrid.MakeDirty((GridSpace)currentGridSpace.GetType().GetField(direction).GetValue(currentGridSpace), abil))
+            if (!TryAddGridSpace((GridSpace)currentGridSpace.GetType().GetField(direction).GetValue(currentGridSpace)))
             {
-                // if the MakeDirty function returns false, we've reached the end of the grid and should stop
                 return;
             }
 
@@ -141,9 +242,9 @@ public class AbilityProcessor : MonoBehaviour
         }
     }
 
-    public void ProcessCircleAbility(CircleAbility abil, GridSpace startingGridSpace)
+    private void ProcessCircleAbility(CircleAbility abil, GridSpace startingGridSpace)
     {
-        List<GridSpace> toMakeDirty = new List<GridSpace>();
+        List<GridSpace> toSave = new List<GridSpace>();
         Queue<GridSpace> toCheckNext = new Queue<GridSpace>();
 
         toCheckNext.Enqueue(startingGridSpace);
@@ -163,10 +264,10 @@ public class AbilityProcessor : MonoBehaviour
                 for (int j = 0; j < numToCheck; ++j)
                 {
                     // check and potentially add all the connections currently in the toCheckNext queue
-                    CheckListAndAdd(ref toMakeDirty, ref toCheckNext, toCheckNext.Peek().up);
-                    CheckListAndAdd(ref toMakeDirty, ref toCheckNext, toCheckNext.Peek().down);
-                    CheckListAndAdd(ref toMakeDirty, ref toCheckNext, toCheckNext.Peek().left);
-                    CheckListAndAdd(ref toMakeDirty, ref toCheckNext, toCheckNext.Peek().right);
+                    CheckListAndAdd(ref toSave, ref toCheckNext, toCheckNext.Peek().up);
+                    CheckListAndAdd(ref toSave, ref toCheckNext, toCheckNext.Peek().down);
+                    CheckListAndAdd(ref toSave, ref toCheckNext, toCheckNext.Peek().left);
+                    CheckListAndAdd(ref toSave, ref toCheckNext, toCheckNext.Peek().right);
 
                     // remove the GridSpace we just checked
                     toCheckNext.Dequeue();
@@ -177,24 +278,24 @@ public class AbilityProcessor : MonoBehaviour
         }
 
         // include the center GridSpace (either the space the user is on or the center of a ranged attack)
-        toMakeDirty.Add(startingGridSpace);
+        toSave.Add(startingGridSpace);
 
-        // mark all found GridSpaces as dirty
-        for (int i = 0; i < toMakeDirty.Count; ++i)
+        // add grid spaces to save to our list
+        for (int i = 0; i < toSave.Count; ++i)
         {
-            refCombatGrid.MakeDirty(toMakeDirty[i], abil);
+            gridSpaces.Add(toSave[i]);
         }
     }
 
-    private void CheckListAndAdd(ref List<GridSpace> toMakeDirty, ref Queue<GridSpace> toCheckNext, GridSpace toCheckAndMaybeAdd)
+    private void CheckListAndAdd(ref List<GridSpace> toSave, ref Queue<GridSpace> toCheckNext, GridSpace toCheckAndMaybeAdd)
     {
         if (toCheckAndMaybeAdd != null)
         {
-            // add the GridSpace we are checking to be made dirty if it's not already in the list
-            if (!toMakeDirty.Contains(toCheckAndMaybeAdd))
+            // add the GridSpace we are checking to save if it's not already in the list
+            if (!toSave.Contains(toCheckAndMaybeAdd))
             {
-                // add the GridSpace to be made dirty
-                toMakeDirty.Add(toCheckAndMaybeAdd);
+                // add the GridSpace to save
+                toSave.Add(toCheckAndMaybeAdd);
 
                 // and add the GridSpace to have its connections checked next too
                 toCheckNext.Enqueue(toCheckAndMaybeAdd);
@@ -202,7 +303,7 @@ public class AbilityProcessor : MonoBehaviour
         }
     }
 
-    public void ProcessConeAbility(ConeAbility abil, GridSpace startingGridSpace, CombatDirection direction)
+    private void ProcessConeAbility(ConeAbility abil, GridSpace startingGridSpace, CombatDirection direction)
     {
         GridSpace currentGridSpace = startingGridSpace;
 
@@ -213,31 +314,31 @@ public class AbilityProcessor : MonoBehaviour
             // facing upwards
             case CombatDirection.up:
             {
-                MakeConeDirty(abil, currentGridSpace, "up", "left", "right", "down");
+                SaveCone(abil, currentGridSpace, "up", "left", "right", "down");
                 break;
             }
             // facing downwards
             case CombatDirection.down:
             {
-                MakeConeDirty(abil, currentGridSpace, "down", "right", "left", "up");
+                SaveCone(abil, currentGridSpace, "down", "right", "left", "up");
                 break;
             }
             // facing left
             case CombatDirection.left:
             {
-                MakeConeDirty(abil, currentGridSpace, "left", "down", "up", "right");
+                SaveCone(abil, currentGridSpace, "left", "down", "up", "right");
                 break;
             }
             // facing right
             case CombatDirection.right:
             {
-                MakeConeDirty(abil, currentGridSpace, "right", "up", "down", "left");
+                SaveCone(abil, currentGridSpace, "right", "up", "down", "left");
                 break;
             }
         }
     }
 
-    private void MakeConeDirty(ConeAbility abil, GridSpace startingGridSpace, string forwards, string sideways, string sidewaysOpposite, string backwards)
+    private void SaveCone(ConeAbility abil, GridSpace startingGridSpace, string forwards, string sideways, string sidewaysOpposite, string backwards)
     {
         GridSpace currentGridSpace = startingGridSpace;
 
@@ -245,8 +346,8 @@ public class AbilityProcessor : MonoBehaviour
         for (int i = 0; i < abil.length; ++i)
         {
             // for this loop, we move along a straight line and spread out in both directions
-            // here, make the center grid space dirty (the one along the straight line)
-            refCombatGrid.MakeDirty(currentGridSpace, abil);
+            // here, save the center grid space (the one along the straight line)
+            gridSpaces.Add(currentGridSpace);
 
             if (currentGridSpace != null)
             {
@@ -259,19 +360,33 @@ public class AbilityProcessor : MonoBehaviour
                     // slowly expand as we move outwards
                     for (int j = 0; j < i / abil.angle; ++j)
                     {
-                        // make grid spaces dirty in both directions from the center line
-                        refCombatGrid.MakeDirty(rowTrackerSideways = (GridSpace)rowTrackerSideways.GetType().GetField(sideways).GetValue(rowTrackerSideways), abil);
-                        refCombatGrid.MakeDirty(rowTrackerSidewaysOpposite = (GridSpace)rowTrackerSidewaysOpposite.GetType().GetField(sidewaysOpposite).GetValue(rowTrackerSidewaysOpposite), abil);
+                        // save grid spaces in both directions from the center line
+                        gridSpaces.Add(rowTrackerSideways = (GridSpace)rowTrackerSideways.GetType().GetField(sideways).GetValue(rowTrackerSideways));
+                        gridSpaces.Add(rowTrackerSidewaysOpposite = (GridSpace)rowTrackerSidewaysOpposite.GetType().GetField(sidewaysOpposite).GetValue(rowTrackerSidewaysOpposite));
                     }
                 }
                 else
                 {
-                    Debug.LogError("PlayerBase, MakeConeDirty, abil.angle cannot be 0. All Real Numbers can divide by zero, but you shouldn't.");
+                    Debug.LogError("PlayerBase, SaveCone, abil.angle cannot be 0. All Real Numbers can divide by zero, but you shouldn't.");
                 }
 
                 // update the current grid space
                 currentGridSpace = (GridSpace)currentGridSpace.GetType().GetField(forwards).GetValue(currentGridSpace);
             }
         }
+    }
+
+    private bool TryAddGridSpace(GridSpace target)
+    {
+        // if the grid space exists...
+        if (target != null)
+        {
+            // save it to our list
+            gridSpaces.Add(target);
+
+            return true;
+        }
+
+        return false;
     }
 }
