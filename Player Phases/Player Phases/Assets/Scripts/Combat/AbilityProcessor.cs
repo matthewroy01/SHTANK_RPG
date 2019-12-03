@@ -283,7 +283,7 @@ public class AbilityProcessor : MonoBehaviour
         // add grid spaces to save to our list
         for (int i = 0; i < toSave.Count; ++i)
         {
-            gridSpaces.Add(toSave[i]);
+            TryAddGridSpace(toSave[i]);
         }
     }
 
@@ -347,7 +347,7 @@ public class AbilityProcessor : MonoBehaviour
         {
             // for this loop, we move along a straight line and spread out in both directions
             // here, save the center grid space (the one along the straight line)
-            gridSpaces.Add(currentGridSpace);
+            TryAddGridSpace(currentGridSpace);
 
             if (currentGridSpace != null)
             {
@@ -361,8 +361,8 @@ public class AbilityProcessor : MonoBehaviour
                     for (int j = 0; j < i / abil.angle; ++j)
                     {
                         // save grid spaces in both directions from the center line
-                        gridSpaces.Add(rowTrackerSideways = (GridSpace)rowTrackerSideways.GetType().GetField(sideways).GetValue(rowTrackerSideways));
-                        gridSpaces.Add(rowTrackerSidewaysOpposite = (GridSpace)rowTrackerSidewaysOpposite.GetType().GetField(sidewaysOpposite).GetValue(rowTrackerSidewaysOpposite));
+                        TryAddGridSpace(rowTrackerSideways = (GridSpace)rowTrackerSideways.GetType().GetField(sideways).GetValue(rowTrackerSideways));
+                        TryAddGridSpace(rowTrackerSidewaysOpposite = (GridSpace)rowTrackerSidewaysOpposite.GetType().GetField(sidewaysOpposite).GetValue(rowTrackerSidewaysOpposite));
                     }
                 }
                 else
