@@ -108,7 +108,7 @@ public class PlayerSelector : MonoBehaviour
         else
         {
             // try to move
-            moved = currentPlayer.TryMove(direction);
+            moved = currentPlayer.TryMove(direction, refCombatGrid);
         }
     }
 

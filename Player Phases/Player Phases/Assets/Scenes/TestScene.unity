@@ -411,6 +411,7 @@ GameObject:
   - component: {fileID: 1733401387}
   - component: {fileID: 1733401388}
   - component: {fileID: 1733401389}
+  - component: {fileID: 1733401390}
   m_Layer: 0
   m_Name: Combat Initiator
   m_TagString: Untagged
@@ -461,6 +462,18 @@ MonoBehaviour:
   gridHeight: 6
   gridSpacePrefab: {fileID: 7473132725615677968, guid: 06e644e9a4dda52469d715ec3bbef324,
     type: 3}
+--- !u!114 &1733401390
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733401386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: faf0c8f4e8009e7479df0a40905d05a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2039981645
 GameObject:
   m_ObjectHideFlags: 0

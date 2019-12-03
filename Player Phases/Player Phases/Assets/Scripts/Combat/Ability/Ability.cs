@@ -8,6 +8,8 @@ public class Ability : ScriptableObject
     public bool moveCharacter;
     [Header("Whether or not the ability should stop at walls")]
     public bool ignoreWalls;
+    [Header("Whether or not the ability can be triggered away from its user")]
+    public bool ranged;
     [Header("Effects to apply when striking another character")]
     public List<Effect> effects = new List<Effect>();
 }
