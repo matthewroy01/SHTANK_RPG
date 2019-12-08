@@ -72,6 +72,13 @@ public class PlayerSelector : MonoBehaviour
                 {
                     // try to set currentPlayer if the hit object has a player component
                     currentPlayer = hit.transform.GetComponent<PlayerBase>();
+
+                    if (currentPlayer != null)
+                    {
+                        // let the player know they've been selected for things like VFX
+                        currentPlayer.Selected();
+                    }
+
                     if (currentPlayer.GetIdle() == true)
                     {
                         currentPlayer = null;
@@ -203,7 +210,7 @@ public class PlayerSelector : MonoBehaviour
             EndTurn();
         }
 
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1))
         {
             Cancel();
         }
@@ -230,6 +237,9 @@ public class PlayerSelector : MonoBehaviour
             // if the character is already at their default position, deselect them
             if (atDefPos)
             {
+                // let the player know they have been deselected for things like VFX
+                currentPlayer.Deselected();
+
                 currentPlayer = null;
             }
             // otherwise move the character back to their default position

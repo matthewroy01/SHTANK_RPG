@@ -33,6 +33,7 @@ public class PlayerManager : MonoBehaviour
         names.Add("Magnet Hands");
         names.Add("Knight and Day");
         names.Add("Ava");
+        names.Add("unnamed sixteenth character");
     }
 
     public void SpawnPlayers()

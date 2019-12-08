@@ -12,9 +12,18 @@ public class PlayerBase : Character
 
     private enum PathDirections { up, down, left, right };
 
+    private MovementDialogueProcessor refMovementDialogueProcessor;
+
+    private bool selected = false;
+
+    private void Start()
+    {
+        refMovementDialogueProcessor = GetComponent<MovementDialogueProcessor>();
+    }
+
     private void Update()
     {
-        if (transform.position != defaultPosition)
+        if (selected)
         {
             GetComponent<Renderer>().material.color = Color.Lerp(Color.Lerp(Color.blue, Color.white, 0.5f), Color.blue, Mathf.Sin(Time.time * 10.0f));
         }
@@ -52,6 +61,26 @@ public class PlayerBase : Character
         return result;
     }
 
+    public void Selected()
+    {
+        selected = true;
+
+        if (refMovementDialogueProcessor != null)
+        {
+            refMovementDialogueProcessor.Display();
+        }
+    }
+
+    public void Deselected()
+    {
+        selected = false;
+
+        if (refMovementDialogueProcessor != null)
+        {
+            refMovementDialogueProcessor.Clear();
+        }
+    }
+
     private void MoveToGridSpace(GridSpace toMoveTo)
     {
         if (toMoveTo != null)
@@ -63,6 +92,7 @@ public class PlayerBase : Character
 
     public void EndTurn()
     {
+        selected = false;
         idle = true;
     }
 
