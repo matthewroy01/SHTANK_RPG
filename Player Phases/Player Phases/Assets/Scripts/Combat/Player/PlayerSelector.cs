@@ -9,12 +9,16 @@ public class PlayerSelector : MonoBehaviour
     private bool atDefPos = true;
     private bool inputtedAbility = false;
 
+    private GridSpace abilityGridSpace;
+
     private CombatGrid refCombatGrid;
     private AbilityProcessor refAbilityProcessor;
 
     private int savedAbilityNum;
-    public CombatDirection facing = CombatDirection.up;
-    public bool flipped = false;
+    private CombatDirection facing = CombatDirection.up;
+    private bool flipped = false;
+
+    public LayerMask gridSpaceLayerMask;
 
     void Start()
     {
@@ -24,13 +28,27 @@ public class PlayerSelector : MonoBehaviour
 
     void Update()
     {
+        // selecting players on the grid
         if (currentPlayer == null)
         {
             Select();
         }
 
+        // actions with the selected player
         if (currentPlayer != null)
         {
+            Ability get = refAbilityProcessor.GetAbility();
+
+            // if an ability is ranged
+            if (get != null && get.ranged)
+            {
+                RangedSelect();
+            }
+            else
+            {
+                abilityGridSpace = null;
+            }
+
             Movement();
             Flip();
             CancelOrSave();
@@ -152,6 +170,9 @@ public class PlayerSelector : MonoBehaviour
         {
             if (Input.GetKeyDown(keys[i]))
             {
+                // reset ability grid space when selecting new abilities
+                abilityGridSpace = null;
+
                 SaveAbilityInput(i + 1);
             }
         }
@@ -171,7 +192,7 @@ public class PlayerSelector : MonoBehaviour
     {
         if (currentPlayer != null)
         {
-            refAbilityProcessor.ProcessAbility(currentPlayer, savedAbilityNum, facing, flipped);
+            refAbilityProcessor.ProcessAbility(currentPlayer, abilityGridSpace, savedAbilityNum, facing, flipped);
         }
     }
 
@@ -216,6 +237,25 @@ public class PlayerSelector : MonoBehaviour
             {
                 currentPlayer.ResetToDefaultPosition(defaultGridSpace);
                 atDefPos = true;
+            }
+        }
+    }
+
+    private void RangedSelect()
+    {
+        // clicking on objects in scene using raycasts from: https://www.youtube.com/watch?v=EANtTI6BCxk
+        // because I'm dumb and I couldn't remember how to do it myself
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit, float.MaxValue, gridSpaceLayerMask))
+        {
+            if (hit.transform)
+            {
+                // try to set the ability grid space for this special case
+                abilityGridSpace = refCombatGrid.GetGridSpace(hit.transform.gameObject);
+
+                TryProcessAbility();
             }
         }
     }

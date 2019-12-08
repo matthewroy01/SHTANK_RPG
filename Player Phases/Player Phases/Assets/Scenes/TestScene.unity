@@ -271,8 +271,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentPlayer: {fileID: 0}
-  facing: 0
-  flipped: 0
+  gridSpaceLayerMask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!1 &906718562
 GameObject:
   m_ObjectHideFlags: 0

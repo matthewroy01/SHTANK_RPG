@@ -22,9 +22,14 @@ public class AbilityProcessor : MonoBehaviour
         }
     }
 
-    public void ProcessAbility(PlayerBase player, int abilNum, CombatDirection facing, bool flipped)
+    public void ProcessAbility(PlayerBase player, GridSpace startingSpace, int abilNum, CombatDirection facing, bool flipped)
     {
         CancelAbility();
+
+        if (startingSpace == null)
+        {
+            startingSpace = player.myGridSpace;
+        }
 
         switch (abilNum)
         {
@@ -57,17 +62,17 @@ public class AbilityProcessor : MonoBehaviour
             if (abilType == "PathAbility")
             {
                 Debug.Log(abilType + " processed.");
-                ProcessPathAbility((PathAbility)savedAbility, player.myGridSpace, facing, flipped);
+                ProcessPathAbility((PathAbility)savedAbility, startingSpace, facing, flipped);
             }
             else if (abilType == "CircleAbility")
             {
                 Debug.Log(abilType + " processed.");
-                ProcessCircleAbility((CircleAbility)savedAbility, player.myGridSpace);
+                ProcessCircleAbility((CircleAbility)savedAbility, startingSpace);
             }
             else if (abilType == "ConeAbility")
             {
                 Debug.Log(abilType + " processed.");
-                ProcessConeAbility((ConeAbility)savedAbility, player.myGridSpace, facing);
+                ProcessConeAbility((ConeAbility)savedAbility, startingSpace, facing);
             }
             else if (abilType == "RectangleAbility")
             {
@@ -388,5 +393,10 @@ public class AbilityProcessor : MonoBehaviour
         }
 
         return false;
+    }
+
+    public Ability GetAbility()
+    {
+        return savedAbility;
     }
 }

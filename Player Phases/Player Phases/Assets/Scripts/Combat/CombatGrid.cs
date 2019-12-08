@@ -185,6 +185,24 @@ public class CombatGrid : MonoBehaviour
 
         return false;
     }
+
+    public GridSpace GetGridSpace(GameObject obj)
+    {
+        // loop through grid and try to find the grid space given the provided GameObject
+        for (int i = 0; i < grid.GetLength(0); ++i)
+        {
+            for (int j = 0; j < grid.GetLength(1); ++j)
+            {
+                // check if the GameObject is the grid space's GameObject
+                if (grid[i, j].obj == obj)
+                {
+                    return grid[i, j];
+                }
+            }
+        }
+
+        return null;
+    }
 }
 
 public class GridSpace
