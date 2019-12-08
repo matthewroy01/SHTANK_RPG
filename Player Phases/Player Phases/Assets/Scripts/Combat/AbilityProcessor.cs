@@ -365,9 +365,29 @@ public class AbilityProcessor : MonoBehaviour
                     // slowly expand as we move outwards
                     for (int j = 0; j < i / abil.angle; ++j)
                     {
+                        if (rowTrackerSideways != null)
+                        {
+                            // each step here broken into separate lines for ease of debugging
+                            // full line would be: rowTrackerSideways = (GridSpace)rowTrackerSideways.GetType().GetField(sideways).GetValue(rowTrackerSideways);
+                            System.Type type = rowTrackerSideways.GetType();
+                            System.Reflection.FieldInfo fieldInfo = type.GetField(sideways);
+                            object value = fieldInfo.GetValue(rowTrackerSideways);
+                            rowTrackerSideways = (GridSpace)value;
+                        }
+
+                        if (rowTrackerSidewaysOpposite != null)
+                        {
+                            // each step here broken into separate lines for ease of debugging
+                            // full line would be: rowTrackerSidewaysOpposite = (GridSpace)rowTrackerSidewaysOpposite.GetType().GetField(sidewaysOpposite).GetValue(rowTrackerSidewaysOpposite);
+                            System.Type typeO = rowTrackerSidewaysOpposite.GetType();
+                            System.Reflection.FieldInfo fieldInfoO = typeO.GetField(sidewaysOpposite);
+                            object valueO = fieldInfoO.GetValue(rowTrackerSidewaysOpposite);
+                            rowTrackerSidewaysOpposite = (GridSpace)valueO;
+                        }
+
                         // save grid spaces in both directions from the center line
-                        TryAddGridSpace(rowTrackerSideways = (GridSpace)rowTrackerSideways.GetType().GetField(sideways).GetValue(rowTrackerSideways));
-                        TryAddGridSpace(rowTrackerSidewaysOpposite = (GridSpace)rowTrackerSidewaysOpposite.GetType().GetField(sidewaysOpposite).GetValue(rowTrackerSidewaysOpposite));
+                        TryAddGridSpace(rowTrackerSideways);
+                        TryAddGridSpace(rowTrackerSidewaysOpposite);
                     }
                 }
                 else
