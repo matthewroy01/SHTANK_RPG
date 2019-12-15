@@ -10,6 +10,7 @@ public class Ability : ScriptableObject
     public bool ignoreWalls;
     [Header("Whether or not the ability can be triggered away from its user")]
     public bool ranged;
+    public uint range;
     [Header("Effects to apply when striking another character")]
     public List<Effect> effects = new List<Effect>();
 }

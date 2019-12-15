@@ -157,15 +157,16 @@ public class PlayerSelector : MonoBehaviour
         {
             if (Input.GetKeyDown(keys[i]) && savedAbilityNum == i + 1)
             {
-                // end the selected player's turn
-                EndTurn();
-
                 // apply the currently saved ability
-                refAbilityProcessor.ApplyAbility();
+                if (refAbilityProcessor.ApplyAbility())
+                {
+                    // end the selected player's turn
+                    EndTurn();
 
-                // reset our previously inputted ability
-                inputtedAbility = false;
-                savedAbilityNum = 0;
+                    // reset our previously inputted ability
+                    inputtedAbility = false;
+                    savedAbilityNum = 0;
+                }
 
                 // don't bother checking for additional input this frame
                 return;

@@ -203,6 +203,47 @@ public class CombatGrid : MonoBehaviour
 
         return null;
     }
+
+    public List<GridSpace> GetBreadthFirst(GridSpace center, uint radius)
+    {
+        List<GridSpace> result = new List<GridSpace>();
+        result.Add(center);
+
+        List<GridSpace> currentSweep = new List<GridSpace>();
+        List<GridSpace> nextSweep = new List<GridSpace>();
+
+        // add first Grid Space to serve as the center
+        currentSweep.Add(center);
+
+        // loop through the radius of our search
+        for (int i = 0; i < radius; ++i)
+        {
+            // loop through the currently saved "sweep" of Grid Spaces
+            for (int j = 0; j < currentSweep.Count; ++j)
+            {
+                BreadthFirstAddToLists(currentSweep[j].up, ref result, ref nextSweep);
+                BreadthFirstAddToLists(currentSweep[j].down, ref result, ref nextSweep);
+                BreadthFirstAddToLists(currentSweep[j].left, ref result, ref nextSweep);
+                BreadthFirstAddToLists(currentSweep[j].right, ref result, ref nextSweep);
+            }
+
+            // reset the current sweep and reassign its conets to that of the next sweep
+            currentSweep.Clear();
+            currentSweep.AddRange(nextSweep);
+            nextSweep.Clear();
+        }
+
+        return result;
+    }
+
+    private void BreadthFirstAddToLists(GridSpace space, ref List<GridSpace> result, ref List<GridSpace> nextSweep)
+    {
+        if (space != null && !result.Contains(space))
+        {
+            result.Add(space);
+            nextSweep.Add(space);
+        }
+    }
 }
 
 public class GridSpace

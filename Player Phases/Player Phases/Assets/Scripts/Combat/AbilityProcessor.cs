@@ -6,6 +6,7 @@ public class AbilityProcessor : MonoBehaviour
     private CombatGrid refCombatGrid;
 
     private List<GridSpace> gridSpaces = new List<GridSpace>();
+    private List<GridSpace> startingSpaces = new List<GridSpace>();
     private Ability savedAbility;
 
     void Start()
@@ -16,6 +17,14 @@ public class AbilityProcessor : MonoBehaviour
     private void Update()
     {
         // TEMPORARY CODE FOR SETTING THE COLOR OF THE GRID SPACES, THIS SHOULD PROBABLY BE HANDLED BY A SHADER
+        // red for ranged view
+        for (int i = 0; i < startingSpaces.Count; ++i)
+        {
+            startingSpaces[i].obj.GetComponent<Renderer>().material.color = Color.Lerp(Color.Lerp(Color.red, Color.white, 0.25f), Color.red, Mathf.Sin(Time.time * 10.0f + (0.5f * i)));
+        }
+
+        // TEMPORARY CODE FOR SETTING THE COLOR OF THE GRID SPACES, THIS SHOULD PROBABLY BE HANDLED BY A SHADER
+        // green for attack preview
         for (int i = 0; i < gridSpaces.Count; ++i)
         {
             gridSpaces[i].obj.GetComponent<Renderer>().material.color = Color.Lerp(Color.Lerp(Color.green, Color.white, 0.5f), Color.green, Mathf.Sin(Time.time * 10.0f + (0.5f * i)));
@@ -59,28 +68,36 @@ public class AbilityProcessor : MonoBehaviour
         {
             string abilType = savedAbility.GetType().Name;
 
-            if (abilType == "PathAbility")
+            // get possible starting grid spaces
+            startingSpaces.AddRange(refCombatGrid.GetBreadthFirst(player.myGridSpace, savedAbility.range));
+
+            // make sure the specified starting grid space is a valid starting space contained within startingSpaces
+            if (startingSpaces.Contains(startingSpace))
             {
-                Debug.Log(abilType + " processed.");
-                ProcessPathAbility((PathAbility)savedAbility, startingSpace, facing, flipped);
-            }
-            else if (abilType == "CircleAbility")
-            {
-                Debug.Log(abilType + " processed.");
-                ProcessCircleAbility((CircleAbility)savedAbility, startingSpace);
-            }
-            else if (abilType == "ConeAbility")
-            {
-                Debug.Log(abilType + " processed.");
-                ProcessConeAbility((ConeAbility)savedAbility, startingSpace, facing);
-            }
-            else if (abilType == "RectangleAbility")
-            {
-                Debug.Log(abilType + " processed.");
-            }
-            else
-            {
-                Debug.LogError(abilType + " is not a valid Ability type.");
+                // process ability
+                if (abilType == "PathAbility")
+                {
+                    Debug.Log(abilType + " processed.");
+                    ProcessPathAbility((PathAbility)savedAbility, startingSpace, facing, flipped);
+                }
+                else if (abilType == "CircleAbility")
+                {
+                    Debug.Log(abilType + " processed.");
+                    ProcessCircleAbility((CircleAbility)savedAbility, startingSpace);
+                }
+                else if (abilType == "ConeAbility")
+                {
+                    Debug.Log(abilType + " processed.");
+                    ProcessConeAbility((ConeAbility)savedAbility, startingSpace, facing);
+                }
+                else if (abilType == "RectangleAbility")
+                {
+                    Debug.Log(abilType + " processed.");
+                }
+                else
+                {
+                    Debug.LogError(abilType + " is not a valid Ability type.");
+                }
             }
         }
     }
@@ -93,11 +110,18 @@ public class AbilityProcessor : MonoBehaviour
             gridSpaces[i].obj.GetComponent<Renderer>().material.color = Color.white;
         }
 
+        // TEMPORARY CODE FOR RESETTING THE COLOR OF THE GRID SPACES, THIS SHOULD PROBABLY BE HANDLED BY A SHADER
+        for (int i = 0; i < startingSpaces.Count; ++i)
+        {
+            startingSpaces[i].obj.GetComponent<Renderer>().material.color = Color.white;
+        }
+
         gridSpaces.Clear();
+        startingSpaces.Clear();
         savedAbility = null;
     }
 
-    public void ApplyAbility()
+    public bool ApplyAbility()
     {
         if (gridSpaces.Count > 0 && savedAbility != null)
         {
@@ -115,7 +139,11 @@ public class AbilityProcessor : MonoBehaviour
 
             // then erase whatever ability information is currently saved
             CancelAbility();
+
+            return true;
         }
+
+        return false;
     }
 
     private void ProcessPathAbility(PathAbility abil, GridSpace startingGridSpace, CombatDirection direction, bool flipped)

@@ -15,6 +15,7 @@ MonoBehaviour:
   moveCharacter: 0
   ignoreWalls: 0
   ranged: 1
+  range: 5
   effects: []
   length: 4
   angle: 1
