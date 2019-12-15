@@ -250,6 +250,8 @@ public class PlayerSelector : MonoBehaviour
         {
             inputtedAbility = false;
             savedAbilityNum = 0;
+
+            refAbilityProcessor.CancelAbility();
         }
         // otherwise, reset movement
         else

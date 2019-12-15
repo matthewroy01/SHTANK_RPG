@@ -102,7 +102,7 @@ public class AbilityProcessor : MonoBehaviour
         }
     }
 
-    private void CancelAbility()
+    public void CancelAbility()
     {
         // TEMPORARY CODE FOR RESETTING THE COLOR OF THE GRID SPACES, THIS SHOULD PROBABLY BE HANDLED BY A SHADER
         for (int i = 0; i < gridSpaces.Count; ++i)
