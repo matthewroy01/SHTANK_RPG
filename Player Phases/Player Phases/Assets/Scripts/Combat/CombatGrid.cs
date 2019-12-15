@@ -7,6 +7,8 @@ public class CombatGrid : MonoBehaviour
     public uint gridWidth;
     public uint gridHeight;
 
+    public LayerMask scannable;
+
     // the grid used in combat
     [HideInInspector]
     public GridSpace[,] grid;
@@ -26,7 +28,21 @@ public class CombatGrid : MonoBehaviour
         {
             for (int y = 0; y < gridHeight; ++y)
             {
-                grid[x, y] = new GridSpace(Instantiate(gridSpacePrefab, new Vector3(x, y, 0.0f), Quaternion.identity, transform));
+                // fire a raycast to scan for special terrain types
+                RaycastHit hit;
+                Physics.Raycast(new Vector3(x, y, 0.0f), Vector3.forward, out hit, scannable);
+
+                // set the terrain type to standard by default
+                GridSpace_TerrainType terrainType = GridSpace_TerrainType.standard;
+
+                // get the terrain type from the transform's tag if we found something with the raycast
+                if (hit.transform != null)
+                {
+                    terrainType = GetTerrainTypeFromTag(hit.transform.tag);
+                }
+
+                // create new Grid Space with associated Game Object and terrain type from scan
+                grid[x, y] = new GridSpace(Instantiate(gridSpacePrefab, new Vector3(x, y, 0.0f), Quaternion.identity, transform), terrainType);
             }
         }
 
@@ -244,6 +260,21 @@ public class CombatGrid : MonoBehaviour
             nextSweep.Add(space);
         }
     }
+
+    private GridSpace_TerrainType GetTerrainTypeFromTag(string tag)
+    {
+        switch (tag)
+        {
+            case "TerrainType_Wall":
+            {
+                return GridSpace_TerrainType.wall;
+            }
+            default:
+            {
+                return GridSpace_TerrainType.standard;
+            }
+        }
+    }
 }
 
 public class GridSpace
@@ -257,7 +288,12 @@ public class GridSpace
     // queue of effects that should be applied to currChar, if it is not null
     public Stack<Effect> effects = new Stack<Effect>();
 
-    public GridSpace(GameObject gameobject)
+    // grid space terrain type, used for movement and processing abilities
+    private GridSpace_TerrainType currentTerrainType;
+    private GridSpace_TerrainType originalTerrainType;
+
+    // constructor with in-world associated GameObject
+    public GridSpace(GameObject gameobject, GridSpace_TerrainType terrainType)
     {
         obj = gameobject;
     }
@@ -296,6 +332,16 @@ public class GridSpace
     {
         effects.Push(effect);
     }
+
+    public void SetTerrainType(GridSpace_TerrainType terrainType)
+    {
+        currentTerrainType = terrainType;
+    }
+
+    public GridSpace_TerrainType GetTerrainType()
+    {
+        return currentTerrainType;
+    }
 }
 
 [System.Serializable]
@@ -321,5 +367,7 @@ public class Effect
         Mathf.Clamp(probability, 0.0f, 1.0f);
     }
 }
+
+public enum GridSpace_TerrainType { standard, wall, wall_artificial, water };
 
 public enum Effect_ID { damage, healing, paralysis, poison, burn };
