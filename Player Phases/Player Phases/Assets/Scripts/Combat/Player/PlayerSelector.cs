@@ -49,6 +49,13 @@ public class PlayerSelector : MonoBehaviour
                 abilityGridSpace = null;
             }
 
+            // TEMPORARY CODE FOR SETTING THE COLOR OF THE GRID SPACES, THIS SHOULD PROBABLY BE HANDLED BY A SHADER
+            // blue for movement
+            for (int i = 0; i < currentPlayer.movementSpaces.Count; ++i)
+            {
+                currentPlayer.movementSpaces[i].obj.GetComponent<Renderer>().material.color = Color.Lerp(Color.Lerp(Color.blue, Color.white, 0.25f), Color.blue, Mathf.Sin(Time.time * 10.0f + (0.5f * i)));
+            }
+
             Movement();
             Flip();
             CancelOrSave();
@@ -208,11 +215,23 @@ public class PlayerSelector : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Return))
         {
+            // TEMPORARY CODE FOR RESETTING THE COLOR OF THE GRID SPACES, THIS SHOULD PROBABLY BE HANDLED BY A SHADER
+            for (int i = 0; i < currentPlayer.movementSpaces.Count; ++i)
+            {
+                currentPlayer.movementSpaces[i].obj.GetComponent<Renderer>().material.color = Color.white;
+            }
+
             EndTurn();
         }
 
         if (Input.GetKeyDown(KeyCode.Escape) || Input.GetMouseButtonDown(1))
         {
+            // TEMPORARY CODE FOR RESETTING THE COLOR OF THE GRID SPACES, THIS SHOULD PROBABLY BE HANDLED BY A SHADER
+            for (int i = 0; i < currentPlayer.movementSpaces.Count; ++i)
+            {
+                currentPlayer.movementSpaces[i].obj.GetComponent<Renderer>().material.color = Color.white;
+            }
+
             Cancel();
         }
     }

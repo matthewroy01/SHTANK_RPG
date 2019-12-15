@@ -38,17 +38,21 @@ public class PlayerBase : Character
         }
     }
 
-    public void StartTurn()
+    public void StartTurn(CombatGrid grid)
     {
         idle = false;
         defaultPosition = transform.position;
+
+        // reset movement spaces
+        movementSpaces.Clear();
+        movementSpaces = grid.GetBreadthFirst(myGridSpace, movementRange, terrainTypes);
     }
 
     public bool TryMove(CombatDirection dir, CombatGrid grid)
     {
         bool result = false;
 
-        GridSpace tmp = grid.TryMove(dir, myGridSpace);
+        GridSpace tmp = grid.TryMove(dir, myGridSpace, movementSpaces);
 
         if (tmp != myGridSpace)
         {

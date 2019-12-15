@@ -111,7 +111,9 @@ MonoBehaviour:
   defenseMod: 0
   attackMod: 0
   nashbalm: 0
-  moveset: {fileID: 11400000, guid: f0328221d2472504a8133a99691554a0, type: 2}
+  movementRange: 5
+  terrainTypes: 00000000
+  moveset: {fileID: 11400000, guid: 2298dbb6bbb014540bfab91c8cb99d6d, type: 2}
 --- !u!114 &5010701613619982777
 MonoBehaviour:
   m_ObjectHideFlags: 0

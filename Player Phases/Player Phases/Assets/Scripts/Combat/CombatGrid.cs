@@ -126,9 +126,10 @@ public class CombatGrid : MonoBehaviour
         return false;
     }
 
-    public GridSpace TryMove(CombatDirection dir, GridSpace current)
+    public GridSpace TryMove(CombatDirection dir, GridSpace current, List<GridSpace> movementSpaces)
     {
         System.Tuple<int, int> indices = GetIndicesOfGridSpace(current);
+        GridSpace result = null;
 
         switch (dir)
         {
@@ -136,7 +137,7 @@ public class CombatGrid : MonoBehaviour
             {
                 if (CheckSpace(indices.Item1, indices.Item2 + 1))
                 {
-                    return grid[indices.Item1, indices.Item2 + 1];
+                    result = grid[indices.Item1, indices.Item2 + 1];
                 }
                 break;
             }
@@ -144,7 +145,7 @@ public class CombatGrid : MonoBehaviour
             {
                 if (CheckSpace(indices.Item1, indices.Item2 - 1))
                 {
-                    return grid[indices.Item1, indices.Item2 - 1];
+                    result = grid[indices.Item1, indices.Item2 - 1];
                 }
                 break;
             }
@@ -152,7 +153,7 @@ public class CombatGrid : MonoBehaviour
             {
                 if (CheckSpace(indices.Item1 - 1, indices.Item2))
                 {
-                    return grid[indices.Item1 - 1, indices.Item2];
+                    result = grid[indices.Item1 - 1, indices.Item2];
                 }
                 break;
             }
@@ -160,10 +161,16 @@ public class CombatGrid : MonoBehaviour
             {
                 if (CheckSpace(indices.Item1 + 1, indices.Item2))
                 {
-                    return grid[indices.Item1 + 1, indices.Item2];
+                    result = grid[indices.Item1 + 1, indices.Item2];
                 }
                 break;
             }
+        }
+
+        // if we found a result that's not null, check if it's one of the potential movement spaces
+        if (result != null && movementSpaces.Contains(result))
+        {
+            return result;
         }
 
         return current;
@@ -220,7 +227,7 @@ public class CombatGrid : MonoBehaviour
         return null;
     }
 
-    public List<GridSpace> GetBreadthFirst(GridSpace center, uint radius)
+    public List<GridSpace> GetBreadthFirst(GridSpace center, uint radius, List<GridSpace_TerrainType> terrainTypes)
     {
         List<GridSpace> result = new List<GridSpace>();
         result.Add(center);
@@ -237,10 +244,10 @@ public class CombatGrid : MonoBehaviour
             // loop through the currently saved "sweep" of Grid Spaces
             for (int j = 0; j < currentSweep.Count; ++j)
             {
-                BreadthFirstAddToLists(currentSweep[j].up, ref result, ref nextSweep);
-                BreadthFirstAddToLists(currentSweep[j].down, ref result, ref nextSweep);
-                BreadthFirstAddToLists(currentSweep[j].left, ref result, ref nextSweep);
-                BreadthFirstAddToLists(currentSweep[j].right, ref result, ref nextSweep);
+                BreadthFirstAddToLists(currentSweep[j].up, result, nextSweep, terrainTypes);
+                BreadthFirstAddToLists(currentSweep[j].down, result, nextSweep, terrainTypes);
+                BreadthFirstAddToLists(currentSweep[j].left, result, nextSweep, terrainTypes);
+                BreadthFirstAddToLists(currentSweep[j].right, result, nextSweep, terrainTypes);
             }
 
             // reset the current sweep and reassign its conets to that of the next sweep
@@ -252,12 +259,19 @@ public class CombatGrid : MonoBehaviour
         return result;
     }
 
-    private void BreadthFirstAddToLists(GridSpace space, ref List<GridSpace> result, ref List<GridSpace> nextSweep)
+    private void BreadthFirstAddToLists(GridSpace space, List<GridSpace> result, List<GridSpace> nextSweep, List<GridSpace_TerrainType> terrainTypes)
     {
         if (space != null && !result.Contains(space))
         {
-            result.Add(space);
-            nextSweep.Add(space);
+            if (terrainTypes.Contains(space.GetTerrainType()))
+            {
+                result.Add(space);
+                nextSweep.Add(space);
+            }
+            else
+            {
+                Debug.Log("Terrain of type " + space.GetTerrainType() + " was ignored.");
+            }
         }
     }
 
@@ -292,10 +306,14 @@ public class GridSpace
     private GridSpace_TerrainType currentTerrainType;
     private GridSpace_TerrainType originalTerrainType;
 
-    // constructor with in-world associated GameObject
+    // constructor with in-world associated GameObject and original terrain type
     public GridSpace(GameObject gameobject, GridSpace_TerrainType terrainType)
     {
         obj = gameobject;
+
+        // set up terrain types
+        originalTerrainType = terrainType;
+        currentTerrainType = terrainType;
     }
 
     // connections for ease of access
@@ -371,3 +389,9 @@ public class Effect
 public enum GridSpace_TerrainType { standard, wall, wall_artificial, water };
 
 public enum Effect_ID { damage, healing, paralysis, poison, burn };
+
+static public class TerrainTypePresets
+{
+    public static List<GridSpace_TerrainType> onlyStandard = new List<GridSpace_TerrainType>() { GridSpace_TerrainType.standard };
+    public static List<GridSpace_TerrainType> standardAndWater = new List<GridSpace_TerrainType>() { GridSpace_TerrainType.standard, GridSpace_TerrainType.water };
+}

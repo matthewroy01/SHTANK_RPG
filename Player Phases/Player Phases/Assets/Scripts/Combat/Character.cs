@@ -18,7 +18,13 @@ public class Character : MonoBehaviour
     // nashbalm stat, increases chance of counter attack
     public int nashbalm;
 
+    // movement range
+    public uint movementRange;
+
     /* ----------------------------------------------------------*/
+
+    public List<GridSpace> movementSpaces = new List<GridSpace>();
+    public List<GridSpace_TerrainType> terrainTypes = new List<GridSpace_TerrainType>();
 
     public GridSpace myGridSpace;
 

@@ -64,7 +64,7 @@ public class PlayerManager : MonoBehaviour
         // loop through all players and enable their actions
         for (int i = 0; i < players.Count; ++i)
         {
-            players[i].StartTurn();
+            players[i].StartTurn(refCombatGrid);
 
             yield return new WaitForEndOfFrame();
         }
