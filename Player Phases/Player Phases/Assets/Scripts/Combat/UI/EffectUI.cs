@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class EffectUI : MonoBehaviour
 {
+    [Header("Health bar")]
+    public Slider healthBar;
+
     [Header("Text for damage and healing")]
     public EffectUIParameters damage;
     public EffectUIParameters healing;
@@ -16,12 +20,19 @@ public class EffectUI : MonoBehaviour
     private Stack<Effect> toDisplay = new Stack<Effect>();
 
     private AudioSource refAudioSource;
+    private Character owner;
 
     private void Start()
     {
         refAudioSource = GetComponent<AudioSource>();
+        owner = GetComponent<Character>();
 
         StartCoroutine(IterateThroughEffects());
+    }
+
+    private void Update()
+    {
+        healthBar.value = (float)owner.healthCurrent / (float)owner.healthMax;
     }
 
     public void AddEffect(Effect effect)

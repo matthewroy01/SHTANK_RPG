@@ -19,6 +19,8 @@ public class PlayerBase : Character
     private void Start()
     {
         refMovementDialogueProcessor = GetComponent<MovementDialogueProcessor>();
+
+        healthCurrent = healthMax;
     }
 
     private void Update()
