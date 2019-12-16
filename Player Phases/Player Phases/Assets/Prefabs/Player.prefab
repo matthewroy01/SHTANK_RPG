@@ -106,11 +106,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1160cb62b4dfce4498e722fa4e2847e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthMax: 0
+  healthMax: 10
   healthCurrent: 0
   defenseMod: 0
   attackMod: 0
-  nashbalm: 0
+  nashbalm: 5
   movementRange: 5
   terrainTypes: 00000000
   moveset: {fileID: 11400000, guid: c6035e40d07598c4e9d8a5ca38a62382, type: 2}

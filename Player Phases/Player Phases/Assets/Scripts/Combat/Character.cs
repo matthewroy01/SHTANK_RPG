@@ -8,6 +8,7 @@ public class Character : MonoBehaviour
     /* ----------------------------------------------------------*/
 
     public int healthMax;
+    [HideInInspector]
     public int healthCurrent;
 
     // defensive modifier, reduces damage taken
@@ -16,6 +17,7 @@ public class Character : MonoBehaviour
     public int attackMod;
 
     // nashbalm stat, increases chance of counter attack
+    [Range(0.0f, 100.0f)]
     public int nashbalm;
 
     // movement range
@@ -38,7 +40,14 @@ public class Character : MonoBehaviour
                 {
                     Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
 
-                    healthCurrent -= effect.value;
+                    if (healthCurrent - effect.value < 0)
+                    {
+                        healthCurrent = 0;
+                    }
+                    else
+                    {
+                        healthCurrent -= effect.value;
+                    }
                 }
                 break;
             }
@@ -48,7 +57,14 @@ public class Character : MonoBehaviour
                 {
                     Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
 
-                    healthCurrent += effect.value;
+                    if (healthCurrent + effect.value > 0)
+                    {
+                        healthCurrent = healthMax;
+                    }
+                    else
+                    {
+                        healthCurrent += effect.value;
+                    }
                 }
                 break;
             }
