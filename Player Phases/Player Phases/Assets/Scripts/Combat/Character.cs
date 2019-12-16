@@ -30,8 +30,15 @@ public class Character : MonoBehaviour
 
     public GridSpace myGridSpace;
 
+    private EffectUI refCharacterEffectUI;
+
     public void ApplyEffect(Effect effect)
     {
+        if (refCharacterEffectUI == null)
+        {
+            refCharacterEffectUI = GetComponent<EffectUI>();
+        }
+
         switch(effect.id)
         {
             case Effect_ID.damage:
@@ -48,6 +55,8 @@ public class Character : MonoBehaviour
                     {
                         healthCurrent -= effect.value;
                     }
+
+                    refCharacterEffectUI.AddEffect(effect);
                 }
                 break;
             }
@@ -65,6 +74,8 @@ public class Character : MonoBehaviour
                     {
                         healthCurrent += effect.value;
                     }
+
+                    refCharacterEffectUI.AddEffect(effect);
                 }
                 break;
             }
@@ -75,6 +86,8 @@ public class Character : MonoBehaviour
                     Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
 
                     // inflict paralysis
+
+                    refCharacterEffectUI.AddEffect(effect);
                 }
                 break;
             }

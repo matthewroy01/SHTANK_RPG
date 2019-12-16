@@ -582,7 +582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridWidth: 12
-  gridHeight: 12
+  gridHeight: 6
   scannable:
     serializedVersion: 2
     m_Bits: 512
