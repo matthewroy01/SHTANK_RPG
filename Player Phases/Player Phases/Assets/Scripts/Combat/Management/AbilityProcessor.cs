@@ -121,29 +121,27 @@ public class AbilityProcessor : MonoBehaviour
         savedAbility = null;
     }
 
-    public bool ApplyAbility()
+    public bool ApplyAbilityCheck()
     {
-        if (gridSpaces.Count > 0 && savedAbility != null)
+        return gridSpaces.Count > 0 && savedAbility != null;
+    }
+
+    public void ApplyAbility()
+    {
+        // set saved grid spaces as dirty
+        for (int i = 0; i < gridSpaces.Count; ++i)
         {
-            // set saved grid spaces as dirty
-            for (int i = 0; i < gridSpaces.Count; ++i)
-            {
-                refCombatGrid.MakeDirty(gridSpaces[i], savedAbility);
-            }
-
-            string abilType = savedAbility.GetType().Name;
-            Debug.Log(abilType + " applied.");
-
-            // and apply their saved effects
-            refCombatGrid.CleanGrid();
-
-            // then erase whatever ability information is currently saved
-            CancelAbility();
-
-            return true;
+            refCombatGrid.MakeDirty(gridSpaces[i], savedAbility);
         }
 
-        return false;
+        string abilType = savedAbility.GetType().Name;
+        Debug.Log(abilType + " applied.");
+
+        // and apply their saved effects
+        refCombatGrid.CleanGrid();
+
+        // then erase whatever ability information is currently saved
+        CancelAbility();
     }
 
     private void ProcessPathAbility(PathAbility abil, GridSpace startingGridSpace, CombatDirection direction, bool flipped)
@@ -277,63 +275,7 @@ public class AbilityProcessor : MonoBehaviour
 
     private void ProcessCircleAbility(CircleAbility abil, GridSpace startingGridSpace)
     {
-        List<GridSpace> toSave = new List<GridSpace>();
-        Queue<GridSpace> toCheckNext = new Queue<GridSpace>();
-
-        toCheckNext.Enqueue(startingGridSpace);
-
-        if (abil.radius > 0)
-        {
-            // FOR NOW WE ARE USING myGridSpace BUT IN THE FUTURE THIS SHOULD BE ABLE TO CHANGE FOR RANGED ATTACKS
-            int radiusCounter = 0;
-            int numToCheck = 0;
-
-            // keep checking until the specified radius has been reached
-            while (radiusCounter < abil.radius)
-            {
-                // keep track of how many GridSpaces there were in ToCheckNext so that we don't loop too much for GridSpaces we end up adding
-                numToCheck = toCheckNext.Count;
-
-                for (int j = 0; j < numToCheck; ++j)
-                {
-                    // check and potentially add all the connections currently in the toCheckNext queue
-                    CheckListAndAdd(ref toSave, ref toCheckNext, toCheckNext.Peek().up);
-                    CheckListAndAdd(ref toSave, ref toCheckNext, toCheckNext.Peek().down);
-                    CheckListAndAdd(ref toSave, ref toCheckNext, toCheckNext.Peek().left);
-                    CheckListAndAdd(ref toSave, ref toCheckNext, toCheckNext.Peek().right);
-
-                    // remove the GridSpace we just checked
-                    toCheckNext.Dequeue();
-                }
-
-                radiusCounter++;
-            }
-        }
-
-        // include the center GridSpace (either the space the user is on or the center of a ranged attack)
-        toSave.Add(startingGridSpace);
-
-        // add grid spaces to save to our list
-        for (int i = 0; i < toSave.Count; ++i)
-        {
-            TryAddGridSpace(toSave[i]);
-        }
-    }
-
-    private void CheckListAndAdd(ref List<GridSpace> toSave, ref Queue<GridSpace> toCheckNext, GridSpace toCheckAndMaybeAdd)
-    {
-        if (toCheckAndMaybeAdd != null)
-        {
-            // add the GridSpace we are checking to save if it's not already in the list
-            if (!toSave.Contains(toCheckAndMaybeAdd))
-            {
-                // add the GridSpace to save
-                toSave.Add(toCheckAndMaybeAdd);
-
-                // and add the GridSpace to have its connections checked next too
-                toCheckNext.Enqueue(toCheckAndMaybeAdd);
-            }
-        }
+        gridSpaces.AddRange(refCombatGrid.GetBreadthFirst(startingGridSpace, abil.radius, TerrainTypePresets.all));
     }
 
     private void ProcessConeAbility(ConeAbility abil, GridSpace startingGridSpace, CombatDirection direction)

@@ -300,7 +300,7 @@ public class GridSpace
     public Character character;
 
     // queue of effects that should be applied to currChar, if it is not null
-    public Stack<Effect> effects = new Stack<Effect>();
+    public Queue<Effect> effects = new Queue<Effect>();
 
     // grid space terrain type, used for movement and processing abilities
     private GridSpace_TerrainType currentTerrainType;
@@ -329,7 +329,7 @@ public class GridSpace
         {
             while (effects.Count > 0)
             {
-                character.ApplyEffect(effects.Pop());
+                character.ApplyEffect(effects.Dequeue());
             }
         }
         else
@@ -348,7 +348,7 @@ public class GridSpace
 
     public void AddEffect(Effect effect)
     {
-        effects.Push(effect);
+        effects.Enqueue(effect);
     }
 
     public void SetTerrainType(GridSpace_TerrainType terrainType)
@@ -394,4 +394,7 @@ static public class TerrainTypePresets
 {
     public static List<GridSpace_TerrainType> onlyStandard = new List<GridSpace_TerrainType>() { GridSpace_TerrainType.standard };
     public static List<GridSpace_TerrainType> standardAndWater = new List<GridSpace_TerrainType>() { GridSpace_TerrainType.standard, GridSpace_TerrainType.water };
+    public static List<GridSpace_TerrainType> none = new List<GridSpace_TerrainType>() { };
+    public static List<GridSpace_TerrainType> all = new List<GridSpace_TerrainType>() { GridSpace_TerrainType.standard, GridSpace_TerrainType.water,
+        GridSpace_TerrainType.wall, GridSpace_TerrainType.wall_artificial };
 }

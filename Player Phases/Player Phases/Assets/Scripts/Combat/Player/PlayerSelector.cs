@@ -164,11 +164,14 @@ public class PlayerSelector : MonoBehaviour
         {
             if (Input.GetKeyDown(keys[i]) && savedAbilityNum == i + 1)
             {
-                // apply the currently saved ability
-                if (refAbilityProcessor.ApplyAbility())
+                // if there is a valid ability to apply
+                if (refAbilityProcessor.ApplyAbilityCheck())
                 {
                     // end the selected player's turn
                     EndTurn();
+
+                    // apply the currently saved ability
+                    refAbilityProcessor.ApplyAbility();
 
                     // reset our previously inputted ability
                     inputtedAbility = false;
@@ -221,6 +224,7 @@ public class PlayerSelector : MonoBehaviour
                 currentPlayer.movementSpaces[i].obj.GetComponent<Renderer>().material.color = Color.white;
             }
 
+            refAbilityProcessor.CancelAbility();
             EndTurn();
         }
 

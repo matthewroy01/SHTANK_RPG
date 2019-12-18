@@ -8,6 +8,7 @@ public class EffectUI : MonoBehaviour
 {
     [Header("Health bar")]
     public Slider healthBar;
+    public TextMeshProUGUI healthNumber;
 
     [Header("Text for damage and healing")]
     public EffectUIParameters damage;
@@ -17,7 +18,7 @@ public class EffectUI : MonoBehaviour
     [Header("Timing")]
     public float timeBetweenEffects;
 
-    private Stack<Effect> toDisplay = new Stack<Effect>();
+    private Queue<Effect> toDisplay = new Queue<Effect>();
 
     private AudioSource refAudioSource;
     private Character owner;
@@ -33,11 +34,12 @@ public class EffectUI : MonoBehaviour
     private void Update()
     {
         healthBar.value = (float)owner.healthCurrent / (float)owner.healthMax;
+        healthNumber.text = owner.healthCurrent.ToString();
     }
 
     public void AddEffect(Effect effect)
     {
-        toDisplay.Push(effect);
+        toDisplay.Enqueue(effect);
     }
 
     private IEnumerator IterateThroughEffects()
@@ -47,7 +49,7 @@ public class EffectUI : MonoBehaviour
             // keep checking if there are any effects to display, and then call them to be displayed
             while (toDisplay.Count > 0)
             {
-                DisplayEffect(toDisplay.Pop());
+                DisplayEffect(toDisplay.Dequeue());
 
                 // wait in between effects so they don't overlap
                 yield return new WaitForSeconds(timeBetweenEffects);

@@ -18,12 +18,6 @@ MonoBehaviour:
   range: 0
   effects:
   - id: 0
-    value: 3
-    probability: 1
-  - id: 2
-    value: 0
-    probability: 1
-  - id: 1
     value: 4
     probability: 1
   path:

@@ -6,7 +6,7 @@ using System.Reflection;
 public class PlayerBase : Character
 {
     private bool idle = true;
-    private Vector3 defaultPosition;
+    private GridSpace originalGridSpace;
 
     public Moveset moveset;
 
@@ -43,7 +43,7 @@ public class PlayerBase : Character
     public void StartTurn(CombatGrid grid)
     {
         idle = false;
-        defaultPosition = transform.position;
+        originalGridSpace = myGridSpace;
 
         // reset movement spaces
         movementSpaces.Clear();
@@ -98,6 +98,11 @@ public class PlayerBase : Character
 
     public void EndTurn()
     {
+        // update combat grid with new position
+        originalGridSpace.character = null;
+        myGridSpace.character = this;
+        originalGridSpace = myGridSpace;
+
         selected = false;
         idle = true;
     }
@@ -109,7 +114,7 @@ public class PlayerBase : Character
 
     public void ResetToDefaultPosition(GridSpace toReturnTo)
     {
-        transform.position = defaultPosition;
+        transform.position = originalGridSpace.obj.transform.position;
         myGridSpace = toReturnTo;
     }
 }

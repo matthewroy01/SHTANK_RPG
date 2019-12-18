@@ -17,7 +17,7 @@ MonoBehaviour:
   ranged: 1
   range: 3
   effects:
-  - id: 0
+  - id: 1
     value: 4
     probability: 1
   radius: 1

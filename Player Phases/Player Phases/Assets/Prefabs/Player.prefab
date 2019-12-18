@@ -115,7 +115,7 @@ MonoBehaviour:
   nashbalm: 5
   movementRange: 5
   terrainTypes: 00000000
-  moveset: {fileID: 11400000, guid: f0328221d2472504a8133a99691554a0, type: 2}
+  moveset: {fileID: 11400000, guid: c6035e40d07598c4e9d8a5ca38a62382, type: 2}
 --- !u!114 &5010701613619982777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,6 +148,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 3118791026654829751}
+  healthNumber: {fileID: 144960698867353427}
   damage:
     ui: {fileID: 2023310786714580020}
     color: {r: 1, g: 0, b: 0, a: 1}
@@ -479,5 +480,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &144960698867353427 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8384422271146281317, guid: f5bb6aad34934424597bcc860644c612,
+    type: 3}
+  m_PrefabInstance: {fileID: 8527692745696726582}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
