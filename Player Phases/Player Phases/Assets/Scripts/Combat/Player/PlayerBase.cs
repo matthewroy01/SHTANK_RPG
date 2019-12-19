@@ -87,7 +87,7 @@ public class PlayerBase : Character
         }
     }
 
-    private void MoveToGridSpace(GridSpace toMoveTo)
+    public void MoveToGridSpace(GridSpace toMoveTo)
     {
         if (toMoveTo != null)
         {

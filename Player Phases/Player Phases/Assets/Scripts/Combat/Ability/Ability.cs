@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Ability : ScriptableObject
 {
-    [Header("Move the character along the path? Otherwise, the attack is ranged")]
+    [Header("Move the character along the path?")]
     public bool moveCharacter;
     [Header("Whether or not the ability should stop at walls")]
     public bool ignoreWalls;

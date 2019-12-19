@@ -7,7 +7,10 @@ public class AbilityProcessor : MonoBehaviour
 
     private List<GridSpace> gridSpaces = new List<GridSpace>();
     private List<GridSpace> startingSpaces = new List<GridSpace>();
+    private GridSpace endingSpace;
+
     private Ability savedAbility;
+    private PlayerBase savedPlayer;
 
     void Start()
     {
@@ -40,6 +43,7 @@ public class AbilityProcessor : MonoBehaviour
             startingSpace = player.myGridSpace;
         }
 
+        // save the supplied ability
         switch (abilNum)
         {
             case 1:
@@ -64,6 +68,9 @@ public class AbilityProcessor : MonoBehaviour
             }
         }
 
+        // save the supplied player
+        savedPlayer = player;
+
         if (savedAbility != null)
         {
             string abilType = savedAbility.GetType().Name;
@@ -74,6 +81,11 @@ public class AbilityProcessor : MonoBehaviour
             // make sure the specified starting grid space is a valid starting space contained within startingSpaces
             if (startingSpaces.Contains(startingSpace))
             {
+                if (!savedAbility.moveCharacter)
+                {
+                    endingSpace = player.myGridSpace;
+                }
+
                 // process ability
                 if (abilType == "PathAbility")
                 {
@@ -119,6 +131,7 @@ public class AbilityProcessor : MonoBehaviour
         gridSpaces.Clear();
         startingSpaces.Clear();
         savedAbility = null;
+        savedPlayer = null;
     }
 
     public bool ApplyAbilityCheck()
@@ -136,6 +149,9 @@ public class AbilityProcessor : MonoBehaviour
 
         string abilType = savedAbility.GetType().Name;
         Debug.Log(abilType + " applied.");
+
+        // move the player to the saved ending space
+        savedPlayer.MoveToGridSpace(endingSpace);
 
         // and apply their saved effects
         refCombatGrid.CleanGrid();
@@ -255,8 +271,6 @@ public class AbilityProcessor : MonoBehaviour
 
     private void SavePathSegment(PathAbility abil, ref GridSpace currentGridSpace, string direction, int i)
     {
-        GridSpace toMoveTo = currentGridSpace;
-
         // for the amount of spaces specified for this part of the path, save each grid space
         for (int j = 0; j < abil.path[i].amount; ++j)
         {
@@ -269,13 +283,23 @@ public class AbilityProcessor : MonoBehaviour
 
             // update the current grid space to continue along the path
             currentGridSpace = (GridSpace)currentGridSpace.GetType().GetField(direction).GetValue(currentGridSpace);
-            toMoveTo = currentGridSpace;
+
+            // update the ending space if the character should move
+            if (savedAbility.moveCharacter)
+            {
+                endingSpace = currentGridSpace;
+            }
         }
     }
 
     private void ProcessCircleAbility(CircleAbility abil, GridSpace startingGridSpace)
     {
-        gridSpaces.AddRange(refCombatGrid.GetBreadthFirst(startingGridSpace, abil.radius, TerrainTypePresets.all));
+        gridSpaces.AddRange(refCombatGrid.GetBreadthFirst(startingGridSpace, abil.radius, savedPlayer.terrainTypes));
+
+        if (abil.moveCharacter)
+        {
+            endingSpace = startingGridSpace;
+        }
     }
 
     private void ProcessConeAbility(ConeAbility abil, GridSpace startingGridSpace, CombatDirection direction)
@@ -322,7 +346,11 @@ public class AbilityProcessor : MonoBehaviour
         {
             // for this loop, we move along a straight line and spread out in both directions
             // here, save the center grid space (the one along the straight line)
-            TryAddGridSpace(currentGridSpace);
+            if (TryAddGridSpace(currentGridSpace) && savedAbility.moveCharacter)
+            {
+                // if the space was added properly and the ability should move the character, update the ending space
+                endingSpace = currentGridSpace;
+            }
 
             if (currentGridSpace != null)
             {
@@ -374,7 +402,7 @@ public class AbilityProcessor : MonoBehaviour
     private bool TryAddGridSpace(GridSpace target)
     {
         // if the grid space exists...
-        if (target != null)
+        if (target != null && savedPlayer.terrainTypes.Contains(target.GetTerrainType()))
         {
             // save it to our list
             gridSpaces.Add(target);
@@ -388,5 +416,27 @@ public class AbilityProcessor : MonoBehaviour
     public Ability GetAbility()
     {
         return savedAbility;
+    }
+
+    private List<GridSpace_TerrainType> GetValidTerrainTypes()
+    {
+        if (savedAbility != null && savedPlayer != null)
+        {
+            List<GridSpace_TerrainType> validTerrainTypes = new List<GridSpace_TerrainType>(savedPlayer.terrainTypes);
+
+            if (savedAbility.moveCharacter)
+            {
+                validTerrainTypes = new List<GridSpace_TerrainType>(TerrainTypePresets.onlyStandard);
+            }
+            else if (savedAbility.ignoreWalls)
+            {
+                validTerrainTypes.Add(GridSpace_TerrainType.wall);
+                validTerrainTypes.Add(GridSpace_TerrainType.wall_artificial);
+            }
+
+            return validTerrainTypes;
+        }
+
+        return null;
     }
 }

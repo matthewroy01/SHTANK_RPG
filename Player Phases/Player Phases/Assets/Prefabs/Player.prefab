@@ -115,7 +115,7 @@ MonoBehaviour:
   nashbalm: 5
   movementRange: 5
   terrainTypes: 00000000
-  moveset: {fileID: 11400000, guid: c6035e40d07598c4e9d8a5ca38a62382, type: 2}
+  moveset: {fileID: 11400000, guid: f0328221d2472504a8133a99691554a0, type: 2}
 --- !u!114 &5010701613619982777
 MonoBehaviour:
   m_ObjectHideFlags: 0

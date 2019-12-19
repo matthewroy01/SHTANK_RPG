@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc9cfe8475e9cf148b3715d8f0b1fd3e, type: 3}
   m_Name: New Cone Ability
   m_EditorClassIdentifier: 
-  moveCharacter: 0
+  moveCharacter: 1
   ignoreWalls: 0
   ranged: 0
+  range: 0
   effects:
   - id: 0
     value: 1
