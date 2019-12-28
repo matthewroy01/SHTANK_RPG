@@ -76,7 +76,7 @@ public class AbilityProcessor : MonoBehaviour
             string abilType = savedAbility.GetType().Name;
 
             // get possible starting grid spaces
-            startingSpaces.AddRange(refCombatGrid.GetBreadthFirst(player.myGridSpace, savedAbility.range, TerrainTypePresets.onlyStandard));
+            startingSpaces.AddRange(refCombatGrid.GetBreadthFirst(player.myGridSpace, savedAbility.range, TerrainTypePresets.onlyStandard, true));
 
             // make sure the specified starting grid space is a valid starting space contained within startingSpaces
             if (startingSpaces.Contains(startingSpace))
@@ -287,14 +287,14 @@ public class AbilityProcessor : MonoBehaviour
             // update the ending space if the character should move
             if (savedAbility.moveCharacter)
             {
-                endingSpace = currentGridSpace;
+                endingSpace = GetValidEndingSpace(gridSpaces);
             }
         }
     }
 
     private void ProcessCircleAbility(CircleAbility abil, GridSpace startingGridSpace)
     {
-        gridSpaces.AddRange(refCombatGrid.GetBreadthFirst(startingGridSpace, abil.radius, savedPlayer.terrainTypes));
+        gridSpaces.AddRange(refCombatGrid.GetBreadthFirst(startingGridSpace, abil.radius, savedPlayer.terrainTypes, true));
 
         if (abil.moveCharacter)
         {
@@ -438,5 +438,18 @@ public class AbilityProcessor : MonoBehaviour
         }
 
         return null;
+    }
+
+    private GridSpace GetValidEndingSpace(List<GridSpace> spaces)
+    {
+        for (int i = spaces.Count - 1; i >= 0; --i)
+        {
+            if (spaces[i].character == null)
+            {
+                return spaces[i];
+            }
+        }
+
+        return spaces[spaces.Count - 1];
     }
 }

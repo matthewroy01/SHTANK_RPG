@@ -45,9 +45,7 @@ public class PlayerBase : Character
         idle = false;
         originalGridSpace = myGridSpace;
 
-        // reset movement spaces
-        movementSpaces.Clear();
-        movementSpaces = grid.GetBreadthFirst(myGridSpace, movementRange, terrainTypes);
+        FindMovementSpaces(grid);
     }
 
     public bool TryMove(CombatDirection dir, CombatGrid grid)
@@ -67,14 +65,24 @@ public class PlayerBase : Character
         return result;
     }
 
-    public void Selected()
+    public void Selected(CombatGrid grid)
     {
         selected = true;
+
+        // refind the potential movement spaces in case another character has moved since the turn began
+        FindMovementSpaces(grid);
 
         if (refMovementDialogueProcessor != null)
         {
             refMovementDialogueProcessor.Display();
         }
+    }
+
+    public void FindMovementSpaces(CombatGrid grid)
+    {
+        // reset movement spaces
+        movementSpaces.Clear();
+        movementSpaces = grid.GetBreadthFirst(myGridSpace, movementRange, terrainTypes, true);
     }
 
     public void Deselected()

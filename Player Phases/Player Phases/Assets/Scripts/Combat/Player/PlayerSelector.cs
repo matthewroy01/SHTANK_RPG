@@ -61,6 +61,21 @@ public class PlayerSelector : MonoBehaviour
             CancelOrSave();
             DoMoves();
         }
+
+        for (int i = 0; i < refCombatGrid.grid.GetLength(0); ++i)
+        {
+            for (int j = 0; j < refCombatGrid.grid.GetLength(1); ++j)
+            {
+                if (refCombatGrid.grid[i, j].character != null)
+                {
+                    refCombatGrid.grid[i, j].obj.transform.localScale = new Vector3(1.0f, 1.0f, 0.1f);
+                }
+                else
+                {
+                    refCombatGrid.grid[i, j].obj.transform.localScale = new Vector3(0.75f, 0.75f, 0.1f);
+                }
+            }
+        }
     }
 
     private void Select()
@@ -83,7 +98,7 @@ public class PlayerSelector : MonoBehaviour
                     if (currentPlayer != null)
                     {
                         // let the player know they've been selected for things like VFX
-                        currentPlayer.Selected();
+                        currentPlayer.Selected(refCombatGrid);
                     }
 
                     if (currentPlayer.GetIdle() == true)

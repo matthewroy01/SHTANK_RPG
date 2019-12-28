@@ -227,7 +227,7 @@ public class CombatGrid : MonoBehaviour
         return null;
     }
 
-    public List<GridSpace> GetBreadthFirst(GridSpace center, uint radius, List<GridSpace_TerrainType> terrainTypes)
+    public List<GridSpace> GetBreadthFirst(GridSpace center, uint radius, List<GridSpace_TerrainType> terrainTypes, bool skipCharacters)
     {
         List<GridSpace> result = new List<GridSpace>();
         result.Add(center);
@@ -244,10 +244,10 @@ public class CombatGrid : MonoBehaviour
             // loop through the currently saved "sweep" of Grid Spaces
             for (int j = 0; j < currentSweep.Count; ++j)
             {
-                BreadthFirstAddToLists(currentSweep[j].up, result, nextSweep, terrainTypes);
-                BreadthFirstAddToLists(currentSweep[j].down, result, nextSweep, terrainTypes);
-                BreadthFirstAddToLists(currentSweep[j].left, result, nextSweep, terrainTypes);
-                BreadthFirstAddToLists(currentSweep[j].right, result, nextSweep, terrainTypes);
+                BreadthFirstAddToLists(currentSweep[j].up, result, nextSweep, terrainTypes, skipCharacters);
+                BreadthFirstAddToLists(currentSweep[j].down, result, nextSweep, terrainTypes, skipCharacters);
+                BreadthFirstAddToLists(currentSweep[j].left, result, nextSweep, terrainTypes, skipCharacters);
+                BreadthFirstAddToLists(currentSweep[j].right, result, nextSweep, terrainTypes, skipCharacters);
             }
 
             // reset the current sweep and reassign its conets to that of the next sweep
@@ -259,12 +259,18 @@ public class CombatGrid : MonoBehaviour
         return result;
     }
 
-    private void BreadthFirstAddToLists(GridSpace space, List<GridSpace> result, List<GridSpace> nextSweep, List<GridSpace_TerrainType> terrainTypes)
+    private void BreadthFirstAddToLists(GridSpace space, List<GridSpace> result, List<GridSpace> nextSweep, List<GridSpace_TerrainType> terrainTypes, bool skipCharacters)
     {
         if (space != null && !result.Contains(space))
         {
             if (terrainTypes.Contains(space.GetTerrainType()))
             {
+                if (skipCharacters && space.character != null)
+                {
+                    Debug.Log("Terrain had character " + space.character.name + " and was ignored.");
+                    return;
+                }
+
                 result.Add(space);
                 nextSweep.Add(space);
             }

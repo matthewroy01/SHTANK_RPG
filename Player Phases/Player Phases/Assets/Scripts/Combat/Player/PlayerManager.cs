@@ -38,7 +38,7 @@ public class PlayerManager : MonoBehaviour
 
     public void SpawnPlayers()
     {
-        for (int i = 0; i < 3; ++i)
+        for (int i = 0; i < 2; ++i)
         {
             // spawn players and add them to the list
             PlayerBase tmp = Instantiate(playerPrefab, transform).GetComponent<PlayerBase>();
