@@ -7,6 +7,7 @@ public class Character : MonoBehaviour
     // stats
     /* ----------------------------------------------------------*/
 
+    [Header("Stats")]
     public int healthMax;
     [HideInInspector]
     public int healthCurrent;
@@ -25,8 +26,12 @@ public class Character : MonoBehaviour
 
     /* ----------------------------------------------------------*/
 
-    public List<GridSpace> movementSpaces = new List<GridSpace>();
+    [Header("Affiliation")]
+    public Character_Affiliation affiliation;
+
+    [Header("Navigable Terrain")]
     public List<GridSpace_TerrainType> terrainTypes = new List<GridSpace_TerrainType>();
+    public List<GridSpace> movementSpaces = new List<GridSpace>();
 
     public GridSpace myGridSpace;
 

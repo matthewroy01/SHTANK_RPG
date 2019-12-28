@@ -396,6 +396,8 @@ public enum GridSpace_TerrainType { standard, wall, wall_artificial, water };
 
 public enum Effect_ID { damage, healing, paralysis, poison, burn };
 
+public enum Character_Affiliation { player, enemy, ally};
+
 static public class TerrainTypePresets
 {
     public static List<GridSpace_TerrainType> onlyStandard = new List<GridSpace_TerrainType>() { GridSpace_TerrainType.standard };

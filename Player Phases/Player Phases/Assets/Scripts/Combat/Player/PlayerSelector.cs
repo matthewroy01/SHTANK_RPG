@@ -182,11 +182,11 @@ public class PlayerSelector : MonoBehaviour
                 // if there is a valid ability to apply
                 if (refAbilityProcessor.ApplyAbilityCheck())
                 {
-                    // end the selected player's turn
-                    EndTurn();
-
                     // apply the currently saved ability
                     refAbilityProcessor.ApplyAbility();
+
+                    // end the selected player's turn
+                    EndTurn();
 
                     // reset our previously inputted ability
                     inputtedAbility = false;

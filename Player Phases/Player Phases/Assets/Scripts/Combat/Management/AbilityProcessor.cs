@@ -294,7 +294,7 @@ public class AbilityProcessor : MonoBehaviour
 
     private void ProcessCircleAbility(CircleAbility abil, GridSpace startingGridSpace)
     {
-        gridSpaces.AddRange(refCombatGrid.GetBreadthFirst(startingGridSpace, abil.radius, savedPlayer.terrainTypes, true));
+        gridSpaces.AddRange(refCombatGrid.GetBreadthFirst(startingGridSpace, abil.radius, savedPlayer.terrainTypes, false));
 
         if (abil.moveCharacter)
         {
@@ -340,6 +340,7 @@ public class AbilityProcessor : MonoBehaviour
     private void SaveCone(ConeAbility abil, GridSpace startingGridSpace, string forwards, string sideways, string sidewaysOpposite, string backwards)
     {
         GridSpace currentGridSpace = startingGridSpace;
+        List<GridSpace> centerLine = new List<GridSpace>();
 
         // loop through the length of this ability
         for (int i = 0; i < abil.length; ++i)
@@ -348,8 +349,11 @@ public class AbilityProcessor : MonoBehaviour
             // here, save the center grid space (the one along the straight line)
             if (TryAddGridSpace(currentGridSpace) && savedAbility.moveCharacter)
             {
+                // keep track of the center line to create a consistent result for needing to move out of the way of another character following a cone ability
+                centerLine.Add(currentGridSpace);
+
                 // if the space was added properly and the ability should move the character, update the ending space
-                endingSpace = currentGridSpace;
+                endingSpace = GetValidEndingSpace(centerLine);
             }
 
             if (currentGridSpace != null)
