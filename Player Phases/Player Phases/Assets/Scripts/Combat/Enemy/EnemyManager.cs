@@ -39,6 +39,7 @@ public class EnemyManager : MonoBehaviour
             enemies.Add(tmp);
             tmp.transform.position = refCombatGrid.grid[refCombatGrid.gridWidth - i - 1, refCombatGrid.gridHeight - 1].obj.transform.position;
             refCombatGrid.grid[refCombatGrid.gridWidth - i - 1, refCombatGrid.gridHeight - 1].character = tmp;
+            tmp.myGridSpace = refCombatGrid.grid[refCombatGrid.gridWidth - i - 1, refCombatGrid.gridHeight - 1];
 
             int rand = Random.Range(0, names.Count);
             tmp.name = names[rand];

@@ -42,7 +42,7 @@ public class CombatGrid : MonoBehaviour
                 }
 
                 // create new Grid Space with associated Game Object and terrain type from scan
-                grid[x, y] = new GridSpace(Instantiate(gridSpacePrefab, new Vector3(x, y, 0.0f), Quaternion.identity, transform), terrainType);
+                grid[x, y] = new GridSpace(Instantiate(gridSpacePrefab, new Vector3(x, y, 0.0f), Quaternion.identity, transform), terrainType, new Vector2Int(x, y));
             }
         }
 
@@ -281,6 +281,124 @@ public class CombatGrid : MonoBehaviour
         }
     }
 
+    public List<GridSpace> GetAStar(CombatGrid refCombatGrid, GridSpace start, GridSpace target)
+    {
+        AStarInitializeCosts(refCombatGrid.grid, start, target);
+
+        // store all nodes where F cost has been calculated
+        List<GridSpace> open = new List<GridSpace>();
+        // store all nodes that have been evaluated
+        List<GridSpace> closed = new List<GridSpace>();
+        // nodes to return once the path is found
+        List<GridSpace> result = new List<GridSpace>();
+
+        GridSpace current = null;
+
+        open.Add(start);
+
+        while (open.Count > 0)
+        {
+            // set current to the node with the lowest f cost
+            current = AStarGetLowestFCost(open);
+
+            // remove current from the open list
+            open.Remove(current);
+
+            // add current to the closed list
+            closed.Add(current);
+
+            // if current is equal to the target, we have reached our destination
+            if (current == target)
+            {
+                // add the target to fully complete the path
+                result.Add(target);
+
+                // loop back through the pathing connections until we reach the start again to find our path
+                while (current != start)
+                {
+                    result.Add(current.pathingConnection);
+                    current = current.pathingConnection;
+                }
+
+                result.Reverse();
+                return result;
+            }
+
+            // check all neighbors
+            AStarCheckNeighborNode(open, closed, current, current.up);
+            AStarCheckNeighborNode(open, closed, current, current.down);
+            AStarCheckNeighborNode(open, closed, current, current.left);
+            AStarCheckNeighborNode(open, closed, current, current.right);
+        }
+
+        Debug.LogError("CombatGrid, GetAStar, current node never reached the target, returning empty path.");
+        return result;
+    }
+
+    private void AStarCheckNeighborNode(List<GridSpace> open, List<GridSpace> closed, GridSpace current, GridSpace neighbor)
+    {
+        // check if the neighbor is null for safety (we don't want to check a space that is off of the grid)
+        if (neighbor != null)
+        {
+            // skip the node if it is closed or it is not traversable
+            if (!TerrainTypePresets.onlyStandard.Contains(neighbor.GetTerrainType()) || closed.Contains(neighbor))
+            {
+                return;
+            }
+
+            // check if the path to the neighbor is shorter or that the neighbor is not in the open list
+            if (neighbor.costF < current.costF || !open.Contains(neighbor))
+            {
+                // set connection for finding the completed path later
+                neighbor.pathingConnection = current;
+
+                // if the neighbor isn't already in the open list, add it
+                if (!open.Contains(neighbor))
+                {
+                    open.Add(neighbor);
+                }
+            }
+        }
+    }
+
+    private void AStarInitializeCosts(GridSpace[,] grid, GridSpace start, GridSpace target)
+    {
+        for (int i = 0; i < grid.GetLength(0); ++i)
+        {
+            for (int j = 0; j < grid.GetLength(1); ++j)
+            {
+                // calculate each grid space's costs given the start and target nodes
+                grid[i, j].costG = Vector3.Distance(start.obj.transform.position, grid[i, j].obj.transform.position);//Mathf.Abs(start.coordinate.x - grid[i, j].coordinate.x) + Mathf.Abs(start.coordinate.y - grid[i, j].coordinate.y);
+                grid[i, j].costH = Vector3.Distance(target.obj.transform.position, grid[i, j].obj.transform.position);//Mathf.Abs(target.coordinate.x - grid[i, j].coordinate.x) + Mathf.Abs(target.coordinate.y - grid[i, j].coordinate.y);
+                grid[i, j].costF = grid[i, j].costG + grid[i, j].costH;
+            }
+        }
+
+        return;
+    }
+
+    private GridSpace AStarGetLowestFCost(List<GridSpace> list)
+    {
+        // find the grid space with the lowest f cost in the given list and return it
+        if (list.Count > 0)
+        {
+            GridSpace lowest = list[0];
+
+            for (int i = 0; i < list.Count; ++i)
+            {
+                if (list[i].costF < lowest.costF)
+                {
+                    lowest = list[i];
+                }
+            }
+
+            return lowest;
+        }
+
+        Debug.LogError("CombatGrid, AStarGetLowestFCost, given list had Count of 0, returning null.");
+        return null;
+    }
+
     private GridSpace_TerrainType GetTerrainTypeFromTag(string tag)
     {
         switch (tag)
@@ -305,6 +423,9 @@ public class GridSpace
     // the character: player, enemy, or otherwise currently on this GridSpace
     public Character character;
 
+    // coordinate identifier, set on grid creation
+    public Vector2Int coordinate;
+
     // queue of effects that should be applied to currChar, if it is not null
     public Queue<Effect> effects = new Queue<Effect>();
 
@@ -313,13 +434,16 @@ public class GridSpace
     private GridSpace_TerrainType originalTerrainType;
 
     // constructor with in-world associated GameObject and original terrain type
-    public GridSpace(GameObject gameobject, GridSpace_TerrainType terrainType)
+    public GridSpace(GameObject gameobject, GridSpace_TerrainType terrainType, Vector2Int coord)
     {
         obj = gameobject;
 
         // set up terrain types
         originalTerrainType = terrainType;
         currentTerrainType = terrainType;
+
+        // save coordinate position as a unique identifier for this grid space
+        coordinate = coord;
     }
 
     // connections for ease of access
@@ -327,6 +451,17 @@ public class GridSpace
     public GridSpace down;
     public GridSpace left;
     public GridSpace right;
+
+    // weight between grid spaces
+    private const int weight = 1;
+
+    // A* costs
+    public float costG; // distance between this node and the starting node
+    public float costH; // distance between this node and the ending node
+    public float costF; // g cost + h cost
+
+    // A* connection
+    public GridSpace pathingConnection;
 
     public int Apply()
     {
@@ -365,6 +500,11 @@ public class GridSpace
     public GridSpace_TerrainType GetTerrainType()
     {
         return currentTerrainType;
+    }
+
+    public int GetWeight()
+    {
+        return weight;
     }
 }
 
