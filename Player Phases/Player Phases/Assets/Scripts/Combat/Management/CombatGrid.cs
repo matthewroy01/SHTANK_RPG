@@ -325,17 +325,17 @@ public class CombatGrid : MonoBehaviour
             }
 
             // check all neighbors
-            AStarCheckNeighborNode(open, closed, current, current.up);
-            AStarCheckNeighborNode(open, closed, current, current.down);
-            AStarCheckNeighborNode(open, closed, current, current.left);
-            AStarCheckNeighborNode(open, closed, current, current.right);
+            AStarCheckNeighborNode(open, closed, current, target, current.up);
+            AStarCheckNeighborNode(open, closed, current, target, current.down);
+            AStarCheckNeighborNode(open, closed, current, target, current.left);
+            AStarCheckNeighborNode(open, closed, current, target, current.right);
         }
 
         Debug.LogError("CombatGrid, GetAStar, current node never reached the target, returning empty path.");
         return result;
     }
 
-    private void AStarCheckNeighborNode(List<GridSpace> open, List<GridSpace> closed, GridSpace current, GridSpace neighbor)
+    private void AStarCheckNeighborNode(List<GridSpace> open, List<GridSpace> closed, GridSpace current, GridSpace target, GridSpace neighbor)
     {
         // check if the neighbor is null for safety (we don't want to check a space that is off of the grid)
         if (neighbor != null)
@@ -346,9 +346,16 @@ public class CombatGrid : MonoBehaviour
                 return;
             }
 
+            float currentCostGWithWeight = current.costG + current.GetWeight();
+
             // check if the path to the neighbor is shorter or that the neighbor is not in the open list
-            if (neighbor.costF < current.costF || !open.Contains(neighbor))
+            if (currentCostGWithWeight < neighbor.costG || !open.Contains(neighbor))
             {
+                // update neighbor costs
+                neighbor.costG = currentCostGWithWeight;
+                neighbor.costH = Vector3.Distance(neighbor.obj.transform.position, target.obj.transform.position);
+                neighbor.costF = neighbor.costG + neighbor.costH;
+
                 // set connection for finding the completed path later
                 neighbor.pathingConnection = current;
 

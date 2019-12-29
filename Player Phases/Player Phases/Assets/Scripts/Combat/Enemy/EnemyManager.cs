@@ -28,6 +28,7 @@ public class EnemyManager : MonoBehaviour
         names.Add("Crazy Eyes");
         names.Add("A-Nihilate");
         names.Add("D-Struction");
+        names.Add("Peter Plum");
     }
 
     public void SpawnEnemies()
