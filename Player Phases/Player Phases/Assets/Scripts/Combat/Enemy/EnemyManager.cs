@@ -5,9 +5,10 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     private PhaseManager refPhaseManager;
+    private PlayerManager refPlayerManager;
 
     public GameObject enemyPrefab;
-    public List<ExampleEnemy> enemies = new List<ExampleEnemy>();
+    public List<EnemyBase> enemies = new List<EnemyBase>();
 
     private CombatGrid refCombatGrid;
 
@@ -16,6 +17,7 @@ public class EnemyManager : MonoBehaviour
     private void Start()
     {
         refPhaseManager = FindObjectOfType<PhaseManager>();
+        refPlayerManager = FindObjectOfType<PlayerManager>();
 
         refCombatGrid = FindObjectOfType<CombatGrid>();
 
@@ -33,10 +35,10 @@ public class EnemyManager : MonoBehaviour
 
     public void SpawnEnemies()
     {
-        for (int i = 0; i < 1; ++i)
+        for (int i = 0; i < 2; ++i)
         {
             // spawn enemies and add them to the list
-            ExampleEnemy tmp = Instantiate(enemyPrefab, transform).GetComponent<ExampleEnemy>();
+            EnemyBase tmp = Instantiate(enemyPrefab, transform).GetComponent<EnemyBase>();
             enemies.Add(tmp);
             tmp.transform.position = refCombatGrid.grid[refCombatGrid.gridWidth - i - 1, refCombatGrid.gridHeight - 1].obj.transform.position;
             refCombatGrid.grid[refCombatGrid.gridWidth - i - 1, refCombatGrid.gridHeight - 1].character = tmp;
@@ -45,11 +47,21 @@ public class EnemyManager : MonoBehaviour
             int rand = Random.Range(0, names.Count);
             tmp.name = names[rand];
             names.RemoveAt(rand);
+
+            for (int j = 0; j < refPlayerManager.players.Count; ++j)
+            {
+                tmp.aggroData.Add(new AggroData(refPlayerManager.players[j], 0));
+            }
         }
     }
 
     public void EnemyActions()
     {
+        for (int i = 0; i < enemies.Count; ++i)
+        {
+            enemies[i].StartTurn();
+        }
+
         // enable enemy actions
         StartCoroutine(EnemyActionsCoroutine());
     }
@@ -60,6 +72,11 @@ public class EnemyManager : MonoBehaviour
         for (int i = 0; i < enemies.Count; ++i)
         {
             enemies[i].DoAI();
+
+            while (!enemies[i].GetIdle())
+            {
+                yield return new WaitForEndOfFrame();
+            }
 
             yield return new WaitForSeconds(0.5f);
         }

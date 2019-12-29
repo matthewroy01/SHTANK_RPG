@@ -44,7 +44,7 @@ public class Character : MonoBehaviour
             refCharacterEffectUI = GetComponent<EffectUI>();
         }
 
-        switch(effect.id)
+        switch (effect.id)
         {
             case Effect_ID.damage:
             {
