@@ -104,6 +104,28 @@ public class EnemyBase : Character
         return weakest[Random.Range(0, weakest.Count)].character.myGridSpace;
     }
 
+    public void ApplyAggro(Character source, int amount)
+    {
+        for (int i = 0; i < aggroData.Count; ++i)
+        {
+            if (aggroData[i].character == source)
+            {
+                if (aggroData[i].aggro + amount > 10)
+                {
+                    aggroData[i].aggro = 10;
+                }
+                else if (aggroData[i].aggro + amount < 0)
+                {
+                    aggroData[i].aggro = 0;
+                }
+                else
+                {
+                    aggroData[i].aggro += amount;
+                }
+            }
+        }
+    }
+
     IEnumerator MoveAlongPath(List<GridSpace> path)
     {
         if (path.Count > 0)
@@ -149,8 +171,13 @@ public class EnemyBase : Character
     {
         if (basicAttack != null)
         {
+            // apply source to basic attack for things like aggro and friendly fire
+            basicAttack.ApplySource(this);
+
+            // make the grid space dirty
             refCombatGrid.MakeDirty(aggroTarget, basicAttack);
 
+            // clean the grid to actually perform the attack
             refCombatGrid.CleanGrid();
         }
     }
@@ -161,6 +188,7 @@ public class EnemyBase : Character
     }
 }
 
+[System.Serializable]
 public class AggroData
 {
     public Character character;

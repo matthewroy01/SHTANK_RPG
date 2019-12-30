@@ -13,6 +13,14 @@ public class Ability : ScriptableObject
     public uint range;
     [Header("Effects to apply when striking another character")]
     public List<Effect> effects = new List<Effect>();
+
+    public void ApplySource(Character newSource)
+    {
+        for (int i = 0; i < effects.Count; ++i)
+        {
+            effects[i].source = newSource;
+        }
+    }
 }
 
 public enum AbilityDirection { forwards, sideways, sidewaysOpposite, backwards };

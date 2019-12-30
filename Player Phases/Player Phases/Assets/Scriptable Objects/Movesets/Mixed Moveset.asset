@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Moveset
   ability1: {fileID: 11400000, guid: 01ea6e23f09d5a644a64b6aaabb70ee7, type: 2}
   ability2: {fileID: 11400000, guid: 39fc5c12d59c5e04b95a1d1d9c2fa8b9, type: 2}
-  ability3: {fileID: 11400000, guid: d2b7effed07659241b3a5a44d38c7392, type: 2}
-  ability4: {fileID: 0}
+  ability3: {fileID: 11400000, guid: ec7e1f0e16bd3ee419024a9ac4080ea0, type: 2}
+  ability4: {fileID: 11400000, guid: 179fb2d3363ba564991932aea66923d4, type: 2}

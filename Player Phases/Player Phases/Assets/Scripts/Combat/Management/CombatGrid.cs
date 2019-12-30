@@ -532,6 +532,9 @@ public class Effect
     [Range(0.0f, 1.0f)]
     public float probability = 1.0f;
 
+    [HideInInspector]
+    public Character source;
+
     // constructor for other classes to construct their own attack effects
     Effect(Effect_ID effect_id, int val, float prob)
     {
@@ -545,7 +548,7 @@ public class Effect
 
 public enum GridSpace_TerrainType { standard, wall, wall_artificial, water };
 
-public enum Effect_ID { damage, healing, paralysis, poison, burn };
+public enum Effect_ID { damage, healing, aggro, paralysis, poison, burn };
 
 public enum Character_Affiliation { player, enemy, ally};
 

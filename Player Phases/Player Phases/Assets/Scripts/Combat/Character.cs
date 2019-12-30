@@ -48,7 +48,7 @@ public class Character : MonoBehaviour
         {
             case Effect_ID.damage:
             {
-                if (Random.Range(0.0f, 1.0f) <= effect.probability)
+                if (Random.Range(0.0f, 1.0f) <= effect.probability && effect.source != this)
                 {
                     Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
 
@@ -62,6 +62,11 @@ public class Character : MonoBehaviour
                     }
 
                     refCharacterEffectUI.AddEffect(effect);
+
+                    if (GetType().Name == "EnemyBase")
+                    {
+                        ((EnemyBase)this).ApplyAggro(effect.source, 1);
+                    }
                 }
                 break;
             }
@@ -84,9 +89,24 @@ public class Character : MonoBehaviour
                 }
                 break;
             }
-            case Effect_ID.paralysis:
+            case Effect_ID.aggro:
             {
                 if (Random.Range(0.0f, 1.0f) <= effect.probability)
+                {
+                    Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
+
+                    refCharacterEffectUI.AddEffect(effect);
+
+                    if (GetType().Name == "EnemyBase")
+                    {
+                        ((EnemyBase)this).ApplyAggro(effect.source, 1);
+                    }
+                }
+                break;
+            }
+            case Effect_ID.paralysis:
+            {
+                if (Random.Range(0.0f, 1.0f) <= effect.probability && effect.source != this)
                 {
                     Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
 
@@ -98,7 +118,7 @@ public class Character : MonoBehaviour
             }
             case Effect_ID.poison:
             {
-                if (Random.Range(0.0f, 1.0f) <= effect.probability)
+                if (Random.Range(0.0f, 1.0f) <= effect.probability && effect.source != this)
                 {
                     Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
 
@@ -108,7 +128,7 @@ public class Character : MonoBehaviour
             }
             case Effect_ID.burn:
             {
-                if (Random.Range(0.0f, 1.0f) <= effect.probability)
+                if (Random.Range(0.0f, 1.0f) <= effect.probability && effect.source != this)
                 {
                     Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
 
