@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveCharacter: 0
   ignoreWalls: 0
+  ranged: 0
+  range: 0
   effects: []
   bottomLeft: {x: 0, y: 0}
   topRight: {x: 0, y: 0}

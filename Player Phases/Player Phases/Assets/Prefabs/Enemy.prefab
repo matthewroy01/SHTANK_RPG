@@ -115,6 +115,7 @@ MonoBehaviour:
   movementRange: 5
   affiliation: 1
   terrainTypes: 
+  basicAttack: {fileID: 11400000, guid: ec7e1f0e16bd3ee419024a9ac4080ea0, type: 2}
 --- !u!114 &4287821525986303995
 MonoBehaviour:
   m_ObjectHideFlags: 0

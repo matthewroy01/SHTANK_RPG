@@ -9,10 +9,16 @@ public class EnemyBase : Character
     private CombatGrid refCombatGrid;
 
     public List<AggroData> aggroData = new List<AggroData>();
+    private GridSpace aggroTarget;
+
+    [Header("Basic melee attack for testing")]
+    public Ability basicAttack;
 
     private void Start()
     {
         refCombatGrid = FindObjectOfType<CombatGrid>();
+
+        healthCurrent = healthMax;
     }
 
     public void StartTurn()
@@ -22,9 +28,9 @@ public class EnemyBase : Character
 
     public void DoAI()
     {
-        GridSpace destination = ProcessAggro();
+        aggroTarget = ProcessAggro();
 
-        List<GridSpace> path = refCombatGrid.GetAStar(refCombatGrid, myGridSpace, destination);
+        List<GridSpace> path = refCombatGrid.GetAStar(refCombatGrid, myGridSpace, aggroTarget);
         StartCoroutine(MoveAlongPath(path));
     }
 
@@ -124,6 +130,12 @@ public class EnemyBase : Character
                 yield return new WaitForSeconds(0.1f);
             }
 
+            // if the current space along the path reached the end, attack!
+            if (currentAlongPath == path[path.Count - 1])
+            {
+                Attack();
+            }
+
             // properly reassign grid spaces
             myGridSpace.character = null;
             myGridSpace = currentAlongPath;
@@ -131,6 +143,16 @@ public class EnemyBase : Character
         }
 
         idle = true;
+    }
+
+    private void Attack()
+    {
+        if (basicAttack != null)
+        {
+            refCombatGrid.MakeDirty(aggroTarget, basicAttack);
+
+            refCombatGrid.CleanGrid();
+        }
     }
 
     public bool GetIdle()
