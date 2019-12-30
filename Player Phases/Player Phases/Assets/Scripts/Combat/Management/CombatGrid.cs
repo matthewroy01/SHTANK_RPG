@@ -310,9 +310,6 @@ public class CombatGrid : MonoBehaviour
             // if current is equal to the target, we have reached our destination
             if (current == target)
             {
-                // add the target to fully complete the path
-                result.Add(target);
-
                 // loop back through the pathing connections until we reach the start again to find our path
                 while (current != start)
                 {
@@ -404,6 +401,13 @@ public class CombatGrid : MonoBehaviour
 
         Debug.LogError("CombatGrid, AStarGetLowestFCost, given list had Count of 0, returning null.");
         return null;
+    }
+
+    public int GetDistance(GridSpace a, GridSpace b)
+    {
+        int distance = Mathf.Abs(a.coordinate.x - b.coordinate.x) + Mathf.Abs(a.coordinate.y - b.coordinate.y);
+        Debug.Log("Distance was " + distance + ".");
+        return distance;
     }
 
     private GridSpace_TerrainType GetTerrainTypeFromTag(string tag)

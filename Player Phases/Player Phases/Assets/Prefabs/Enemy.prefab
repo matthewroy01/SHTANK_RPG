@@ -112,7 +112,7 @@ MonoBehaviour:
   defenseMod: 0
   attackMod: 0
   nashbalm: 0
-  movementRange: 0
+  movementRange: 5
   affiliation: 1
   terrainTypes: 
 --- !u!114 &4287821525986303995

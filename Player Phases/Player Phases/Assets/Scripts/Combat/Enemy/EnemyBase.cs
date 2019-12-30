@@ -30,22 +30,39 @@ public class EnemyBase : Character
 
     private GridSpace ProcessAggro()
     {
+        List<AggroData> aggroCandidates = new List<AggroData>();
+
+        // valid aggro candidates are either in range or have built up some kind of aggro
+        for (int i = 0; i < aggroData.Count; ++i)
+        {
+            if (aggroData[i].aggro > 0 || refCombatGrid.GetDistance(myGridSpace, aggroData[i].character.myGridSpace) <= movementRange)
+            {
+                aggroCandidates.Add(aggroData[i]);
+            }
+        }
+
+        // if there are no valid aggro candidates, simply don't move
+        if (aggroCandidates.Count == 0)
+        {
+            return myGridSpace;
+        }
+
         List<AggroData> highestAggro = new List<AggroData>();
-        highestAggro.Add(aggroData[0]);
+        highestAggro.Add(aggroCandidates[0]);
 
         // find the aggro data with the highest aggro value
-        for(int i = 0; i < aggroData.Count; ++i)
+        for(int i = 0; i < aggroCandidates.Count; ++i)
         {
             // if a new highest aggro is found, clear the list and add the new character
-            if (aggroData[i].aggro > highestAggro[0].aggro)
+            if (aggroCandidates[i].aggro > highestAggro[0].aggro)
             {
                 highestAggro.Clear();
-                highestAggro.Add(aggroData[i]);
+                highestAggro.Add(aggroCandidates[i]);
             }
             // if the aggros are equal, add it to the list as well
-            else if (aggroData[i].aggro == highestAggro[0].aggro)
+            else if (aggroCandidates[i].aggro == highestAggro[0].aggro && !highestAggro.Contains(aggroCandidates[i]))
             {
-                highestAggro.Add(aggroData[i]);
+                highestAggro.Add(aggroCandidates[i]);
             }
         }
 
@@ -83,11 +100,34 @@ public class EnemyBase : Character
 
     IEnumerator MoveAlongPath(List<GridSpace> path)
     {
-        for (int i = 0; i < path.Count; ++i)
+        if (path.Count > 0)
         {
-            transform.position = path[i].obj.transform.position;
+            int movementCounter = 0;
+            GridSpace currentAlongPath = null;
 
-            yield return new WaitForSeconds(0.1f);
+            // move along the path
+            for (int i = 0; i < path.Count; ++i)
+            {
+                // only move along the path for the amount that the movement range stat allows
+                if (movementCounter >= movementRange)
+                {
+                    break;
+                }
+
+                // keep a current grid space updated so we can update the grid properly
+                currentAlongPath = path[i];
+                // update position for visuals
+                transform.position = currentAlongPath.obj.transform.position;
+
+                ++movementCounter;
+
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            // properly reassign grid spaces
+            myGridSpace.character = null;
+            myGridSpace = currentAlongPath;
+            myGridSpace.character = this;
         }
 
         idle = true;
