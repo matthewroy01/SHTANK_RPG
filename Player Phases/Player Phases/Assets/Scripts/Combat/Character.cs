@@ -99,7 +99,7 @@ public class Character : MonoBehaviour
 
                     if (GetType().Name == "EnemyBase")
                     {
-                        ((EnemyBase)this).ApplyAggro(effect.source, 1);
+                        ((EnemyBase)this).ApplyAggro(effect.source, effect.value);
                     }
                 }
                 break;

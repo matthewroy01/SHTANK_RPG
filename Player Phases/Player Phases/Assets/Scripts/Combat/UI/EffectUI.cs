@@ -14,9 +14,7 @@ public class EffectUI : MonoBehaviour
     public EffectUIParameters damage;
     public EffectUIParameters healing;
     public EffectUIParameters paralysis;
-
-    [Header("Aggro")]
-    public EffectUIParametersImage aggroUp;
+    public EffectUIParameters aggro;
 
     [Header("Timing")]
     public float timeBetweenEffects;
@@ -78,7 +76,14 @@ public class EffectUI : MonoBehaviour
             }
             case Effect_ID.aggro:
             {
-                aggroUp.Apply(refAudioSource);
+                if (effect.value > 0)
+                {
+                    aggro.Apply("Aggro+", refAudioSource);
+                }
+                else
+                {
+                    aggro.Apply("Aggro-", refAudioSource);
+                }
                 break;
             }
             case Effect_ID.paralysis:
@@ -100,7 +105,7 @@ public class EffectUI : MonoBehaviour
         damage.Clear();
         healing.Clear();
         paralysis.Clear();
-        aggroUp.Clear();
+        aggro.Clear();
     }
 }
 
@@ -114,39 +119,10 @@ public class EffectUIParameters
 
     public void Apply(string text, AudioSource source)
     {
-        ui.color = color;
-        ui.text = text;
-
-        if (sound != null)
-        {
-            source.PlayOneShot(sound);
-        }
-
-        if (effect != null)
-        {
-            effect.DoEffect();
-        }
-    }
-
-    public void Clear()
-    {
-        ui.text = "";
-    }
-}
-
-
-[System.Serializable]
-public class EffectUIParametersImage
-{
-    public Image ui;
-    public AudioClip sound;
-    public UIEffect effect;
-
-    public void Apply(AudioSource source)
-    {
         if (ui != null)
         {
-            ui.enabled = true;
+            ui.color = color;
+            ui.text = text;
         }
 
         if (sound != null)
@@ -164,7 +140,7 @@ public class EffectUIParametersImage
     {
         if (ui != null)
         {
-            ui.enabled = false;
+            ui.text = "";
         }
     }
 }
