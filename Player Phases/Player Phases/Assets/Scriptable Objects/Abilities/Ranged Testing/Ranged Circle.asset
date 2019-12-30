@@ -17,7 +17,8 @@ MonoBehaviour:
   ranged: 1
   range: 3
   effects:
-  - id: 1
-    value: 4
+  - id: 0
+    value: 2
     probability: 1
+    source: {fileID: 0}
   radius: 1

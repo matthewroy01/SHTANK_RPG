@@ -18,8 +18,9 @@ MonoBehaviour:
   range: 0
   effects:
   - id: 0
-    value: 4
+    value: 1
     probability: 1
+    source: {fileID: 0}
   path:
   - directions: 0
     amount: 2

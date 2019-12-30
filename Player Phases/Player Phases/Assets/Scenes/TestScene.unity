@@ -581,7 +581,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6f4c736db31daf4eaf4b83a8166cea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridWidth: 6
+  gridWidth: 12
   gridHeight: 6
   scannable:
     serializedVersion: 2
