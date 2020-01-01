@@ -108,7 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1160cb62b4dfce4498e722fa4e2847e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthMax: 10
+  healthMax: 2
   healthCurrent: 0
   defenseMod: 0
   attackMod: 0
@@ -165,6 +165,11 @@ MonoBehaviour:
     color: {r: 1, g: 0.99862754, b: 0, a: 1}
     sound: {fileID: 8300000, guid: 8a1a79397b759b04db50922a8d9e5a9f, type: 3}
     effect: {fileID: 4325408727167101429}
+  aggro:
+    ui: {fileID: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
+    sound: {fileID: 0}
+    effect: {fileID: 0}
   timeBetweenEffects: 0.35
 --- !u!82 &-7938591139883573462
 AudioSource:

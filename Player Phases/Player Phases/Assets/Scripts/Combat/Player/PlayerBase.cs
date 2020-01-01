@@ -116,6 +116,15 @@ public class PlayerBase : Character
         idle = true;
     }
 
+    public IEnumerator Death()
+    {
+        refMovementDialogueProcessor.DisplayDeathQuote();
+
+        yield return new WaitForSeconds(2.0f);
+
+        Destroy(gameObject);
+    }
+
     public bool GetIdle()
     {
         return idle;

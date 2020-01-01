@@ -7,4 +7,7 @@ public class MovementDialogue : ScriptableObject
 {
     [TextArea(1, 2)]
     public string[] quotes;
+
+    [TextArea(1, 2)]
+    public string deathQuote;
 }

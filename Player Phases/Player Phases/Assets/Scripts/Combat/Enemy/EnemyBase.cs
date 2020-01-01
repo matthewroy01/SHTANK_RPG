@@ -41,6 +41,14 @@ public class EnemyBase : Character
         // valid aggro candidates are either in range or have built up some kind of aggro
         for (int i = 0; i < aggroData.Count; ++i)
         {
+            // remove any player characters that have died
+            if (aggroData[i].character == null || aggroData[i].character.GetDead() == true)
+            {
+                aggroData.RemoveAt(i);
+                --i;
+                break;
+            }
+
             if (aggroData[i].aggro > 0 || refCombatGrid.GetDistance(myGridSpace, aggroData[i].character.myGridSpace) <= movementRange)
             {
                 aggroCandidates.Add(aggroData[i]);

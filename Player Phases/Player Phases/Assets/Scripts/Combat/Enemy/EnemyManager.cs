@@ -33,6 +33,21 @@ public class EnemyManager : MonoBehaviour
         names.Add("Peter Plum");
     }
 
+    private void Update()
+    {
+        for (int i = 0; i < enemies.Count; ++i)
+        {
+            // remove dead players
+            if (enemies[i].GetDead() == true)
+            {
+                enemies[i].myGridSpace.character = null;
+                Destroy(enemies[i].gameObject);
+
+                enemies.RemoveAt(i);
+            }
+        }
+    }
+
     public void SpawnEnemies()
     {
         for (int i = 0; i < 2; ++i)

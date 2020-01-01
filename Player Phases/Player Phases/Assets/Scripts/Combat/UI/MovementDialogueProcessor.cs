@@ -35,6 +35,16 @@ public class MovementDialogueProcessor : MonoBehaviour
         }
     }
 
+    public void DisplayDeathQuote()
+    {
+        if (movementDialogueText != null)
+        {
+            Clear();
+
+            StartCoroutine(WriteText(dialogue.deathQuote));
+        }
+    }
+
     private IEnumerator WriteText(string toWrite)
     {
         for (int i = 0; i < toWrite.Length; ++i)

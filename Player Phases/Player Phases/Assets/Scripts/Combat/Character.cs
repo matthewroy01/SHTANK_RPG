@@ -12,6 +12,8 @@ public class Character : MonoBehaviour
     [HideInInspector]
     public int healthCurrent;
 
+    private bool dead = false;
+
     // defensive modifier, reduces damage taken
     public int defenseMod;
     // offenseive modifier, increases damage dealt
@@ -66,6 +68,11 @@ public class Character : MonoBehaviour
                     if (GetType().Name == "EnemyBase")
                     {
                         ((EnemyBase)this).ApplyAggro(effect.source, 1);
+                    }
+
+                    if (healthCurrent == 0)
+                    {
+                        dead = true;
                     }
                 }
                 break;
@@ -137,5 +144,10 @@ public class Character : MonoBehaviour
                 break;
             }
         }
+    }
+
+    public bool GetDead()
+    {
+        return dead;
     }
 }
