@@ -149,25 +149,15 @@ public class PhaseManager : MonoBehaviour
             effect.effect.DoEffect();
         }
 
+        CancelInvoke("ClearText");
         Invoke("ClearText", timeBetweenPhases);
     }
 
     private void ClearText()
     {
-        if (uiEffectPhasePlayer.ui != null)
-        {
-            uiEffectPhasePlayer.ui.text = "";
-        }
-
-        if (uiEffectPhaseEnemy.ui != null)
-        {
-            uiEffectPhaseEnemy.ui.text = "";
-        }
-
-        if (uiEffectVictoryAndDefeat.ui.text != null)
-        {
-            uiEffectVictoryAndDefeat.ui.text = "";
-        }
+        uiEffectPhasePlayer.Clear();
+        uiEffectPhaseEnemy.Clear();
+        uiEffectVictoryAndDefeat.Clear();
     }
 
     private void RestartScene()

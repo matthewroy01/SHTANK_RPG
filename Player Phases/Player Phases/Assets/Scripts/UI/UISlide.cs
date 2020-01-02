@@ -19,6 +19,7 @@ public class UISlide : UIEffect
 
     public override void DoEffect()
     {
+        StopAllCoroutines();
         Slide();
     }
 
@@ -30,7 +31,7 @@ public class UISlide : UIEffect
         }
         else
         {
-
+            StartCoroutine(SlideAnimationVertical());
         }
     }
 
