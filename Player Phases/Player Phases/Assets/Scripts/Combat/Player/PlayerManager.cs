@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     private PhaseManager refPhaseManager;
+    private CombatInitiator refCombatInitiator;
 
     public GameObject playerPrefab;
     public List<PlayerBase> players = new List<PlayerBase>();
@@ -38,9 +39,9 @@ public class PlayerManager : MonoBehaviour
 
     private void Update()
     {
+        // remove dead players
         for (int i = 0; i < players.Count; ++i)
         {
-            // remove dead players
             if (players[i].GetDead() == true)
             {
                 StartCoroutine(players[i].Death());

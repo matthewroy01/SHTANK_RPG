@@ -6,6 +6,7 @@ public class EnemyManager : MonoBehaviour
 {
     private PhaseManager refPhaseManager;
     private PlayerManager refPlayerManager;
+    private CombatInitiator refCombatInitiator;
 
     public GameObject enemyPrefab;
     public List<EnemyBase> enemies = new List<EnemyBase>();
@@ -18,6 +19,7 @@ public class EnemyManager : MonoBehaviour
     {
         refPhaseManager = FindObjectOfType<PhaseManager>();
         refPlayerManager = FindObjectOfType<PlayerManager>();
+        refCombatInitiator = FindObjectOfType<CombatInitiator>();
 
         refCombatGrid = FindObjectOfType<CombatGrid>();
 
@@ -35,9 +37,9 @@ public class EnemyManager : MonoBehaviour
 
     private void Update()
     {
+        // remove dead players
         for (int i = 0; i < enemies.Count; ++i)
         {
-            // remove dead players
             if (enemies[i].GetDead() == true)
             {
                 enemies[i].myGridSpace.character = null;
