@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4171d8c7a89e384dac5c952b87f2508, type: 3}
+  m_Name: Sparrowrang
+  m_EditorClassIdentifier: 
+  moveCharacter: 0
+  ignoreWalls: 1
+  ranged: 0
+  range: 0
+  effects:
+  - id: 0
+    value: 2
+    probability: 1
+    source: {fileID: 0}
+  path:
+  - directions: 0
+    amount: 3
+  - directions: 1
+    amount: 3
+  - directions: 3
+    amount: 3
+  - directions: 2
+    amount: 1

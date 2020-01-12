@@ -21,6 +21,7 @@ public class PlayerBase : Character
     {
         refMovementDialogueProcessor = GetComponent<MovementDialogueProcessor>();
 
+        // this may be redundant, as the player manager initializes each player's stats
         healthCurrent = healthMax;
     }
 

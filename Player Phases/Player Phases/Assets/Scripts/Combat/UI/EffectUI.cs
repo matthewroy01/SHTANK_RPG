@@ -13,7 +13,7 @@ public class EffectUI : MonoBehaviour
     [Header("Text for damage and healing")]
     public EffectUIParameters damage;
     public EffectUIParameters healing;
-    public EffectUIParameters paralysis;
+    public EffectUIParameters frost;
     public EffectUIParameters aggro;
 
     [Header("Timing")]
@@ -86,9 +86,9 @@ public class EffectUI : MonoBehaviour
                 }
                 break;
             }
-            case Effect_ID.paralysis:
+            case Effect_ID.frosty:
             {
-                paralysis.Apply("Paralyzed!", refAudioSource);
+                frost.Apply("Frosty!", refAudioSource);
                 break;
             }
             default:
@@ -104,7 +104,7 @@ public class EffectUI : MonoBehaviour
     {
         damage.Clear();
         healing.Clear();
-        paralysis.Clear();
+        frost.Clear();
         aggro.Clear();
     }
 }

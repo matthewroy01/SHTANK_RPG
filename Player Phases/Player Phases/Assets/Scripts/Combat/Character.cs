@@ -111,7 +111,7 @@ public class Character : MonoBehaviour
                 }
                 break;
             }
-            case Effect_ID.paralysis:
+            case Effect_ID.frosty:
             {
                 if (Random.Range(0.0f, 1.0f) <= effect.probability && effect.source != this)
                 {
@@ -123,23 +123,13 @@ public class Character : MonoBehaviour
                 }
                 break;
             }
-            case Effect_ID.poison:
+            case Effect_ID.aggroDispel:
             {
                 if (Random.Range(0.0f, 1.0f) <= effect.probability && effect.source != this)
                 {
                     Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
 
                     // inflict poison
-                }
-                break;
-            }
-            case Effect_ID.burn:
-            {
-                if (Random.Range(0.0f, 1.0f) <= effect.probability && effect.source != this)
-                {
-                    Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
-
-                    // inflict burn
                 }
                 break;
             }

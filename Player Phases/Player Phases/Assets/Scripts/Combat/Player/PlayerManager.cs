@@ -7,7 +7,13 @@ public class PlayerManager : MonoBehaviour
     private PhaseManager refPhaseManager;
     private CombatInitiator refCombatInitiator;
 
+    [Header("Base Player Prefab")]
     public GameObject playerPrefab;
+
+    [Header("List of specific characters to spawn")]
+    public List<CharacterDefinition> characterDefinitions;
+
+    [Header("List of characters in combat after spawning")]
     public List<PlayerBase> players = new List<PlayerBase>();
 
     private CombatGrid refCombatGrid;
@@ -20,7 +26,7 @@ public class PlayerManager : MonoBehaviour
 
         refCombatGrid = FindObjectOfType<CombatGrid>();
 
-        names.Add("Karate Person");
+        /*names.Add("Karate Person");
         names.Add("Melon Man");
         names.Add("All Real Numbers");
         names.Add("Cheddar Jack");
@@ -34,7 +40,7 @@ public class PlayerManager : MonoBehaviour
         names.Add("Magnet Hands");
         names.Add("Knight and Day");
         names.Add("Ava");
-        names.Add("unnamed sixteenth character");
+        names.Add("unnamed sixteenth character");*/
     }
 
     private void Update()
@@ -53,7 +59,7 @@ public class PlayerManager : MonoBehaviour
 
     public void SpawnPlayers()
     {
-        for (int i = 0; i < 2; ++i)
+        for (int i = 0; i < characterDefinitions.Count; ++i)
         {
             // spawn players and add them to the list
             PlayerBase tmp = Instantiate(playerPrefab, transform).GetComponent<PlayerBase>();
@@ -62,9 +68,54 @@ public class PlayerManager : MonoBehaviour
             refCombatGrid.grid[i, 0].character = tmp;
             tmp.myGridSpace = refCombatGrid.grid[i, 0];
 
-            int rand = Random.Range(0, names.Count);
-            tmp.name = names[rand];
-            names.RemoveAt(rand);
+            AssignPlayerValues(tmp.gameObject, characterDefinitions[i]);
+        }
+    }
+
+    private void AssignPlayerValues(GameObject obj, CharacterDefinition def)
+    {
+        PlayerBase refPlayerBase = obj.GetComponent<PlayerBase>();
+        MovementDialogueProcessor refMovementDialogueProcessor = obj.GetComponent<MovementDialogueProcessor>();
+        SpriteRenderer refSpriteRenderer = obj.GetComponentInChildren<SpriteRenderer>();
+
+        obj.name = def.characterName;
+
+        if (refPlayerBase != null)
+        {
+            // max health and current health
+            refPlayerBase.healthMax = def.healthMax;
+            refPlayerBase.healthCurrent = refPlayerBase.healthMax;
+
+            // attack and defense modifiers
+            refPlayerBase.attackMod = def.attackMod;
+            refPlayerBase.defenseMod = def.defenseMod;
+
+            // nashbalm
+            refPlayerBase.nashbalm = def.nashbalm;
+
+            // movement range
+            refPlayerBase.movementRange = def.movementRange;
+
+            // moveset
+            refPlayerBase.moveset = def.moveset;
+
+            // affiliation (always player, since this is the Player Manager)
+            refPlayerBase.affiliation = Character_Affiliation.player;
+        }
+
+        if (refMovementDialogueProcessor != null)
+        {
+            // movement dialogue text
+            refMovementDialogueProcessor.dialogue = def.movementDialogue;
+
+            // movement dialogue sound
+            refMovementDialogueProcessor.speechBlip = def.movementDialogueSound;
+        }
+
+        if (refSpriteRenderer != null)
+        {
+            // temporary sprite
+            refSpriteRenderer.sprite = def.sprite;
         }
     }
 

@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87dbd0ae4f19c614aa30d32c30e58e3f, type: 3}
+  m_Name: Moveset No Clue
+  m_EditorClassIdentifier: 
+  ability1: {fileID: 11400000, guid: e7d0188b93473924094cd12cbbc69c90, type: 2}
+  ability2: {fileID: 11400000, guid: 027226b781b70984ea5270200bd687de, type: 2}
+  ability3: {fileID: 11400000, guid: 696c204d716b69d49a71276eaaa3b94e, type: 2}
+  ability4: {fileID: 0}

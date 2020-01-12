@@ -107,7 +107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2edd58fe101e134f8f8126bb10e8af6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthMax: 4
+  healthMax: 6
   healthCurrent: 0
   defenseMod: 0
   attackMod: 0
@@ -141,10 +141,10 @@ MonoBehaviour:
     color: {r: 0, g: 1, b: 0, a: 1}
     sound: {fileID: 8300000, guid: 3bf2bf4d84236684198b9efb2f49e7fa, type: 3}
     effect: {fileID: 1303683667046823174}
-  paralysis:
+  frost:
     ui: {fileID: 5704738621680570143}
-    color: {r: 1, g: 0.99862754, b: 0, a: 1}
-    sound: {fileID: 8300000, guid: 8a1a79397b759b04db50922a8d9e5a9f, type: 3}
+    color: {r: 0, g: 1, b: 1, a: 1}
+    sound: {fileID: 8300000, guid: 265c6d8c4fcce0c46baa733c41746528, type: 3}
     effect: {fileID: 2545931916429603595}
   aggro:
     ui: {fileID: 3167619071027961926}
