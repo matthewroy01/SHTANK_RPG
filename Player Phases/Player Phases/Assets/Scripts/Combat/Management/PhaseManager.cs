@@ -19,6 +19,7 @@ public class PhaseManager : MonoBehaviour
 
     private PlayerManager refPlayerManager;
     private EnemyManager refEnemyManager;
+    private CombatGrid refCombatGrid;
 
     private AudioSource refAudioSource;
 
@@ -26,6 +27,7 @@ public class PhaseManager : MonoBehaviour
     {
         refPlayerManager = FindObjectOfType<PlayerManager>();
         refEnemyManager = FindObjectOfType<EnemyManager>();
+        refCombatGrid = FindObjectOfType<CombatGrid>();
 
         refAudioSource = GetComponent<AudioSource>();
 
@@ -106,6 +108,9 @@ public class PhaseManager : MonoBehaviour
         {
             case CombatPhase.Player:
             {
+                // alert the combat grid that the next turn has begun
+                refCombatGrid.NextTurn();
+
                 uiEffectPhasePlayer.Apply("Player Phase", refAudioSource);
 
                 yield return new WaitForSeconds(timeBetweenPhases);

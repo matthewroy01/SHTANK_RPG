@@ -18,6 +18,7 @@ public class CombatGrid : MonoBehaviour
     public Stack<GridSpace> dirty = new Stack<GridSpace>();
 
     public GameObject gridSpacePrefab;
+    public GameObject shadowWallPrefab;
 
     public void SpawnGrid()
     {
@@ -43,6 +44,8 @@ public class CombatGrid : MonoBehaviour
 
                 // create new Grid Space with associated Game Object and terrain type from scan
                 grid[x, y] = new GridSpace(Instantiate(gridSpacePrefab, new Vector3(x, y, 0.0f), Quaternion.identity, transform), terrainType, new Vector2Int(x, y));
+                grid[x, y].shadowWall = Instantiate(shadowWallPrefab, grid[x, y].obj.transform.position, grid[x, y].obj.transform.rotation, grid[x, y].obj.transform);
+                grid[x, y].shadowWall.SetActive(false);
             }
         }
 
@@ -426,6 +429,17 @@ public class CombatGrid : MonoBehaviour
         return distance;
     }
 
+    public void NextTurn()
+    {
+        for (int i = 0; i < grid.GetLength(0); ++i)
+        {
+            for (int j = 0; j < grid.GetLength(1); ++j)
+            {
+                grid[i, j].NextTurn();
+            }
+        }
+    }
+
     private GridSpace_TerrainType GetTerrainTypeFromTag(string tag)
     {
         switch (tag)
@@ -455,6 +469,10 @@ public class GridSpace
 
     // queue of effects that should be applied to currChar, if it is not null
     public Queue<Effect> effects = new Queue<Effect>();
+
+    // object to enable when a shadow wall is enabled on this grid space
+    public GameObject shadowWall;
+    private int shadowWallCounter;
 
     // grid space terrain type, used for movement and processing abilities
     private GridSpace_TerrainType currentTerrainType;
@@ -492,6 +510,20 @@ public class GridSpace
 
     public int Apply()
     {
+        // first check if there any effects that should be applied to the grid space and not the character
+        Effect[] effectArray = effects.ToArray();
+        for (int i = 0; i < effectArray.Length; ++i)
+        {
+            // check for shadow wall effect
+            if (effectArray[i].id == Effect_ID.shadowWall && character == null)
+            {
+                currentTerrainType = GridSpace_TerrainType.wall_artificial;
+
+                shadowWall.SetActive(true);
+                shadowWallCounter = effectArray[i].value;
+            }
+        }
+
         // only apply effects if the grid space is currently storing a character
         if (character != null)
         {
@@ -517,6 +549,18 @@ public class GridSpace
     public void AddEffect(Effect effect)
     {
         effects.Enqueue(effect);
+    }
+
+    public void NextTurn()
+    {
+        // reduce countdown for shadow wall
+        shadowWallCounter--;
+
+        if (shadowWallCounter <= 0)
+        {
+            currentTerrainType = originalTerrainType;
+            shadowWall.SetActive(false);
+        }
     }
 
     public void SetTerrainType(GridSpace_TerrainType terrainType)
@@ -564,7 +608,7 @@ public class Effect
 
 public enum GridSpace_TerrainType { standard, wall, wall_artificial, water };
 
-public enum Effect_ID { damage, healing, aggro, frosty, aggroDispel };
+public enum Effect_ID { damage, healing, aggro, frosty, aggroDispel, shadowWall };
 
 public enum Character_Affiliation { player, enemy, ally};
 

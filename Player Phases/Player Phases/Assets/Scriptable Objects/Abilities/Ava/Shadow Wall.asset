@@ -16,9 +16,13 @@ MonoBehaviour:
   ignoreWalls: 0
   ranged: 1
   range: 5
-  effects: []
+  effects:
+  - id: 5
+    value: 3
+    probability: 1
+    source: {fileID: 0}
   path:
   - directions: 1
-    amount: 2
+    amount: 1
   - directions: 2
-    amount: 4
+    amount: 2
