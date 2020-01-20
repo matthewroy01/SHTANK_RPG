@@ -15,6 +15,7 @@ public class EffectUI : MonoBehaviour
     public EffectUIParameters healing;
     public EffectUIParameters frost;
     public EffectUIParameters aggro;
+    public EffectUIParameters dispelAggro;
 
     [Header("Timing")]
     public float timeBetweenEffects;
@@ -91,6 +92,11 @@ public class EffectUI : MonoBehaviour
                 frost.Apply("Frosty!", refAudioSource);
                 break;
             }
+            case Effect_ID.aggroDispel:
+            {
+                dispelAggro.Apply("Aggro Dispelled!", refAudioSource);
+                break;
+            }
             default:
             {
                 break;
@@ -106,6 +112,7 @@ public class EffectUI : MonoBehaviour
         healing.Clear();
         frost.Clear();
         aggro.Clear();
+        dispelAggro.Clear();
     }
 }
 

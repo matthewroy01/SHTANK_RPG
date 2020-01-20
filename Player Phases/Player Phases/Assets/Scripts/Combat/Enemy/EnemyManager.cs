@@ -101,4 +101,12 @@ public class EnemyManager : MonoBehaviour
         // this current phase is done, let the Phase Manager know it's time to move to the next phase
         refPhaseManager.NextPhase();
     }
+
+    public void DispelAggroFromTarget(Character target, int amount)
+    {
+        for (int i = 0; i < enemies.Count; ++i)
+        {
+            enemies[i].DispelAggroFromTarget(target, amount);
+        }
+    }
 }

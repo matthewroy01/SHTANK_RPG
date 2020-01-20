@@ -117,7 +117,7 @@ public class Character : MonoBehaviour
                 {
                     Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
 
-                    // inflict paralysis
+                    // inflict frosty
 
                     refCharacterEffectUI.AddEffect(effect);
                 }
@@ -129,7 +129,14 @@ public class Character : MonoBehaviour
                 {
                     Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
 
-                    // inflict poison
+                    // inflict aggro dispel
+                    EnemyManager tmp = FindObjectOfType<EnemyManager>();
+                    if (tmp != null)
+                    {
+                        tmp.DispelAggroFromTarget(this, effect.value);
+                    }
+
+                    refCharacterEffectUI.AddEffect(effect);
                 }
                 break;
             }

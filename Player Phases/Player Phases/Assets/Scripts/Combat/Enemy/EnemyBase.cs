@@ -194,6 +194,22 @@ public class EnemyBase : Character
     {
         return idle;
     }
+
+    public void DispelAggroFromTarget(Character target, int amount)
+    {
+        for (int i = 0; i < aggroData.Count; ++i)
+        {
+            if (aggroData[i].character == target)
+            {
+                aggroData[i].aggro -= amount;
+
+                if (aggroData[i].aggro < 0)
+                {
+                    aggroData[i].aggro = 0;
+                }
+            }
+        }
+    }
 }
 
 [System.Serializable]

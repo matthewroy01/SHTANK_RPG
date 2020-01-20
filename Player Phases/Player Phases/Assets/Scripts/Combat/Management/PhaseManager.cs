@@ -82,6 +82,11 @@ public class PhaseManager : MonoBehaviour
         Invoke("RestartScene", 3.0f);
     }
 
+    public EnemyManager GetEnemyManager()
+    {
+        return refEnemyManager;
+    }
+
     private IEnumerator FireEvents()
     {
         Debug.Log("It is now " + currentPhase + " phase!");

@@ -148,9 +148,14 @@ MonoBehaviour:
     effect: {fileID: 2545931916429603595}
   aggro:
     ui: {fileID: 3167619071027961926}
-    color: {r: 0.31132078, g: 0.31132078, b: 0.31132078, a: 1}
+    color: {r: 0.7490196, g: 0.7490196, b: 0.7490196, a: 1}
     sound: {fileID: 8300000, guid: 19eeecb020638ef4da1ee6817d616df5, type: 3}
     effect: {fileID: 6155532594435101108}
+  dispelAggro:
+    ui: {fileID: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
+    sound: {fileID: 0}
+    effect: {fileID: 0}
   timeBetweenEffects: 0.35
 --- !u!82 &1124789292131182967
 AudioSource:

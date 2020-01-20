@@ -16,5 +16,9 @@ MonoBehaviour:
   ignoreWalls: 0
   ranged: 1
   range: 5
-  effects: []
+  effects:
+  - id: 4
+    value: 10
+    probability: 1
+    source: {fileID: 0}
   radius: 1
