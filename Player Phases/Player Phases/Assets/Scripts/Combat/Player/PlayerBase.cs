@@ -47,6 +47,7 @@ public class PlayerBase : Character
         idle = false;
         originalGridSpace = myGridSpace;
 
+        HandleStatuses();
         FindMovementSpaces(grid);
     }
 
@@ -71,6 +72,10 @@ public class PlayerBase : Character
     {
         selected = true;
 
+        // apply any statuses again in case they have been cured
+        // STATUSES LIKE POISON, THAT APPLY DAMAGE WILL NEED A SPECIAL CASE SO THEY DON'T GET APPLIED EVERY TIME THE PLAYER IS SELECTED
+        HandleStatuses();
+
         // refind the potential movement spaces in case another character has moved since the turn began
         FindMovementSpaces(grid);
 
@@ -84,7 +89,7 @@ public class PlayerBase : Character
     {
         // reset movement spaces
         movementSpaces.Clear();
-        movementSpaces = grid.GetBreadthFirst(myGridSpace, movementRange, terrainTypes, true);
+        movementSpaces = grid.GetBreadthFirst(myGridSpace, movementRangeDefault, terrainTypes, true);
     }
 
     public void Deselected()

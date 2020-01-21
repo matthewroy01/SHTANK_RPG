@@ -94,7 +94,7 @@ public class PlayerManager : MonoBehaviour
             refPlayerBase.nashbalm = def.nashbalm;
 
             // movement range
-            refPlayerBase.movementRange = def.movementRange;
+            refPlayerBase.movementRangeDefault = def.movementRange;
 
             // moveset
             refPlayerBase.moveset = def.moveset;

@@ -112,7 +112,9 @@ MonoBehaviour:
   defenseMod: 0
   attackMod: 0
   nashbalm: 0
-  movementRange: 5
+  movementRangeDefault: 5
+  movementRangeCurrent: 0
+  statusFrosty: 0
   affiliation: 1
   terrainTypes: 
   aggroData: []

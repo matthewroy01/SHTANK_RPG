@@ -19,6 +19,7 @@ public class EnemyBase : Character
         refCombatGrid = FindObjectOfType<CombatGrid>();
 
         healthCurrent = healthMax;
+        movementRangeCurrent = movementRangeDefault;
     }
 
     public void StartTurn()
@@ -28,6 +29,9 @@ public class EnemyBase : Character
 
     public void DoAI()
     {
+        HandleStatuses();
+
+        // select aggro target
         aggroTarget = ProcessAggro();
 
         List<GridSpace> path = refCombatGrid.GetAStar(refCombatGrid, myGridSpace, aggroTarget);
@@ -49,7 +53,7 @@ public class EnemyBase : Character
                 break;
             }
 
-            if (aggroData[i].aggro > 0 || refCombatGrid.GetDistance(myGridSpace, aggroData[i].character.myGridSpace) <= movementRange)
+            if (aggroData[i].aggro > 0 || refCombatGrid.GetDistance(myGridSpace, aggroData[i].character.myGridSpace) <= movementRangeCurrent)
             {
                 aggroCandidates.Add(aggroData[i]);
             }
@@ -145,7 +149,7 @@ public class EnemyBase : Character
             for (int i = 0; i < path.Count; ++i)
             {
                 // only move along the path for the amount that the movement range stat allows
-                if (movementCounter >= movementRange)
+                if (movementCounter >= movementRangeCurrent)
                 {
                     break;
                 }
@@ -167,9 +171,12 @@ public class EnemyBase : Character
             }
 
             // properly reassign grid spaces
-            myGridSpace.character = null;
-            myGridSpace = currentAlongPath;
-            myGridSpace.character = this;
+            if (currentAlongPath != null)
+            {
+                myGridSpace.character = null;
+                myGridSpace = currentAlongPath;
+                myGridSpace.character = this;
+            }
         }
 
         idle = true;

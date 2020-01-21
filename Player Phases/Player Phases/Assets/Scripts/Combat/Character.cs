@@ -24,7 +24,15 @@ public class Character : MonoBehaviour
     public int nashbalm;
 
     // movement range
-    public uint movementRange;
+    public uint movementRangeDefault;
+    [HideInInspector]
+    public uint movementRangeCurrent;
+
+    // statuses
+    /* ----------------------------------------------------------*/
+
+    [Header("Statuses")]
+    public bool statusFrosty = false;
 
     /* ----------------------------------------------------------*/
 
@@ -118,6 +126,7 @@ public class Character : MonoBehaviour
                     Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
 
                     // inflict frosty
+                    statusFrosty = true;
 
                     refCharacterEffectUI.AddEffect(effect);
                 }
@@ -140,6 +149,14 @@ public class Character : MonoBehaviour
                 }
                 break;
             }
+        }
+    }
+
+    public void HandleStatuses()
+    {
+        if (statusFrosty)
+        {
+            movementRangeCurrent = movementRangeDefault - 1;
         }
     }
 
