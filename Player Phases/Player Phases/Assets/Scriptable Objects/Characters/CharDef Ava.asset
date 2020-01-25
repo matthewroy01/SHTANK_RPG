@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 869e1db15c6348246bbd3cef8c92dda0, type: 3}
   m_Name: CharDef Ava
   m_EditorClassIdentifier: 
-  characterName: Ava
+  characterName: Shade
   healthMax: 10
   attackMod: 0
   defenseMod: 0

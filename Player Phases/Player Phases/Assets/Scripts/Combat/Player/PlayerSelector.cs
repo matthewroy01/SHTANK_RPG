@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerSelector : MonoBehaviour
 {
@@ -20,6 +21,9 @@ public class PlayerSelector : MonoBehaviour
 
     public LayerMask gridSpaceLayerMask;
 
+    [Header("Selection UI")]
+    public TextMeshProUGUI uiStats;
+
     void Start()
     {
         refCombatGrid = FindObjectOfType<CombatGrid>();
@@ -31,12 +35,16 @@ public class PlayerSelector : MonoBehaviour
         // selecting players on the grid
         if (currentPlayer == null)
         {
+            ClearUI();
+
             Select();
         }
 
         // actions with the selected player
         if (currentPlayer != null)
         {
+            UpdateUI();
+
             Ability get = refAbilityProcessor.GetAbility();
 
             // if an ability is ranged
@@ -309,6 +317,16 @@ public class PlayerSelector : MonoBehaviour
                 TryProcessAbility();
             }
         }
+    }
+
+    private void UpdateUI()
+    {
+        uiStats.text = CharacterUI.GetStatsUI(currentPlayer);
+    }
+
+    private void ClearUI()
+    {
+        uiStats.text = "";
     }
 }
 

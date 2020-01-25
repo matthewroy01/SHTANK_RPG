@@ -101,6 +101,9 @@ public class PlayerManager : MonoBehaviour
 
             // affiliation (always player, since this is the Player Manager)
             refPlayerBase.affiliation = Character_Affiliation.player;
+
+            // generate UI definitions now
+
         }
 
         if (refMovementDialogueProcessor != null)
