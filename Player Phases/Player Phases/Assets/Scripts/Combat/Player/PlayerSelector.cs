@@ -23,6 +23,8 @@ public class PlayerSelector : MonoBehaviour
 
     [Header("Selection UI")]
     public TextMeshProUGUI uiStats;
+    public TextMeshProUGUI uiAbilities;
+    public GameObject uiBackgrounds;
 
     void Start()
     {
@@ -322,11 +324,25 @@ public class PlayerSelector : MonoBehaviour
     private void UpdateUI()
     {
         uiStats.text = CharacterUI.GetStatsUI(currentPlayer);
+
+        if (currentPlayer.uiAbilities != null)
+        {
+            string spacing = "\n\n";
+            uiAbilities.text = currentPlayer.uiAbilities.abil1 + spacing +
+                currentPlayer.uiAbilities.abil2 + spacing +
+                currentPlayer.uiAbilities.abil3 + spacing +
+                currentPlayer.uiAbilities.abil4 + spacing;
+        }
+
+        uiBackgrounds.SetActive(true);
     }
 
     private void ClearUI()
     {
         uiStats.text = "";
+        uiAbilities.text = "";
+
+        uiBackgrounds.SetActive(false);
     }
 }
 

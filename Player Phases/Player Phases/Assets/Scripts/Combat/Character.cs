@@ -48,7 +48,7 @@ public class Character : MonoBehaviour
     private EffectUI refCharacterEffectUI;
 
     [HideInInspector]
-    public CharacterUIDefinition uiDefinition;
+    public CharacterAbilityUI uiAbilities;
 
     public void ApplyEffect(Effect effect)
     {

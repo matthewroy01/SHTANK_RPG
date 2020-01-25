@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Ability : ScriptableObject
 {
+    [Header("Text description for UI")]
+    [TextArea(2, 3)]
+    public string description;
     [Header("Move the character along the path?")]
     public bool moveCharacter;
     [Header("Whether or not the ability should stop at walls")]

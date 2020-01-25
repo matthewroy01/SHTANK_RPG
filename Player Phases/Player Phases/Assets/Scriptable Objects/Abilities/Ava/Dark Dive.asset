@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895451904fc59484a804181f76e3f2fa, type: 3}
   m_Name: Dark Dive
   m_EditorClassIdentifier: 
+  description: Dive into the shadows and reappear in a burst of darkness.
   moveCharacter: 1
   ignoreWalls: 1
   ranged: 1

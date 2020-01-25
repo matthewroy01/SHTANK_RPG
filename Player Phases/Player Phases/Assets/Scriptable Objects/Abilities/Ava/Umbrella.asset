@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895451904fc59484a804181f76e3f2fa, type: 3}
   m_Name: Umbrella
   m_EditorClassIdentifier: 
+  description: Open your umbrella to expand your shadow and grow in strength.
   moveCharacter: 0
   ignoreWalls: 0
   ranged: 0

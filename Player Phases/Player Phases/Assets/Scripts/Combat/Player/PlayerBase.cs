@@ -23,6 +23,7 @@ public class PlayerBase : Character
 
         // this may be redundant, as the player manager initializes each player's stats
         healthCurrent = healthMax;
+        movementRangeCurrent = movementRangeDefault;
     }
 
     private void Update()
