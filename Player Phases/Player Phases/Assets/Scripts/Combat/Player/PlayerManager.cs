@@ -64,9 +64,22 @@ public class PlayerManager : MonoBehaviour
             // spawn players and add them to the list
             PlayerBase tmp = Instantiate(playerPrefab, transform).GetComponent<PlayerBase>();
             players.Add(tmp);
-            tmp.transform.position = refCombatGrid.grid[i, 0].obj.transform.position;
-            refCombatGrid.grid[i, 0].character = tmp;
-            tmp.myGridSpace = refCombatGrid.grid[i, 0];
+
+            int x = 0, y = 0;
+            x = i;
+
+            if (i % 2 == 0)
+            {
+                y = 0;
+            }
+            else
+            {
+                y = 1;
+            }
+
+            tmp.transform.position = refCombatGrid.grid[x, y].obj.transform.position;
+            refCombatGrid.grid[x, y].character = tmp;
+            tmp.myGridSpace = refCombatGrid.grid[x, y];
 
             AssignPlayerValues(tmp.gameObject, characterDefinitions[i]);
         }

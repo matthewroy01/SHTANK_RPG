@@ -52,14 +52,27 @@ public class EnemyManager : MonoBehaviour
 
     public void SpawnEnemies()
     {
-        for (int i = 0; i < 2; ++i)
+        for (int i = 0; i < 8; ++i)
         {
             // spawn enemies and add them to the list
             EnemyBase tmp = Instantiate(enemyPrefab, transform).GetComponent<EnemyBase>();
             enemies.Add(tmp);
-            tmp.transform.position = refCombatGrid.grid[refCombatGrid.gridWidth - i - 1, refCombatGrid.gridHeight - 1].obj.transform.position;
-            refCombatGrid.grid[refCombatGrid.gridWidth - i - 1, refCombatGrid.gridHeight - 1].character = tmp;
-            tmp.myGridSpace = refCombatGrid.grid[refCombatGrid.gridWidth - i - 1, refCombatGrid.gridHeight - 1];
+
+            int x = 0, y = 0;
+            x = (int)refCombatGrid.gridWidth - i - 1;
+
+            if (i % 2 == 0)
+            {
+                y = (int)refCombatGrid.gridHeight - 1;
+            }
+            else
+            {
+                y = (int)refCombatGrid.gridHeight - 2;
+            }
+
+            tmp.transform.position = refCombatGrid.grid[x, y].obj.transform.position;
+            refCombatGrid.grid[x, y].character = tmp;
+            tmp.myGridSpace = refCombatGrid.grid[x, y];
 
             int rand = Random.Range(0, names.Count);
             tmp.name = names[rand];

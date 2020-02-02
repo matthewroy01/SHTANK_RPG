@@ -608,7 +608,7 @@ public class Effect
 
 public enum GridSpace_TerrainType { standard, wall, wall_artificial, water };
 
-public enum Effect_ID { damage, healing, aggro, frosty, aggroDispel, shadowWall };
+public enum Effect_ID { damage, healing, aggro, frosty, aggroDispel, shadowWall, attackUp };
 
 public enum Character_Affiliation { player, enemy, ally};
 

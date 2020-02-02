@@ -5,6 +5,8 @@ using TMPro;
 
 public class MovementDialogueProcessor : MonoBehaviour
 {
+    private int previousIndex = -1;
+
     [Header("Resources")]
     public TextMeshProUGUI movementDialogueText;
     public MovementDialogue dialogue;
@@ -31,7 +33,30 @@ public class MovementDialogueProcessor : MonoBehaviour
         {
             Clear();
 
-            StartCoroutine(WriteText(dialogue.quotes[Random.Range(0, dialogue.quotes.Length)]));
+            List<int> possibleIndices = new List<int>();
+            int rand = 0;
+
+            if (dialogue.quotes.Length > 1)
+            {
+                // don't include the previous index so we don't use the same quote twice in a row
+                for (int i = 0; i < dialogue.quotes.Length; ++i)
+                {
+                    if (i != previousIndex)
+                    {
+                        possibleIndices.Add(i);
+                    }
+                }
+
+                rand = possibleIndices[Random.Range(0, possibleIndices.Count)];
+                StartCoroutine(WriteText(dialogue.quotes[rand]));
+
+                previousIndex = rand;
+            }
+            else
+            {
+                rand = Random.Range(0, dialogue.quotes.Length);
+                StartCoroutine(WriteText(dialogue.quotes[rand]));
+            }
         }
     }
 

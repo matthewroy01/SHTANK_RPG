@@ -33,6 +33,7 @@ public class Character : MonoBehaviour
 
     [Header("Statuses")]
     public bool statusFrosty = false;
+    public bool statusAttackUp = false;
 
     /* ----------------------------------------------------------*/
 
@@ -152,6 +153,17 @@ public class Character : MonoBehaviour
                 }
                 break;
             }
+            case Effect_ID.attackUp:
+            {
+                if (Random.Range(0.0f, 1.0f) <= effect.probability)
+                {
+                    // apply attack up
+                    statusAttackUp = true;
+
+                    refCharacterEffectUI.AddEffect(effect);
+                }
+                break;
+            }
         }
     }
 
@@ -160,6 +172,11 @@ public class Character : MonoBehaviour
         if (statusFrosty)
         {
             movementRangeCurrent = movementRangeDefault - 1;
+        }
+
+        if (statusAttackUp)
+        {
+            attackMod = 1;
         }
     }
 

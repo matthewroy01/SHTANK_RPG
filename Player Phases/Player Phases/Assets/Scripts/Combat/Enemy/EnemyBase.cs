@@ -22,6 +22,18 @@ public class EnemyBase : Character
         movementRangeCurrent = movementRangeDefault;
     }
 
+    private void Update()
+    {
+        if (idle == true)
+        {
+            GetComponent<Renderer>().material.color = Color.Lerp(Color.red, Color.black, 0.75f);
+        }
+        else
+        {
+            GetComponent<Renderer>().material.color = Color.red;
+        }
+    }
+
     public void StartTurn()
     {
         idle = false;
@@ -206,13 +218,14 @@ public class EnemyBase : Character
     {
         for (int i = 0; i < aggroData.Count; ++i)
         {
-            if (aggroData[i].character == target)
+            // also check if aggro was already 0, since we shouldn't reset aggro to 1 if it was 0
+            if (aggroData[i].character == target && aggroData[i].aggro > 0)
             {
                 aggroData[i].aggro -= amount;
 
-                if (aggroData[i].aggro < 0)
+                if (aggroData[i].aggro < 1)
                 {
-                    aggroData[i].aggro = 0;
+                    aggroData[i].aggro = 1;
                 }
             }
         }
