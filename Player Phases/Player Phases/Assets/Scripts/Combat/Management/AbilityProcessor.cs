@@ -76,7 +76,7 @@ public class AbilityProcessor : MonoBehaviour
             string abilType = savedAbility.GetType().Name;
 
             // get possible starting grid spaces
-            startingSpaces.AddRange(refCombatGrid.GetBreadthFirst(player.myGridSpace, savedAbility.range, TerrainTypePresets.onlyStandard, true));
+            startingSpaces.AddRange(refCombatGrid.GetBreadthFirst(player.myGridSpace, savedAbility.range, GetValidTerrainTypes(), savedAbility.moveCharacter ? true : false));
 
             // make sure the specified starting grid space is a valid starting space contained within startingSpaces
             if (startingSpaces.Contains(startingSpace))
@@ -311,7 +311,7 @@ public class AbilityProcessor : MonoBehaviour
 
     private void ProcessCircleAbility(CircleAbility abil, GridSpace startingGridSpace)
     {
-        gridSpaces.AddRange(refCombatGrid.GetBreadthFirst(startingGridSpace, abil.radius, savedPlayer.terrainTypes, false));
+        gridSpaces.AddRange(refCombatGrid.GetBreadthFirst(startingGridSpace, abil.radius, GetValidTerrainTypes(), false));
 
         if (abil.moveCharacter)
         {
