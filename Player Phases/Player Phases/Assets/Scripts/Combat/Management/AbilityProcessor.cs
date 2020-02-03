@@ -242,25 +242,37 @@ public class AbilityProcessor : MonoBehaviour
             {
                 case AbilityDirection.forwards:
                 {
-                    SavePathSegment(abil, ref currentGridSpace, forwards, i);
+                    if (!SavePathSegment(abil, ref currentGridSpace, forwards, i))
+                    {
+                        return;
+                    }
 
                     break;
                 }
                 case AbilityDirection.sideways:
                 {
-                    SavePathSegment(abil, ref currentGridSpace, sideways, i);
+                    if (!SavePathSegment(abil, ref currentGridSpace, sideways, i))
+                    {
+                        return;
+                    }
 
                     break;
                 }
                 case AbilityDirection.sidewaysOpposite:
                 {
-                    SavePathSegment(abil, ref currentGridSpace, sidewaysOpposite, i);
+                    if (!SavePathSegment(abil, ref currentGridSpace, sidewaysOpposite, i))
+                    {
+                        return;
+                    }
 
                     break;
                 }
                 case AbilityDirection.backwards:
                 {
-                    SavePathSegment(abil, ref currentGridSpace, backwards, i);
+                    if (!SavePathSegment(abil, ref currentGridSpace, backwards, i))
+                    {
+                        return;
+                    }
 
                     break;
                 }
@@ -272,16 +284,16 @@ public class AbilityProcessor : MonoBehaviour
         }
     }
 
-    private void SavePathSegment(PathAbility abil, ref GridSpace currentGridSpace, string direction, int i)
+    private bool SavePathSegment(PathAbility abil, ref GridSpace currentGridSpace, string direction, int i)
     {
         // for the amount of spaces specified for this part of the path, save each grid space
         for (int j = 0; j < abil.path[i].amount; ++j)
         {
             // use reflection to get the field using a string
             // in this case, one of four GridSpaces (up, down, left, and right) representing connections
-            if (!TryAddGridSpace((GridSpace)currentGridSpace.GetType().GetField(direction).GetValue(currentGridSpace)))
+            if (!TryAddGridSpace((GridSpace)currentGridSpace.GetType().GetField(direction).GetValue(currentGridSpace), abil.ignoreWalls))
             {
-                return;
+                return false;
             }
 
             // update the current grid space to continue along the path
@@ -293,6 +305,8 @@ public class AbilityProcessor : MonoBehaviour
                 endingSpace = GetValidEndingSpace(gridSpaces);
             }
         }
+
+        return true;
     }
 
     private void ProcessCircleAbility(CircleAbility abil, GridSpace startingGridSpace)
@@ -350,7 +364,7 @@ public class AbilityProcessor : MonoBehaviour
         {
             // for this loop, we move along a straight line and spread out in both directions
             // here, save the center grid space (the one along the straight line)
-            if (TryAddGridSpace(currentGridSpace) && savedAbility.moveCharacter)
+            if (TryAddGridSpace(currentGridSpace, abil.ignoreWalls) && savedAbility.moveCharacter)
             {
                 // keep track of the center line to create a consistent result for needing to move out of the way of another character following a cone ability
                 centerLine.Add(currentGridSpace);
@@ -391,8 +405,8 @@ public class AbilityProcessor : MonoBehaviour
                         }
 
                         // save grid spaces in both directions from the center line
-                        TryAddGridSpace(rowTrackerSideways);
-                        TryAddGridSpace(rowTrackerSidewaysOpposite);
+                        TryAddGridSpace(rowTrackerSideways, abil.ignoreWalls);
+                        TryAddGridSpace(rowTrackerSidewaysOpposite, abil.ignoreWalls);
                     }
                 }
                 else
@@ -406,15 +420,30 @@ public class AbilityProcessor : MonoBehaviour
         }
     }
 
-    private bool TryAddGridSpace(GridSpace target)
+    private bool TryAddGridSpace(GridSpace target, bool ignoreWalls)
     {
         // if the grid space exists...
-        if (target != null && savedPlayer.terrainTypes.Contains(target.GetTerrainType()))
+        if (target != null)
         {
-            // save it to our list
-            gridSpaces.Add(target);
+            // if the terrain is a type of wall, check if we should igrore it
+            if (target.GetTerrainType() == GridSpace_TerrainType.wall || target.GetTerrainType() == GridSpace_TerrainType.wall_artificial)
+            {
+                if (ignoreWalls)
+                {
+                    // save it to our list
+                    gridSpaces.Add(target);
 
-            return true;
+                    return true;
+                }
+            }
+            // otherwise, add it to the list
+            else
+            {
+                // save it to our list
+                gridSpaces.Add(target);
+
+                return true;
+            }
         }
 
         return false;

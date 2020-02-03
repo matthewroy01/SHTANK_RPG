@@ -52,7 +52,7 @@ public class EnemyManager : MonoBehaviour
 
     public void SpawnEnemies()
     {
-        for (int i = 0; i < 8; ++i)
+        for (int i = 0; i < 2; ++i)
         {
             // spawn enemies and add them to the list
             EnemyBase tmp = Instantiate(enemyPrefab, transform).GetComponent<EnemyBase>();
