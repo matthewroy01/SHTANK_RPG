@@ -63,7 +63,7 @@ public class PlayerSelector : MonoBehaviour
             // blue for movement
             for (int i = 0; i < currentPlayer.movementSpaces.Count; ++i)
             {
-                currentPlayer.movementSpaces[i].obj.GetComponent<Renderer>().material.color = Color.Lerp(Color.Lerp(Color.blue, Color.white, 0.25f), Color.blue, Mathf.Sin(Time.time * 10.0f + (0.5f * i)));
+                //currentPlayer.movementSpaces[i].obj.GetComponent<Renderer>().material.color = Color.Lerp(Color.Lerp(Color.blue, Color.white, 0.25f), Color.blue, Mathf.Sin(Time.time * 10.0f + (0.5f * i)));
             }
 
             Movement();
@@ -313,10 +313,16 @@ public class PlayerSelector : MonoBehaviour
         {
             if (hit.transform)
             {
+                GridSpace tmpAbilityGridSpace = abilityGridSpace;
+
                 // try to set the ability grid space for this special case
                 abilityGridSpace = refCombatGrid.GetGridSpace(hit.transform.gameObject);
 
-                TryProcessAbility();
+                // no need to process the ability every frame if the grid space hasn't changed
+                if (abilityGridSpace != tmpAbilityGridSpace)
+                {
+                    TryProcessAbility();
+                }
             }
         }
     }

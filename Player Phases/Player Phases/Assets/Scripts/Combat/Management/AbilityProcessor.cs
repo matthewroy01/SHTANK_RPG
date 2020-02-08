@@ -23,14 +23,14 @@ public class AbilityProcessor : MonoBehaviour
         // red for ranged view
         for (int i = 0; i < startingSpaces.Count; ++i)
         {
-            startingSpaces[i].obj.GetComponent<Renderer>().material.color = Color.Lerp(Color.Lerp(Color.red, Color.white, 0.25f), Color.red, Mathf.Sin(Time.time * 10.0f + (0.5f * i)));
+            //startingSpaces[i].obj.GetComponent<Renderer>().material.color = Color.Lerp(Color.Lerp(Color.red, Color.white, 0.25f), Color.red, Mathf.Sin(Time.time * 10.0f + (0.5f * i)));
         }
 
         // TEMPORARY CODE FOR SETTING THE COLOR OF THE GRID SPACES, THIS SHOULD PROBABLY BE HANDLED BY A SHADER
         // green for attack preview
         for (int i = 0; i < gridSpaces.Count; ++i)
         {
-            gridSpaces[i].obj.GetComponent<Renderer>().material.color = Color.Lerp(Color.Lerp(Color.green, Color.white, 0.5f), Color.green, Mathf.Sin(Time.time * 10.0f + (0.5f * i)));
+            //gridSpaces[i].obj.GetComponent<Renderer>().material.color = Color.Lerp(Color.Lerp(Color.green, Color.white, 0.5f), Color.green, Mathf.Sin(Time.time * 10.0f + (0.5f * i)));
         }
     }
 
@@ -487,5 +487,15 @@ public class AbilityProcessor : MonoBehaviour
         }
 
         return spaces[spaces.Count - 1];
+    }
+
+    public List<GridSpace> GetGridSpaces()
+    {
+        return gridSpaces;
+    }
+
+    public List<GridSpace> GetStartingSpaces()
+    {
+        return startingSpaces;
     }
 }
