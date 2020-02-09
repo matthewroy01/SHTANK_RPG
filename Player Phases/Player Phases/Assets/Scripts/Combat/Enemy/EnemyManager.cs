@@ -52,7 +52,7 @@ public class EnemyManager : MonoBehaviour
 
     public void SpawnEnemies()
     {
-        for (int i = 0; i < 2; ++i)
+        for (int i = 0; i < 6; ++i)
         {
             // spawn enemies and add them to the list
             EnemyBase tmp = Instantiate(enemyPrefab, transform).GetComponent<EnemyBase>();
@@ -113,6 +113,22 @@ public class EnemyManager : MonoBehaviour
 
         // this current phase is done, let the Phase Manager know it's time to move to the next phase
         refPhaseManager.NextPhase();
+    }
+
+    public void AlertAllEnemies(Character target, EnemyBase source)
+    {
+        for (int i = 0; i < enemies.Count; ++i)
+        {
+            // look for the target of the aggro
+            for (int j = 0; j < enemies[i].aggroData.Count; ++j)
+            {
+                // once we find the target, set it to 1 if it was 0
+                if (enemies[i].aggroData[j].character == target && enemies[i].aggroData[j].aggro == 0)
+                {
+                    enemies[i].aggroData[j].aggro = 1;
+                }
+            }
+    }
     }
 
     public void DispelAggroFromTarget(Character target, int amount)

@@ -114,7 +114,10 @@ MonoBehaviour:
   defenseMod: 0
   attackMod: 0
   nashbalm: 5
-  movementRange: 5
+  movementRangeDefault: 0
+  movementRangeCurrent: 0
+  statusFrosty: 0
+  statusAttackUp: 0
   affiliation: 0
   terrainTypes: 00000000
   moveset: {fileID: 0}
@@ -176,6 +179,11 @@ MonoBehaviour:
     color: {r: 0.745283, g: 0.745283, b: 0.745283, a: 1}
     sound: {fileID: 8300000, guid: 3bf2bf4d84236684198b9efb2f49e7fa, type: 3}
     effect: {fileID: 5349959161911331658}
+  attackUp:
+    ui: {fileID: 3781468285616583984}
+    color: {r: 0, g: 1, b: 0, a: 1}
+    sound: {fileID: 8300000, guid: 164dd1a3a3ad5cb43a690df4dc22adf1, type: 3}
+    effect: {fileID: 6296104684039953559}
   timeBetweenEffects: 0.35
 --- !u!82 &-7938591139883573462
 AudioSource:
@@ -569,6 +577,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d0e2c14083184ec4280c1be407d7b1ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3781468285616583984 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4765382351791930118, guid: f5bb6aad34934424597bcc860644c612,
+    type: 3}
+  m_PrefabInstance: {fileID: 8527692745696726582}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6296104684039953559 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2393718747756106401, guid: f5bb6aad34934424597bcc860644c612,
+    type: 3}
+  m_PrefabInstance: {fileID: 8527692745696726582}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ffbabb3662e99e4cac1ee6a4bec3cc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &3794180465408686776 stripped

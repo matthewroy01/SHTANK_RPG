@@ -16,6 +16,7 @@ public class EffectUI : MonoBehaviour
     public EffectUIParameters frost;
     public EffectUIParameters aggro;
     public EffectUIParameters dispelAggro;
+    public EffectUIParameters attackUp;
 
     [Header("Timing")]
     public float timeBetweenEffects;
@@ -97,6 +98,11 @@ public class EffectUI : MonoBehaviour
                 dispelAggro.Apply("Aggro Dispelled!", refAudioSource);
                 break;
             }
+            case Effect_ID.attackUp:
+            {
+                attackUp.Apply("Attack Up!", refAudioSource);
+                break;
+            }
             default:
             {
                 break;
@@ -113,6 +119,7 @@ public class EffectUI : MonoBehaviour
         frost.Clear();
         aggro.Clear();
         dispelAggro.Clear();
+        attackUp.Clear();
     }
 }
 

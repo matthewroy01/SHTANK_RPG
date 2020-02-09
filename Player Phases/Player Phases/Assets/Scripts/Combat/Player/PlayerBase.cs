@@ -90,7 +90,7 @@ public class PlayerBase : Character
     {
         // reset movement spaces
         movementSpaces.Clear();
-        movementSpaces = grid.GetBreadthFirst(myGridSpace, movementRangeDefault, terrainTypes, true);
+        movementSpaces = grid.GetBreadthFirst(myGridSpace, movementRangeCurrent, terrainTypes, true);
     }
 
     public void Deselected()

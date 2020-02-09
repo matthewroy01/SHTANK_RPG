@@ -80,6 +80,7 @@ public class Character : MonoBehaviour
                     if (GetType().Name == "EnemyBase")
                     {
                         ((EnemyBase)this).ApplyAggro(effect.source, 1);
+                        FindObjectOfType<EnemyManager>().AlertAllEnemies(effect.source, (EnemyBase)this);
                     }
 
                     if (healthCurrent == 0)
@@ -95,7 +96,7 @@ public class Character : MonoBehaviour
                 {
                     Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
 
-                    if (healthCurrent + effect.value > 0)
+                    if (healthCurrent + effect.value > healthMax)
                     {
                         healthCurrent = healthMax;
                     }
@@ -119,6 +120,7 @@ public class Character : MonoBehaviour
                     if (GetType().Name == "EnemyBase")
                     {
                         ((EnemyBase)this).ApplyAggro(effect.source, effect.value);
+                        FindObjectOfType<EnemyManager>().AlertAllEnemies(effect.source, (EnemyBase)this);
                     }
                 }
                 break;

@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895451904fc59484a804181f76e3f2fa, type: 3}
   m_Name: Single Scoop
   m_EditorClassIdentifier: 
+  description: 
   moveCharacter: 0
   ignoreWalls: 0
   ranged: 1
-  range: 4
+  range: 2
   effects:
   - id: 1
     value: 4

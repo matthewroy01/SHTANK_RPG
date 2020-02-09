@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895451904fc59484a804181f76e3f2fa, type: 3}
   m_Name: Melon Taunt
   m_EditorClassIdentifier: 
+  description: 
   moveCharacter: 0
   ignoreWalls: 1
   ranged: 0
@@ -21,4 +22,4 @@ MonoBehaviour:
     value: 5
     probability: 1
     source: {fileID: 0}
-  radius: 7
+  radius: 4

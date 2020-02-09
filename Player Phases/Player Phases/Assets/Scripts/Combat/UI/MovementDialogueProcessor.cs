@@ -84,10 +84,10 @@ public class MovementDialogueProcessor : MonoBehaviour
                 }
             }
 
-            yield return new WaitForSeconds(secondsBetweenLetters);
+            yield return new WaitForSecondsRealtime(secondsBetweenLetters);
         }
 
-        yield return new WaitForSeconds(secondsBeforeClear);
+        yield return new WaitForSecondsRealtime(secondsBeforeClear);
 
         movementDialogueText.text = "";
     }

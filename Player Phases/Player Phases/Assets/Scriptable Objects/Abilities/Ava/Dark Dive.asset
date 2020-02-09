@@ -16,10 +16,10 @@ MonoBehaviour:
   moveCharacter: 1
   ignoreWalls: 1
   ranged: 1
-  range: 5
+  range: 4
   effects:
   - id: 0
     value: 3
     probability: 1
     source: {fileID: 0}
-  radius: 2
+  radius: 1

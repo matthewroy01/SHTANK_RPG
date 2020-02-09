@@ -38,7 +38,6 @@ public class PlayerSelector : MonoBehaviour
         if (currentPlayer == null)
         {
             ClearUI();
-
             Select();
         }
 
@@ -68,8 +67,8 @@ public class PlayerSelector : MonoBehaviour
 
             Movement();
             Flip();
-            CancelOrSave();
             DoMoves();
+            CancelOrSave();
         }
 
         for (int i = 0; i < refCombatGrid.grid.GetLength(0); ++i)
@@ -187,7 +186,7 @@ public class PlayerSelector : MonoBehaviour
         // if we have inputted an ability previously and a button is pressed again, commit to the ability
         for (int i = 0; i < keys.Length; ++i)
         {
-            if (Input.GetKeyDown(keys[i]) && savedAbilityNum == i + 1)
+            if ((Input.GetKeyDown(keys[i]) || Input.GetKeyDown(KeyCode.Space)) && savedAbilityNum == i + 1)
             {
                 // if there is a valid ability to apply
                 if (refAbilityProcessor.ApplyAbilityCheck())
@@ -241,7 +240,7 @@ public class PlayerSelector : MonoBehaviour
 
     private void CancelOrSave()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             // TEMPORARY CODE FOR RESETTING THE COLOR OF THE GRID SPACES, THIS SHOULD PROBABLY BE HANDLED BY A SHADER
             for (int i = 0; i < currentPlayer.movementSpaces.Count; ++i)

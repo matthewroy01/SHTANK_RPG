@@ -43,16 +43,16 @@ public class UISlide : UIEffect
         {
             refRectTransform.localPosition = Vector2.Lerp(refRectTransform.localPosition, Vector2.zero, slideSpeedIn);
 
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForFixedUpdate();
         }
 
-        yield return new WaitForSeconds(timeToWait);
+        yield return new WaitForSecondsRealtime(timeToWait);
 
         while (Vector2.Distance(refRectTransform.localPosition, new Vector2(refRectTransform.rect.width, 0.0f)) > 5)
         {
             refRectTransform.localPosition = Vector2.Lerp(refRectTransform.localPosition, new Vector2(refRectTransform.rect.width, 0.0f), slideSpeedOut);
 
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForFixedUpdate();
         }
     }
 
@@ -64,16 +64,16 @@ public class UISlide : UIEffect
         {
             refRectTransform.localPosition = Vector2.Lerp(refRectTransform.localPosition, Vector2.zero, slideSpeedIn);
 
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForFixedUpdate();
         }
 
-        yield return new WaitForSeconds(timeToWait);
+        yield return new WaitForSecondsRealtime(timeToWait);
 
         while (Vector2.Distance(refRectTransform.localPosition, new Vector2(0.0f, refRectTransform.rect.height)) > 5)
         {
             refRectTransform.localPosition = Vector2.Lerp(refRectTransform.localPosition, new Vector2(0.0f, refRectTransform.rect.height), slideSpeedOut);
 
-            yield return new WaitForEndOfFrame();
+            yield return new WaitForFixedUpdate();
         }
     }
 }
