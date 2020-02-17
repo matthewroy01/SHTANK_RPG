@@ -488,7 +488,7 @@ MonoBehaviour:
 
     - Move characters with WASD.
 
-    - Each character has limited movement (show in blue on the grid).
+    - Each character has limited movement (shown in blue on the grid).
 
 
     Using Abilities:
@@ -498,19 +498,20 @@ MonoBehaviour:
 
     - Press the spacebar or the number again to use the ability.
 
-    - The spaces that an ability will affect are shown in green.
+    - The spaces that an ability will affect are shown in green on the grid.
 
     - Some abilities have direction to them; use WASD and shift to rotate/flip them.
 
     - Some abilities are ranged; use the mouse to change their starting point. Possible
-    starting points for ranged abilities are shown in red.
+    starting points for ranged abilities are shown in red on the grid.
 
 
     Confirming/Canceling:
 
 
     - Spacebar will use an ability if one is selected or end the selected character''s
-    movement otherwise.
+    movement otherwise. Pressing the number key of the currently selected ability
+    again will also use it.
 
     - Escape or right click will cancel the selected ability, cancel the selected
     character''s movement, or deselect the current character depending on the scenario.'
@@ -583,10 +584,10 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 736200029}
-    characterCount: 874
+    characterCount: 981
     spriteCount: 0
-    spaceCount: 150
-    wordCount: 148
+    spaceCount: 170
+    wordCount: 168
     linkCount: 0
     lineCount: 21
     pageCount: 1
@@ -1637,3 +1638,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   url: https://docs.google.com/forms/d/e/1FAIpQLSc6KoGC_aeXpRaSOSH7dH-gw1BvqwIXHLq2FGnYCWoRruDVIA/viewform
+  closeBuild: 1

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc9cfe8475e9cf148b3715d8f0b1fd3e, type: 3}
   m_Name: Melon Slam
   m_EditorClassIdentifier: 
+  description: 
   moveCharacter: 0
   ignoreWalls: 0
   ranged: 0
