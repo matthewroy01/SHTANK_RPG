@@ -115,8 +115,11 @@ public class PlayerManager : MonoBehaviour
             // affiliation (always player, since this is the Player Manager)
             refPlayerBase.affiliation = Character_Affiliation.player;
 
-            // generate UI definitions for abilities now
-            refPlayerBase.uiAbilities = CharacterUI.GetAbilityUI(refPlayerBase);
+            // character portrait for UI
+            refPlayerBase.portrait = def.portrait;
+
+            // ability definitions for UI
+            refPlayerBase.abilityUIDefinition = FindObjectOfType<CharacterUI>().InitializeAbilityUI(refPlayerBase);
         }
 
         if (refMovementDialogueProcessor != null)

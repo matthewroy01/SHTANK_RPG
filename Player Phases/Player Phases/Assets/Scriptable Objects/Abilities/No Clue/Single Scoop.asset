@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895451904fc59484a804181f76e3f2fa, type: 3}
   m_Name: Single Scoop
   m_EditorClassIdentifier: 
-  description: 
+  description: With a single scoop, heal a single ally a lot!
   moveCharacter: 0
   ignoreWalls: 0
   ranged: 1

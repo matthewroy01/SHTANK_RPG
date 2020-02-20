@@ -328,18 +328,18 @@ public class PlayerSelector : MonoBehaviour
 
     private void UpdateUI()
     {
-        uiStats.text = CharacterUI.GetStatsUI(currentPlayer);
+        //uiStats.text = CharacterUI.GetStatsUI(currentPlayer);
 
-        if (currentPlayer.uiAbilities != null)
+        /*if (currentPlayer.abilityUIDefinition != null)
         {
             string spacing = "\n\n";
-            uiAbilities.text = currentPlayer.uiAbilities.abil1 + spacing +
-                currentPlayer.uiAbilities.abil2 + spacing +
-                currentPlayer.uiAbilities.abil3 + spacing +
-                currentPlayer.uiAbilities.abil4 + spacing;
+            uiAbilities.text = currentPlayer.abilityUIDefinition.abil1 + spacing +
+                currentPlayer.abilityUIDefinition.abil2 + spacing +
+                currentPlayer.abilityUIDefinition.abil3 + spacing +
+                currentPlayer.abilityUIDefinition.abil4 + spacing;
         }
 
-        uiBackgrounds.SetActive(true);
+        uiBackgrounds.SetActive(true);*/
     }
 
     private void ClearUI()

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895451904fc59484a804181f76e3f2fa, type: 3}
   m_Name: Smoke Bomb
   m_EditorClassIdentifier: 
+  description: Toss a smoke bomb at your allies to help them lose their enemies.
   moveCharacter: 0
   ignoreWalls: 0
   ranged: 1

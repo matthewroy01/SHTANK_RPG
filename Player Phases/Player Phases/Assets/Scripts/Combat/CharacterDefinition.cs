@@ -6,6 +6,7 @@ using UnityEngine;
 public class CharacterDefinition : ScriptableObject
 {
     public string characterName;
+    public Sprite portrait;
 
     [Header("Stats")]
     public int healthMax;

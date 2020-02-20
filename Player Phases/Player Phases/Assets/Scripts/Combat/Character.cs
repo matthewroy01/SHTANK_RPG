@@ -44,12 +44,15 @@ public class Character : MonoBehaviour
     public List<GridSpace_TerrainType> terrainTypes = new List<GridSpace_TerrainType>();
     public List<GridSpace> movementSpaces = new List<GridSpace>();
 
+    [Header("UI Character Portrait")]
+    public Sprite portrait;
+
     public GridSpace myGridSpace;
 
     private EffectUI refCharacterEffectUI;
 
     [HideInInspector]
-    public CharacterAbilityUI uiAbilities;
+    public AbilityUIDefinition abilityUIDefinition;
 
     public void ApplyEffect(Effect effect)
     {

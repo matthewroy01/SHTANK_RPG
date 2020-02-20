@@ -16,6 +16,7 @@ public class CharacterSelector : MonoBehaviour
 
     private CombatGrid refCombatGrid;
     private AbilityProcessor refAbilityProcessor;
+    private CharacterUI refCharacterUI;
 
     System.Tuple<KeyCode, CombatDirection>[] keysAndDirections = {
             new System.Tuple<KeyCode, CombatDirection>(KeyCode.W, CombatDirection.up),
@@ -64,6 +65,7 @@ public class CharacterSelector : MonoBehaviour
     {
         refCombatGrid = FindObjectOfType<CombatGrid>();
         refAbilityProcessor = FindObjectOfType<AbilityProcessor>();
+        refCharacterUI = FindObjectOfType<CharacterUI>();
     }
 
     private void Update()
@@ -167,6 +169,9 @@ public class CharacterSelector : MonoBehaviour
 
                     // let the newly selected player know they have been selected
                     currentPlayer.Selected(refCombatGrid);
+
+                    // update UI
+                    refCharacterUI.UpdateCharacterUI(currentPlayer);
 
                     // update the state machine
                     stateMachine.TryUpdateConnection((int)SelectorState.playerSelected);

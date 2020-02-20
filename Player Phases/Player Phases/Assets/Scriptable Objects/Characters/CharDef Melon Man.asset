@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: CharDef Melon Man
   m_EditorClassIdentifier: 
   characterName: Melon Man
+  portrait: {fileID: 21300000, guid: cfc7587d87b73544289e354bc0d0b7fb, type: 3}
   healthMax: 12
   attackMod: 0
   defenseMod: 1

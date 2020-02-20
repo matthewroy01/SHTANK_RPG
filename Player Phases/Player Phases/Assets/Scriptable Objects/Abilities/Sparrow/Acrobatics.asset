@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4171d8c7a89e384dac5c952b87f2508, type: 3}
   m_Name: Acrobatics
   m_EditorClassIdentifier: 
-  description: 
+  description: Dash with incredible acrobatic skill, dealing heavy damage.
   moveCharacter: 1
   ignoreWalls: 0
   ranged: 0

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: CharDef Sparrow
   m_EditorClassIdentifier: 
   characterName: Sparrow
+  portrait: {fileID: 21300000, guid: 1aa546fe98fe75e41a5c0a3f7232d921, type: 3}
   healthMax: 8
   attackMod: 0
   defenseMod: 0

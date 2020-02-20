@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4171d8c7a89e384dac5c952b87f2508, type: 3}
   m_Name: Melon Charge
   m_EditorClassIdentifier: 
+  description: Charge forward in a powerful headbutt.
   moveCharacter: 1
   ignoreWalls: 0
   ranged: 0
