@@ -46,7 +46,7 @@ public class EnemyBase : Character
         // select aggro target
         aggroTarget = ProcessAggro();
 
-        List<GridSpace> path = refCombatGrid.GetAStar(refCombatGrid, myGridSpace, aggroTarget);
+        List<GridSpace> path = refCombatGrid.GetAStar(refCombatGrid, myGridSpace, aggroTarget, false);
         StartCoroutine(MoveAlongPath(path));
     }
 

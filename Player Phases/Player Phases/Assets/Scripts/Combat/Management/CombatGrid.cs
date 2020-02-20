@@ -284,7 +284,7 @@ public class CombatGrid : MonoBehaviour
         }
     }
 
-    public List<GridSpace> GetAStar(CombatGrid refCombatGrid, GridSpace start, GridSpace target)
+    public List<GridSpace> GetAStar(CombatGrid refCombatGrid, GridSpace start, GridSpace target, bool includeTarget)
     {
         AStarInitializeCosts(refCombatGrid.grid, start, target);
 
@@ -313,6 +313,13 @@ public class CombatGrid : MonoBehaviour
             // if current is equal to the target, we have reached our destination
             if (current == target)
             {
+                // only include the target if specified
+                // not including the target helps enemies get within one space of the enemy to attack
+                if (includeTarget)
+                {
+                    result.Add(current);
+                }
+
                 // loop back through the pathing connections until we reach the start again to find our path
                 while (current != start)
                 {

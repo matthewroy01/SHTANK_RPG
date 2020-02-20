@@ -6,7 +6,7 @@ public class GridColorProcessor : MonoBehaviour
 {
     private CombatGrid refCombatGrid;
     private AbilityProcessor refAbilityProcessor;
-    private PlayerSelector refPlayerSelector;
+    private CharacterSelector refCharacterSelector;
 
     [Header("Grid Colors")]
     public Color colorMovement;
@@ -20,7 +20,7 @@ public class GridColorProcessor : MonoBehaviour
     {
         refCombatGrid = FindObjectOfType<CombatGrid>();
         refAbilityProcessor = FindObjectOfType<AbilityProcessor>();
-        refPlayerSelector = FindObjectOfType<PlayerSelector>();
+        refCharacterSelector = FindObjectOfType<CharacterSelector>();
     }
 
     void Update()
@@ -43,8 +43,11 @@ public class GridColorProcessor : MonoBehaviour
         {
             for (int j = 0; j < refCombatGrid.grid.GetLength(1); ++j)
             {
-                // color for movement spaces
-                CheckListForGridSpace(refPlayerSelector.currentPlayer.movementSpaces, refCombatGrid.grid[i, j], colorMovement, i, j);
+                if (refCharacterSelector.currentPlayer != null)
+                {
+                    // color for movement spaces
+                    CheckListForGridSpace(refCharacterSelector.currentPlayer.movementSpaces, refCombatGrid.grid[i, j], colorMovement, i, j);
+                }
 
                 // color for ranged starting spaces
                 CheckListForGridSpace(refAbilityProcessor.GetStartingSpaces(), refCombatGrid.grid[i, j], colorRangedStartingSpaces, i, j);

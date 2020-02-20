@@ -69,6 +69,26 @@ public class PlayerBase : Character
         return result;
     }
 
+    public bool TryMoveAStar(CombatGrid grid, GridSpace target)
+    {
+        if (target != null && movementSpaces.Contains(target))
+        {
+            // try to path to the target GridSpace
+            List<GridSpace> spaces;
+            spaces = grid.GetAStar(grid, myGridSpace, target, true);
+
+            // if a path was found and we are not already at the target, move there
+            if (spaces.Count > 0 && myGridSpace != spaces[spaces.Count - 1])
+            {
+                myGridSpace = spaces[spaces.Count - 1];
+                transform.position = myGridSpace.obj.transform.position;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public void Selected(CombatGrid grid)
     {
         selected = true;
