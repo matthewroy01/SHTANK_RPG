@@ -2062,8 +2062,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4ac0a7eb07c39c4499db4460446b8693, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lerpSpeed: 1
+  lerpSpeed: 0.15
+  edgeSensitiviy: 0.05
+  edgeMode: 1
+  requireTab: 1
   cameraMode: 0
+  maxX: 5
+  maxY: 5
 --- !u!1 &969042759
 GameObject:
   m_ObjectHideFlags: 0

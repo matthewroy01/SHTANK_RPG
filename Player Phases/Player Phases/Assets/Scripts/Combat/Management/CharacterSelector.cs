@@ -66,6 +66,8 @@ public class CharacterSelector : MonoBehaviour
         refCombatGrid = FindObjectOfType<CombatGrid>();
         refAbilityProcessor = FindObjectOfType<AbilityProcessor>();
         refCharacterUI = FindObjectOfType<CharacterUI>();
+
+        refCharacterUI.ToggleUI(false);
     }
 
     private void Update()
