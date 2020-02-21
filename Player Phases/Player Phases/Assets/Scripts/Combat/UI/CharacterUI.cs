@@ -9,6 +9,8 @@ public class CharacterUI : MonoBehaviour
 {
     private Character currentCharacter;
 
+    public GameObject parentToToggle;
+
     [Header("Stats")]
     public Image imagePortrait;
     public TextMeshProUGUI textMeshCharacterName;
@@ -20,9 +22,36 @@ public class CharacterUI : MonoBehaviour
 
     [Header("Abilities")]
     public AbilityUI abilityUI1;
-    public AbilityUI abilityUI2;
-    public AbilityUI abilityUI3;
-    public AbilityUI abilityUI4;
+    private AbilityUI abilityUI2;
+    private AbilityUI abilityUI3;
+    private AbilityUI abilityUI4;
+
+    private void Start()
+    {
+        CharacterSelector refCharacterSelector = FindObjectOfType<CharacterSelector>();
+
+        abilityUI1.buttonSelectAbility.onClick.AddListener(delegate { refCharacterSelector.SelectAbility(1); });
+
+        abilityUI2 = Instantiate(abilityUI1.gameObject, abilityUI1.transform.parent).GetComponent<AbilityUI>();
+        abilityUI2.name = "Ability 2";
+
+        abilityUI2.buttonSelectAbility.onClick.AddListener(delegate { refCharacterSelector.SelectAbility(2); });
+
+        abilityUI3 = Instantiate(abilityUI2.gameObject, abilityUI2.transform.parent).GetComponent<AbilityUI>();
+        abilityUI3.name = "Ability 3";
+
+        abilityUI3.buttonSelectAbility.onClick.AddListener(delegate { refCharacterSelector.SelectAbility(3); });
+
+        abilityUI4 = Instantiate(abilityUI3.gameObject, abilityUI2.transform.parent).GetComponent<AbilityUI>();
+        abilityUI4.name = "Ability 4";
+
+        abilityUI4.buttonSelectAbility.onClick.AddListener(delegate { refCharacterSelector.SelectAbility(4); });
+    }
+
+    public void ToggleUI(bool val)
+    {
+        parentToToggle.SetActive(val);
+    }
 
     public void UpdateCharacterUI(Character character)
     {
@@ -80,6 +109,7 @@ public class CharacterUI : MonoBehaviour
     {
         ui.textMeshAbilityName.text = strings.name;
         ui.textMeshDetails.text = strings.details;
+        ui.textMeshDescription.text = strings.description;
     }
 
     public AbilityUIDefinition InitializeAbilityUI(PlayerBase character)
@@ -96,24 +126,28 @@ public class CharacterUI : MonoBehaviour
                 {
                     result.strings1.name = moveset.ability1.name;
                     result.strings1.details = CreateAbilityUI(moveset.ability1);
+                    result.strings1.description = moveset.ability1.description;
                 }
 
                 if (moveset.ability2 != null)
                 {
                     result.strings2.name = moveset.ability2.name;
                     result.strings2.details = CreateAbilityUI(moveset.ability2);
+                    result.strings2.description = moveset.ability2.description;
                 }
 
                 if (moveset.ability3 != null)
                 {
                     result.strings3.name = moveset.ability3.name;
                     result.strings3.details = CreateAbilityUI(moveset.ability3);
+                    result.strings3.description = moveset.ability3.description;
                 }
 
                 if (moveset.ability4 != null)
                 {
                     result.strings4.name = moveset.ability4.name;
                     result.strings4.details = CreateAbilityUI(moveset.ability4);
+                    result.strings4.description = moveset.ability4.description;
                 }
             }
         }
@@ -123,8 +157,6 @@ public class CharacterUI : MonoBehaviour
 
     private string CreateAbilityUI(Ability abil)
     {
-        string result = "";
-
         int damageNum = 0;
         int healingNum = 0;
         List<string> effectNames = new List<string>();
@@ -191,51 +223,6 @@ public class CharacterUI : MonoBehaviour
             effects += "ranged";
         }
 
-        result = effects + "\n" + abil.description;
-        return result;
-    }
-}
-
-[System.Serializable]
-public class AbilityUI
-{
-    public Button buttonSelectAbility;
-    public TextMeshProUGUI textMeshAbilityName;
-    public TextMeshProUGUI textMeshDetails;
-
-    public void SetActive(bool val)
-    {
-        buttonSelectAbility.gameObject.SetActive(val);
-        textMeshAbilityName.gameObject.SetActive(val);
-        textMeshDetails.gameObject.SetActive(val);
-    }
-}
-
-[System.Serializable]
-public class AbilityUIDefinition
-{
-    public AbilityUIStrings strings1;
-    public AbilityUIStrings strings2;
-    public AbilityUIStrings strings3;
-    public AbilityUIStrings strings4;
-
-    public AbilityUIDefinition()
-    {
-        strings1 = new AbilityUIStrings();
-        strings2 = new AbilityUIStrings();
-        strings3 = new AbilityUIStrings();
-        strings4 = new AbilityUIStrings();
-    }
-}
-
-public class AbilityUIStrings
-{
-    public string name;
-    public string details;
-
-    public AbilityUIStrings()
-    {
-        name = "";
-        details = "";
+        return effects;
     }
 }

@@ -171,6 +171,7 @@ public class CharacterSelector : MonoBehaviour
                     currentPlayer.Selected(refCombatGrid);
 
                     // update UI
+                    refCharacterUI.ToggleUI(true);
                     refCharacterUI.UpdateCharacterUI(currentPlayer);
 
                     // update the state machine
@@ -186,6 +187,8 @@ public class CharacterSelector : MonoBehaviour
         {
             currentPlayer.Deselected();
             currentPlayer = null;
+
+            refCharacterUI.ToggleUI(false);
 
             stateMachine.TryUpdateConnection((int)SelectorState.doingNothing);
         }
@@ -260,9 +263,16 @@ public class CharacterSelector : MonoBehaviour
         currentPlayer.EndTurn();
         currentPlayer = null;
 
+        refCharacterUI.ToggleUI(false);
+
         refAbilityProcessor.CancelAbility();
 
         stateMachine.TryUpdateConnection((int)SelectorState.doingNothing);
+    }
+
+    public void SelectAbility(int abilNum)
+    {
+        Debug.Log("CharacterSelector, SelectAbility with parameter " + abilNum + ".");
     }
 
     public enum SelectorState
