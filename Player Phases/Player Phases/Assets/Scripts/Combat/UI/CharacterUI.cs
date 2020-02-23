@@ -30,22 +30,26 @@ public class CharacterUI : MonoBehaviour
     {
         CharacterSelector refCharacterSelector = FindObjectOfType<CharacterSelector>();
 
-        abilityUI1.buttonSelectAbility.onClick.AddListener(delegate { refCharacterSelector.SelectAbility(1); });
+        // set up Ability 1's UI
+        abilityUI1.buttonSelectAbility.onClick.AddListener(delegate { refCharacterSelector.AbilitySelect(1); });
 
+        // set up Ability 2's UI
         abilityUI2 = Instantiate(abilityUI1.gameObject, abilityUI1.transform.parent).GetComponent<AbilityUI>();
         abilityUI2.name = "Ability 2";
 
-        abilityUI2.buttonSelectAbility.onClick.AddListener(delegate { refCharacterSelector.SelectAbility(2); });
+        abilityUI2.buttonSelectAbility.onClick.AddListener(delegate { refCharacterSelector.AbilitySelect(2); });
 
+        // set up Ability 3's UI
         abilityUI3 = Instantiate(abilityUI2.gameObject, abilityUI2.transform.parent).GetComponent<AbilityUI>();
         abilityUI3.name = "Ability 3";
 
-        abilityUI3.buttonSelectAbility.onClick.AddListener(delegate { refCharacterSelector.SelectAbility(3); });
+        abilityUI3.buttonSelectAbility.onClick.AddListener(delegate { refCharacterSelector.AbilitySelect(3); });
 
+        // set up Ability 4's UI
         abilityUI4 = Instantiate(abilityUI3.gameObject, abilityUI2.transform.parent).GetComponent<AbilityUI>();
         abilityUI4.name = "Ability 4";
 
-        abilityUI4.buttonSelectAbility.onClick.AddListener(delegate { refCharacterSelector.SelectAbility(4); });
+        abilityUI4.buttonSelectAbility.onClick.AddListener(delegate { refCharacterSelector.AbilitySelect(4); });
     }
 
     public void ToggleUI(bool val)

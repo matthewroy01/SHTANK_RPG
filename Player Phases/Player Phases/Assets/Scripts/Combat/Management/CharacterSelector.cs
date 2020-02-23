@@ -12,6 +12,13 @@ public class CharacterSelector : MonoBehaviour
     [Header("Layer Masks for raycast collision from mouse")]
     public LayerMask layerMaskGrid;
 
+    // information to send to the Ability Processor
+    private bool dirty = false;
+    private int selectedAbilityNum = 0;
+    private bool flipped = false;
+    private CombatDirection facing = CombatDirection.up;
+    private GridSpace abilityGridSpace;
+
     private StateMachine stateMachine;
 
     private CombatGrid refCombatGrid;
@@ -51,6 +58,7 @@ public class CharacterSelector : MonoBehaviour
             new StateMachineConnection((int)SelectorState.playerSelected, (int)SelectorState.playerSelectedWithMovement),
             new StateMachineConnection((int)SelectorState.playerSelected, (int)SelectorState.playerSelectedWithAbility),
             new StateMachineConnection((int)SelectorState.playerSelectedWithMovement, (int)SelectorState.playerSelected),
+            new StateMachineConnection((int)SelectorState.playerSelectedWithMovement, (int)SelectorState.playerSelectedWithAbility),
             new StateMachineConnection((int)SelectorState.playerSelectedWithAbility, (int)SelectorState.playerSelectedWithMovement),
             new StateMachineConnection((int)SelectorState.playerSelectedWithAbility, (int)SelectorState.playerSelected),
 
@@ -121,7 +129,7 @@ public class CharacterSelector : MonoBehaviour
                 EndTurn();
 
                 // cancel movement
-                CancelMovement();
+                MovementCancel();
 
                 break;
             }
@@ -129,13 +137,18 @@ public class CharacterSelector : MonoBehaviour
             {
                 // ranged aim
 
-                // change direction
+                // change direction/general display
+                AbilityProcess();
 
-                // flip ability
+                // flip/rotate ability
+                AbilityFlip();
+                AbilityRotate();
 
                 // use an ability
+                AbilityUse();
 
-                // cancel ability
+                // deselect the current ability
+                AbilityDeselect();
 
                 break;
             }
@@ -239,8 +252,9 @@ public class CharacterSelector : MonoBehaviour
         }
     }
 
-    private void CancelMovement()
+    private void MovementCancel()
     {
+        // cancle movement and return to a state where the selected player has yet to move
         if (Input.GetMouseButtonDown(1))
         {
             currentPlayer.ResetToDefaultPosition(defaultGridSpace);
@@ -272,9 +286,91 @@ public class CharacterSelector : MonoBehaviour
         stateMachine.TryUpdateConnection((int)SelectorState.doingNothing);
     }
 
-    public void SelectAbility(int abilNum)
+    public void AbilitySelect(int abilNum)
     {
-        Debug.Log("CharacterSelector, SelectAbility with parameter " + abilNum + ".");
+        // this public function is called using delegates from UI buttons in the scene
+        selectedAbilityNum = abilNum;
+
+        stateMachine.TryUpdateConnection((int)SelectorState.playerSelectedWithAbility);
+
+        dirty = true;
+    }
+
+    private void AbilityProcess()
+    {
+        // tell the ability processor to process the ability
+        if (dirty)
+        {
+            TryProcessAbility();
+
+            dirty = false;
+        }
+    }
+
+    private void AbilityDeselect()
+    {
+        // cancel the selected ability
+        if (Input.GetMouseButtonDown(1))
+        {
+            selectedAbilityNum = 0;
+
+            // return to the previous state (either state where the player is selected but an ability has not been)
+            if (stateMachine.previousState == (int)SelectorState.playerSelected)
+            {
+                stateMachine.TryUpdateConnection((int)SelectorState.playerSelected);
+            }
+            else if (stateMachine.previousState == (int)SelectorState.playerSelectedWithMovement)
+            {
+                stateMachine.TryUpdateConnection((int)SelectorState.playerSelectedWithMovement);
+            }
+
+            // tell the ability processor to cancel whatever it has ready to process
+            refAbilityProcessor.CancelAbility();
+        }
+    }
+
+    private void AbilityFlip()
+    {
+        // flip the orientation of the selected ability
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            flipped = !flipped;
+
+            dirty = true;
+        }
+    }
+
+    private void AbilityRotate()
+    {
+        
+    }
+
+    private void AbilityUse()
+    {
+        // actually use the ability and apply its effects to the grid
+        if (Input.GetKeyDown(KeyCode.Space) && selectedAbilityNum != 0)
+        {
+            // if there is a valid ability to apply
+            if (refAbilityProcessor.ApplyAbilityCheck())
+            {
+                // apply the currently saved ability
+                refAbilityProcessor.ApplyAbility();
+
+                // end the selected player's turn
+                EndTurnFunctionality();
+
+                // reset our previously inputted ability
+                selectedAbilityNum = 0;
+            }
+        }
+    }
+
+    private void TryProcessAbility()
+    {
+        if (currentPlayer != null)
+        {
+            refAbilityProcessor.ProcessAbility(currentPlayer, null, selectedAbilityNum, facing, flipped);
+        }
     }
 
     public enum SelectorState

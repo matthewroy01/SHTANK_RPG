@@ -99,18 +99,6 @@ public class AbilityProcessor : MonoBehaviour
 
     public void CancelAbility()
     {
-        // TEMPORARY CODE FOR RESETTING THE COLOR OF THE GRID SPACES, THIS SHOULD PROBABLY BE HANDLED BY A SHADER
-        for (int i = 0; i < gridSpaces.Count; ++i)
-        {
-            gridSpaces[i].obj.GetComponent<Renderer>().material.color = Color.white;
-        }
-
-        // TEMPORARY CODE FOR RESETTING THE COLOR OF THE GRID SPACES, THIS SHOULD PROBABLY BE HANDLED BY A SHADER
-        for (int i = 0; i < startingSpaces.Count; ++i)
-        {
-            startingSpaces[i].obj.GetComponent<Renderer>().material.color = Color.white;
-        }
-
         gridSpaces.Clear();
         startingSpaces.Clear();
         savedAbility = null;
