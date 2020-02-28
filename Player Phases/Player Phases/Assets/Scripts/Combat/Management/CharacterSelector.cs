@@ -342,7 +342,53 @@ public class CharacterSelector : MonoBehaviour
 
     private void AbilityRotate()
     {
-        
+        // calculate screen pos of the current selected player
+        Vector2 playerScreenPos = Camera.main.WorldToScreenPoint(currentPlayer.transform.position);
+        playerScreenPos /= new Vector2(Screen.width, Screen.height);
+
+        // calculate screen pos of the mouse
+        Vector2 mousePos = Input.mousePosition;
+        mousePos /= new Vector2(Screen.width, Screen.height);
+
+        // get a direction based on the mouse and player position
+        Vector2 direction = mousePos - playerScreenPos;
+
+        // find the direction the ability should face
+        CombatDirection tmp;
+        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+        {
+            if (direction.x > 0.0f)
+            {
+                tmp = CombatDirection.right;
+            }
+            else
+            {
+                tmp = CombatDirection.left;
+            }
+        }
+        else
+        {
+            if (direction.y > 0.0f)
+            {
+                tmp = CombatDirection.up;
+            }
+            else
+            {
+                tmp = CombatDirection.down;
+            }
+        }
+
+        // save the previous direction
+        CombatDirection previous = facing;
+    
+        // assign the new direction
+        facing = tmp;
+
+        // only update the ability processor if the direction changed
+        if (previous != facing)
+        {
+            TryProcessAbility();
+        }
     }
 
     private void AbilityUse()
