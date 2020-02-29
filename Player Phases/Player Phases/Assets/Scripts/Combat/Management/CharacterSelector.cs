@@ -97,6 +97,7 @@ public class CharacterSelector : MonoBehaviour
             case (int)SelectorState.playerSelected:
             {
                 // input abilities
+                // THIS IS HANDLED BY BUTTONS IN THE UI
 
                 // input movement
                 MovementMouse();
@@ -119,6 +120,7 @@ public class CharacterSelector : MonoBehaviour
             case (int)SelectorState.playerSelectedWithMovement:
             {
                 // input abilities
+                // THIS IS HANDLED BY BUTTONS IN THE UI
 
                 // input movement
                 MovementMouse();
@@ -135,10 +137,11 @@ public class CharacterSelector : MonoBehaviour
             }
             case (int)SelectorState.playerSelectedWithAbility:
             {
-                // ranged aim
-
                 // change direction/general display
                 AbilityProcess();
+
+                // ranged aim
+                AbilityRangedSelect();
 
                 // flip/rotate ability
                 AbilityFlip();
@@ -288,12 +291,16 @@ public class CharacterSelector : MonoBehaviour
 
     public void AbilitySelect(int abilNum)
     {
-        // this public function is called using delegates from UI buttons in the scene
-        selectedAbilityNum = abilNum;
+        if (stateMachine.TryUpdateConnection((int)SelectorState.playerSelectedWithAbility))
+        {
+            // this public function is called using delegates from UI buttons in the scene
+            selectedAbilityNum = abilNum;
 
-        stateMachine.TryUpdateConnection((int)SelectorState.playerSelectedWithAbility);
+            // set the ability grid space to a default value
+            abilityGridSpace = currentPlayer.myGridSpace;
 
-        dirty = true;
+            dirty = true;
+        }
     }
 
     private void AbilityProcess()
@@ -329,6 +336,39 @@ public class CharacterSelector : MonoBehaviour
         }
     }
 
+    private void AbilityRangedSelect()
+    {
+        // change the ability's starting grid space if the selected ability is ranged
+        if (refAbilityProcessor.GetAbility().ranged)
+        {
+            // clicking on objects in scene using raycasts from: https://www.youtube.com/watch?v=EANtTI6BCxk
+            // because I'm dumb and I couldn't remember how to do it myself
+            RaycastHit hit;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Input.GetMouseButton(0) && Physics.Raycast(ray, out hit, layerMaskGrid))
+            {
+                if (hit.transform != null)
+                {
+                    // check if the grid space that was clicked is in the list of starting spaces
+                    if (refAbilityProcessor.GetStartingSpaces().Contains(refCombatGrid.GetGridSpace(hit.transform.gameObject)))
+                    {
+                        // assign the ability's starting Grid Space
+                        if ((abilityGridSpace = refCombatGrid.GetGridSpace(hit.transform.gameObject)) != null)
+                        {
+                            TryProcessAbility();
+                        }
+                    }
+                }
+            }
+        }
+        // if the ability is not ranged, we can set the ability grid space to null, and the ability processor will take the selected character's current grid space instead
+        else
+        {
+            abilityGridSpace = currentPlayer.myGridSpace;
+        }
+    }
+
     private void AbilityFlip()
     {
         // flip the orientation of the selected ability
@@ -343,7 +383,7 @@ public class CharacterSelector : MonoBehaviour
     private void AbilityRotate()
     {
         // calculate screen pos of the current selected player
-        Vector2 playerScreenPos = Camera.main.WorldToScreenPoint(currentPlayer.transform.position);
+        Vector2 playerScreenPos = Camera.main.WorldToScreenPoint(abilityGridSpace.obj.transform.position);
         playerScreenPos /= new Vector2(Screen.width, Screen.height);
 
         // calculate screen pos of the mouse
@@ -415,7 +455,7 @@ public class CharacterSelector : MonoBehaviour
     {
         if (currentPlayer != null)
         {
-            refAbilityProcessor.ProcessAbility(currentPlayer, null, selectedAbilityNum, facing, flipped);
+            refAbilityProcessor.ProcessAbility(currentPlayer, abilityGridSpace, selectedAbilityNum, facing, flipped);
         }
     }
 

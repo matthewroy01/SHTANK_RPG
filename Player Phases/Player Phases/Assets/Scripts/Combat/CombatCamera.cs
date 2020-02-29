@@ -27,6 +27,7 @@ public class CombatCamera : MonoBehaviour
         refPlayerManager = FindObjectOfType<PlayerManager>();
         refCombatGrid = FindObjectOfType<CombatGrid>();
 
+        // this function must be called after the Combat Grid has already initialized itself, otherwise a null reference will occur when trying to get the position of the [0, 0] grid space from it
         CenterCamera();
     }
 
