@@ -2067,8 +2067,6 @@ MonoBehaviour:
   edgeMode: 1
   requireTab: 1
   cameraMode: 0
-  maxX: 5
-  maxY: 5
 --- !u!1 &969042759
 GameObject:
   m_ObjectHideFlags: 0
@@ -3278,7 +3276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6f4c736db31daf4eaf4b83a8166cea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridWidth: 15
+  gridWidth: 8
   gridHeight: 8
   scannable:
     serializedVersion: 2

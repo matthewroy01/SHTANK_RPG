@@ -75,7 +75,7 @@ public class PlayerBase : Character
         {
             // try to path to the target GridSpace
             List<GridSpace> spaces;
-            spaces = grid.GetAStar(grid, myGridSpace, target, true);
+            spaces = grid.GetAStar(grid, myGridSpace, target, true, true);
 
             // if a path was found and we are not already at the target, move there
             if (spaces.Count > 0 && myGridSpace != spaces[spaces.Count - 1])
@@ -110,7 +110,16 @@ public class PlayerBase : Character
     {
         // reset movement spaces
         movementSpaces.Clear();
-        movementSpaces = grid.GetBreadthFirst(myGridSpace, movementRangeCurrent, terrainTypes, true);
+        movementSpaces = grid.GetBreadthFirst(myGridSpace, movementRangeCurrent, terrainTypes, false);
+
+        for (int i = 0; i < movementSpaces.Count; ++i)
+        {
+            if (movementSpaces[i].character != null && movementSpaces[i].character != this)
+            {
+                movementSpaces.RemoveAt(i);
+                --i;
+            }
+        }
     }
 
     public void Deselected()

@@ -130,7 +130,7 @@ public class Character : MonoBehaviour
             }
             case Effect_ID.frosty:
             {
-                if (Random.Range(0.0f, 1.0f) <= effect.probability && effect.source != this)
+                if (Random.Range(0.0f, 1.0f) <= effect.probability)
                 {
                     Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
 
@@ -188,5 +188,27 @@ public class Character : MonoBehaviour
     public bool GetDead()
     {
         return dead;
+    }
+
+    private bool CheckValidAffiliation(Effect effect, bool shouldShare)
+    {
+        if (shouldShare)
+        {
+            if (effect.source.affiliation == affiliation)
+            {
+                return true;
+            }
+
+            return false;
+        }
+        else
+        {
+            if (effect.source.affiliation != affiliation)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

@@ -284,7 +284,7 @@ public class CombatGrid : MonoBehaviour
         }
     }
 
-    public List<GridSpace> GetAStar(CombatGrid refCombatGrid, GridSpace start, GridSpace target, bool includeTarget)
+    public List<GridSpace> GetAStar(CombatGrid refCombatGrid, GridSpace start, GridSpace target, bool includeTarget, bool moveThroughCharacters)
     {
         AStarInitializeCosts(refCombatGrid.grid, start, target);
 
@@ -332,17 +332,17 @@ public class CombatGrid : MonoBehaviour
             }
 
             // check all neighbors
-            AStarCheckNeighborNode(open, closed, current, start, target, current.up);
-            AStarCheckNeighborNode(open, closed, current, start, target, current.down);
-            AStarCheckNeighborNode(open, closed, current, start, target, current.left);
-            AStarCheckNeighborNode(open, closed, current, start, target, current.right);
+            AStarCheckNeighborNode(open, closed, current, start, target, current.up, moveThroughCharacters);
+            AStarCheckNeighborNode(open, closed, current, start, target, current.down, moveThroughCharacters);
+            AStarCheckNeighborNode(open, closed, current, start, target, current.left, moveThroughCharacters);
+            AStarCheckNeighborNode(open, closed, current, start, target, current.right, moveThroughCharacters);
         }
 
         Debug.LogError("CombatGrid, GetAStar, current node never reached the target, returning empty path.");
         return result;
     }
 
-    private void AStarCheckNeighborNode(List<GridSpace> open, List<GridSpace> closed, GridSpace current, GridSpace start, GridSpace target, GridSpace neighbor)
+    private void AStarCheckNeighborNode(List<GridSpace> open, List<GridSpace> closed, GridSpace current, GridSpace start, GridSpace target, GridSpace neighbor, bool moveThroughCharacters)
     {
         // check if the neighbor is null for safety (we don't want to check a space that is off of the grid)
         if (neighbor != null)
@@ -350,7 +350,7 @@ public class CombatGrid : MonoBehaviour
             if (neighbor != start)
             {
                 // skip the node if it is closed or it is not traversable
-                if (!TerrainTypePresets.onlyStandard.Contains(neighbor.GetTerrainType()) || AStarCheckGridSpaceForCharacters(neighbor, start, target) || closed.Contains(neighbor))
+                if (!TerrainTypePresets.onlyStandard.Contains(neighbor.GetTerrainType()) || (!moveThroughCharacters && AStarCheckGridSpaceForCharacters(neighbor, start, target)) || closed.Contains(neighbor))
                 {
                     return;
                 }
@@ -617,7 +617,7 @@ public enum GridSpace_TerrainType { standard, wall, wall_artificial, water };
 
 public enum Effect_ID { damage, healing, aggro, frosty, aggroDispel, shadowWall, attackUp };
 
-public enum Character_Affiliation { player, enemy, ally};
+public enum Character_Affiliation { player, enemy, ally };
 
 static public class TerrainTypePresets
 {
