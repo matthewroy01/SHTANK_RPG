@@ -52,7 +52,7 @@ public class EnemyManager : MonoBehaviour
 
     public void SpawnEnemies()
     {
-        for (int i = 0; i < 6; ++i)
+        for (int i = 0; i < 2; ++i)
         {
             // spawn enemies and add them to the list
             EnemyBase tmp = Instantiate(enemyPrefab, transform).GetComponent<EnemyBase>();
@@ -128,7 +128,7 @@ public class EnemyManager : MonoBehaviour
                     enemies[i].aggroData[j].aggro = 1;
                 }
             }
-    }
+        }
     }
 
     public void DispelAggroFromTarget(Character target, int amount)
