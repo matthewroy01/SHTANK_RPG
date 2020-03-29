@@ -24,6 +24,7 @@ public class CharacterSelector : MonoBehaviour
     private CombatGrid refCombatGrid;
     private AbilityProcessor refAbilityProcessor;
     private CharacterUI refCharacterUI;
+    private ContextSensitiveUI refContextSensitiveUI;
 
     System.Tuple<KeyCode, CombatDirection>[] keysAndDirections = {
             new System.Tuple<KeyCode, CombatDirection>(KeyCode.W, CombatDirection.up),
@@ -74,6 +75,7 @@ public class CharacterSelector : MonoBehaviour
         refCombatGrid = FindObjectOfType<CombatGrid>();
         refAbilityProcessor = FindObjectOfType<AbilityProcessor>();
         refCharacterUI = FindObjectOfType<CharacterUI>();
+        refContextSensitiveUI = FindObjectOfType<ContextSensitiveUI>();
 
         refCharacterUI.ToggleUI(false);
     }
@@ -81,6 +83,15 @@ public class CharacterSelector : MonoBehaviour
     private void Update()
     {
         ProcessState();
+
+        if (refAbilityProcessor.GetAbility() == null)
+        {
+            refContextSensitiveUI.UpdateContextSensitiveUI(stateMachine.currentState, false);
+        }
+        else
+        {
+            refContextSensitiveUI.UpdateContextSensitiveUI(stateMachine.currentState, refAbilityProcessor.GetAbility().ranged);
+        }
     }
 
     private void ProcessState()
