@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ava Movement Dialogue
   m_EditorClassIdentifier: 
   quotes:
-  - Afraid of your shadow?
+  - Afraid of a shadow?
   - Heh heh...
   - Come on.
-  deathQuote: Too much time in the limelight...
+  deathQuote: Too much time in the light...

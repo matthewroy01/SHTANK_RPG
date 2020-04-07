@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 93b3392051183bd42b195fbb6f6737db, type: 3}
-  m_Name: Corrin Movement Dialogue
+  m_Name: All Real Numbers Movement Dialogue
   m_EditorClassIdentifier: 
   quotes:
-  - All right!
-  - Of course.
-  - Let's go!
-  deathQuote: This can't be...
+  - Mathematical!
+  - Easy as pi!
+  - A simple operation.
+  deathQuote: I've... failed...
