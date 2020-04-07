@@ -10,16 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 895451904fc59484a804181f76e3f2fa, type: 3}
-  m_Name: Double Scoop
+  m_Name: Mega Cone
   m_EditorClassIdentifier: 
-  description: With a double scoop, heal multiple allies a little!
+  description: An ice cream cone with several scoops, heal a single ally a lot!
   moveCharacter: 0
   ignoreWalls: 0
   ranged: 1
-  range: 4
+  range: 2
   effects:
   - id: 1
-    value: 2
+    value: 4
     probability: 1
     source: {fileID: 0}
-  radius: 3
+  radius: 0

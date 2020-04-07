@@ -30,16 +30,16 @@ public class PlayerBase : Character
     {
         if (selected)
         {
-            GetComponent<Renderer>().material.color = Color.Lerp(Color.Lerp(Color.blue, Color.white, 0.5f), Color.blue, Mathf.Sin(Time.time * 10.0f));
+            placeholderRenderer.material.color = Color.Lerp(Color.Lerp(Color.blue, Color.white, 0.5f), Color.blue, Mathf.Sin(Time.time * 10.0f));
         }
         else
         {
-            GetComponent<Renderer>().material.color = Color.blue;
+            placeholderRenderer.material.color = Color.blue;
         }
 
         if (idle == true)
         {
-            GetComponent<Renderer>().material.color = Color.Lerp(Color.blue, Color.black, 0.75f);
+            placeholderRenderer.material.color = Color.Lerp(Color.blue, Color.black, 0.75f);
         }
     }
 

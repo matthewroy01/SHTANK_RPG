@@ -25,6 +25,7 @@ public class CharacterSelector : MonoBehaviour
     private AbilityProcessor refAbilityProcessor;
     private CharacterUI refCharacterUI;
     private ContextSensitiveUI refContextSensitiveUI;
+    private PhaseManager refPhaseManager;
 
     System.Tuple<KeyCode, CombatDirection>[] keysAndDirections = {
             new System.Tuple<KeyCode, CombatDirection>(KeyCode.W, CombatDirection.up),
@@ -76,6 +77,7 @@ public class CharacterSelector : MonoBehaviour
         refAbilityProcessor = FindObjectOfType<AbilityProcessor>();
         refCharacterUI = FindObjectOfType<CharacterUI>();
         refContextSensitiveUI = FindObjectOfType<ContextSensitiveUI>();
+        refPhaseManager = FindObjectOfType<PhaseManager>();
 
         refCharacterUI.ToggleUI(false);
     }
@@ -83,6 +85,16 @@ public class CharacterSelector : MonoBehaviour
     private void Update()
     {
         ProcessState();
+
+        if (refPhaseManager.currentPhase == CombatPhase.Player)
+        {
+            ShowEnemyInfo();
+        }
+        else
+        {
+            overlayCharacter = null;
+            refCharacterUI.ToggleUI(false);
+        }
 
         if (refAbilityProcessor.GetAbility() == null)
         {
@@ -467,6 +479,43 @@ public class CharacterSelector : MonoBehaviour
         if (currentPlayer != null)
         {
             refAbilityProcessor.ProcessAbility(currentPlayer, abilityGridSpace, selectedAbilityNum, facing, flipped);
+        }
+    }
+
+    private void ShowEnemyInfo()
+    {
+        // clicking on objects in scene using raycasts from: https://www.youtube.com/watch?v=EANtTI6BCxk
+        // because I'm dumb and I couldn't remember how to do it myself
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit, layerMaskGrid))
+        {
+            EnemyBase tmpEnemy;
+
+            if (hit.transform != null && hit.transform.TryGetComponent(out tmpEnemy))
+            {
+                tmpEnemy.Selected();
+
+                // save the enemy as a special overlayed character
+                overlayCharacter = tmpEnemy;
+
+                refCharacterUI.ToggleUI(true);
+                refCharacterUI.UpdateCharacterUI(tmpEnemy);
+            }
+        }
+        else
+        {
+            if (currentPlayer != null)
+            {
+                refCharacterUI.UpdateCharacterUI(currentPlayer);
+            }
+            else
+            {
+                refCharacterUI.ToggleUI(false);
+            }
+
+            overlayCharacter = null;
         }
     }
 

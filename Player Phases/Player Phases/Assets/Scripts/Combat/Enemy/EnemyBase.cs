@@ -26,17 +26,19 @@ public class EnemyBase : Character
     {
         if (idle == true)
         {
-            GetComponent<Renderer>().material.color = Color.Lerp(Color.red, Color.black, 0.75f);
+            placeholderRenderer.material.color = Color.Lerp(Color.red, Color.black, 0.75f);
         }
         else
         {
-            GetComponent<Renderer>().material.color = Color.red;
+            placeholderRenderer.material.color = Color.red;
         }
     }
 
     public void StartTurn()
     {
         idle = false;
+
+        FindMovementSpaces(refCombatGrid);
     }
 
     public void DoAI()
@@ -207,6 +209,20 @@ public class EnemyBase : Character
             // clean the grid to actually perform the attack
             refCombatGrid.CleanGrid();
         }
+    }
+
+    public void Selected()
+    {
+        FindMovementSpaces(refCombatGrid);
+
+        HandleStatuses();
+    }
+
+    public void FindMovementSpaces(CombatGrid grid)
+    {
+        // reset movement spaces
+        movementSpaces.Clear();
+        movementSpaces = grid.GetBreadthFirst(myGridSpace, movementRangeCurrent, terrainTypes, true);
     }
 
     public bool GetIdle()
