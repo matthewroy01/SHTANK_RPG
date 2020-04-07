@@ -11,6 +11,8 @@ public class CombatCamera : MonoBehaviour
     public float edgeSensitiviy;
     public CombatCameraEdgeMode edgeMode;
     public bool requireTab = false;
+    public Vector2 movementAreaSize;
+    private Bounds maxBounds;
 
     [Header("Initial Camera Placement")]
     public CombatCameraCenterMode cameraMode;
@@ -29,6 +31,8 @@ public class CombatCamera : MonoBehaviour
 
         // this function must be called after the Combat Grid has already initialized itself, otherwise a null reference will occur when trying to get the position of the [0, 0] grid space from it
         CenterCamera();
+
+        maxBounds = new Bounds(transform.position, movementAreaSize);
     }
 
     void FixedUpdate()
@@ -79,19 +83,26 @@ public class CombatCamera : MonoBehaviour
             }
         }
 
-        // check if a button should be held to control the camera's movement (good for when the Insepctor needs to be interacted with in the editor)
-        if (requireTab)
+        // calculate new position
+        Vector3 newVector = Vector3.Lerp(transform.position, transform.position + (Vector3)velocity.normalized, lerpSpeed);
+
+        // if the new position is within the camera's maxmimum bounds
+        if (maxBounds.Contains(newVector))
         {
-            if (Input.GetKey(KeyCode.Tab))
+            // check if a button should be held to control the camera's movement (good for when the Insepctor needs to be interacted with in the editor)
+            if (requireTab)
+            {
+                if (Input.GetKey(KeyCode.Tab))
+                {
+                    // move the camera
+                    transform.position = newVector;
+                }
+            }
+            else
             {
                 // move the camera
-                transform.position = Vector3.Lerp(transform.position, transform.position + (Vector3)velocity.normalized, lerpSpeed);
+                transform.position = newVector;
             }
-        }
-        else
-        {
-            // move the camera
-            transform.position = Vector3.Lerp(transform.position, transform.position + (Vector3)velocity.normalized, lerpSpeed);
         }
     }
 

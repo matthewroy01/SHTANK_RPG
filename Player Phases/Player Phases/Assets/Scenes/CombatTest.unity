@@ -2894,6 +2894,7 @@ MonoBehaviour:
   edgeSensitiviy: 0.05
   edgeMode: 1
   requireTab: 1
+  movementAreaSize: {x: 12, y: 8}
   cameraMode: 0
 --- !u!1 &969042759
 GameObject:
@@ -4513,7 +4514,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6f4c736db31daf4eaf4b83a8166cea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridWidth: 8
+  gridWidth: 10
   gridHeight: 8
   scannable:
     serializedVersion: 2
