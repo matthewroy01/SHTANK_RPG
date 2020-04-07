@@ -28,7 +28,7 @@ public class ContextSensitiveUI : MonoBehaviour
             {
                 spacebar.SetValues("", alphaDisabled, alphaFadeOutDuration);
                 leftShift.SetValues("", alphaDisabled, alphaFadeOutDuration);
-                clickLeft.SetValues("Select Character", alphaEnabled, alphaFadeInDuration);
+                clickLeft.SetValues("Select", alphaEnabled, alphaFadeInDuration);
                 clickRight.SetValues("", alphaDisabled, alphaFadeOutDuration);
                 pointer.SetValues("", alphaDisabled, alphaFadeOutDuration);
 
@@ -36,10 +36,10 @@ public class ContextSensitiveUI : MonoBehaviour
             }
             case (int)CharacterSelector.SelectorState.playerSelected:
             {
-                spacebar.SetValues("Confirm Movement", alphaEnabled, alphaFadeInDuration);
+                spacebar.SetValues("Confirm", alphaEnabled, alphaFadeInDuration);
                 leftShift.SetValues("", alphaDisabled, alphaFadeOutDuration);
-                clickLeft.SetValues("Move Character", alphaEnabled, alphaFadeInDuration);
-                clickRight.SetValues("Deselect Character", alphaEnabled, alphaFadeInDuration);
+                clickLeft.SetValues("Move", alphaEnabled, alphaFadeInDuration);
+                clickRight.SetValues("Deselect", alphaEnabled, alphaFadeInDuration);
                 pointer.SetValues("", alphaDisabled, alphaFadeOutDuration);
 
                 break;
@@ -50,28 +50,28 @@ public class ContextSensitiveUI : MonoBehaviour
             }
             case (int)CharacterSelector.SelectorState.playerSelectedWithMovement:
             {
-                spacebar.SetValues("Confirm Movement", alphaEnabled, alphaFadeInDuration);
+                spacebar.SetValues("Confirm", alphaEnabled, alphaFadeInDuration);
                 leftShift.SetValues("", alphaDisabled, alphaFadeOutDuration);
-                clickLeft.SetValues("Move Character", alphaEnabled, alphaFadeInDuration);
-                clickRight.SetValues("Deselect Character", alphaEnabled, alphaFadeInDuration);
+                clickLeft.SetValues("Move", alphaEnabled, alphaFadeInDuration);
+                clickRight.SetValues("Deselect", alphaEnabled, alphaFadeInDuration);
                 pointer.SetValues("", alphaDisabled, alphaFadeOutDuration);
 
                 break;
             }
             case (int)CharacterSelector.SelectorState.playerSelectedWithAbility:
             {
-                spacebar.SetValues("Confirm Ability", alphaEnabled, alphaFadeInDuration);
-                leftShift.SetValues("Flip Ability", alphaEnabled, alphaFadeInDuration);
+                spacebar.SetValues("Confirm", alphaEnabled, alphaFadeInDuration);
+                leftShift.SetValues("Flip", alphaEnabled, alphaFadeInDuration);
                 if (rangedAbility)
                 {
-                    clickLeft.SetValues("Move Ability Center", alphaEnabled, alphaFadeInDuration);
+                    clickLeft.SetValues("Aim", alphaEnabled, alphaFadeInDuration);
                 }
                 else
                 {
                     clickLeft.SetValues("", alphaDisabled, alphaFadeOutDuration);
                 }
-                clickRight.SetValues("Deselect Character", alphaEnabled, alphaFadeInDuration);
-                pointer.SetValues("Rotate Ability", alphaEnabled, alphaFadeInDuration);
+                clickRight.SetValues("Deselect", alphaEnabled, alphaFadeInDuration);
+                pointer.SetValues("Rotate", alphaEnabled, alphaFadeInDuration);
 
                 break;
             }

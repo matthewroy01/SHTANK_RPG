@@ -284,7 +284,7 @@ public class CombatGrid : MonoBehaviour
         }
     }
 
-    public List<GridSpace> GetAStar(CombatGrid refCombatGrid, GridSpace start, GridSpace target, bool includeTarget, bool redoForOccupiedSpaces, int pathLength, params GridSpace[] exclusions)
+    public List<GridSpace> GetAStar(CombatGrid refCombatGrid, GridSpace start, GridSpace target, bool includeTarget)
     {
         AStarInitializeCosts(refCombatGrid.grid, start, target);
 
@@ -294,8 +294,6 @@ public class CombatGrid : MonoBehaviour
         List<GridSpace> closed = new List<GridSpace>();
         // nodes to return once the path is found
         List<GridSpace> result = new List<GridSpace>();
-        // nodes to return once the path is found and the range is cut down to the specified path length
-        List<GridSpace> resultTrimmed = new List<GridSpace>();
 
         GridSpace current = null;
 
@@ -329,57 +327,22 @@ public class CombatGrid : MonoBehaviour
                     current = current.pathingConnection;
                 }
 
-                if (result.Count >= pathLength)
-                {
-                    resultTrimmed = result.GetRange(result.Count - pathLength, pathLength);
-                }
-                else
-                {
-                    resultTrimmed = result;
-                }
-
-                int toRemove = 0;
-                List<GridSpace> toExclude = new List<GridSpace>();
-
-                if (redoForOccupiedSpaces && resultTrimmed.Count > 1)
-                {
-                    // if the ending of the path includes a character, retrace our steps and redo the path, excluding those spaces
-                    for (int i = includeTarget ? 1 : 0; i < resultTrimmed.Count; ++i)
-                    {
-                        if (resultTrimmed[i].character != null)
-                        {
-                            ++toRemove;
-                            toExclude.Add(resultTrimmed[i]);
-                        }
-                        else
-                        {
-                            break;
-                        }
-
-                        resultTrimmed.RemoveRange(0, toRemove);
-                    }
-
-                    if (toRemove > 0)
-                    {
-                        resultTrimmed = GetAStar(refCombatGrid, start, target, includeTarget, redoForOccupiedSpaces, pathLength, toExclude.ToArray());
-                    }
-                }
-
-                return resultTrimmed;
+                result.Reverse();
+                return result;
             }
 
             // check all neighbors
-            AStarCheckNeighborNode(open, closed, current, start, target, current.up, exclusions);
-            AStarCheckNeighborNode(open, closed, current, start, target, current.down, exclusions);
-            AStarCheckNeighborNode(open, closed, current, start, target, current.left, exclusions);
-            AStarCheckNeighborNode(open, closed, current, start, target, current.right, exclusions);
+            AStarCheckNeighborNode(open, closed, current, start, target, current.up);
+            AStarCheckNeighborNode(open, closed, current, start, target, current.down);
+            AStarCheckNeighborNode(open, closed, current, start, target, current.left);
+            AStarCheckNeighborNode(open, closed, current, start, target, current.right);
         }
 
         Debug.LogError("CombatGrid, GetAStar, current node never reached the target, returning empty path.");
         return result;
     }
 
-    private void AStarCheckNeighborNode(List<GridSpace> open, List<GridSpace> closed, GridSpace current, GridSpace start, GridSpace target, GridSpace neighbor, params GridSpace[] exclusions)
+    private void AStarCheckNeighborNode(List<GridSpace> open, List<GridSpace> closed, GridSpace current, GridSpace start, GridSpace target, GridSpace neighbor)
     {
         // check if the neighbor is null for safety (we don't want to check a space that is off of the grid)
         if (neighbor != null)
@@ -387,7 +350,7 @@ public class CombatGrid : MonoBehaviour
             if (neighbor != start)
             {
                 // skip the node if it is closed or it is not traversable
-                if (!TerrainTypePresets.onlyStandard.Contains(neighbor.GetTerrainType()) || closed.Contains(neighbor) || /*AStarCheckGridSpaceForCharacters(neighbor, start, target) ||*/ (exclusions.Length > 0 && CheckIfArrayContains(exclusions, neighbor)))
+                if (!TerrainTypePresets.onlyStandard.Contains(neighbor.GetTerrainType()) || AStarCheckGridSpaceForCharacters(neighbor, start, target) || closed.Contains(neighbor))
                 {
                     return;
                 }
@@ -413,19 +376,6 @@ public class CombatGrid : MonoBehaviour
                 }
             }
         }
-    }
-
-    private bool CheckIfArrayContains(GridSpace[] array, GridSpace toCheck)
-    {
-        for (int i = 0; i < array.Length; ++i)
-        {
-            if (array[i] == toCheck)
-            {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     private void AStarInitializeCosts(GridSpace[,] grid, GridSpace start, GridSpace target)
