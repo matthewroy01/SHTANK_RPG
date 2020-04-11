@@ -7,6 +7,7 @@ using UnityEngine.UI;
 public class AbilityUI : MonoBehaviour
 {
     public Button buttonSelectAbility;
+    public Image imageOverlay;
     public TextMeshProUGUI textMeshAbilityName;
     public TextMeshProUGUI textMeshDetails;
     public TextMeshProUGUI textMeshDescription;

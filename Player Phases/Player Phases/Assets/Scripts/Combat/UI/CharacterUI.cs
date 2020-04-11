@@ -22,6 +22,8 @@ public class CharacterUI : MonoBehaviour
 
     [Header("Abilities")]
     public AbilityUI abilityUI1;
+    public Color overlaySelectedColor;
+    public Color overlayUnselectedColor;
     private AbilityUI abilityUI2;
     private AbilityUI abilityUI3;
     private AbilityUI abilityUI4;
@@ -114,6 +116,67 @@ public class CharacterUI : MonoBehaviour
         ui.textMeshAbilityName.text = strings.name;
         ui.textMeshDetails.text = strings.details;
         ui.textMeshDescription.text = strings.description;
+    }
+
+    public void SetSelectedAbilityColor(int selected)
+    {
+        switch(selected)
+        {
+            case 1:
+            {
+                // ability 1 selected
+                abilityUI1.imageOverlay.color = overlaySelectedColor;// CrossFadeColor(overlaySelectedColor, 0.25f, true, true);
+
+                abilityUI2.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
+                abilityUI3.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
+                abilityUI4.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
+
+                break;
+            }
+            case 2:
+            {
+                // ability 2 selected
+                abilityUI2.imageOverlay.color = overlaySelectedColor;// CrossFadeColor(overlaySelectedColor, 0.25f, true, true);
+
+                abilityUI1.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
+                abilityUI3.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
+                abilityUI4.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
+
+                break;
+            }
+            case 3:
+            {
+                // ability 3 selected
+                abilityUI3.imageOverlay.color = overlaySelectedColor;// CrossFadeColor(overlaySelectedColor, 0.25f, true, true);
+
+                abilityUI1.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
+                abilityUI2.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
+                abilityUI4.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
+
+                break;
+            }
+            case 4:
+            {
+                // ability 4 selected
+                abilityUI4.imageOverlay.color = overlaySelectedColor;// CrossFadeColor(overlaySelectedColor, 0.25f, true, true);
+
+                abilityUI1.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
+                abilityUI2.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
+                abilityUI3.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
+
+                break;
+            }
+            default:
+            {
+                // no ability selected
+                abilityUI1.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
+                abilityUI2.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
+                abilityUI3.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
+                abilityUI4.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
+
+                break;
+            }
+        }
     }
 
     public AbilityUIDefinition InitializeAbilityUI(PlayerBase character)

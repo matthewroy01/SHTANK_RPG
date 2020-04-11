@@ -322,6 +322,9 @@ public class CharacterSelector : MonoBehaviour
             // set the ability grid space to a default value
             abilityGridSpace = currentPlayer.myGridSpace;
 
+            // update the Ability UI's colors
+            refCharacterUI.SetSelectedAbilityColor(selectedAbilityNum);
+
             dirty = true;
         }
     }
@@ -356,6 +359,9 @@ public class CharacterSelector : MonoBehaviour
 
             // tell the ability processor to cancel whatever it has ready to process
             refAbilityProcessor.CancelAbility();
+
+            // update the ability UI's colors
+            refCharacterUI.SetSelectedAbilityColor(selectedAbilityNum);
         }
     }
 
@@ -470,6 +476,9 @@ public class CharacterSelector : MonoBehaviour
 
                 // reset our previously inputted ability
                 selectedAbilityNum = 0;
+
+                // update the ability UI's colors
+                refCharacterUI.SetSelectedAbilityColor(selectedAbilityNum);
             }
         }
     }

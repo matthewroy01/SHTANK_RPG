@@ -800,6 +800,8 @@ MonoBehaviour:
   textMeshMovement: {fileID: 797158017}
   textMeshNashbalm: {fileID: 621438952}
   abilityUI1: {fileID: 1098646315}
+  overlaySelectedColor: {r: 0.6839622, g: 1, b: 0.6839622, a: 0.49803922}
+  overlayUnselectedColor: {r: 0.6839622, g: 1, b: 0.6839622, a: 0}
 --- !u!1 &516087272
 GameObject:
   m_ObjectHideFlags: 0
@@ -3043,7 +3045,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1844025399}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3291,6 +3293,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonSelectAbility: {fileID: 1844025400}
+  imageOverlay: {fileID: 1599366139}
   textMeshAbilityName: {fileID: 975497015}
   textMeshDetails: {fileID: 1893801866}
   textMeshDescription: {fileID: 1486382759}
@@ -3510,7 +3513,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1844025399}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -3907,6 +3910,79 @@ MonoBehaviour:
   timeToWait: 1
   slideSpeedIn: 0.5
   slideSpeedOut: 0.1
+--- !u!1 &1599366137
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1599366138}
+  - component: {fileID: 1599366140}
+  - component: {fileID: 1599366139}
+  m_Layer: 5
+  m_Name: Overlay Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1599366138
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1599366137}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1844025399}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0.00012207031, y: -0.000045776367}
+  m_SizeDelta: {x: 450, y: 150}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1599366139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1599366137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.6839622, g: 1, b: 0.6839622, a: 0}
+  m_RaycastTarget: 0
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1599366140
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1599366137}
+  m_CullTransparentMesh: 0
 --- !u!1 &1648716587
 GameObject:
   m_ObjectHideFlags: 0
@@ -4512,9 +4588,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorMovement: {r: 0, g: 0, b: 1, a: 1}
   colorAbilityPreview: {r: 0, g: 1, b: 0, a: 1}
-  colorRangedStartingSpaces: {r: 1, g: 0, b: 0, a: 1}
+  colorRangedStartingSpaces: {r: 0, g: 1, b: 1, a: 1}
   colorDefaultState: {r: 1, g: 1, b: 1, a: 1}
-  colorMovementEnemy: {r: 1, g: 0, b: 1, a: 1}
+  colorMovementEnemy: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &1733401392
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4562,6 +4638,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1599366138}
   - {fileID: 975497014}
   - {fileID: 1893801865}
   - {fileID: 1486382758}
@@ -4682,7 +4759,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1844025399}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
