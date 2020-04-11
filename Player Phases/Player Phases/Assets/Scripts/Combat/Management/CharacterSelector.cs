@@ -368,24 +368,43 @@ public class CharacterSelector : MonoBehaviour
     private void AbilityRangedSelect()
     {
         // change the ability's starting grid space if the selected ability is ranged
-        if (refAbilityProcessor.GetAbility().ranged)
+        if (refAbilityProcessor.GetAbility() != null && refAbilityProcessor.GetAbility().ranged)
         {
             // clicking on objects in scene using raycasts from: https://www.youtube.com/watch?v=EANtTI6BCxk
             // because I'm dumb and I couldn't remember how to do it myself
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            if (Input.GetMouseButton(0) && Physics.Raycast(ray, out hit, layerMaskGrid))
+            if (Input.GetMouseButton(0) && Physics.Raycast(ray, out hit))
             {
+                Character tmp = null;
+
                 if (hit.transform != null)
                 {
-                    // check if the grid space that was clicked is in the list of starting spaces
-                    if (refAbilityProcessor.GetStartingSpaces().Contains(refCombatGrid.GetGridSpace(hit.transform.gameObject)))
+                    // if the object's layer is within the grid layermask (here we are looking for grid space objects)
+                    if (layerMaskGrid == (layerMaskGrid | (1 << hit.transform.gameObject.layer)))
                     {
-                        // assign the ability's starting Grid Space
-                        if ((abilityGridSpace = refCombatGrid.GetGridSpace(hit.transform.gameObject)) != null)
+                        // check if the grid space that was clicked is in the list of starting spaces
+                        if (refAbilityProcessor.GetStartingSpaces().Contains(refCombatGrid.GetGridSpace(hit.transform.gameObject)))
                         {
-                            TryProcessAbility();
+                            // assign the ability's starting Grid Space
+                            if ((abilityGridSpace = refCombatGrid.GetGridSpace(hit.transform.gameObject)) != null)
+                            {
+                                TryProcessAbility();
+                            }
+                        }
+                    }
+                    // if the object is a character, get its grid space instead
+                    else if (hit.transform.TryGetComponent(out tmp) && tmp != null)
+                    {
+                        // check if the grid space that was clicked is in the list of starting spaces
+                        if (refAbilityProcessor.GetStartingSpaces().Contains(tmp.myGridSpace))
+                        {
+                            // assign the ability's starting Grid Space
+                            if ((abilityGridSpace = tmp.myGridSpace) != null)
+                            {
+                                TryProcessAbility();
+                            }
                         }
                     }
                 }
