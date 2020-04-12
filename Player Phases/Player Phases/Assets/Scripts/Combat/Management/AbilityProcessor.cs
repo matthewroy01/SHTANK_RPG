@@ -59,7 +59,13 @@ public class AbilityProcessor : MonoBehaviour
             string abilType = savedAbility.GetType().Name;
 
             // get possible starting grid spaces
-            startingSpaces.AddRange(refCombatGrid.GetBreadthFirst(player.myGridSpace, savedAbility.range, GetValidTerrainTypes(), savedAbility.moveCharacter ? true : false));
+            startingSpaces.AddRange(refCombatGrid.GetBreadthFirst(player.myGridSpace, savedAbility.range, GetValidTerrainTypes(), false));
+
+            // if the ability causes the character to move, remove spaces with characters so the character can't occopy the same space as another character
+            if (savedAbility.moveCharacter)
+            {
+                RemoveCharactersFromStartingSpaces(player);
+            }
 
             // make sure the specified starting grid space is a valid starting space contained within startingSpaces
             if (startingSpaces.Contains(startingSpace))
@@ -92,6 +98,32 @@ public class AbilityProcessor : MonoBehaviour
                 else
                 {
                     Debug.LogError(abilType + " is not a valid Ability type.");
+                }
+            }
+        }
+    }
+
+    private void RemoveCharactersFromStartingSpaces(Character player)
+    {
+        // loop through starting spaces and remove characters
+        for (int i = 0; i < startingSpaces.Count; ++i)
+        {
+            if (player != null)
+            {
+                // don't remove the current player's grid space if we provide one
+                if (startingSpaces[i].character != null && startingSpaces[i].character != player)
+                {
+                    startingSpaces.RemoveAt(i);
+                    i--;
+                }
+            }
+            else
+            {
+                // otherwise, remove all grid spaces with characters
+                if (startingSpaces[i].character != null)
+                {
+                    startingSpaces.RemoveAt(i);
+                    i--;
                 }
             }
         }
