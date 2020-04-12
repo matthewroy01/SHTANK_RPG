@@ -75,7 +75,7 @@ public class PlayerBase : Character
         {
             // try to path to the target GridSpace
             List<GridSpace> spaces;
-            spaces = grid.GetAStar(grid, myGridSpace, target, true);
+            spaces = grid.GetAStar(grid, myGridSpace, target, this, true);
 
             // if a path was found and we are not already at the target, move there
             if (spaces.Count > 0 && myGridSpace != spaces[spaces.Count - 1])

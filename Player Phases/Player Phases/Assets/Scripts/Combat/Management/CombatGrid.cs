@@ -284,7 +284,7 @@ public class CombatGrid : MonoBehaviour
         }
     }
 
-    public List<GridSpace> GetAStar(CombatGrid refCombatGrid, GridSpace start, GridSpace target, bool includeTarget)
+    public List<GridSpace> GetAStar(CombatGrid refCombatGrid, GridSpace start, GridSpace target, Character subject, bool includeTarget)
     {
         AStarInitializeCosts(refCombatGrid.grid, start, target);
 
@@ -332,17 +332,17 @@ public class CombatGrid : MonoBehaviour
             }
 
             // check all neighbors
-            AStarCheckNeighborNode(open, closed, current, start, target, current.up);
-            AStarCheckNeighborNode(open, closed, current, start, target, current.down);
-            AStarCheckNeighborNode(open, closed, current, start, target, current.left);
-            AStarCheckNeighborNode(open, closed, current, start, target, current.right);
+            AStarCheckNeighborNode(open, closed, current, start, target, subject, current.up);
+            AStarCheckNeighborNode(open, closed, current, start, target, subject, current.down);
+            AStarCheckNeighborNode(open, closed, current, start, target, subject, current.left);
+            AStarCheckNeighborNode(open, closed, current, start, target, subject, current.right);
         }
 
         Debug.LogError("CombatGrid, GetAStar, current node never reached the target, returning empty path.");
         return result;
     }
 
-    private void AStarCheckNeighborNode(List<GridSpace> open, List<GridSpace> closed, GridSpace current, GridSpace start, GridSpace target, GridSpace neighbor)
+    private void AStarCheckNeighborNode(List<GridSpace> open, List<GridSpace> closed, GridSpace current, GridSpace start, GridSpace target, Character subject, GridSpace neighbor)
     {
         // check if the neighbor is null for safety (we don't want to check a space that is off of the grid)
         if (neighbor != null)
@@ -350,7 +350,7 @@ public class CombatGrid : MonoBehaviour
             if (neighbor != start)
             {
                 // skip the node if it is closed or it is not traversable
-                if (!TerrainTypePresets.onlyStandard.Contains(neighbor.GetTerrainType()) || AStarCheckGridSpaceForCharacters(neighbor, start, target) || closed.Contains(neighbor))
+                if (!TerrainTypePresets.onlyStandard.Contains(neighbor.GetTerrainType()) || AStarCheckGridSpaceForCharacters(neighbor, start, target, subject) || closed.Contains(neighbor))
                 {
                     return;
                 }
@@ -416,11 +416,12 @@ public class CombatGrid : MonoBehaviour
         return null;
     }
 
-    private bool AStarCheckGridSpaceForCharacters(GridSpace neighbor, GridSpace start, GridSpace target)
+    private bool AStarCheckGridSpaceForCharacters(GridSpace neighbor, GridSpace start, GridSpace target, Character subject)
     {
         if (neighbor != start && neighbor != target)
         {
-            if (neighbor.character != null)
+            // check if the neighbor space contains a character, but only skip if the character isn't the subject character
+            if (neighbor.character != null && neighbor.character != subject)
             {
                 return true;
             }
