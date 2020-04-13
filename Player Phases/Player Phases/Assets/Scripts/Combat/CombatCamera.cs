@@ -120,6 +120,11 @@ public class CombatCamera : MonoBehaviour
                 defaultPosition = CalcPosCenteredOnGrid();
                 break;
             }
+            case CombatCameraCenterMode.maintainPosition:
+            {
+                defaultPosition = transform.position;
+                break;
+            }
         }
 
         transform.position = defaultPosition;
@@ -158,6 +163,6 @@ public class CombatCamera : MonoBehaviour
         return new Vector3((corner1.x + corner2.x) / 2.0f, (corner1.y + corner2.y) / 2.0f, transform.position.z);
     }
 
-    public enum CombatCameraCenterMode { centerOnGrid, centerOnCharacters };
+    public enum CombatCameraCenterMode { centerOnGrid, centerOnCharacters, maintainPosition};
     public enum CombatCameraEdgeMode { rectangular, circular };
 }

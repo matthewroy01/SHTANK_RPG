@@ -563,7 +563,7 @@ MonoBehaviour:
     shift
 
 
-    The controls guide at the bottom left of the screen shows what each
+    The Controls Guide at the bottom left of the screen shows what each
     button does at any given time!
 
 
@@ -1857,5 +1857,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e56c56906460e514e90fcc6db87a89c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  url: https://docs.google.com/forms/d/e/1FAIpQLSc6KoGC_aeXpRaSOSH7dH-gw1BvqwIXHLq2FGnYCWoRruDVIA/viewform
+  url: https://docs.google.com/forms/d/1AVAYBEkXCcRQauRRFJEp-MLAwCbsY6dsq_HlVeDXY4g/edit
   closeBuild: 1
