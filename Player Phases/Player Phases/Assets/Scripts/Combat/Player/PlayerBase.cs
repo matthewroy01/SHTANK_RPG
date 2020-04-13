@@ -132,12 +132,17 @@ public class PlayerBase : Character
         }
     }
 
-    public void EndTurn()
+    public void SaveMyGridSpace()
     {
         // update combat grid with new position
         originalGridSpace.character = null;
         myGridSpace.character = this;
         originalGridSpace = myGridSpace;
+    }
+
+    public void EndTurn()
+    {
+        SaveMyGridSpace();
 
         selected = false;
         idle = true;

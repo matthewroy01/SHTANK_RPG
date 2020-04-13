@@ -63,6 +63,7 @@ public class CharacterSelector : MonoBehaviour
             new StateMachineConnection((int)SelectorState.playerSelectedWithMovement, (int)SelectorState.playerSelectedWithAbility),
             new StateMachineConnection((int)SelectorState.playerSelectedWithAbility, (int)SelectorState.playerSelectedWithMovement),
             new StateMachineConnection((int)SelectorState.playerSelectedWithAbility, (int)SelectorState.playerSelected),
+            new StateMachineConnection((int)SelectorState.playerSelectedWithAbility, (int)SelectorState.playerSelectedWithAbility),
 
             // ending a player's turn
             new StateMachineConnection((int)SelectorState.playerSelected, (int)SelectorState.doingNothing),
@@ -307,8 +308,6 @@ public class CharacterSelector : MonoBehaviour
 
         refCharacterUI.ToggleUI(false);
 
-        refAbilityProcessor.CancelAbility();
-
         stateMachine.TryUpdateConnection((int)SelectorState.doingNothing);
     }
 
@@ -487,11 +486,11 @@ public class CharacterSelector : MonoBehaviour
             // if there is a valid ability to apply
             if (refAbilityProcessor.ApplyAbilityCheck())
             {
-                // apply the currently saved ability
-                refAbilityProcessor.ApplyAbility();
-
                 // end the selected player's turn
                 EndTurnFunctionality();
+
+                // apply the currently saved ability
+                refAbilityProcessor.ApplyAbility();
 
                 // reset our previously inputted ability
                 selectedAbilityNum = 0;

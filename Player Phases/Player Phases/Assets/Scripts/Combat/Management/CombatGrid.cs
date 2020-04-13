@@ -604,7 +604,7 @@ public class Effect
     public Character source;
 
     // constructor for other classes to construct their own attack effects
-    Effect(Effect_ID effect_id, int val, float prob)
+    public Effect(Effect_ID effect_id, int val, float prob)
     {
         id = effect_id;
         value = val;
@@ -612,11 +612,19 @@ public class Effect
 
         Mathf.Clamp(probability, 0.0f, 1.0f);
     }
+
+    // alternate constructor with probability set to 1 by default
+    public Effect(Effect_ID effect_id, int val)
+    {
+        id = effect_id;
+        value = val;
+        probability = 1.0f;
+    }
 }
 
 public enum GridSpace_TerrainType { standard, wall, wall_artificial, water };
 
-public enum Effect_ID { damage, healing, aggro, frosty, aggroDispel, shadowWall, attackUp };
+public enum Effect_ID { damage, healing, aggro, frosty, aggroDispel, shadowWall, attackUp, noDamage };
 
 public enum Character_Affiliation { player, enemy, ally };
 

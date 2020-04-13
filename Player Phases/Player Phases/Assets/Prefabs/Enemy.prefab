@@ -96,6 +96,11 @@ MonoBehaviour:
     color: {r: 1, g: 0, b: 0, a: 1}
     sound: {fileID: 8300000, guid: e67d7d534acf32649b34b470824671f3, type: 3}
     effect: {fileID: 5015504054715388862}
+  noDamage:
+    ui: {fileID: 235939475847409354}
+    color: {r: 1, g: 0, b: 0, a: 1}
+    sound: {fileID: 8300000, guid: f63efc85c2583d74dbf175632b41cac2, type: 3}
+    effect: {fileID: 5015504054715388862}
   healing:
     ui: {fileID: 6216352474460666404}
     color: {r: 0, g: 1, b: 0, a: 1}

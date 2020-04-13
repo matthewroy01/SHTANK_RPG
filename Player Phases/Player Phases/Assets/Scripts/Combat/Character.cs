@@ -71,17 +71,34 @@ public class Character : MonoBehaviour
                 {
                     Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
 
-                    if (healthCurrent - effect.value < 0)
+                    // take the defense modifier into account when taking damage
+                    int modValue = effect.value - defenseMod;
+                    if (modValue <= 0)
+                    {
+                        modValue = 0;
+                    }
+
+                    // if the character's health was going to go below 0, set it to 0 instead
+                    if (healthCurrent - modValue < 0)
                     {
                         healthCurrent = 0;
                     }
                     else
                     {
-                        healthCurrent -= effect.value;
+                        healthCurrent -= modValue;
                     }
 
-                    refCharacterEffectUI.AddEffect(effect);
+                    // if 0 damage was dealt, apply a special "no damage" effect, otherwise use the given effect
+                    if (modValue > 0)
+                    {
+                        refCharacterEffectUI.AddEffect(new Effect(Effect_ID.damage, modValue));
+                    }
+                    else
+                    {
+                        refCharacterEffectUI.AddEffect(new Effect(Effect_ID.noDamage, 0));
+                    }
 
+                    // for enemies, also apply some aggro and alert the other enemies
                     if (GetType().Name == "EnemyBase")
                     {
                         ((EnemyBase)this).ApplyAggro(effect.source, 1);

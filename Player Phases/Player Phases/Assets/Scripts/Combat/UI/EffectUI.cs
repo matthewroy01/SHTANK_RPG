@@ -12,6 +12,7 @@ public class EffectUI : MonoBehaviour
 
     [Header("Text for damage and healing")]
     public EffectUIParameters damage;
+    public EffectUIParameters noDamage;
     public EffectUIParameters healing;
     public EffectUIParameters frost;
     public EffectUIParameters aggro;
@@ -69,6 +70,11 @@ public class EffectUI : MonoBehaviour
             case Effect_ID.damage:
             {
                 damage.Apply(effect.value.ToString(), refAudioSource);
+                break;
+            }
+            case Effect_ID.noDamage:
+            {
+                noDamage.Apply(effect.value.ToString(), refAudioSource);
                 break;
             }
             case Effect_ID.healing:

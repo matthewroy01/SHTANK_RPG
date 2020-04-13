@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4171d8c7a89e384dac5c952b87f2508, type: 3}
   m_Name: Basic Enemy Attack
   m_EditorClassIdentifier: 
+  description: 
   moveCharacter: 0
   ignoreWalls: 0
   ranged: 0
@@ -20,6 +21,7 @@ MonoBehaviour:
   - id: 0
     value: 2
     probability: 1
+    source: {fileID: 0}
   path:
   - directions: 0
     amount: 1

@@ -59,7 +59,10 @@ public class StateMachine
             {
                 Debug.Log("StateMachine: state updated from " + currentState + " to " + t + ".");
 
-                previousState = currentState;
+                if (currentState != t)
+                {
+                    previousState = currentState;
+                }
 
                 currentState = t;
 
