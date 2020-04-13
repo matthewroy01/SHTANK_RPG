@@ -9,6 +9,7 @@ public class EnemyManager : MonoBehaviour
     private CombatInitiator refCombatInitiator;
 
     public GameObject enemyPrefab;
+    public GameObject enemyPrefabStrong;
     public List<EnemyBase> enemies = new List<EnemyBase>();
 
     private CombatGrid refCombatGrid;
@@ -54,8 +55,17 @@ public class EnemyManager : MonoBehaviour
     {
         for (int i = 0; i < 5; ++i)
         {
+            EnemyBase tmp;
+
             // spawn enemies and add them to the list
-            EnemyBase tmp = Instantiate(enemyPrefab, transform).GetComponent<EnemyBase>();
+            if (i < 1)
+            {
+                tmp = Instantiate(enemyPrefabStrong, transform).GetComponent<EnemyBase>();
+            }
+            else
+            {
+                tmp = Instantiate(enemyPrefab, transform).GetComponent<EnemyBase>();
+            }
             enemies.Add(tmp);
 
             int x = 0, y = 0;

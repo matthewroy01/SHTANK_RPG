@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4287821525986303995}
   - component: {fileID: 1124789292131182967}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: Enemy Strong
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -63,7 +63,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   placeholderRenderer: {fileID: 4345499907827779125}
-  healthMax: 6
+  healthMax: 8
   healthCurrent: 0
   defenseMod: 0
   attackMod: 0
@@ -76,7 +76,7 @@ MonoBehaviour:
   terrainTypes: 00000000
   portrait: {fileID: 0}
   aggroData: []
-  basicAttack: {fileID: 11400000, guid: b06399fe088b34d4086f894373cd51cf, type: 2}
+  basicAttack: {fileID: 11400000, guid: ec7e1f0e16bd3ee419024a9ac4080ea0, type: 2}
 --- !u!114 &4287821525986303995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,7 +293,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 73eecd28761b7f2428eea4d764e3f92c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 73f9835f3ee7c514a83eef1e2aecace5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
   m_FlipY: 0

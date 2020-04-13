@@ -4586,6 +4586,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42417f0818faf9043b4748c4dff6434d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  highlightOccupiedSpaces: 0
   colorMovement: {r: 0, g: 0, b: 1, a: 1}
   colorAbilityPreview: {r: 0, g: 1, b: 0, a: 1}
   colorRangedStartingSpaces: {r: 0, g: 1, b: 1, a: 1}
@@ -5002,5 +5003,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 555027624386460172, guid: 9832637ce664d93409d8ad2011634119,
+    type: 3}
+  enemyPrefabStrong: {fileID: 555027624386460172, guid: e616f2fc6f340c8419955a6f5e52fb2e,
     type: 3}
   enemies: []
