@@ -350,7 +350,7 @@ public class CombatGrid : MonoBehaviour
             if (neighbor != start)
             {
                 // skip the node if it is closed or it is not traversable
-                if (!TerrainTypePresets.onlyStandard.Contains(neighbor.GetTerrainType()) || AStarCheckGridSpaceForCharacters(neighbor, start, target, subject) || closed.Contains(neighbor))
+                if (!subject.terrainTypes.Contains(neighbor.GetTerrainType()) || AStarCheckGridSpaceForCharacters(neighbor, start, target, subject) || closed.Contains(neighbor))
                 {
                     return;
                 }

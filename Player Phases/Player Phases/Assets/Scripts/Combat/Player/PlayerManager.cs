@@ -115,6 +115,9 @@ public class PlayerManager : MonoBehaviour
             // affiliation (always player, since this is the Player Manager)
             refPlayerBase.affiliation = Character_Affiliation.player;
 
+            // navigable terrain types
+            refPlayerBase.terrainTypes = def.terrainTypes;
+
             // character portrait for UI
             refPlayerBase.portrait = def.portrait;
 
