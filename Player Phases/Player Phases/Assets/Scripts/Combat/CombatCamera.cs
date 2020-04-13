@@ -40,7 +40,7 @@ public class CombatCamera : MonoBehaviour
         Vector2 mousePos = Input.mousePosition;
         mousePos /= new Vector2(Screen.width, Screen.height);
 
-        Debug.Log(mousePos);
+        //Debug.Log(mousePos);
 
         Vector2 velocity = Vector2.zero;
 

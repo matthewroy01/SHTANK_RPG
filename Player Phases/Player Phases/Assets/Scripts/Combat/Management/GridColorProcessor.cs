@@ -8,6 +8,8 @@ public class GridColorProcessor : MonoBehaviour
     private AbilityProcessor refAbilityProcessor;
     private CharacterSelector refCharacterSelector;
 
+    public bool highlightOccupiedSpaces;
+
     [Header("Grid Colors")]
     public Color colorMovement;
     public Color colorAbilityPreview;
@@ -60,6 +62,15 @@ public class GridColorProcessor : MonoBehaviour
                 {
                     // color for overlayed enemy movement areas
                     CheckListForGridSpace(refCharacterSelector.overlayCharacter.movementSpaces, refCombatGrid.grid[i, j], colorMovementEnemy, i, j);
+                }
+
+                // display occupied grid spaces in black for debugging purposes
+                if (highlightOccupiedSpaces)
+                {
+                    if (refCombatGrid.grid[i, j].character != null)
+                    {
+                        refCombatGrid.grid[i, j].obj.GetComponent<Renderer>().material.color = Color.black;
+                    }
                 }
             }
         }
