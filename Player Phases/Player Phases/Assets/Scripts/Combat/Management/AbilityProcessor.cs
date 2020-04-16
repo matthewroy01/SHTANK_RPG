@@ -59,7 +59,7 @@ public class AbilityProcessor : MonoBehaviour
             string abilType = savedAbility.GetType().Name;
 
             // get possible starting grid spaces
-            startingSpaces.AddRange(refCombatGrid.GetBreadthFirst(player.myGridSpace, savedAbility.range, GetValidTerrainTypes(), false));
+            startingSpaces.AddRange(refCombatGrid.GetBreadthFirst(player.myGridSpace, savedAbility.range, GetValidTerrainTypes(), player.affiliation));
 
             // if the ability causes the character to move, remove spaces with characters so the character can't occopy the same space as another character
             if (savedAbility.moveCharacter)
@@ -314,7 +314,7 @@ public class AbilityProcessor : MonoBehaviour
 
     private void ProcessCircleAbility(CircleAbility abil, GridSpace startingGridSpace)
     {
-        gridSpaces.AddRange(refCombatGrid.GetBreadthFirst(startingGridSpace, abil.radius, GetValidTerrainTypes(), false));
+        gridSpaces.AddRange(refCombatGrid.GetBreadthFirst(startingGridSpace, abil.radius, GetValidTerrainTypes(), Character_Affiliation.none));
 
         if (abil.moveCharacter)
         {

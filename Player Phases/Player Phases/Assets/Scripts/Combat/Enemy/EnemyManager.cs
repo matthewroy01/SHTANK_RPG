@@ -40,6 +40,7 @@ public class EnemyManager : MonoBehaviour
         names.Add("Peter Plum");
         names.Add("Gimbal Lock");
         names.Add("Nicholas Picholas");
+        names.Add("Scarred Jellybean");
     }
 
     private void Update()
@@ -130,8 +131,8 @@ public class EnemyManager : MonoBehaviour
             // moveset
             refEnemyBase.moveset = def.moveset;
 
-            // affiliation (always player, since this is the Player Manager)
-            refEnemyBase.affiliation = Character_Affiliation.player;
+            // affiliation (always enemy, since this is the Enemy Manager)
+            refEnemyBase.affiliation = Character_Affiliation.enemy;
 
             // navigable terrain types
             refEnemyBase.terrainTypes = def.terrainTypes;

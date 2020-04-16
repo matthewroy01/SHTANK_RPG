@@ -103,13 +103,6 @@ public class PlayerBase : Character
         }
     }
 
-    public void FindMovementSpaces(CombatGrid grid)
-    {
-        // reset movement spaces
-        movementSpaces.Clear();
-        movementSpaces = grid.GetBreadthFirst(myGridSpace, movementRangeCurrent, terrainTypes, true);
-    }
-
     public void Deselected()
     {
         selected = false;
@@ -143,6 +136,11 @@ public class PlayerBase : Character
 
         selected = false;
         idle = true;
+
+        if (refMovementDialogueProcessor != null)
+        {
+            refMovementDialogueProcessor.Clear();
+        }
     }
 
     public IEnumerator Death()

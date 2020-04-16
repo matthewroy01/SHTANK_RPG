@@ -4554,7 +4554,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridWidth: 10
-  gridHeight: 8
+  gridHeight: 4
   scannable:
     serializedVersion: 2
     m_Bits: 512
@@ -4562,6 +4562,7 @@ MonoBehaviour:
     type: 3}
   shadowWallPrefab: {fileID: 5008950449975179329, guid: a516c6e6d03db7e40821f18a5024e732,
     type: 3}
+  moveThroughSameAfilliation: 0
 --- !u!114 &1733401390
 MonoBehaviour:
   m_ObjectHideFlags: 0

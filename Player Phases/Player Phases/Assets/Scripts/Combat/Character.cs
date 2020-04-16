@@ -236,4 +236,21 @@ public class Character : MonoBehaviour
             return false;
         }
     }
+
+    public void FindMovementSpaces(CombatGrid grid)
+    {
+        // reset movement spaces
+        movementSpaces.Clear();
+        movementSpaces = grid.GetBreadthFirst(myGridSpace, movementRangeCurrent, terrainTypes, affiliation);
+
+        // remove movement spaces occupied by other characters
+        for (int i = 0; i < movementSpaces.Count; ++i)
+        {
+            if (movementSpaces[i].character != null && movementSpaces[i].character != this)
+            {
+                movementSpaces.RemoveAt(i);
+                --i;
+            }
+        }
+    }
 }

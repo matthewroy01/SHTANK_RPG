@@ -42,11 +42,56 @@ public class EnemyBase : Character
     {
         HandleStatuses();
 
+        FindMovementSpaces(refCombatGrid);
+
         // select aggro target
         aggroTarget = ProcessAggro();
 
-        List<GridSpace> path = refCombatGrid.GetAStar(refCombatGrid, myGridSpace, aggroTarget, this, false);
-        StartCoroutine(MoveAlongPath(path));
+        GridSpace aggroTargetAdjacent = null;
+        int lowestDistance = int.MaxValue;
+
+        if (aggroTarget != myGridSpace)
+        {
+            Debug.Log(gameObject.name + "'s target was " + aggroTarget.character.name + "!");
+
+            CheckAdjacentSpace(aggroTarget, ref aggroTargetAdjacent, ref lowestDistance, "up");
+            CheckAdjacentSpace(aggroTarget, ref aggroTargetAdjacent, ref lowestDistance, "down");
+            CheckAdjacentSpace(aggroTarget, ref aggroTargetAdjacent, ref lowestDistance, "left");
+            CheckAdjacentSpace(aggroTarget, ref aggroTargetAdjacent, ref lowestDistance, "right");
+
+            List<GridSpace> path = refCombatGrid.GetAStar(refCombatGrid, myGridSpace, aggroTargetAdjacent, this, true);
+
+            StartCoroutine(MoveAlongPath(path));
+        }
+        else
+        {
+            idle = true;
+        }
+    }
+
+    private void CheckAdjacentSpace(GridSpace center, ref GridSpace currentClosest, ref int currentDistance, string direction)
+    {
+        GridSpace adjacent = (GridSpace)center.GetType().GetField(direction).GetValue(center);
+        int distance = refCombatGrid.GetDistance(adjacent, myGridSpace);
+
+        if (adjacent.character == null)
+        {
+            if (distance < currentDistance)
+            {
+                currentDistance = distance;
+
+                currentClosest = adjacent;
+            }
+            else if (distance == currentDistance)
+            {
+                if (Random.Range(0, 2) == 1)
+                {
+                    currentDistance = distance;
+
+                    currentClosest = adjacent;
+                }
+            }
+        }
     }
 
     private GridSpace ProcessAggro()
@@ -213,13 +258,6 @@ public class EnemyBase : Character
         FindMovementSpaces(refCombatGrid);
 
         HandleStatuses();
-    }
-
-    public void FindMovementSpaces(CombatGrid grid)
-    {
-        // reset movement spaces
-        movementSpaces.Clear();
-        movementSpaces = grid.GetBreadthFirst(myGridSpace, movementRangeCurrent, terrainTypes, true);
     }
 
     public bool GetIdle()

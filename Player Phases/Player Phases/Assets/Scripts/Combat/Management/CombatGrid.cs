@@ -20,6 +20,8 @@ public class CombatGrid : MonoBehaviour
     public GameObject gridSpacePrefab;
     public GameObject shadowWallPrefab;
 
+    public bool moveThroughSameAfilliation;
+
     public void SpawnGrid()
     {
         grid = new GridSpace[gridWidth, gridHeight];
@@ -46,6 +48,7 @@ public class CombatGrid : MonoBehaviour
                 grid[x, y] = new GridSpace(Instantiate(gridSpacePrefab, new Vector3(x, y, 0.0f), Quaternion.identity, transform), terrainType, new Vector2Int(x, y));
                 grid[x, y].shadowWall = Instantiate(shadowWallPrefab, grid[x, y].obj.transform.position, grid[x, y].obj.transform.rotation, grid[x, y].obj.transform);
                 grid[x, y].shadowWall.SetActive(false);
+                grid[x, y].obj.name = "Grid Space (" + x + ", " + y + ")";
             }
         }
 
@@ -230,7 +233,7 @@ public class CombatGrid : MonoBehaviour
         return null;
     }
 
-    public List<GridSpace> GetBreadthFirst(GridSpace center, uint radius, List<GridSpace_TerrainType> terrainTypes, bool skipCharacters)
+    public List<GridSpace> GetBreadthFirst(GridSpace center, uint radius, List<GridSpace_TerrainType> terrainTypes, Character_Affiliation affiliation)
     {
         List<GridSpace> result = new List<GridSpace>();
         result.Add(center);
@@ -247,10 +250,10 @@ public class CombatGrid : MonoBehaviour
             // loop through the currently saved "sweep" of Grid Spaces
             for (int j = 0; j < currentSweep.Count; ++j)
             {
-                BreadthFirstAddToLists(currentSweep[j].up, result, nextSweep, terrainTypes, skipCharacters);
-                BreadthFirstAddToLists(currentSweep[j].down, result, nextSweep, terrainTypes, skipCharacters);
-                BreadthFirstAddToLists(currentSweep[j].left, result, nextSweep, terrainTypes, skipCharacters);
-                BreadthFirstAddToLists(currentSweep[j].right, result, nextSweep, terrainTypes, skipCharacters);
+                BreadthFirstAddToLists(currentSweep[j].up, result, nextSweep, terrainTypes, affiliation);
+                BreadthFirstAddToLists(currentSweep[j].down, result, nextSweep, terrainTypes, affiliation);
+                BreadthFirstAddToLists(currentSweep[j].left, result, nextSweep, terrainTypes, affiliation);
+                BreadthFirstAddToLists(currentSweep[j].right, result, nextSweep, terrainTypes, affiliation);
             }
 
             // reset the current sweep and reassign its conets to that of the next sweep
@@ -262,13 +265,13 @@ public class CombatGrid : MonoBehaviour
         return result;
     }
 
-    private void BreadthFirstAddToLists(GridSpace space, List<GridSpace> result, List<GridSpace> nextSweep, List<GridSpace_TerrainType> terrainTypes, bool skipCharacters)
+    private void BreadthFirstAddToLists(GridSpace space, List<GridSpace> result, List<GridSpace> nextSweep, List<GridSpace_TerrainType> terrainTypes, Character_Affiliation affiliation)
     {
         if (space != null && !result.Contains(space))
         {
             if (terrainTypes.Contains(space.GetTerrainType()))
             {
-                if (skipCharacters && space.character != null)
+                if (space.character != null && (affiliation != Character_Affiliation.none && space.character.affiliation != affiliation))
                 {
                     Debug.Log("Terrain had character " + space.character.name + " and was ignored.");
                     return;
@@ -350,7 +353,7 @@ public class CombatGrid : MonoBehaviour
             if (neighbor != start)
             {
                 // skip the node if it is closed or it is not traversable
-                if (!subject.terrainTypes.Contains(neighbor.GetTerrainType()) || AStarCheckGridSpaceForCharacters(neighbor, start, target, subject) || closed.Contains(neighbor))
+                if (!subject.terrainTypes.Contains(neighbor.GetTerrainType()) || closed.Contains(neighbor) || (neighbor.character != null && subject.affiliation != neighbor.character.affiliation))
                 {
                     return;
                 }
@@ -421,7 +424,7 @@ public class CombatGrid : MonoBehaviour
         if (neighbor != start && neighbor != target)
         {
             // check if the neighbor space contains a character, but only skip if the character isn't the subject character
-            if (neighbor.character != null && neighbor.character != subject)
+            if (neighbor.character != null && neighbor.character.affiliation != subject.affiliation)
             {
                 return true;
             }
@@ -626,7 +629,7 @@ public enum GridSpace_TerrainType { standard, wall, wall_artificial, water };
 
 public enum Effect_ID { damage, healing, aggro, frosty, aggroDispel, shadowWall, attackUp, noDamage };
 
-public enum Character_Affiliation { player, enemy, ally };
+public enum Character_Affiliation { player, enemy, ally, none };
 
 static public class TerrainTypePresets
 {
