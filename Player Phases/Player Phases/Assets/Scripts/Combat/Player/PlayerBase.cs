@@ -8,9 +8,6 @@ public class PlayerBase : Character
     private bool idle = true;
     private GridSpace originalGridSpace;
 
-    [Header("Moveset for Abilities")]
-    public Moveset moveset;
-
     private enum PathDirections { up, down, left, right };
 
     private MovementDialogueProcessor refMovementDialogueProcessor;

@@ -179,7 +179,7 @@ public class CharacterUI : MonoBehaviour
         }
     }
 
-    public AbilityUIDefinition InitializeAbilityUI(PlayerBase character)
+    public AbilityUIDefinition InitializeAbilityUI(Character character)
     {
         AbilityUIDefinition result = new AbilityUIDefinition();
 

@@ -11,9 +11,6 @@ public class EnemyBase : Character
     public List<AggroData> aggroData = new List<AggroData>();
     private GridSpace aggroTarget;
 
-    [Header("Basic melee attack for testing")]
-    public Ability basicAttack;
-
     private void Start()
     {
         refCombatGrid = FindObjectOfType<CombatGrid>();
@@ -198,13 +195,13 @@ public class EnemyBase : Character
 
     private void Attack()
     {
-        if (basicAttack != null)
+        if (moveset != null)
         {
             // apply source to basic attack for things like aggro and friendly fire
-            basicAttack.ApplySource(this);
+            moveset.ability1.ApplySource(this);
 
             // make the grid space dirty
-            refCombatGrid.MakeDirty(aggroTarget, basicAttack);
+            refCombatGrid.MakeDirty(aggroTarget, moveset.ability1);
 
             // clean the grid to actually perform the attack
             refCombatGrid.CleanGrid();

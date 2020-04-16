@@ -5004,6 +5004,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 555027624386460172, guid: 9832637ce664d93409d8ad2011634119,
     type: 3}
-  enemyPrefabStrong: {fileID: 555027624386460172, guid: e616f2fc6f340c8419955a6f5e52fb2e,
-    type: 3}
+  characterDefinitions:
+  - {fileID: 11400000, guid: 34b941251869b4e4fbfdce10058354de, type: 2}
+  - {fileID: 11400000, guid: e2bbf764f02a20a47bff986849682f8c, type: 2}
+  - {fileID: 11400000, guid: e2bbf764f02a20a47bff986849682f8c, type: 2}
+  - {fileID: 11400000, guid: e2bbf764f02a20a47bff986849682f8c, type: 2}
+  - {fileID: 11400000, guid: e2bbf764f02a20a47bff986849682f8c, type: 2}
+  - {fileID: 11400000, guid: e2bbf764f02a20a47bff986849682f8c, type: 2}
   enemies: []

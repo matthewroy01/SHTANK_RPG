@@ -30,6 +30,12 @@ public class Character : MonoBehaviour
     [HideInInspector]
     public uint movementRangeCurrent;
 
+    // moveset
+    /* ----------------------------------------------------------*/
+
+    [Header("Moveset")]
+    public Moveset moveset;
+
     // statuses
     /* ----------------------------------------------------------*/
 

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4171d8c7a89e384dac5c952b87f2508, type: 3}
   m_Name: Strong Enemy Attack
   m_EditorClassIdentifier: 
-  description: 
+  description: A strong melee attack... be careful!
   moveCharacter: 0
   ignoreWalls: 0
   ranged: 0
