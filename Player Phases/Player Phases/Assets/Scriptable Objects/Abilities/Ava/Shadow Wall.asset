@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4171d8c7a89e384dac5c952b87f2508, type: 3}
   m_Name: Shadow Wall
   m_EditorClassIdentifier: 
-  description: Create a Shadow Wall to block off enemies... and your allies.
+  description: Create a Shadow Wall to block off enemies... and your allies... but
+    not yourself!
   moveCharacter: 0
   ignoreWalls: 1
   ranged: 1

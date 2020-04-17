@@ -87,7 +87,6 @@ public class CharacterSelector : MonoBehaviour
     {
         ProcessState();
 
-
         if (refPhaseManager.currentPhase == CombatPhase.Player)
         {
             ShowEnemyInfo();

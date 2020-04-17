@@ -1315,8 +1315,9 @@ MonoBehaviour:
     review!
 
 
-    For this build, no changes have been made to the pathfinding, but
-    changes to it will be a priority in the future.'
+    Some changes have also been made to the enemy pathfinding. While
+    the AI still isn''t very smart, remember to share any unusual behavior you notice
+    in the QA form!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 325e34b286b1f4c458237bc4cc2874d2, type: 2}
   m_sharedMaterial: {fileID: -4557318512807068451, guid: 325e34b286b1f4c458237bc4cc2874d2,
@@ -1386,12 +1387,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1510578748}
-    characterCount: 265
+    characterCount: 313
     spriteCount: 0
-    spaceCount: 54
-    wordCount: 52
+    spaceCount: 61
+    wordCount: 59
     linkCount: 0
-    lineCount: 14
+    lineCount: 15
     pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0

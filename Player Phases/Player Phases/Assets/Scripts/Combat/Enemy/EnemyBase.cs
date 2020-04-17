@@ -114,8 +114,7 @@ public class EnemyBase : Character
         {
             for (int i = 0; i < movementSpaces.Count; ++i)
             {
-                int pathCount = refCombatGrid.GetDistance(movementSpaces[i], toCheckWith);
-                //int pathCount = refCombatGrid.GetAStar(refCombatGrid, movementSpaces[i], toCheckWith, this, true, true).Count;
+                int pathCount = refCombatGrid.GetAStar(refCombatGrid, movementSpaces[i], toCheckWith, this, true).Count;
                 if (pathCount < lowest)
                 {
                     lowest = pathCount;
