@@ -47,19 +47,20 @@ public class EnemyBase : Character
         // select aggro target
         aggroTarget = ProcessAggro();
 
-        GridSpace aggroTargetAdjacent = null;
-        int lowestDistance = int.MaxValue;
+        GridSpace closestValidSpace = null; // a grid space within the list of valid movement spaces that is closest to the aggro target adjacent space
+        List<GridSpace> path = new List<GridSpace>(); // the list to store our final movement path
 
         if (aggroTarget != myGridSpace)
         {
             Debug.Log(gameObject.name + "'s target was " + aggroTarget.character.name + "!");
 
-            CheckAdjacentSpace(aggroTarget, ref aggroTargetAdjacent, ref lowestDistance, "up");
-            CheckAdjacentSpace(aggroTarget, ref aggroTargetAdjacent, ref lowestDistance, "down");
-            CheckAdjacentSpace(aggroTarget, ref aggroTargetAdjacent, ref lowestDistance, "left");
-            CheckAdjacentSpace(aggroTarget, ref aggroTargetAdjacent, ref lowestDistance, "right");
+            closestValidSpace = CheckClosestValidSpace(aggroTarget);
 
-            List<GridSpace> path = refCombatGrid.GetAStar(refCombatGrid, myGridSpace, aggroTargetAdjacent, this, true);
+            // find the path to the found valid movement space
+            if (closestValidSpace != null)
+            {
+                path = refCombatGrid.GetAStar(refCombatGrid, myGridSpace, closestValidSpace, this, true);
+            }
 
             StartCoroutine(MoveAlongPath(path));
         }
@@ -69,29 +70,61 @@ public class EnemyBase : Character
         }
     }
 
-    private void CheckAdjacentSpace(GridSpace center, ref GridSpace currentClosest, ref int currentDistance, string direction)
+    private void CheckAdjacentSpace(GridSpace center, ref GridSpace currentClosest, params string[] directions)
     {
-        GridSpace adjacent = (GridSpace)center.GetType().GetField(direction).GetValue(center);
-        int distance = refCombatGrid.GetDistance(adjacent, myGridSpace);
+        int currentDistance = int.MaxValue;
 
-        if (adjacent.character == null)
+        for (int i = 0; i < directions.Length; ++i)
         {
-            if (distance < currentDistance)
-            {
-                currentDistance = distance;
+            GridSpace adjacent = (GridSpace)center.GetType().GetField(directions[i]).GetValue(center);
+            int distance = refCombatGrid.GetAStar(refCombatGrid, adjacent, myGridSpace, this, true).Count;
 
-                currentClosest = adjacent;
-            }
-            else if (distance == currentDistance)
+            if (adjacent.character == null)
             {
-                if (Random.Range(0, 2) == 1)
+                if (distance < currentDistance)
                 {
                     currentDistance = distance;
 
                     currentClosest = adjacent;
                 }
+                else if (distance == currentDistance)
+                {
+                    if (Random.Range(0, 2) == 1)
+                    {
+                        currentDistance = distance;
+
+                        currentClosest = adjacent;
+                    }
+                }
             }
         }
+
+        if (currentClosest == center)
+        {
+            currentClosest = center;
+        }
+    }
+
+    private GridSpace CheckClosestValidSpace(GridSpace toCheckWith)
+    {
+        int lowest = int.MaxValue;
+        GridSpace closest = null;
+
+        if (toCheckWith != myGridSpace)
+        {
+            for (int i = 0; i < movementSpaces.Count; ++i)
+            {
+                int pathCount = refCombatGrid.GetDistance(movementSpaces[i], toCheckWith);
+                //int pathCount = refCombatGrid.GetAStar(refCombatGrid, movementSpaces[i], toCheckWith, this, true, true).Count;
+                if (pathCount < lowest)
+                {
+                    lowest = pathCount;
+                    closest = movementSpaces[i];
+                }
+            }
+        }
+
+        return closest;
     }
 
     private GridSpace ProcessAggro()
@@ -198,32 +231,24 @@ public class EnemyBase : Character
     {
         if (path.Count > 0)
         {
-            int movementCounter = 0;
             GridSpace currentAlongPath = null;
 
             // move along the path
             for (int i = 0; i < path.Count; ++i)
             {
-                // only move along the path for the amount that the movement range stat allows
-                if (movementCounter >= movementRangeCurrent)
-                {
-                    break;
-                }
-
                 // keep a current grid space updated so we can update the grid properly
                 currentAlongPath = path[i];
                 // update position for visuals
                 transform.position = currentAlongPath.obj.transform.position;
 
-                ++movementCounter;
-
                 yield return new WaitForSeconds(0.1f);
-            }
 
-            // if the current space along the path reached the end, attack!
-            if (currentAlongPath == path[path.Count - 1])
-            {
-                Attack();
+                // if the current space along the path reached the end, attack!
+                if (refCombatGrid.GetDistance(path[i], aggroTarget) == 1)
+                {
+                    Attack();
+                    break;
+                }
             }
 
             // properly reassign grid spaces
