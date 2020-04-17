@@ -1980,7 +1980,7 @@ AudioSource:
   m_audioClip: {fileID: 8300000, guid: d8ed686abcf3db943aae3b95056bec76, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
-  m_Pitch: 1
+  m_Pitch: 1.25
   Loop: 1
   Mute: 0
   Spatialize: 0
@@ -2984,7 +2984,7 @@ MonoBehaviour:
   lerpSpeed: 0.15
   edgeSensitiviy: 0.05
   edgeMode: 1
-  requireTab: 1
+  requireTab: 0
   movementAreaSize: {x: 12, y: 8}
   cameraMode: 0
 --- !u!1 &969042759
