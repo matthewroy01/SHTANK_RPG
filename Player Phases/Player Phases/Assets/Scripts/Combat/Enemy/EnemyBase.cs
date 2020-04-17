@@ -243,8 +243,8 @@ public class EnemyBase : Character
 
                 yield return new WaitForSeconds(0.1f);
 
-                // if the current space along the path reached the end, attack!
-                if (refCombatGrid.GetDistance(path[i], aggroTarget) == 1)
+                // if the current space along the path reached the end and we are in range, attack!
+                if (i == path.Count - 1 && refCombatGrid.GetDistance(path[i], aggroTarget) == 1)
                 {
                     Attack();
                     break;

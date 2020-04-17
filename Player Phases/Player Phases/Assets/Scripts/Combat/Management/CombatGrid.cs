@@ -436,7 +436,6 @@ public class CombatGrid : MonoBehaviour
     public int GetDistance(GridSpace a, GridSpace b)
     {
         int distance = Mathf.Abs(a.coordinate.x - b.coordinate.x) + Mathf.Abs(a.coordinate.y - b.coordinate.y);
-        Debug.Log("Distance was " + distance + ".");
         return distance;
     }
 

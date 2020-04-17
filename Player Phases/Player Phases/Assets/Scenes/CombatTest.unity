@@ -4553,8 +4553,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6f4c736db31daf4eaf4b83a8166cea5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridWidth: 10
-  gridHeight: 6
+  gridWidth: 12
+  gridHeight: 8
   scannable:
     serializedVersion: 2
     m_Bits: 512
@@ -5006,6 +5006,7 @@ MonoBehaviour:
   enemyPrefab: {fileID: 555027624386460172, guid: 9832637ce664d93409d8ad2011634119,
     type: 3}
   characterDefinitions:
+  - {fileID: 11400000, guid: 34b941251869b4e4fbfdce10058354de, type: 2}
   - {fileID: 11400000, guid: e2bbf764f02a20a47bff986849682f8c, type: 2}
   - {fileID: 11400000, guid: e2bbf764f02a20a47bff986849682f8c, type: 2}
   - {fileID: 11400000, guid: e2bbf764f02a20a47bff986849682f8c, type: 2}

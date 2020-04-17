@@ -87,6 +87,7 @@ public class CharacterSelector : MonoBehaviour
     {
         ProcessState();
 
+
         if (refPhaseManager.currentPhase == CombatPhase.Player)
         {
             ShowEnemyInfo();
@@ -518,7 +519,7 @@ public class CharacterSelector : MonoBehaviour
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, out hit, layerMaskGrid))
+        if (Physics.Raycast(ray, out hit, layerMaskGrid) && !Input.GetMouseButton(0))
         {
             EnemyBase tmpEnemy;
 

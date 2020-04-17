@@ -147,6 +147,9 @@ public class PlayerBase : Character
     {
         refMovementDialogueProcessor.DisplayDeathQuote();
 
+        myGridSpace.character = null;
+        myGridSpace = null;
+
         yield return new WaitForSeconds(2.0f);
 
         Destroy(gameObject);

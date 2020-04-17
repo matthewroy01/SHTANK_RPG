@@ -95,19 +95,15 @@ public class CharacterUI : MonoBehaviour
 
         // ability text
         abilityUI1.SetActive(character.abilityUIDefinition.strings1.name != "");
-        Debug.Log("Ability name is " + character.abilityUIDefinition.strings1.name);
         UpdateAbilityUI(abilityUI1, character.abilityUIDefinition.strings1);
 
         abilityUI2.SetActive(character.abilityUIDefinition.strings2.name != "");
-        Debug.Log("Ability name is " + character.abilityUIDefinition.strings2.name);
         UpdateAbilityUI(abilityUI2, character.abilityUIDefinition.strings2);
 
         abilityUI3.SetActive(character.abilityUIDefinition.strings3.name != "");
-        Debug.Log("Ability name is " + character.abilityUIDefinition.strings3.name);
         UpdateAbilityUI(abilityUI3, character.abilityUIDefinition.strings3);
 
         abilityUI4.SetActive(character.abilityUIDefinition.strings4.name != "");
-        Debug.Log("Ability name is " + character.abilityUIDefinition.strings4.name);
         UpdateAbilityUI(abilityUI4, character.abilityUIDefinition.strings4);
     }
 
