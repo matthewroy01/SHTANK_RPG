@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8763601356153325861}
   - component: {fileID: 2544337563623422611}
   - component: {fileID: 4287821525986303995}
-  - component: {fileID: 1124789292131182967}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -70,13 +69,13 @@ MonoBehaviour:
   nashbalm: 0
   movementRangeDefault: 5
   movementRangeCurrent: 0
+  moveset: {fileID: 0}
   statusFrosty: 0
   statusAttackUp: 0
   affiliation: 1
   terrainTypes: 00000000
   portrait: {fileID: 0}
   aggroData: []
-  basicAttack: {fileID: 11400000, guid: b06399fe088b34d4086f894373cd51cf, type: 2}
 --- !u!114 &4287821525986303995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,135 +93,67 @@ MonoBehaviour:
   damage:
     ui: {fileID: 235939475847409354}
     color: {r: 1, g: 0, b: 0, a: 1}
-    sound: {fileID: 8300000, guid: e67d7d534acf32649b34b470824671f3, type: 3}
+    sound:
+      clip: {fileID: 8300000, guid: e67d7d534acf32649b34b470824671f3, type: 3}
+      volume: 1
+      pitch: 0
+      randomPitchMinMax: {x: 0.9, y: 1.1}
     effect: {fileID: 5015504054715388862}
   noDamage:
     ui: {fileID: 235939475847409354}
     color: {r: 1, g: 0, b: 0, a: 1}
-    sound: {fileID: 8300000, guid: f63efc85c2583d74dbf175632b41cac2, type: 3}
+    sound:
+      clip: {fileID: 8300000, guid: f63efc85c2583d74dbf175632b41cac2, type: 3}
+      volume: 1
+      pitch: 0
+      randomPitchMinMax: {x: 0.9, y: 1.1}
     effect: {fileID: 5015504054715388862}
   healing:
     ui: {fileID: 6216352474460666404}
     color: {r: 0, g: 1, b: 0, a: 1}
-    sound: {fileID: 8300000, guid: 3bf2bf4d84236684198b9efb2f49e7fa, type: 3}
+    sound:
+      clip: {fileID: 8300000, guid: 3bf2bf4d84236684198b9efb2f49e7fa, type: 3}
+      volume: 1
+      pitch: 0
+      randomPitchMinMax: {x: 0.9, y: 1.1}
     effect: {fileID: 1303683667046823174}
   frost:
     ui: {fileID: 5704738621680570143}
     color: {r: 0, g: 1, b: 1, a: 1}
-    sound: {fileID: 8300000, guid: 265c6d8c4fcce0c46baa733c41746528, type: 3}
+    sound:
+      clip: {fileID: 8300000, guid: 265c6d8c4fcce0c46baa733c41746528, type: 3}
+      volume: 1
+      pitch: 0
+      randomPitchMinMax: {x: 0.9, y: 1.1}
     effect: {fileID: 2545931916429603595}
   aggro:
     ui: {fileID: 3167619071027961926}
     color: {r: 0.7490196, g: 0.7490196, b: 0.7490196, a: 1}
-    sound: {fileID: 8300000, guid: 19eeecb020638ef4da1ee6817d616df5, type: 3}
+    sound:
+      clip: {fileID: 8300000, guid: 19eeecb020638ef4da1ee6817d616df5, type: 3}
+      volume: 1
+      pitch: 0
+      randomPitchMinMax: {x: 0.9, y: 1.1}
     effect: {fileID: 6155532594435101108}
   dispelAggro:
     ui: {fileID: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
-    sound: {fileID: 0}
+    sound:
+      clip: {fileID: 8300000, guid: 3bf2bf4d84236684198b9efb2f49e7fa, type: 3}
+      volume: 1
+      pitch: 0
+      randomPitchMinMax: {x: 0.9, y: 1.1}
     effect: {fileID: 0}
   attackUp:
     ui: {fileID: 3109874743321440206}
     color: {r: 0, g: 1, b: 0, a: 1}
-    sound: {fileID: 8300000, guid: 164dd1a3a3ad5cb43a690df4dc22adf1, type: 3}
-    effect: {fileID: 2545931916429603595}
+    sound:
+      clip: {fileID: 8300000, guid: 164dd1a3a3ad5cb43a690df4dc22adf1, type: 3}
+      volume: 1
+      pitch: 0
+      randomPitchMinMax: {x: 0.9, y: 1.1}
+    effect: {fileID: 5202297617834903145}
   timeBetweenEffects: 0.35
---- !u!82 &1124789292131182967
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 555027624386460172}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &4778557236081733018
 GameObject:
   m_ObjectHideFlags: 0
@@ -614,6 +545,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5202297617834903145 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2393718747756106401, guid: f5bb6aad34934424597bcc860644c612,
+    type: 3}
+  m_PrefabInstance: {fileID: 7568990328839673032}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ffbabb3662e99e4cac1ee6a4bec3cc6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &3167619071027961926 stripped

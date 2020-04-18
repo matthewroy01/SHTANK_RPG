@@ -24,12 +24,12 @@ public class EffectUI : MonoBehaviour
 
     private Queue<Effect> toDisplay = new Queue<Effect>();
 
-    private AudioSource refAudioSource;
+    private UtilityAudioManager refAudioManager;
     private Character owner;
 
     private void Start()
     {
-        refAudioSource = GetComponent<AudioSource>();
+        refAudioManager = FindObjectOfType<UtilityAudioManager>();
         owner = GetComponent<Character>();
 
         StartCoroutine(IterateThroughEffects());
@@ -69,44 +69,44 @@ public class EffectUI : MonoBehaviour
         {
             case Effect_ID.damage:
             {
-                damage.Apply(effect.value.ToString(), refAudioSource);
+                damage.Apply(effect.value.ToString(), refAudioManager);
                 break;
             }
             case Effect_ID.noDamage:
             {
-                noDamage.Apply(effect.value.ToString(), refAudioSource);
+                noDamage.Apply(effect.value.ToString(), refAudioManager);
                 break;
             }
             case Effect_ID.healing:
             {
-                healing.Apply(effect.value.ToString(), refAudioSource);
+                healing.Apply(effect.value.ToString(), refAudioManager);
                 break;
             }
             case Effect_ID.aggro:
             {
                 if (effect.value > 0)
                 {
-                    aggro.Apply("Aggro+", refAudioSource);
+                    aggro.Apply("Aggro+", refAudioManager);
                 }
                 else
                 {
-                    aggro.Apply("Aggro-", refAudioSource);
+                    aggro.Apply("Aggro-", refAudioManager);
                 }
                 break;
             }
             case Effect_ID.frosty:
             {
-                frost.Apply("Frosty!", refAudioSource);
+                frost.Apply("Frosty!", refAudioManager);
                 break;
             }
             case Effect_ID.aggroDispel:
             {
-                dispelAggro.Apply("Aggro Dispelled!", refAudioSource);
+                dispelAggro.Apply("Aggro Dispelled!", refAudioManager);
                 break;
             }
             case Effect_ID.attackUp:
             {
-                attackUp.Apply("Attack Up!", refAudioSource);
+                attackUp.Apply("Attack Up!", refAudioManager);
                 break;
             }
             default:
@@ -134,10 +134,10 @@ public class EffectUIParameters
 {
     public TextMeshProUGUI ui;
     public Color color;
-    public AudioClip sound;
+    public ManagedAudio sound;
     public UIEffect effect;
 
-    public void Apply(string text, AudioSource source)
+    public void Apply(string text, UtilityAudioManager source)
     {
         if (ui != null)
         {
@@ -147,7 +147,7 @@ public class EffectUIParameters
 
         if (sound != null)
         {
-            source.PlayOneShot(sound);
+            source.QueueSound(sound);
         }
 
         if (effect != null)

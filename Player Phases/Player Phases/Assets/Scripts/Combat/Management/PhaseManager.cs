@@ -21,15 +21,14 @@ public class PhaseManager : MonoBehaviour
     private EnemyManager refEnemyManager;
     private CombatGrid refCombatGrid;
 
-    private AudioSource refAudioSource;
+    private UtilityAudioManager refAudioManager;
 
     void Start()
     {
         refPlayerManager = FindObjectOfType<PlayerManager>();
         refEnemyManager = FindObjectOfType<EnemyManager>();
         refCombatGrid = FindObjectOfType<CombatGrid>();
-
-        refAudioSource = GetComponent<AudioSource>();
+        refAudioManager = FindObjectOfType<UtilityAudioManager>();
 
         // set current phase to default while outside of combat
         currentPhase = CombatPhase.Null;
@@ -70,14 +69,14 @@ public class PhaseManager : MonoBehaviour
 
     public void Victory()
     {
-        uiEffectVictoryAndDefeat.Apply("Victory!", refAudioSource);
+        uiEffectVictoryAndDefeat.Apply("Victory!", refAudioManager);
 
         Invoke("RestartScene", 3.0f);
     }
 
     public void Defeat()
     {
-        uiEffectVictoryAndDefeat.Apply("Defeat...", refAudioSource);
+        uiEffectVictoryAndDefeat.Apply("Defeat...", refAudioManager);
 
         Invoke("RestartScene", 3.0f);
     }
@@ -116,7 +115,7 @@ public class PhaseManager : MonoBehaviour
                 // alert the combat grid that the next turn has begun
                 refCombatGrid.NextTurn();
 
-                uiEffectPhasePlayer.Apply("Player Phase", refAudioSource);
+                uiEffectPhasePlayer.Apply("Player Phase", refAudioManager);
 
                 yield return new WaitForSeconds(timeBetweenPhases);
 
@@ -125,7 +124,7 @@ public class PhaseManager : MonoBehaviour
             }
             case CombatPhase.Enemy:
             {
-                uiEffectPhaseEnemy.Apply("Enemy Phase", refAudioSource);
+                uiEffectPhaseEnemy.Apply("Enemy Phase", refAudioManager);
 
                 yield return new WaitForSeconds(timeBetweenPhases);
 
@@ -151,7 +150,7 @@ public class PhaseManager : MonoBehaviour
 
         if (effect.sound != null)
         {
-            refAudioSource.PlayOneShot(effect.sound);
+            refAudioManager.QueueSound(effect.sound);
         }
 
         if (effect.effect != null)

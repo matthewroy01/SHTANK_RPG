@@ -92,7 +92,6 @@ GameObject:
   - component: {fileID: 4253467717376734106}
   - component: {fileID: 5010701613619982777}
   - component: {fileID: 1303135922800876016}
-  - component: {fileID: -7938591139883573462}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -150,12 +149,12 @@ MonoBehaviour:
   nashbalm: 5
   movementRangeDefault: 0
   movementRangeCurrent: 0
+  moveset: {fileID: 0}
   statusFrosty: 0
   statusAttackUp: 0
   affiliation: 0
   terrainTypes: 00000000
   portrait: {fileID: 0}
-  moveset: {fileID: 0}
 --- !u!114 &5010701613619982777
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,135 +191,67 @@ MonoBehaviour:
   damage:
     ui: {fileID: 2023310786714580020}
     color: {r: 1, g: 0, b: 0, a: 1}
-    sound: {fileID: 8300000, guid: e67d7d534acf32649b34b470824671f3, type: 3}
+    sound:
+      clip: {fileID: 8300000, guid: e67d7d534acf32649b34b470824671f3, type: 3}
+      volume: 1
+      pitch: 0
+      randomPitchMinMax: {x: 0.9, y: 1.1}
     effect: {fileID: 6541656139419961664}
   noDamage:
     ui: {fileID: 2023310786714580020}
     color: {r: 1, g: 0, b: 0, a: 1}
-    sound: {fileID: 8300000, guid: f63efc85c2583d74dbf175632b41cac2, type: 3}
+    sound:
+      clip: {fileID: 8300000, guid: f63efc85c2583d74dbf175632b41cac2, type: 3}
+      volume: 1
+      pitch: 0
+      randomPitchMinMax: {x: 0.9, y: 1.1}
     effect: {fileID: 6541656139419961664}
   healing:
     ui: {fileID: 5266656741397881050}
     color: {r: 0, g: 1, b: 0, a: 1}
-    sound: {fileID: 8300000, guid: 3bf2bf4d84236684198b9efb2f49e7fa, type: 3}
+    sound:
+      clip: {fileID: 8300000, guid: 3bf2bf4d84236684198b9efb2f49e7fa, type: 3}
+      volume: 1
+      pitch: 0
+      randomPitchMinMax: {x: 0.9, y: 1.1}
     effect: {fileID: 956340540620353528}
   frost:
     ui: {fileID: 5798747676494140897}
     color: {r: 0, g: 1, b: 1, a: 1}
-    sound: {fileID: 8300000, guid: 265c6d8c4fcce0c46baa733c41746528, type: 3}
+    sound:
+      clip: {fileID: 8300000, guid: 265c6d8c4fcce0c46baa733c41746528, type: 3}
+      volume: 1
+      pitch: 0
+      randomPitchMinMax: {x: 0.9, y: 1.1}
     effect: {fileID: 4325408727167101429}
   aggro:
-    ui: {fileID: 0}
-    color: {r: 0, g: 0, b: 0, a: 0}
-    sound: {fileID: 0}
-    effect: {fileID: 0}
-  dispelAggro:
     ui: {fileID: 3794180465408686776}
-    color: {r: 0.745283, g: 0.745283, b: 0.745283, a: 1}
-    sound: {fileID: 8300000, guid: 3bf2bf4d84236684198b9efb2f49e7fa, type: 3}
+    color: {r: 0.7490196, g: 0.7490196, b: 0.7490196, a: 1}
+    sound:
+      clip: {fileID: 8300000, guid: 19eeecb020638ef4da1ee6817d616df5, type: 3}
+      volume: 1
+      pitch: 0
+      randomPitchMinMax: {x: 0.9, y: 1.1}
     effect: {fileID: 5349959161911331658}
+  dispelAggro:
+    ui: {fileID: 3781468285616583984}
+    color: {r: 0.49803922, g: 0.49803922, b: 0.49803922, a: 1}
+    sound:
+      clip: {fileID: 8300000, guid: 3bf2bf4d84236684198b9efb2f49e7fa, type: 3}
+      volume: 1
+      pitch: 0
+      randomPitchMinMax: {x: 0.9, y: 1.1}
+    effect: {fileID: 6296104684039953559}
   attackUp:
     ui: {fileID: 3781468285616583984}
     color: {r: 0, g: 1, b: 0, a: 1}
-    sound: {fileID: 8300000, guid: 164dd1a3a3ad5cb43a690df4dc22adf1, type: 3}
+    sound:
+      clip: {fileID: 8300000, guid: 164dd1a3a3ad5cb43a690df4dc22adf1, type: 3}
+      volume: 1
+      pitch: 0
+      randomPitchMinMax: {x: 0.9, y: 1.1}
     effect: {fileID: 6296104684039953559}
   timeBetweenEffects: 0.35
---- !u!82 &-7938591139883573462
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4253467717376734107}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &5068190024953641924
 GameObject:
   m_ObjectHideFlags: 0

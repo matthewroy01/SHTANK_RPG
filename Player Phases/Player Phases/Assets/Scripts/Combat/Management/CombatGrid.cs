@@ -273,7 +273,7 @@ public class CombatGrid : MonoBehaviour
             {
                 if (space.character != null && (affiliation != Character_Affiliation.none && space.character.affiliation != affiliation))
                 {
-                    Debug.Log("Terrain had character " + space.character.name + " and was ignored.");
+                    //Debug.Log("Terrain had character " + space.character.name + " and was ignored.");
                     return;
                 }
 
@@ -282,7 +282,7 @@ public class CombatGrid : MonoBehaviour
             }
             else
             {
-                Debug.Log("Terrain of type " + space.GetTerrainType() + " was ignored.");
+                //Debug.Log("Terrain of type " + space.GetTerrainType() + " was ignored.");
             }
         }
     }
