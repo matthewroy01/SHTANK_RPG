@@ -225,14 +225,14 @@ MonoBehaviour:
       randomPitchMinMax: {x: 0.9, y: 1.1}
     effect: {fileID: 4325408727167101429}
   aggro:
-    ui: {fileID: 3794180465408686776}
-    color: {r: 0.7490196, g: 0.7490196, b: 0.7490196, a: 1}
+    ui: {fileID: 0}
+    color: {r: 0, g: 0, b: 0, a: 0}
     sound:
-      clip: {fileID: 8300000, guid: 19eeecb020638ef4da1ee6817d616df5, type: 3}
-      volume: 1
+      clip: {fileID: 0}
+      volume: 0
       pitch: 0
-      randomPitchMinMax: {x: 0.9, y: 1.1}
-    effect: {fileID: 5349959161911331658}
+      randomPitchMinMax: {x: 0, y: 0}
+    effect: {fileID: 0}
   dispelAggro:
     ui: {fileID: 3781468285616583984}
     color: {r: 0.49803922, g: 0.49803922, b: 0.49803922, a: 1}
@@ -574,30 +574,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ffbabb3662e99e4cac1ee6a4bec3cc6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3794180465408686776 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4827806407216919694, guid: f5bb6aad34934424597bcc860644c612,
-    type: 3}
-  m_PrefabInstance: {fileID: 8527692745696726582}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5349959161911331658 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4352356159055693180, guid: f5bb6aad34934424597bcc860644c612,
-    type: 3}
-  m_PrefabInstance: {fileID: 8527692745696726582}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0e2c14083184ec4280c1be407d7b1ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &3118791026654829751 stripped

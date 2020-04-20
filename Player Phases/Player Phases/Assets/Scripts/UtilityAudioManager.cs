@@ -35,12 +35,14 @@ public class UtilityAudioManager : MonoBehaviour
             // find an available audio source and use it
             for (int j = 0; j < audioSources.Count; j++)
             {
-                if (audioSources[i].isPlaying == false)
+                if (audioSources[j].isPlaying == false)
                 {
-                    audioSources[i].clip = tmp.clip;
-                    audioSources[i].pitch = tmp.pitch;
-                    audioSources[i].volume = tmp.volume;
-                    audioSources[i].Play();
+                    audioSources[j].clip = tmp.clip;
+                    audioSources[j].pitch = tmp.pitch;
+                    audioSources[j].volume = tmp.volume;
+                    audioSources[j].Play();
+
+                    break;
                 }
             }
         }
@@ -61,6 +63,23 @@ public class UtilityAudioManager : MonoBehaviour
 
         newAudio.pitch = Random.Range(Mathf.Clamp(newAudio.randomPitchMinMax.x, 0.0f, 1.0f), Mathf.Clamp(newAudio.randomPitchMinMax.y, 0.0f, 1.0f));
         queuedUpAudio.Add(newAudio);
+    }
+
+    public void PlaySound(ManagedAudio newAudio)
+    {
+        // find an available audio source and use it
+        for (int i = 0; i < audioSources.Count; i++)
+        {
+            if (audioSources[i].isPlaying == false)
+            {
+                audioSources[i].clip = newAudio.clip;
+                audioSources[i].pitch = newAudio.pitch;
+                audioSources[i].volume = newAudio.volume;
+                audioSources[i].Play();
+
+                break;
+            }
+        }
     }
 }
 

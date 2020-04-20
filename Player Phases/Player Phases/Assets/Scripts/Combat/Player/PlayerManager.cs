@@ -177,4 +177,14 @@ public class PlayerManager : MonoBehaviour
         // this current phase is done, let the Phase Manager know it's time to move to the next phase
         refPhaseManager.NextPhase();
     }
+
+    public void EndPhase()
+    {
+        for (int i = 0; i < players.Count; ++i)
+        {
+            players[i].EndTurn();
+        }
+
+        refPhaseManager.NextPhase();
+    }
 }

@@ -45,16 +45,23 @@ public class EnemyManager : MonoBehaviour
 
     private void Update()
     {
-        // remove dead players
-        for (int i = 0; i < enemies.Count; ++i)
+        if (enemies.Count > 0)
         {
-            if (enemies[i].GetDead() == true)
+            // remove dead players
+            for (int i = 0; i < enemies.Count; ++i)
             {
-                enemies[i].myGridSpace.character = null;
-                Destroy(enemies[i].gameObject);
+                if (enemies[i].GetDead() == true)
+                {
+                    enemies[i].myGridSpace.character = null;
+                    Destroy(enemies[i].gameObject);
 
-                enemies.RemoveAt(i);
+                    enemies.RemoveAt(i);
+                }
             }
+        }
+        else
+        {
+            refPlayerManager.EndPhase();
         }
     }
 

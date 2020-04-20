@@ -550,21 +550,24 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Select with Left Click
+  m_text: 'How to play:
+
+
+    Select with Left Click
 
     Cancel with Right Click
 
-    Confirm with
-    Spacebar
+    Confirm
+    with Spacebar
 
     Rotate abilities with mouse movement
 
-    Flip abilities with Left
-    shift
+    Flip abilities with
+    Left shift
 
 
-    The Controls Guide at the bottom left of the screen shows what each
-    button does at any given time!
+    The Controls Guide at the bottom right of the screen shows what
+    each button does at any given time!
 
 
     Some more helpful tips from your fellow
@@ -607,8 +610,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 35
-  m_fontSizeBase: 35
+  m_fontSize: 34
+  m_fontSizeBase: 34
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -648,12 +651,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 736200029}
-    characterCount: 586
+    characterCount: 601
     spriteCount: 0
-    spaceCount: 107
-    wordCount: 105
+    spaceCount: 111
+    wordCount: 108
     linkCount: 0
-    lineCount: 21
+    lineCount: 22
     pageCount: 1
     materialCount: 1
   m_isUsingLegacyAnimationComponent: 0

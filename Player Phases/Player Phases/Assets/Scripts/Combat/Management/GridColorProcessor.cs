@@ -55,14 +55,14 @@ public class GridColorProcessor : MonoBehaviour
                 // color for ranged starting spaces
                 CheckListForGridSpace(refAbilityProcessor.GetStartingSpaces(), refCombatGrid.grid[i, j], colorRangedStartingSpaces, i, j);
 
-                // color for ability preview
-                CheckListForGridSpace(refAbilityProcessor.GetGridSpaces(), refCombatGrid.grid[i, j], colorAbilityPreview, i, j);
-
                 if (refCharacterSelector.overlayCharacter != null)
                 {
                     // color for overlayed enemy movement areas
                     CheckListForGridSpace(refCharacterSelector.overlayCharacter.movementSpaces, refCombatGrid.grid[i, j], colorMovementEnemy, i, j);
                 }
+
+                // color for ability preview
+                CheckListForGridSpace(refAbilityProcessor.GetGridSpaces(), refCombatGrid.grid[i, j], colorAbilityPreview, i, j);
 
                 // display occupied grid spaces in black for debugging purposes
                 if (highlightOccupiedSpaces)

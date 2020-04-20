@@ -139,10 +139,10 @@ MonoBehaviour:
     ui: {fileID: 0}
     color: {r: 0, g: 0, b: 0, a: 0}
     sound:
-      clip: {fileID: 8300000, guid: 3bf2bf4d84236684198b9efb2f49e7fa, type: 3}
-      volume: 1
+      clip: {fileID: 0}
+      volume: 0
       pitch: 0
-      randomPitchMinMax: {x: 0.9, y: 1.1}
+      randomPitchMinMax: {x: 0, y: 0}
     effect: {fileID: 0}
   attackUp:
     ui: {fileID: 3109874743321440206}
