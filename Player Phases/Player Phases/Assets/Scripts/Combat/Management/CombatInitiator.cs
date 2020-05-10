@@ -12,7 +12,7 @@ public class CombatInitiator : MonoBehaviour
         refCombatGrid = GetComponent<CombatGrid>();
         refPhaseManager = FindObjectOfType<PhaseManager>();
 
-        InitiatePhase(CombatPhase.Player);
+        //InitiatePhase(CombatPhase.Player);
     }
 
     public void InitiatePhase(CombatPhase initialPhase)

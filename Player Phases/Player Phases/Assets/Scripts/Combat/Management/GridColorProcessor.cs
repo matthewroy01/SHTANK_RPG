@@ -33,43 +33,46 @@ public class GridColorProcessor : MonoBehaviour
 
     private void ProcessColors()
     {
-        for (int i = 0; i < refCombatGrid.grid.GetLength(0); ++i)
+        if (refCombatGrid.grid != null)
         {
-            for (int j = 0; j < refCombatGrid.grid.GetLength(1); ++j)
+            for (int i = 0; i < refCombatGrid.grid.GetLength(0); ++i)
             {
-                // reset grid space color to the default state
-                refCombatGrid.grid[i, j].obj.GetComponent<Renderer>().material.color = colorDefaultState;
+                for (int j = 0; j < refCombatGrid.grid.GetLength(1); ++j)
+                {
+                    // reset grid space color to the default state
+                    refCombatGrid.grid[i, j].obj.GetComponent<Renderer>().material.color = colorDefaultState;
+                }
             }
-        }
 
-        for (int i = 0; i < refCombatGrid.grid.GetLength(0); ++i)
-        {
-            for (int j = 0; j < refCombatGrid.grid.GetLength(1); ++j)
+            for (int i = 0; i < refCombatGrid.grid.GetLength(0); ++i)
             {
-                if (refCharacterSelector.currentPlayer != null)
+                for (int j = 0; j < refCombatGrid.grid.GetLength(1); ++j)
                 {
-                    // color for movement spaces
-                    CheckListForGridSpace(refCharacterSelector.currentPlayer.movementSpaces, refCombatGrid.grid[i, j], colorMovement, i, j);
-                }
-
-                // color for ranged starting spaces
-                CheckListForGridSpace(refAbilityProcessor.GetStartingSpaces(), refCombatGrid.grid[i, j], colorRangedStartingSpaces, i, j);
-
-                if (refCharacterSelector.overlayCharacter != null)
-                {
-                    // color for overlayed enemy movement areas
-                    CheckListForGridSpace(refCharacterSelector.overlayCharacter.movementSpaces, refCombatGrid.grid[i, j], colorMovementEnemy, i, j);
-                }
-
-                // color for ability preview
-                CheckListForGridSpace(refAbilityProcessor.GetGridSpaces(), refCombatGrid.grid[i, j], colorAbilityPreview, i, j);
-
-                // display occupied grid spaces in black for debugging purposes
-                if (highlightOccupiedSpaces)
-                {
-                    if (refCombatGrid.grid[i, j].character != null)
+                    if (refCharacterSelector.currentPlayer != null)
                     {
-                        refCombatGrid.grid[i, j].obj.GetComponent<Renderer>().material.color = Color.black;
+                        // color for movement spaces
+                        CheckListForGridSpace(refCharacterSelector.currentPlayer.movementSpaces, refCombatGrid.grid[i, j], colorMovement, i, j);
+                    }
+
+                    // color for ranged starting spaces
+                    CheckListForGridSpace(refAbilityProcessor.GetStartingSpaces(), refCombatGrid.grid[i, j], colorRangedStartingSpaces, i, j);
+
+                    if (refCharacterSelector.overlayCharacter != null)
+                    {
+                        // color for overlayed enemy movement areas
+                        CheckListForGridSpace(refCharacterSelector.overlayCharacter.movementSpaces, refCombatGrid.grid[i, j], colorMovementEnemy, i, j);
+                    }
+
+                    // color for ability preview
+                    CheckListForGridSpace(refAbilityProcessor.GetGridSpaces(), refCombatGrid.grid[i, j], colorAbilityPreview, i, j);
+
+                    // display occupied grid spaces in black for debugging purposes
+                    if (highlightOccupiedSpaces)
+                    {
+                        if (refCombatGrid.grid[i, j].character != null)
+                        {
+                            refCombatGrid.grid[i, j].obj.GetComponent<Renderer>().material.color = Color.black;
+                        }
                     }
                 }
             }
