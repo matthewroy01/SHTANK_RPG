@@ -32,7 +32,7 @@ public class CombatCamera : MonoBehaviour
         // this function must be called after the Combat Grid has already initialized itself, otherwise a null reference will occur when trying to get the position of the [0, 0] grid space from it
         CenterCamera();
 
-        maxBounds = new Bounds(transform.position, movementAreaSize);
+        maxBounds = new Bounds(transform.position, new Vector3(movementAreaSize.x, 1.0f, movementAreaSize.y));
     }
 
     void FixedUpdate()
@@ -42,7 +42,7 @@ public class CombatCamera : MonoBehaviour
 
         //Debug.Log(mousePos);
 
-        Vector2 velocity = Vector2.zero;
+        Vector3 velocity = Vector3.zero;
 
         switch(edgeMode)
         {
@@ -51,22 +51,22 @@ public class CombatCamera : MonoBehaviour
                 // if the mouse is near the edge of the screen, add to a velocity
                 if (mousePos.x < 0.0f + edgeSensitiviy)
                 {
-                    velocity += Vector2.left;
+                    velocity += Vector3.left;
                 }
 
                 if (mousePos.x > 1.0f - edgeSensitiviy)
                 {
-                    velocity += Vector2.right;
+                    velocity += Vector3.right;
                 }
 
                 if (mousePos.y < 0.0f + edgeSensitiviy)
                 {
-                    velocity += Vector2.down;
+                    velocity += Vector3.back;
                 }
 
                 if (mousePos.y > 1.0f - edgeSensitiviy)
                 {
-                    velocity += Vector2.up;
+                    velocity += Vector3.forward;
                 }
                 break;
             }
@@ -77,7 +77,7 @@ public class CombatCamera : MonoBehaviour
                     mousePos.y < 0.0f + edgeSensitiviy ||
                     mousePos.y > 1.0f - edgeSensitiviy)
                 {
-                    velocity = mousePos - new Vector2(0.5f, 0.5f);
+                    velocity = new Vector3(mousePos.x, 0.0f, mousePos.y) - new Vector3(0.5f, 0.0f, 0.5f);
                 }
                 break;
             }
@@ -132,25 +132,25 @@ public class CombatCamera : MonoBehaviour
 
     private Vector3 CalcPosCenteredOnCharacters()
     {
-        float avgX = 0, avgY = 0;
+        float avgX = 0, avgZ = 0;
         int i;
 
         for (i = 0; i < refEnemyManager.enemies.Count; ++i)
         {
             avgX += refEnemyManager.enemies[i].transform.position.x;
-            avgY += refEnemyManager.enemies[i].transform.position.y;
+            avgZ += refEnemyManager.enemies[i].transform.position.z;
         }
 
         for (i = 0; i < refPlayerManager.players.Count; ++i)
         {
             avgX += refPlayerManager.players[i].transform.position.x;
-            avgY += refPlayerManager.players[i].transform.position.y;
+            avgZ += refPlayerManager.players[i].transform.position.z;
         }
 
         avgX /= refEnemyManager.enemies.Count + refPlayerManager.players.Count;
-        avgY /= refEnemyManager.enemies.Count + refPlayerManager.players.Count;
+        avgZ /= refEnemyManager.enemies.Count + refPlayerManager.players.Count;
 
-        return new Vector3(avgX, avgY, transform.position.z);
+        return new Vector3(avgX, transform.position.y, avgZ);
     }
 
     private Vector3 CalcPosCenteredOnGrid()
@@ -160,7 +160,7 @@ public class CombatCamera : MonoBehaviour
         corner1 = refCombatGrid.grid[0, 0].obj.transform.position;
         corner2 = refCombatGrid.grid[refCombatGrid.gridWidth - 1, refCombatGrid.gridHeight - 1].obj.transform.position;
 
-        return new Vector3((corner1.x + corner2.x) / 2.0f, (corner1.y + corner2.y) / 2.0f, transform.position.z);
+        return new Vector3((corner1.x + corner2.x) / 2.0f, transform.position.y, (corner1.z + corner2.z) / 2.0f);
     }
 
     public enum CombatCameraCenterMode { centerOnGrid, centerOnCharacters, maintainPosition};

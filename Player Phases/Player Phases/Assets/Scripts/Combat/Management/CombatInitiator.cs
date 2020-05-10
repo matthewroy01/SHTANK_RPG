@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class CombatInitiator : MonoBehaviour
 {
-    public CombatPhase initialPhase;
-
     private CombatGrid refCombatGrid;
     private PhaseManager refPhaseManager;
 
@@ -14,10 +12,10 @@ public class CombatInitiator : MonoBehaviour
         refCombatGrid = GetComponent<CombatGrid>();
         refPhaseManager = FindObjectOfType<PhaseManager>();
 
-        InitiatePhase();
+        InitiatePhase(CombatPhase.Player);
     }
 
-    private void InitiatePhase()
+    public void InitiatePhase(CombatPhase initialPhase)
     {
         if (initialPhase == CombatPhase.Null)
         {

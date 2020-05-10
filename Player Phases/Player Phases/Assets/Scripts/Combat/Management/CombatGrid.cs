@@ -20,7 +20,7 @@ public class CombatGrid : MonoBehaviour
     public GameObject gridSpacePrefab;
     public GameObject shadowWallPrefab;
 
-    public bool moveThroughSameAfilliation;
+    public bool yUp;
 
     public void SpawnGrid()
     {
@@ -45,7 +45,14 @@ public class CombatGrid : MonoBehaviour
                 }
 
                 // create new Grid Space with associated Game Object and terrain type from scan
-                grid[x, y] = new GridSpace(Instantiate(gridSpacePrefab, new Vector3(x, y, 0.0f), Quaternion.identity, transform), terrainType, new Vector2Int(x, y));
+                if (yUp)
+                {
+                    grid[x, y] = new GridSpace(Instantiate(gridSpacePrefab, new Vector3(x, 0.0f, y), Quaternion.identity, transform), terrainType, new Vector2Int(x, y));
+                }
+                else
+                {
+                    grid[x, y] = new GridSpace(Instantiate(gridSpacePrefab, new Vector3(x, y, 0.0f), Quaternion.identity, transform), terrainType, new Vector2Int(x, y));
+                }
                 grid[x, y].shadowWall = Instantiate(shadowWallPrefab, grid[x, y].obj.transform.position, grid[x, y].obj.transform.rotation, grid[x, y].obj.transform);
                 grid[x, y].shadowWall.SetActive(false);
                 grid[x, y].obj.name = "Grid Space (" + x + ", " + y + ")";
