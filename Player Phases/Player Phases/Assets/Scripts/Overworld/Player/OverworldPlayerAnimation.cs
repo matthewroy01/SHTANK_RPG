@@ -13,11 +13,11 @@ public class OverworldPlayerAnimation : MonoBehaviour
     {
         if (!TryGetComponent(out controller))
         {
-            Debug.LogError("OverworldPlayeranimation could not find component OverworldPlayerController.");
+            Debug.LogError("OverworldPlayerAnimation could not find component OverworldPlayerController.");
         }
     }
 
-    void Update()
+    public void MyUpdate()
     {
         if (controller.refMovement.refRigidbody.velocity.x > 0.1f)
         {

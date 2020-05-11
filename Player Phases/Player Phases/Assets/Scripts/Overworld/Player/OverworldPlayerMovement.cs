@@ -31,7 +31,7 @@ public class OverworldPlayerMovement : MonoBehaviour
         }
     }
 
-    private void Update()
+    public void MyUpdate()
     {
         // movement
         GetAxes();

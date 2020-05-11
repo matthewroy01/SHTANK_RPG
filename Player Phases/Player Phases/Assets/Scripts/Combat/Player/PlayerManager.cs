@@ -43,7 +43,7 @@ public class PlayerManager : MonoBehaviour
         names.Add("unnamed sixteenth character");*/
     }
 
-    private void Update()
+    public void MyUpdate()
     {
         // remove dead players
         for (int i = 0; i < players.Count; ++i)

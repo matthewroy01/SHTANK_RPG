@@ -43,7 +43,7 @@ public class EnemyManager : MonoBehaviour
         names.Add("Scarred Jellybean");
     }
 
-    private void Update()
+    public void MyUpdate()
     {
         if (enemies.Count > 0)
         {

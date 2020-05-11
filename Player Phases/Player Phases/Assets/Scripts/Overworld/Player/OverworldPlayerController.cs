@@ -21,4 +21,10 @@ public class OverworldPlayerController : MonoBehaviour
             Debug.LogError("OverworldPlayerMovement could not find component OverworldPlayerAnimation.");
         }
     }
+
+    private void Update()
+    {
+        refMovement.MyUpdate();
+        refAnimation.MyUpdate();
+    }
 }

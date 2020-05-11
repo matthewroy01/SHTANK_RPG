@@ -28,11 +28,6 @@ public class CombatCamera : MonoBehaviour
         refEnemyManager = FindObjectOfType<EnemyManager>();
         refPlayerManager = FindObjectOfType<PlayerManager>();
         refCombatGrid = FindObjectOfType<CombatGrid>();
-
-        // this function must be called after the Combat Grid has already initialized itself, otherwise a null reference will occur when trying to get the position of the [0, 0] grid space from it
-        CenterCamera();
-
-        maxBounds = new Bounds(transform.position, new Vector3(movementAreaSize.x, 1.0f, movementAreaSize.y));
     }
 
     void FixedUpdate()
@@ -104,6 +99,14 @@ public class CombatCamera : MonoBehaviour
                 transform.position = newVector;
             }
         }
+    }
+
+    public void InitiateCombatCamera()
+    {
+        // this function must be called after the Combat Grid has already initialized itself, otherwise a null reference will occur when trying to get the position of the [0, 0] grid space from it
+        CenterCamera();
+
+        maxBounds = new Bounds(transform.position, new Vector3(movementAreaSize.x, 1.0f, movementAreaSize.y));
     }
 
     private void CenterCamera()

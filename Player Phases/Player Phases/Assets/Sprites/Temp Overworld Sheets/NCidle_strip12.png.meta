@@ -1,0 +1,499 @@
+fileFormatVersion: 2
+guid: a75d540f741d73d42952e0f9b1b2df18
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3980899728419054070
+    second: NCidle_strip12_0
+  - first:
+      213: -581992986700915702
+    second: NCidle_strip12_1
+  - first:
+      213: -7963631982073240085
+    second: NCidle_strip12_2
+  - first:
+      213: -4086028539851749874
+    second: NCidle_strip12_3
+  - first:
+      213: -7851934845455742711
+    second: NCidle_strip12_4
+  - first:
+      213: -4998765799760473884
+    second: NCidle_strip12_5
+  - first:
+      213: -687756952909341656
+    second: NCidle_strip12_6
+  - first:
+      213: -2596452717887063352
+    second: NCidle_strip12_7
+  - first:
+      213: 5322435640651750573
+    second: NCidle_strip12_8
+  - first:
+      213: 8590512105382632560
+    second: NCidle_strip12_9
+  - first:
+      213: 9153534647505077159
+    second: NCidle_strip12_10
+  - first:
+      213: -3811600493748893321
+    second: NCidle_strip12_11
+  - first:
+      213: 4542306285637372145
+    second: NCidle_strip12_12
+  - first:
+      213: 982598756583580814
+    second: NCidle_strip12_13
+  - first:
+      213: -5880064678082993075
+    second: NCidle_strip12_14
+  - first:
+      213: 2649389741509606347
+    second: NCidle_strip12_15
+  - first:
+      213: 2785591033832477994
+    second: NCidle_strip12_16
+  - first:
+      213: 6899743651949737316
+    second: NCidle_strip12_17
+  - first:
+      213: 3184848960734955655
+    second: NCidle_strip12_18
+  - first:
+      213: 7344674266322747068
+    second: NCidle_strip12_19
+  - first:
+      213: -5427164803852537937
+    second: NCidle_strip12_20
+  - first:
+      213: -4339363829948874127
+    second: NCidle_strip12_21
+  - first:
+      213: -3154834991024350038
+    second: NCidle_strip12_22
+  - first:
+      213: -8865812030528344843
+    second: NCidle_strip12_23
+  - first:
+      213: -227506697872542788
+    second: NCidle_strip12_24
+  - first:
+      213: -3749307037673896450
+    second: NCidle_strip12_25
+  - first:
+      213: 638337373933883229
+    second: NCidle_strip12_26
+  - first:
+      213: -5250971141740856919
+    second: NCidle_strip12_27
+  - first:
+      213: -4952780702471219267
+    second: NCidle_strip12_28
+  - first:
+      213: 699190609962869899
+    second: NCidle_strip12_29
+  - first:
+      213: -7368480248626663324
+    second: NCidle_strip12_30
+  - first:
+      213: 8907286830838996023
+    second: NCidle_strip12_31
+  - first:
+      213: 611953419528038266
+    second: NCidle_strip12_32
+  - first:
+      213: 7246205501194328862
+    second: NCidle_strip12_33
+  - first:
+      213: -2333488772531524996
+    second: NCidle_strip12_34
+  - first:
+      213: -1020105825924635591
+    second: NCidle_strip12_35
+  - first:
+      213: 6494698613314104771
+    second: NCidle_strip12_36
+  - first:
+      213: 514694901915247981
+    second: NCidle_strip12_37
+  - first:
+      213: -7453310228564102920
+    second: NCidle_strip12_38
+  - first:
+      213: -5329894457102703880
+    second: NCidle_strip12_39
+  - first:
+      213: -3594746153504580562
+    second: NCidle_strip12_40
+  - first:
+      213: -2253142028281576444
+    second: NCidle_strip12_41
+  - first:
+      213: 6333790536243614678
+    second: NCidle_strip12_42
+  - first:
+      213: -7371470012151832709
+    second: NCidle_strip12_43
+  - first:
+      213: 5906046390059249553
+    second: NCidle_strip12_44
+  - first:
+      213: -7814497624927374933
+    second: NCidle_strip12_45
+  - first:
+      213: 1237927541083678418
+    second: NCidle_strip12_46
+  - first:
+      213: -3583210953812007040
+    second: NCidle_strip12_47
+  externalObjects: {}
+  serializedVersion: 10
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: -1
+    mipBias: -100
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 8
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: NCidle_strip12_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6f1edd6163ffe3730800000000000000
+      internalID: 3980899728419054070
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NCidle_strip12_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a0c5ced46785ce7f0800000000000000
+      internalID: -581992986700915702
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NCidle_strip12_2
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: be5a59ac7ee7b7190800000000000000
+      internalID: -7963631982073240085
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NCidle_strip12_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e06470411b28b47c0800000000000000
+      internalID: -4086028539851749874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NCidle_strip12_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90949110cd2580390800000000000000
+      internalID: -7851934845455742711
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NCidle_strip12_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e0d7ed5df0d0aab0800000000000000
+      internalID: -4998765799760473884
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NCidle_strip12_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82c980af1b89476f0800000000000000
+      internalID: -687756952909341656
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NCidle_strip12_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8ca7e3a720c87fbd0800000000000000
+      internalID: -2596452717887063352
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NCidle_strip12_8
+      rect:
+        serializedVersion: 2
+        x: 256
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dac1de404071dd940800000000000000
+      internalID: 5322435640651750573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NCidle_strip12_9
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 07c5600de31a73770800000000000000
+      internalID: 8590512105382632560
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NCidle_strip12_10
+      rect:
+        serializedVersion: 2
+        x: 320
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a345cfa343e70f70800000000000000
+      internalID: 9153534647505077159
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: NCidle_strip12_11
+      rect:
+        serializedVersion: 2
+        x: 352
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 779c460bb897a1bc0800000000000000
+      internalID: -3811600493748893321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 19b6181a7dad3e24caa3b35e044ea63a
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+  spritePackingTag: 
+  pSDRemoveMatte: 0
+  pSDShowRemoveMatteOption: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

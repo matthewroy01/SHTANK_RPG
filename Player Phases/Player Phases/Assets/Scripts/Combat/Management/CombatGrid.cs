@@ -22,9 +22,20 @@ public class CombatGrid : MonoBehaviour
 
     public bool yUp;
 
-    public void SpawnGrid()
+    public void SpawnGrid(Vector3 center)
     {
         grid = new GridSpace[gridWidth, gridHeight];
+
+        // find the bottom left of our grid based on the point of contact in the overworld
+        Vector3 bottomLeft = Vector3.zero;
+        if (yUp)
+        {
+            bottomLeft = new Vector3(center.x - (gridWidth / 2.0f), center.y, center.z - (gridHeight / 2.0f));
+        }
+        else
+        {
+            bottomLeft = new Vector3(center.x - (gridWidth / 2.0f), center.y - (gridHeight / 2.0f), center.z);
+        }
 
         // loop through to create all grid spaces
         for (int x = 0; x < gridWidth; ++x)
@@ -33,7 +44,14 @@ public class CombatGrid : MonoBehaviour
             {
                 // fire a raycast to scan for special terrain types
                 RaycastHit hit;
-                Physics.Raycast(new Vector3(x, y, 0.0f), Vector3.forward, out hit, scannable);
+                if (yUp)
+                {
+                    Physics.Raycast(new Vector3(x, 2.0f, y) + bottomLeft, Vector3.down, out hit, scannable);
+                }
+                else
+                {
+                    Physics.Raycast(new Vector3(x, y, -1.0f) + bottomLeft, Vector3.forward, out hit, scannable);
+                }
 
                 // set the terrain type to standard by default
                 GridSpace_TerrainType terrainType = GridSpace_TerrainType.standard;
@@ -47,11 +65,11 @@ public class CombatGrid : MonoBehaviour
                 // create new Grid Space with associated Game Object and terrain type from scan
                 if (yUp)
                 {
-                    grid[x, y] = new GridSpace(Instantiate(gridSpacePrefab, new Vector3(x, 0.0f, y), Quaternion.identity, transform), terrainType, new Vector2Int(x, y));
+                    grid[x, y] = new GridSpace(Instantiate(gridSpacePrefab, new Vector3(x, 0.0f, y) + bottomLeft, Quaternion.identity, transform), terrainType, new Vector2Int(x, y));
                 }
                 else
                 {
-                    grid[x, y] = new GridSpace(Instantiate(gridSpacePrefab, new Vector3(x, y, 0.0f), Quaternion.identity, transform), terrainType, new Vector2Int(x, y));
+                    grid[x, y] = new GridSpace(Instantiate(gridSpacePrefab, new Vector3(x, y, 0.0f) + bottomLeft, Quaternion.identity, transform), terrainType, new Vector2Int(x, y));
                 }
                 grid[x, y].shadowWall = Instantiate(shadowWallPrefab, grid[x, y].obj.transform.position, grid[x, y].obj.transform.rotation, grid[x, y].obj.transform);
                 grid[x, y].shadowWall.SetActive(false);

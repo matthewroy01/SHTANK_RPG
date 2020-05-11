@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 
 public class PhaseManager : MonoBehaviour
 {
+    public bool inCombat;
+
     [Header("Combat phase info")]
     public CombatPhase currentPhase; // the current combat phase, to keep track of which phase is active
     private int totalPhases = 2; // the total number of phases (not including the Null phase) in the CombatPhase enum
@@ -34,9 +36,20 @@ public class PhaseManager : MonoBehaviour
         currentPhase = CombatPhase.Null;
     }
 
+    void Update()
+    {
+        if (inCombat)
+        {
+            refPlayerManager.MyUpdate();
+            refEnemyManager.MyUpdate();
+        }
+    }
+
     // start combat by changing the current state to something other than "Null"
     public void InitiateCombat(CombatPhase startingPhase)
     {
+        inCombat = true;
+
         if (currentPhase == CombatPhase.Null)
         {
             // change the current phase
@@ -171,7 +184,9 @@ public class PhaseManager : MonoBehaviour
 
     private void RestartScene()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        inCombat = false;
+
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }
 
