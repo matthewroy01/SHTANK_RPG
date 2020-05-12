@@ -6,7 +6,7 @@ public class OverworldPlayerCollision : MonoBehaviour
 {
     private OverworldPlayerController controller;
 
-    private CombatInitiator refCombatInitiator;
+    private CombatManager refCombatManager;
 
     void Start()
     {
@@ -15,7 +15,7 @@ public class OverworldPlayerCollision : MonoBehaviour
             Debug.LogError("OverworldPlayerCollision could not find component OverworldPlayerController.");
         }
 
-        refCombatInitiator = FindObjectOfType<CombatInitiator>();
+        refCombatManager = FindObjectOfType<CombatManager>();
     }
 
     private void OnCollisionEnter(Collision other)
@@ -28,7 +28,7 @@ public class OverworldPlayerCollision : MonoBehaviour
             collisionPoint.z = Mathf.Round(collisionPoint.z);
 
             // pass the collision point along to the Combat Initiator to begin combat at that position
-            refCombatInitiator.InitiatePhase(CombatPhase.Player, collisionPoint);
+            FindObjectOfType<SHTANKManager>().TryBeginCombat(collisionPoint);
         }
     }
 }

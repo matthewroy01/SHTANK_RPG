@@ -22,7 +22,7 @@ public class OverworldPlayerController : MonoBehaviour
         }
     }
 
-    private void Update()
+    public void MyUpdate()
     {
         refMovement.MyUpdate();
         refAnimation.MyUpdate();

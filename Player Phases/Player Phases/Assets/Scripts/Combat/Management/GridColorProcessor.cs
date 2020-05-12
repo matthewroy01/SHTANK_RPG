@@ -26,7 +26,7 @@ public class GridColorProcessor : MonoBehaviour
         refCharacterSelector = FindObjectOfType<CharacterSelector>();
     }
 
-    void Update()
+    public void MyUpdate()
     {
         ProcessColors();
     }

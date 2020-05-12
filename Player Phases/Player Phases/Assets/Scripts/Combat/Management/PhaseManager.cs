@@ -21,6 +21,7 @@ public class PhaseManager : MonoBehaviour
 
     private PlayerManager refPlayerManager;
     private EnemyManager refEnemyManager;
+    private GridColorProcessor refGridColorProcessor;
     private CombatGrid refCombatGrid;
 
     private UtilityAudioManager refAudioManager;
@@ -29,6 +30,7 @@ public class PhaseManager : MonoBehaviour
     {
         refPlayerManager = FindObjectOfType<PlayerManager>();
         refEnemyManager = FindObjectOfType<EnemyManager>();
+        refGridColorProcessor = FindObjectOfType<GridColorProcessor>();
         refCombatGrid = FindObjectOfType<CombatGrid>();
         refAudioManager = FindObjectOfType<UtilityAudioManager>();
 
@@ -36,20 +38,16 @@ public class PhaseManager : MonoBehaviour
         currentPhase = CombatPhase.Null;
     }
 
-    void Update()
+    public void MyUpdate()
     {
-        if (inCombat)
-        {
-            refPlayerManager.MyUpdate();
-            refEnemyManager.MyUpdate();
-        }
+        refPlayerManager.MyUpdate();
+        refEnemyManager.MyUpdate();
+        refGridColorProcessor.MyUpdate();
     }
 
     // start combat by changing the current state to something other than "Null"
     public void InitiateCombat(CombatPhase startingPhase)
     {
-        inCombat = true;
-
         if (currentPhase == CombatPhase.Null)
         {
             // change the current phase
@@ -184,8 +182,6 @@ public class PhaseManager : MonoBehaviour
 
     private void RestartScene()
     {
-        inCombat = false;
-
         //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

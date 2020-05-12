@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CombatInitiator : MonoBehaviour
+public class CombatManager : MonoBehaviour
 {
     private CombatGrid refCombatGrid;
     private CombatCamera refCombatCamera;
@@ -13,8 +13,11 @@ public class CombatInitiator : MonoBehaviour
         refCombatGrid = GetComponent<CombatGrid>();
         refCombatCamera = FindObjectOfType<CombatCamera>();
         refPhaseManager = FindObjectOfType<PhaseManager>();
+    }
 
-        //InitiatePhase(CombatPhase.Player);
+    public void MyUpdate()
+    {
+        refPhaseManager.MyUpdate();
     }
 
     public void InitiatePhase(CombatPhase initialPhase, Vector3 collisionPosition)

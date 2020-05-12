@@ -6,7 +6,7 @@ public class EnemyManager : MonoBehaviour
 {
     private PhaseManager refPhaseManager;
     private PlayerManager refPlayerManager;
-    private CombatInitiator refCombatInitiator;
+    private CombatManager refCombatInitiator;
 
     [Header("Base Enemy Prefab")]
     public GameObject enemyPrefab;
@@ -25,7 +25,7 @@ public class EnemyManager : MonoBehaviour
     {
         refPhaseManager = FindObjectOfType<PhaseManager>();
         refPlayerManager = FindObjectOfType<PlayerManager>();
-        refCombatInitiator = FindObjectOfType<CombatInitiator>();
+        refCombatInitiator = FindObjectOfType<CombatManager>();
 
         refCombatGrid = FindObjectOfType<CombatGrid>();
 

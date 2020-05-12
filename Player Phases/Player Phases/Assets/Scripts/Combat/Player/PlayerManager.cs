@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     private PhaseManager refPhaseManager;
-    private CombatInitiator refCombatInitiator;
+    private CombatManager refCombatInitiator;
 
     [Header("Base Player Prefab")]
     public GameObject playerPrefab;
