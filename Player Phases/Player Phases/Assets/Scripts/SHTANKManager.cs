@@ -9,6 +9,8 @@ public class SHTANKManager : MonoBehaviour
     private OverworldManager refOverworldManager;
     private CombatManager refCombatManager;
 
+    private SHTANKCamera refSHTANKCamera;
+
     private void Awake()
     {
         InitializeStateMachine();
@@ -29,11 +31,18 @@ public class SHTANKManager : MonoBehaviour
     {
         refOverworldManager = FindObjectOfType<OverworldManager>();
         refCombatManager = FindObjectOfType<CombatManager>();
+
+        refSHTANKCamera = FindObjectOfType<SHTANKCamera>();
     }
 
     void Update()
     {
         ProcessState();
+    }
+
+    private void FixedUpdate()
+    {
+        ProcessStateFixed();
     }
 
     private void ProcessState()
@@ -51,6 +60,27 @@ public class SHTANKManager : MonoBehaviour
             {
                 // run combat behaviour
                 refCombatManager.MyUpdate();
+
+                break;
+            }
+        }
+    }
+
+    private void ProcessStateFixed()
+    {
+        switch (stateMachine.currentState)
+        {
+            case (int)GameState.overworld:
+            {
+                // use overworld camera functionality
+                refSHTANKCamera.CameraFunctionalityOverworld();
+
+                break;
+            }
+            case (int)GameState.combat:
+            {
+                // use combat camera functionality
+                refSHTANKCamera.CameraFunctionalityCombat();
 
                 break;
             }

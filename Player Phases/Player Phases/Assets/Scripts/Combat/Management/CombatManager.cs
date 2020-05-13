@@ -5,13 +5,13 @@ using UnityEngine;
 public class CombatManager : MonoBehaviour
 {
     private CombatGrid refCombatGrid;
-    private CombatCamera refCombatCamera;
+    private SHTANKCamera refCombatCamera;
     private PhaseManager refPhaseManager;
 
     void Start()
     {
         refCombatGrid = GetComponent<CombatGrid>();
-        refCombatCamera = FindObjectOfType<CombatCamera>();
+        refCombatCamera = FindObjectOfType<SHTANKCamera>();
         refPhaseManager = FindObjectOfType<PhaseManager>();
     }
 

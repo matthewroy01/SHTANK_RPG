@@ -2,9 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CombatCamera : MonoBehaviour
+public class SHTANKCamera : MonoBehaviour
 {
-    [Header("Camera Movement")]
+    [Header("Overworld Camera Movement")]
+    public Transform cameraTarget;
+    [Range(0, 1)]
+    public float followSpeed;
+    [Range(0, 1)]
+    public float turnSpeed;
+
+    [Header("Combat Camera Movement")]
     [Range(0.0f, 1.0f)]
     public float lerpSpeed;
     [Range(0.0f, 1.0f)]
@@ -14,8 +21,15 @@ public class CombatCamera : MonoBehaviour
     public Vector2 movementAreaSize;
     private Bounds maxBounds;
 
-    [Header("Initial Camera Placement")]
+    [Header("Combat Initial Camera Placement")]
     public CombatCameraCenterMode cameraMode;
+
+    [Header("Camera Shake")]
+    public bool shouldShake;
+    public Vector3 shakePrevRotation;
+    [Range(0, 2)]
+    public float shakeIntensity;
+    public float shakeDuration;
 
     private EnemyManager refEnemyManager;
     private PlayerManager refPlayerManager;
@@ -30,16 +44,14 @@ public class CombatCamera : MonoBehaviour
         refCombatGrid = FindObjectOfType<CombatGrid>();
     }
 
-    void FixedUpdate()
+    public void CameraFunctionalityCombat()
     {
         Vector2 mousePos = Input.mousePosition;
         mousePos /= new Vector2(Screen.width, Screen.height);
 
-        //Debug.Log(mousePos);
-
         Vector3 velocity = Vector3.zero;
 
-        switch(edgeMode)
+        switch (edgeMode)
         {
             case CombatCameraEdgeMode.rectangular:
             {
@@ -99,6 +111,30 @@ public class CombatCamera : MonoBehaviour
                 transform.position = newVector;
             }
         }
+    }
+
+    public void CameraFunctionalityOverworld()
+    {
+        transform.position = Vector3.Lerp(transform.position, cameraTarget.position, followSpeed);
+        transform.rotation = Quaternion.Lerp(transform.rotation, cameraTarget.transform.rotation, turnSpeed);
+
+        if (shouldShake)
+        {
+            Shake();
+        }
+    }
+
+    private void Shake()
+    {
+        shakePrevRotation = transform.eulerAngles;
+        // reset rotation
+        transform.rotation = Quaternion.Euler(shakePrevRotation);
+        // generate random numbers
+        float tmpx = Random.Range(-shakeIntensity, shakeIntensity);
+        float tmpy = Random.Range(-shakeIntensity, shakeIntensity);
+        float tmpz = Random.Range(-shakeIntensity, shakeIntensity);
+        // set new rotation
+        transform.rotation = Quaternion.Euler(shakePrevRotation.x + tmpx, shakePrevRotation.y + tmpy, shakePrevRotation.z + tmpz);
     }
 
     public void InitiateCombatCamera()
