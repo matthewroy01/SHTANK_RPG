@@ -4,18 +4,22 @@ using UnityEngine;
 
 public class SHTANKCamera : MonoBehaviour
 {
-    [Header("Overworld Camera Movement")]
-    public Transform cameraTarget;
     [Range(0, 1)]
     public float followSpeed;
     [Range(0, 1)]
     public float turnSpeed;
 
+    [Header("Overworld Camera Movement")]
+    public Transform cameraTargetOverworld;
+
     [Header("Combat Camera Movement")]
+    public Transform cameraTargetCombat;
     [Range(0.0f, 1.0f)]
-    public float lerpSpeed;
+    public float moveSpeed;
     [Range(0.0f, 1.0f)]
-    public float edgeSensitiviy;
+    public float edgeSensitivity;
+    [Range(0.0f, 1.0f)]
+    public float smoothing;
     public CombatCameraEdgeMode edgeMode;
     public bool requireTab = false;
     public Vector2 movementAreaSize;
@@ -46,82 +50,25 @@ public class SHTANKCamera : MonoBehaviour
 
     public void CameraFunctionalityCombat()
     {
-        Vector2 mousePos = Input.mousePosition;
-        mousePos /= new Vector2(Screen.width, Screen.height);
+        MouseMovement();
 
-        Vector3 velocity = Vector3.zero;
-
-        switch (edgeMode)
-        {
-            case CombatCameraEdgeMode.rectangular:
-            {
-                // if the mouse is near the edge of the screen, add to a velocity
-                if (mousePos.x < 0.0f + edgeSensitiviy)
-                {
-                    velocity += Vector3.left;
-                }
-
-                if (mousePos.x > 1.0f - edgeSensitiviy)
-                {
-                    velocity += Vector3.right;
-                }
-
-                if (mousePos.y < 0.0f + edgeSensitiviy)
-                {
-                    velocity += Vector3.back;
-                }
-
-                if (mousePos.y > 1.0f - edgeSensitiviy)
-                {
-                    velocity += Vector3.forward;
-                }
-                break;
-            }
-            case CombatCameraEdgeMode.circular:
-            {
-                if (mousePos.x < 0.0f + edgeSensitiviy ||
-                    mousePos.x > 1.0f - edgeSensitiviy ||
-                    mousePos.y < 0.0f + edgeSensitiviy ||
-                    mousePos.y > 1.0f - edgeSensitiviy)
-                {
-                    velocity = new Vector3(mousePos.x, 0.0f, mousePos.y) - new Vector3(0.5f, 0.0f, 0.5f);
-                }
-                break;
-            }
-        }
-
-        // calculate new position
-        Vector3 newVector = Vector3.Lerp(transform.position, transform.position + (Vector3)velocity.normalized, lerpSpeed);
-
-        // if the new position is within the camera's maxmimum bounds
-        if (maxBounds.Contains(newVector))
-        {
-            // check if a button should be held to control the camera's movement (good for when the Insepctor needs to be interacted with in the editor)
-            if (requireTab)
-            {
-                if (Input.GetKey(KeyCode.Tab))
-                {
-                    // move the camera
-                    transform.position = newVector;
-                }
-            }
-            else
-            {
-                // move the camera
-                transform.position = newVector;
-            }
-        }
+        MoveCamera(cameraTargetCombat, smoothing, turnSpeed);
     }
 
     public void CameraFunctionalityOverworld()
     {
-        transform.position = Vector3.Lerp(transform.position, cameraTarget.position, followSpeed);
-        transform.rotation = Quaternion.Lerp(transform.rotation, cameraTarget.transform.rotation, turnSpeed);
+        MoveCamera(cameraTargetOverworld, followSpeed, turnSpeed);
 
         if (shouldShake)
         {
             Shake();
         }
+    }
+
+    private void MoveCamera(Transform target, float lerpPos, float lerpRot)
+    {
+        transform.position = Vector3.Lerp(transform.position, target.position, lerpPos);
+        transform.rotation = Quaternion.Lerp(transform.rotation, target.rotation, lerpRot);
     }
 
     private void Shake()
@@ -145,6 +92,75 @@ public class SHTANKCamera : MonoBehaviour
         maxBounds = new Bounds(transform.position, new Vector3(movementAreaSize.x, 1.0f, movementAreaSize.y));
     }
 
+    private void MouseMovement()
+    {
+        Vector2 mousePos = Input.mousePosition;
+        mousePos /= new Vector2(Screen.width, Screen.height);
+
+        Vector3 velocity = Vector3.zero;
+
+        switch (edgeMode)
+        {
+            case CombatCameraEdgeMode.rectangular:
+            {
+                // if the mouse is near the edge of the screen, add to a velocity
+                if (mousePos.x < 0.0f + edgeSensitivity)
+                {
+                    velocity += Vector3.left;
+                }
+
+                if (mousePos.x > 1.0f - edgeSensitivity)
+                {
+                    velocity += Vector3.right;
+                }
+
+                if (mousePos.y < 0.0f + edgeSensitivity)
+                {
+                    velocity += Vector3.back;
+                }
+
+                if (mousePos.y > 1.0f - edgeSensitivity)
+                {
+                    velocity += Vector3.forward;
+                }
+                break;
+            }
+            case CombatCameraEdgeMode.circular:
+            {
+                if (mousePos.x < 0.0f + edgeSensitivity ||
+                    mousePos.x > 1.0f - edgeSensitivity ||
+                    mousePos.y < 0.0f + edgeSensitivity ||
+                    mousePos.y > 1.0f - edgeSensitivity)
+                {
+                    velocity = new Vector3(mousePos.x, 0.0f, mousePos.y) - new Vector3(0.5f, 0.0f, 0.5f);
+                }
+                break;
+            }
+        }
+
+        // calculate new position
+        Vector3 newVector = Vector3.Lerp(cameraTargetCombat.position, cameraTargetCombat.position + (Vector3)velocity.normalized, moveSpeed);
+
+        // if the new position is within the camera's maxmimum bounds
+        if (maxBounds.Contains(newVector))
+        {
+            // check if a button should be held to control the camera's movement (good for when the Insepctor needs to be interacted with in the editor)
+            if (requireTab)
+            {
+                if (Input.GetKey(KeyCode.Tab))
+                {
+                    // move the camera
+                    cameraTargetCombat.position = newVector;
+                }
+            }
+            else
+            {
+                // move the camera
+                cameraTargetCombat.position = newVector;
+            }
+        }
+    }
+
     private void CenterCamera()
     {
         switch (cameraMode)
@@ -161,12 +177,12 @@ public class SHTANKCamera : MonoBehaviour
             }
             case CombatCameraCenterMode.maintainPosition:
             {
-                defaultPosition = transform.position;
+                defaultPosition = cameraTargetCombat.position;
                 break;
             }
         }
 
-        transform.position = defaultPosition;
+        cameraTargetCombat.position = defaultPosition;
     }
 
     private Vector3 CalcPosCenteredOnCharacters()
