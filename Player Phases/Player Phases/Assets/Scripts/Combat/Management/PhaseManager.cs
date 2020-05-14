@@ -48,12 +48,9 @@ public class PhaseManager : MonoBehaviour
     // start combat by changing the current state to something other than "Null"
     public void InitiateCombat(CombatPhase startingPhase, Vector3 collisionPoint)
     {
-        if (currentPhase == CombatPhase.Null)
-        {
-            // change the current phase
-            // by allowing any starting phase, we can create scenarios where the player or the enemy can initate combat
-            currentPhase = startingPhase;
-        }
+        // change the current phase
+        // by allowing any starting phase, we can create scenarios where the player or the enemy can initate combat
+        currentPhase = startingPhase;
 
         refPlayerManager.SpawnPlayers();
         refEnemyManager.SpawnEnemies();
@@ -253,6 +250,7 @@ public class PhaseManager : MonoBehaviour
     private void EndCombat()
     {
         ClearText();
+
 
         FindObjectOfType<SHTANKManager>().TryEndCombat();
     }
