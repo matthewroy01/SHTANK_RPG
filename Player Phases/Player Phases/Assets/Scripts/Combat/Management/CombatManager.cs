@@ -29,6 +29,6 @@ public class CombatManager : MonoBehaviour
 
         refCombatGrid.SpawnGrid(collisionPosition);
         refCombatCamera.InitiateCombatCamera();
-        refPhaseManager.InitiateCombat(initialPhase);
+        refPhaseManager.InitiateCombat(initialPhase, collisionPosition);
     }
 }

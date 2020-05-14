@@ -10,10 +10,10 @@ public class PlayerManager : MonoBehaviour
     [Header("Base Player Prefab")]
     public GameObject playerPrefab;
 
-    [Header("List of specific characters to spawn")]
+    [Header("List of specific players to spawn")]
     public List<CharacterDefinition> characterDefinitions;
 
-    [Header("List of characters in combat after spawning")]
+    [Header("List of players in combat after spawning")]
     public List<PlayerBase> players = new List<PlayerBase>();
 
     private CombatGrid refCombatGrid;

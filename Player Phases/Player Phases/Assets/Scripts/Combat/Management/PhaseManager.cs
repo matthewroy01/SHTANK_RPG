@@ -46,7 +46,7 @@ public class PhaseManager : MonoBehaviour
     }
 
     // start combat by changing the current state to something other than "Null"
-    public void InitiateCombat(CombatPhase startingPhase)
+    public void InitiateCombat(CombatPhase startingPhase, Vector3 collisionPoint)
     {
         if (currentPhase == CombatPhase.Null)
         {
@@ -58,7 +58,7 @@ public class PhaseManager : MonoBehaviour
         refPlayerManager.SpawnPlayers();
         refEnemyManager.SpawnEnemies();
 
-        StartCoroutine(FireEvents());
+        StartCoroutine(PreCombatAnimation(collisionPoint));
     }
 
     // change the current phase to the next phase, in order that they appear in the enum
@@ -95,6 +95,76 @@ public class PhaseManager : MonoBehaviour
     public EnemyManager GetEnemyManager()
     {
         return refEnemyManager;
+    }
+
+    private IEnumerator PreCombatAnimation(Vector3 collisionPoint)
+    {
+        // snap players into place to start
+        for (int i = 0; i < refPlayerManager.players.Count; ++i)
+        {
+            refPlayerManager.players[i].transform.position = new Vector3(collisionPoint.x, refPlayerManager.players[i].transform.position.y, collisionPoint.z);
+        }
+
+        // snap enemies into place to start
+        for (int i = 0; i < refEnemyManager.enemies.Count; ++i)
+        {
+            refEnemyManager.enemies[i].transform.position = new Vector3(collisionPoint.x, refEnemyManager.enemies[i].transform.position.y, collisionPoint.z);
+        }
+
+        bool playersComplete, enemiesComplete;
+
+        do
+        {
+            // keep moving players until they are all in the correct positions
+            playersComplete = true;
+
+            for (int i = 0; i < refPlayerManager.players.Count; ++i)
+            {
+                if (!PreCombatAnimationLerp(refPlayerManager.players[i], 0.1f))
+                {
+                    playersComplete = false;
+                }
+            }
+
+            // keep moving enemies until they are all in the correct positions
+            enemiesComplete = true;
+
+            for (int i = 0; i < refEnemyManager.enemies.Count; ++i)
+            {
+                if (!PreCombatAnimationLerp(refEnemyManager.enemies[i], 0.1f))
+                {
+                    enemiesComplete = false;
+                }
+            }
+
+            yield return new WaitForFixedUpdate();
+        }
+        while (!playersComplete || !enemiesComplete);
+
+        StartCoroutine(FireEvents());
+    }
+
+    private bool PreCombatAnimationLerp(Character character, float lerp)
+    {
+        if (Vector3.Distance(character.transform.position, character.myGridSpace.obj.transform.position) > 0.1f)
+        {
+            // move a character from combat's starting position to its proper position
+            Vector3 gridSpacePos = character.myGridSpace.obj.transform.position;
+            character.transform.position = Vector3.Lerp(character.transform.position, new Vector3(gridSpacePos.x, character.transform.position.y, gridSpacePos.z), lerp);
+
+            return false;
+        }
+
+        PreCombatAnimationSnap(character);
+
+        return true;
+    }
+
+    private void PreCombatAnimationSnap(Character character)
+    {
+        // if a character is done moving, snap it into position just in case
+        Vector3 gridSpacePos = character.myGridSpace.obj.transform.position;
+        character.transform.position = new Vector3(gridSpacePos.x, character.transform.position.y, gridSpacePos.z);
     }
 
     private IEnumerator FireEvents()
