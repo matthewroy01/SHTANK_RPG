@@ -82,14 +82,14 @@ public class PhaseManager : MonoBehaviour
     {
         uiEffectVictoryAndDefeat.Apply("Victory!", refAudioManager);
 
-        Invoke("RestartScene", 3.0f);
+        Invoke("EndCombat", 3.0f);
     }
 
     public void Defeat()
     {
         uiEffectVictoryAndDefeat.Apply("Defeat...", refAudioManager);
 
-        Invoke("RestartScene", 3.0f);
+        Invoke("EndCombat", 3.0f);
     }
 
     public EnemyManager GetEnemyManager()
@@ -250,9 +250,17 @@ public class PhaseManager : MonoBehaviour
         uiEffectVictoryAndDefeat.Clear();
     }
 
-    private void RestartScene()
+    private void EndCombat()
     {
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        ClearText();
+
+        FindObjectOfType<SHTANKManager>().TryEndCombat();
+    }
+
+    public void DestroyCharacters()
+    {
+        refPlayerManager.DestroyCharacters();
+        refEnemyManager.DestroyCharacters();
     }
 }
 

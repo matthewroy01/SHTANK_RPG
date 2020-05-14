@@ -92,6 +92,7 @@ public class SHTANKManager : MonoBehaviour
         if (stateMachine.TryUpdateConnection((int)GameState.combat))
         {
             refCombatManager.InitiatePhase(CombatPhase.Player, position);
+            refOverworldManager.DisableOverworldObjects();
         }
     }
 
@@ -99,7 +100,8 @@ public class SHTANKManager : MonoBehaviour
     {
         if (stateMachine.TryUpdateConnection((int)GameState.overworld))
         {
-            
+            refOverworldManager.EnableOverworldObjects();
+            refCombatManager.DestroyCombatObjects();
         }
     }
 

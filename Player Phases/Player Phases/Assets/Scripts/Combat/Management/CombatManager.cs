@@ -31,4 +31,10 @@ public class CombatManager : MonoBehaviour
         refCombatCamera.InitiateCombatCamera();
         refPhaseManager.InitiateCombat(initialPhase, collisionPosition);
     }
+
+    public void DestroyCombatObjects()
+    {
+        refCombatGrid.DestroyGrid();
+        refPhaseManager.DestroyCharacters();
+    }
 }

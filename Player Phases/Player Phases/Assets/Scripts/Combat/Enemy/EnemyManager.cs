@@ -220,4 +220,14 @@ public class EnemyManager : MonoBehaviour
             enemies[i].DispelAggroFromTarget(target, amount);
         }
     }
+
+    public void DestroyCharacters()
+    {
+        for (int i = 0; i < enemies.Count; ++i)
+        {
+            Destroy(enemies[i].gameObject);
+        }
+
+        enemies.Clear();
+    }
 }

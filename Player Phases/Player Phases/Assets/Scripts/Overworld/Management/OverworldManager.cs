@@ -15,4 +15,14 @@ public class OverworldManager : MonoBehaviour
     {
         refPlayerController.MyUpdate();
     }
+
+    public void DisableOverworldObjects()
+    {
+        refPlayerController.gameObject.SetActive(false);
+    }
+
+    public void EnableOverworldObjects()
+    {
+        refPlayerController.gameObject.SetActive(true);
+    }
 }

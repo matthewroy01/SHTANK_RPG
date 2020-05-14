@@ -489,6 +489,21 @@ public class CombatGrid : MonoBehaviour
             }
         }
     }
+
+    public void DestroyGrid()
+    {
+        // destroy grid gameobjects
+        for (int i = 0; i < grid.GetLength(0); ++i)
+        {
+            for (int j = 0; j < grid.GetLength(1); ++j)
+            {
+                Destroy(grid[i, j].obj);
+            }
+        }
+
+        // clear the list
+        grid = new GridSpace[0, 0];
+    }
 }
 
 public class GridSpace

@@ -187,4 +187,14 @@ public class PlayerManager : MonoBehaviour
 
         refPhaseManager.NextPhase();
     }
+
+    public void DestroyCharacters()
+    {
+        for (int i = 0; i < players.Count; ++i)
+        {
+            Destroy(players[i].gameObject);
+        }
+
+        players.Clear();
+    }
 }
