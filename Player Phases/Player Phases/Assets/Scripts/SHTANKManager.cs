@@ -87,11 +87,11 @@ public class SHTANKManager : MonoBehaviour
         }
     }
 
-    public void TryBeginCombat(Vector3 position)
+    public void TryBeginCombat(Vector3 position, OverworldEnemyController targetEnemy)
     {
         if (stateMachine.TryUpdateConnection((int)GameState.combat))
         {
-            refCombatManager.InitiatePhase(CombatPhase.Player, position);
+            refCombatManager.InitiatePhase(CombatPhase.Player, position, targetEnemy);
             refOverworldManager.DisableOverworldObjects();
         }
     }

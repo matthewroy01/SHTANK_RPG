@@ -8,6 +8,8 @@ public class CombatManager : MonoBehaviour
     private SHTANKCamera refCombatCamera;
     private PhaseManager refPhaseManager;
 
+    public OverworldEnemyController currentEnemy;
+
     void Start()
     {
         refCombatGrid = GetComponent<CombatGrid>();
@@ -20,7 +22,7 @@ public class CombatManager : MonoBehaviour
         refPhaseManager.MyUpdate();
     }
 
-    public void InitiatePhase(CombatPhase initialPhase, Vector3 collisionPosition)
+    public void InitiatePhase(CombatPhase initialPhase, Vector3 collisionPosition, OverworldEnemyController targetEnemy)
     {
         if (initialPhase == CombatPhase.Null)
         {
@@ -30,11 +32,15 @@ public class CombatManager : MonoBehaviour
         refCombatGrid.SpawnGrid(collisionPosition);
         refCombatCamera.InitiateCombatCamera();
         refPhaseManager.InitiateCombat(initialPhase, collisionPosition);
+
+        currentEnemy = targetEnemy;
     }
 
     public void DestroyCombatObjects()
     {
         refCombatGrid.DestroyGrid();
         refPhaseManager.DestroyCharacters();
+
+        Destroy(currentEnemy.gameObject);
     }
 }

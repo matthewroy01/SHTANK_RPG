@@ -27,8 +27,10 @@ public class OverworldPlayerCollision : MonoBehaviour
             collisionPoint.x = Mathf.Round(collisionPoint.x);
             collisionPoint.z = Mathf.Round(collisionPoint.z);
 
+            OverworldEnemyController tmp = other.gameObject.GetComponent<OverworldEnemyController>();
+
             // pass the collision point along to the Combat Initiator to begin combat at that position
-            FindObjectOfType<SHTANKManager>().TryBeginCombat(collisionPoint);
+            FindObjectOfType<SHTANKManager>().TryBeginCombat(collisionPoint, tmp);
         }
     }
 }
