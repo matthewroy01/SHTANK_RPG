@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5870272129375134862}
   - component: {fileID: 8763601356153325861}
   - component: {fileID: 2544337563623422611}
+  - component: {fileID: 3562530829772462661}
   - component: {fileID: 4287821525986303995}
   m_Layer: 0
   m_Name: Enemy
@@ -76,6 +77,26 @@ MonoBehaviour:
   terrainTypes: 00000000
   portrait: {fileID: 0}
   aggroData: []
+--- !u!114 &3562530829772462661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 555027624386460172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 225fac3831062944a87f7b2293b113e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementDialogueText: {fileID: 1828945354695679362}
+  dialogue: {fileID: 0}
+  secondsBetweenLetters: 0.01
+  blipEvery: 4
+  secondsBeforeClear: 1.5
+  speechBlip: {fileID: 8300000, guid: b2f96172af6ff0844bb5d4c07fa477fe, type: 3}
+  volume: 0.5
+  counterAttackSound: {fileID: 8300000, guid: 4d77da65b83f50f43918363130546568, type: 3}
 --- !u!114 &4287821525986303995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -463,6 +484,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 7568990328839673032}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1828945354695679362 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8100793231574796618, guid: f5bb6aad34934424597bcc860644c612,
+    type: 3}
+  m_PrefabInstance: {fileID: 7568990328839673032}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &235939475847409354 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7659581926562036226, guid: f5bb6aad34934424597bcc860644c612,

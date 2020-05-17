@@ -17,3 +17,5 @@ MonoBehaviour:
   - Huh?
   - Oh.
   deathQuote: Where did you come from!?
+  counterAttackQuotes:
+  - Whoops, sorry!

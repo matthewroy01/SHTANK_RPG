@@ -532,6 +532,19 @@ public class CharacterSelector : MonoBehaviour
                 refCharacterUI.ToggleUI(true);
                 refCharacterUI.UpdateCharacterUI(tmpEnemy);
             }
+            else
+            {
+                if (currentPlayer != null)
+                {
+                    refCharacterUI.UpdateCharacterUI(currentPlayer);
+                }
+                else
+                {
+                    refCharacterUI.ToggleUI(false);
+                }
+
+                overlayCharacter = null;
+            }
         }
         else
         {

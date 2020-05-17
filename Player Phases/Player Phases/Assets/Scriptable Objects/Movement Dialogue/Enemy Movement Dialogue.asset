@@ -10,12 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 93b3392051183bd42b195fbb6f6737db, type: 3}
-  m_Name: Ava Movement Dialogue
+  m_Name: Enemy Movement Dialogue
   m_EditorClassIdentifier: 
-  quotes:
-  - Afraid of a shadow?
-  - Heh heh...
-  - Come on.
-  deathQuote: Too much time in the light...
+  quotes: []
+  deathQuote: Defeated...
   counterAttackQuotes:
-  - Ahahaha!
+  - Counterattack!

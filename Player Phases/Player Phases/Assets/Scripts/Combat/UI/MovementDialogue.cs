@@ -10,4 +10,7 @@ public class MovementDialogue : ScriptableObject
 
     [TextArea(1, 2)]
     public string deathQuote;
+
+    [TextArea(1, 2)]
+    public string[] counterAttackQuotes;
 }

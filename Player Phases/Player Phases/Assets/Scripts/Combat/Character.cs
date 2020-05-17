@@ -61,8 +61,14 @@ public class Character : MonoBehaviour
 
     [HideInInspector]
     public AbilityUIDefinition abilityUIDefinition;
+    protected MovementDialogueProcessor refMovementDialogueProcessor;
 
-    public void ApplyEffect(Effect effect)
+    public void StartApplyEffect(Effect effect, bool counterable)
+    {
+        StartCoroutine(ApplyEffect(effect, counterable));
+    }
+
+    private IEnumerator ApplyEffect(Effect effect, bool counterable)
     {
         if (refCharacterEffectUI == null)
         {
@@ -76,6 +82,26 @@ public class Character : MonoBehaviour
                 if (Random.Range(0.0f, 1.0f) <= effect.probability && effect.source != this)
                 {
                     Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
+
+                    if (counterable && Random.Range(0.0f, 100.0f) <= nashbalm)
+                    {
+                        // perform a counterattack!
+                        Effect counterAttack = new Effect(effect, this);
+                        effect.source.StartApplyEffect(counterAttack, false);
+
+                        if (refMovementDialogueProcessor != null)
+                        {
+                            refMovementDialogueProcessor.DisplayCounterAttackQuote();
+                        }
+
+                        yield return new WaitForSeconds(0.5f);
+
+                        // if the counterattack succeeds and it kills the other character, don't bother applying any other effects
+                        if (effect.source.healthCurrent <= 0)
+                        {
+                            yield break;
+                        }
+                    }
 
                     // take the defense modifier into account when taking damage
                     int modValue = effect.value - defenseMod;
@@ -252,5 +278,20 @@ public class Character : MonoBehaviour
                 --i;
             }
         }
+    }
+
+    public IEnumerator Death()
+    {
+        if (refMovementDialogueProcessor != null)
+        {
+            refMovementDialogueProcessor.DisplayDeathQuote();
+        }
+
+        myGridSpace.character = null;
+        myGridSpace = null;
+
+        yield return new WaitForSeconds(2.0f);
+
+        Destroy(gameObject);
     }
 }

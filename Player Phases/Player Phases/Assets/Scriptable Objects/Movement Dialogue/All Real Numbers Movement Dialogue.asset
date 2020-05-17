@@ -17,3 +17,5 @@ MonoBehaviour:
   - Easy as pi!
   - A simple operation.
   deathQuote: I've... failed...
+  counterAttackQuotes:
+  - Order of operations!

@@ -52,8 +52,7 @@ public class EnemyManager : MonoBehaviour
             {
                 if (enemies[i].GetDead() == true)
                 {
-                    enemies[i].myGridSpace.character = null;
-                    Destroy(enemies[i].gameObject);
+                    StartCoroutine(enemies[i].Death());
 
                     enemies.RemoveAt(i);
                 }

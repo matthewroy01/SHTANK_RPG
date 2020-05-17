@@ -579,7 +579,7 @@ public class GridSpace
         {
             while (effects.Count > 0)
             {
-                character.ApplyEffect(effects.Dequeue());
+                character.StartApplyEffect(effects.Dequeue(), true);
             }
         }
         else
@@ -661,6 +661,16 @@ public class Effect
         id = effect_id;
         value = val;
         probability = 1.0f;
+    }
+
+    // alternate constructor for counterattacks where the source is changed
+    public Effect(Effect toCopyFrom, Character newSource)
+    {
+        id = toCopyFrom.id;
+        value = toCopyFrom.value;
+        probability = 1.0f;
+
+        source = newSource;
     }
 }
 

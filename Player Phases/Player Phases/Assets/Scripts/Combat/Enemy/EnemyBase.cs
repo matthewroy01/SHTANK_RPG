@@ -15,6 +15,9 @@ public class EnemyBase : Character
     {
         refCombatGrid = FindObjectOfType<CombatGrid>();
 
+        refMovementDialogueProcessor = GetComponent<MovementDialogueProcessor>();
+
+        // this may be redundant, as the enemy manager initializes each enemy's stats
         healthCurrent = healthMax;
         movementRangeCurrent = movementRangeDefault;
     }

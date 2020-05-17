@@ -10,8 +10,6 @@ public class PlayerBase : Character
 
     private enum PathDirections { up, down, left, right };
 
-    private MovementDialogueProcessor refMovementDialogueProcessor;
-
     private bool selected = false;
 
     private void Start()
@@ -139,20 +137,8 @@ public class PlayerBase : Character
 
         if (refMovementDialogueProcessor != null)
         {
-            refMovementDialogueProcessor.Clear();
+            //refMovementDialogueProcessor.Clear();
         }
-    }
-
-    public IEnumerator Death()
-    {
-        refMovementDialogueProcessor.DisplayDeathQuote();
-
-        myGridSpace.character = null;
-        myGridSpace = null;
-
-        yield return new WaitForSeconds(2.0f);
-
-        Destroy(gameObject);
     }
 
     public bool GetIdle()

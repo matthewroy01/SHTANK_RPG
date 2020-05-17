@@ -21,6 +21,7 @@ public class MovementDialogueProcessor : MonoBehaviour
     [Range(0.0f, 1.0f)]
     public float volume;
     private AudioSource refAudioSource;
+    public AudioClip counterAttackSound;
 
     private void Start()
     {
@@ -57,6 +58,18 @@ public class MovementDialogueProcessor : MonoBehaviour
                 rand = Random.Range(0, dialogue.quotes.Length);
                 StartCoroutine(WriteText(dialogue.quotes[rand]));
             }
+        }
+    }
+
+    public void DisplayCounterAttackQuote()
+    {
+        if (movementDialogueText != null)
+        {
+            Clear();
+
+            refAudioSource.PlayOneShot(counterAttackSound, volume);
+
+            StartCoroutine(WriteText(dialogue.counterAttackQuotes[Random.Range(0, dialogue.counterAttackQuotes.Length)]));
         }
     }
 

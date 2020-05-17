@@ -174,6 +174,7 @@ MonoBehaviour:
   secondsBeforeClear: 1.5
   speechBlip: {fileID: 8300000, guid: b2f96172af6ff0844bb5d4c07fa477fe, type: 3}
   volume: 0.5
+  counterAttackSound: {fileID: 8300000, guid: 4d77da65b83f50f43918363130546568, type: 3}
 --- !u!114 &1303135922800876016
 MonoBehaviour:
   m_ObjectHideFlags: 0
