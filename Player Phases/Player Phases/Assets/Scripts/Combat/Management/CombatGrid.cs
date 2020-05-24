@@ -566,7 +566,7 @@ public class GridSpace
             // check for shadow wall effect
             if (effectArray[i].id == Effect_ID.shadowWall && character == null)
             {
-                effectArray[i].source.passive.StoreGridSpace(this);
+                effectArray[i].source.SendEvent(PassiveEventID.storeGridSpace, this);
             }
         }
 

@@ -9,7 +9,38 @@ public class PassiveAva : Passive
     private List<GridSpace> shadowWallSpaces = new List<GridSpace>();
     private int counter;
 
-    public override void StoreGridSpace(GridSpace toStore)
+    public override void ReceiveEvent(PassiveEventID id)
+    {
+        switch(id)
+        {
+            case PassiveEventID.turnStart:
+            {
+                CountShadowWall();
+                break;
+            }
+        }
+    }
+
+    public override void ReceiveEvent<T>(PassiveEventID id, T param)
+    {
+        switch(id)
+        {
+            case PassiveEventID.storeGridSpace:
+            {
+                try
+                {
+                    StoreGridSpace(param as GridSpace);
+                }
+                catch
+                {
+                    Debug.LogError("Generic parameter sent into ReceiveEvent function was not a GridSpace.");
+                }
+                break;
+            }
+        }
+    }
+
+    private void StoreGridSpace(GridSpace toStore)
     {
         // if there was already a shadow wall in action, clear the existing ones
         if (counter > 0)
@@ -29,7 +60,7 @@ public class PassiveAva : Passive
         }
     }
 
-    public override void BeginTurn()
+    private void CountShadowWall()
     {
         counter++;
 

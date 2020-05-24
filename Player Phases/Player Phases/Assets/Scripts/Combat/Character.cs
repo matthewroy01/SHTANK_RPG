@@ -295,4 +295,20 @@ public class Character : MonoBehaviour
 
         Destroy(gameObject);
     }
+
+    public void SendEvent(PassiveEventID id)
+    {
+        if (passive != null)
+        {
+            passive.ReceiveEvent(id);
+        }
+    }
+
+    public void SendEvent<T>(PassiveEventID id, T param)
+    {
+        if (passive != null)
+        {
+            passive.ReceiveEvent<T>(id, param);
+        }
+    }
 }
