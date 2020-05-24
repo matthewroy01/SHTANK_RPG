@@ -24,4 +24,6 @@ MonoBehaviour:
   movementDialogueSound: {fileID: 8300000, guid: e6f77160aeb443448a99f62876f94179,
     type: 3}
   terrainTypes: 0000000002000000
+  passiveFunctionality: {fileID: 7605777938205705672, guid: a1a0dcffe50e9044ea4aaf34c46462c9,
+    type: 3}
   sprite: {fileID: 21300000, guid: 8faf0523f8d932e4b96c827d41cfbaaf, type: 3}

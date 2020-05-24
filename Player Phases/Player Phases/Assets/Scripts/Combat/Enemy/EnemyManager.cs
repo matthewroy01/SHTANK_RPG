@@ -93,6 +93,7 @@ public class EnemyManager : MonoBehaviour
             tmp.myGridSpace = refCombatGrid.grid[x, y];
 
             AssignEnemyValues(tmp.gameObject, characterDefinitions[i]);
+            AssignPassive(tmp, characterDefinitions[i]);
 
             // if the enemy name is blank, set it to something random
             if (tmp.name == "")
@@ -163,6 +164,14 @@ public class EnemyManager : MonoBehaviour
         {
             // temporary sprite
             refSpriteRenderer.sprite = def.sprite;
+        }
+    }
+
+    private void AssignPassive(Character parent, CharacterDefinition def)
+    {
+        if (def.passiveFunctionality != null)
+        {
+            parent.passive = Instantiate(def.passiveFunctionality, parent.transform);
         }
     }
 

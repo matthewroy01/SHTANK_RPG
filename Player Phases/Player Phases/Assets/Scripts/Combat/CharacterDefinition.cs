@@ -26,6 +26,9 @@ public class CharacterDefinition : ScriptableObject
     [Header("Navigable Terrain")]
     public List<GridSpace_TerrainType> terrainTypes;
 
+    [Header("Passive Functionality to Include on Start")]
+    public Passive passiveFunctionality;
+
     [Header("TEMP SPRITE")]
     public Sprite sprite;
 }

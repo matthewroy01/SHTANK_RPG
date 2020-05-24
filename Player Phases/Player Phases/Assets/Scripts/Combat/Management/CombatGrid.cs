@@ -522,7 +522,6 @@ public class GridSpace
 
     // object to enable when a shadow wall is enabled on this grid space
     public GameObject shadowWall;
-    private int shadowWallCounter;
 
     // grid space terrain type, used for movement and processing abilities
     private GridSpace_TerrainType currentTerrainType;
@@ -567,10 +566,7 @@ public class GridSpace
             // check for shadow wall effect
             if (effectArray[i].id == Effect_ID.shadowWall && character == null)
             {
-                currentTerrainType = GridSpace_TerrainType.wall_artificial;
-
-                shadowWall.SetActive(true);
-                shadowWallCounter = effectArray[i].value;
+                effectArray[i].source.passive.StoreGridSpace(this);
             }
         }
 
@@ -603,14 +599,7 @@ public class GridSpace
 
     public void NextTurn()
     {
-        // reduce countdown for shadow wall
-        shadowWallCounter--;
-
-        if (shadowWallCounter <= 0)
-        {
-            currentTerrainType = originalTerrainType;
-            shadowWall.SetActive(false);
-        }
+        
     }
 
     public void SetTerrainType(GridSpace_TerrainType terrainType)
@@ -621,6 +610,11 @@ public class GridSpace
     public GridSpace_TerrainType GetTerrainType()
     {
         return currentTerrainType;
+    }
+
+    public GridSpace_TerrainType GetTerrainTypeOriginal()
+    {
+        return originalTerrainType;
     }
 
     public int GetWeight()

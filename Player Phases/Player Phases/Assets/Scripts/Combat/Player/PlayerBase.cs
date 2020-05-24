@@ -45,6 +45,9 @@ public class PlayerBase : Character
 
         HandleStatuses();
         FindMovementSpaces(grid);
+
+        // PASSIVE EVENT: BEGIN TURN
+        passive.BeginTurn();
     }
 
     public bool TryMove(CombatDirection dir, CombatGrid grid)

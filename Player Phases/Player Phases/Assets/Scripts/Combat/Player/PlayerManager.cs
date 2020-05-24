@@ -82,6 +82,7 @@ public class PlayerManager : MonoBehaviour
             tmp.myGridSpace = refCombatGrid.grid[x, y];
 
             AssignPlayerValues(tmp.gameObject, characterDefinitions[i]);
+            AssignPassive(tmp, characterDefinitions[i]);
         }
     }
 
@@ -138,6 +139,14 @@ public class PlayerManager : MonoBehaviour
         {
             // temporary sprite
             refSpriteRenderer.sprite = def.sprite;
+        }
+    }
+
+    private void AssignPassive(Character parent, CharacterDefinition def)
+    {
+        if (def.passiveFunctionality != null)
+        {
+            parent.passive = Instantiate(def.passiveFunctionality, parent.transform);
         }
     }
 

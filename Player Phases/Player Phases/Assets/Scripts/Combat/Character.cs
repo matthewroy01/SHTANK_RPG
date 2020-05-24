@@ -35,6 +35,7 @@ public class Character : MonoBehaviour
 
     [Header("Moveset")]
     public Moveset moveset;
+    public Passive passive;
 
     // statuses
     /* ----------------------------------------------------------*/
