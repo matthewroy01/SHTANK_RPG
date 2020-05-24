@@ -10,19 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 895451904fc59484a804181f76e3f2fa, type: 3}
-  m_Name: Divide By Zero
+  m_Name: Summon Tox Beetle
   m_EditorClassIdentifier: 
-  description: Commit the unthinkable and divide by zero, causing a huge explosion.
-    Damage scales with Curriculum. Reduces Curriculum to zero.
+  description: Summon a Tox Beetle to attack your enemies.
   moveCharacter: 0
-  ignoreWalls: 1
-  ignoreAttackMod: 0
-  ignoreDefenseMod: 1
-  ranged: 0
-  range: 0
-  effects:
-  - id: 0
-    value: 5
-    probability: 1
-    source: {fileID: 0}
-  radius: 4
+  ignoreWalls: 0
+  ranged: 1
+  range: 3
+  effects: []
+  radius: 0

@@ -119,6 +119,9 @@ public class Character : MonoBehaviour
                     else
                     {
                         healthCurrent -= modValue;
+
+                        SendEvent(PassiveEventID.receiveDamage);
+                        effect.source.SendEvent(PassiveEventID.dealDamage);
                     }
 
                     // if 0 damage was dealt, apply a special "no damage" effect, otherwise use the given effect

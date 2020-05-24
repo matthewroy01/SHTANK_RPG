@@ -11,6 +11,9 @@ public class Ability : ScriptableObject
     public bool moveCharacter;
     [Header("Whether or not the ability should stop at walls")]
     public bool ignoreWalls;
+    [Header("Whether or not to take the modifiers into account when dealing damage")]
+    public bool ignoreAttackMod;
+    public bool ignoreDefenseMod;
     [Header("Whether or not the ability can be triggered away from its user")]
     public bool ranged;
     public uint range;

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Passive : MonoBehaviour
 {
+    [HideInInspector]
+    public Character myCharacter;
+
     // main function for listening to events
     public virtual void ReceiveEvent(PassiveEventID id) { }
     public virtual void ReceiveEvent<T>(PassiveEventID id, T param) { }

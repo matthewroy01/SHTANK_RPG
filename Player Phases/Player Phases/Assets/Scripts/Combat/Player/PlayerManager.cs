@@ -147,6 +147,7 @@ public class PlayerManager : MonoBehaviour
         if (def.passiveFunctionality != null)
         {
             parent.passive = Instantiate(def.passiveFunctionality, parent.transform);
+            parent.passive.myCharacter = parent;
         }
     }
 

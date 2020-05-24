@@ -16,6 +16,8 @@ MonoBehaviour:
     increases Curriculum.
   moveCharacter: 0
   ignoreWalls: 0
+  ignoreAttackMod: 1
+  ignoreDefenseMod: 0
   ranged: 0
   range: 0
   effects:

@@ -491,6 +491,30 @@ public class CharacterSelector : MonoBehaviour
                 // apply the currently saved ability
                 refAbilityProcessor.ApplyAbility();
 
+                switch(selectedAbilityNum)
+                {
+                    case 1:
+                    {
+                        currentPlayer.SendEvent(PassiveEventID.abilityUse1);
+                        break;
+                    }
+                    case 2:
+                    {
+                        currentPlayer.SendEvent(PassiveEventID.abilityUse2);
+                        break;
+                    }
+                    case 3:
+                    {
+                        currentPlayer.SendEvent(PassiveEventID.abilityUse3);
+                        break;
+                    }
+                    case 4:
+                    {
+                        currentPlayer.SendEvent(PassiveEventID.abilityUse4);
+                        break;
+                    }
+                }
+
                 // end the selected player's turn
                 EndTurnFunctionality();
 
