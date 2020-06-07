@@ -42,6 +42,8 @@ public class Character : MonoBehaviour
 
     [Header("Statuses")]
     public bool statusFrosty = false;
+    public bool statusToasty = false;
+    public bool statusHoneyed = false;
     public bool statusAttackUp = false;
 
     /* ----------------------------------------------------------*/
@@ -104,8 +106,8 @@ public class Character : MonoBehaviour
                         }
                     }
 
-                    // take the defense modifier into account when taking damage
-                    int modValue = effect.value - defenseMod;
+                    // take modifiers into account when taking damage
+                    int modValue = effect.value - defenseMod + effect.source.attackMod;
                     if (modValue <= 0)
                     {
                         modValue = 0;
@@ -121,6 +123,14 @@ public class Character : MonoBehaviour
                         healthCurrent -= modValue;
 
                         SendEvent(PassiveEventID.receiveDamage);
+                        if (affiliation != effect.source.affiliation)
+                        {
+                            effect.source.SendEvent(PassiveEventID.dealDamageNotFriendly);
+                        }
+                        else
+                        {
+                            effect.source.SendEvent(PassiveEventID.dealDamageFriendly);
+                        }
                         effect.source.SendEvent(PassiveEventID.dealDamage);
                     }
 

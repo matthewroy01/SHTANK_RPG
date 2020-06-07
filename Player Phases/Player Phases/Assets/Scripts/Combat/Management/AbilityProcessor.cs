@@ -61,7 +61,7 @@ public class AbilityProcessor : MonoBehaviour
             // get possible starting grid spaces
             startingSpaces.AddRange(refCombatGrid.GetBreadthFirst(player.myGridSpace, savedAbility.range, GetValidTerrainTypes(), Character_Affiliation.none));
 
-            // if the ability causes the character to move, remove spaces with characters so the character can't occopy the same space as another character
+            // if the ability causes the character to move, remove spaces with characters so the character can't occupy the same space as another character
             if (savedAbility.moveCharacter)
             {
                 RemoveCharactersFromStartingSpaces(player);

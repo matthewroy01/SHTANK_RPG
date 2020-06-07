@@ -20,5 +20,6 @@ public enum PassiveEventID
     abilityUse1, abilityUse2, abilityUse3, abilityUse4,
     receiveDamage, receiveHealing, receiveStatus,
     dealDamage, dealHealing, dealStatus,
+    dealDamageNotFriendly, dealDamageFriendly,
     storeGridSpace
 }

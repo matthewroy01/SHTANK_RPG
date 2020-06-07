@@ -17,7 +17,7 @@ public class GridColorProcessor : MonoBehaviour
     public Color colorDefaultState;
     public Color colorMovementEnemy;
 
-    // default state < possible movement spaces < possible starting spaces for ranged abilities < ability previews
+    // default state < possible movement spaces < possible starting spaces for ranged abilities < enemy movement spaces < ability previews
 
     void Start()
     {

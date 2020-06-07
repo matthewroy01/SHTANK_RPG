@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Repeating Decimal
   m_EditorClassIdentifier: 
   description: Divide one by three and create a spray of threes. Each hit landed
-    increases Curriculum.
+    on an enemy increases Curriculum.
   moveCharacter: 0
   ignoreWalls: 0
   ignoreAttackMod: 1

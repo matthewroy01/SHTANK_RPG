@@ -13,7 +13,7 @@ public class PassiveAllRealNumbers : Passive
     {
         switch(id)
         {
-            case PassiveEventID.dealDamage:
+            case PassiveEventID.dealDamageNotFriendly:
             {
                 // increase curriculum when dealing damage
                 CurriculumIncrease();

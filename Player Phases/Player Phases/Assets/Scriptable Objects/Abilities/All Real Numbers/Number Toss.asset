@@ -12,15 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 895451904fc59484a804181f76e3f2fa, type: 3}
   m_Name: Number Toss
   m_EditorClassIdentifier: 
-  description: Make a number real and toss it at enemy. Damage scales with Curriculum.
-    Landing a hit increases Curriculum.
+  description: Make a number real and toss it at an enemy. Landing a hit on an enemy
+    increases Curriculum.
   moveCharacter: 0
   ignoreWalls: 0
+  ignoreAttackMod: 0
+  ignoreDefenseMod: 0
   ranged: 1
   range: 4
   effects:
   - id: 0
-    value: 3
+    value: 2
     probability: 0.9
     source: {fileID: 0}
   radius: 0

@@ -28,6 +28,17 @@ public class CharacterUI : MonoBehaviour
     private AbilityUI abilityUI3;
     private AbilityUI abilityUI4;
 
+    [Header("Statuses")]
+    public Image defaultStatus;
+    public int maxStatuses;
+    public float pixelsBetweenStatuses;
+    private List<Image> imageListStatus = new List<Image>();
+
+    [Header("Status Definitions")]
+    public StatusUIDefinition statusDefFrosty;
+    public StatusUIDefinition statusDefToasty;
+    public StatusUIDefinition statusDefHoneyed;
+
     private void Start()
     {
         CharacterSelector refCharacterSelector = FindObjectOfType<CharacterSelector>();
@@ -52,6 +63,17 @@ public class CharacterUI : MonoBehaviour
         abilityUI4.name = "Ability 4";
 
         abilityUI4.buttonSelectAbility.onClick.AddListener(delegate { refCharacterSelector.AbilitySelect(4); });
+
+        // set up status icons
+        imageListStatus.Add(defaultStatus);
+
+        for (int i = 1; i < maxStatuses; ++i)
+        {
+            imageListStatus.Add(Instantiate(defaultStatus, defaultStatus.transform.parent));
+            RectTransform tmp = imageListStatus[imageListStatus.Count - 1].rectTransform;
+            tmp.name = "Status " + (i + 1).ToString();
+            tmp.localPosition = new Vector2(tmp.localPosition.x + (pixelsBetweenStatuses * i), tmp.localPosition.y);
+        }
     }
 
     public void ToggleUI(bool val)
@@ -105,6 +127,9 @@ public class CharacterUI : MonoBehaviour
 
         abilityUI4.SetActive(character.abilityUIDefinition.strings4.name != "");
         UpdateAbilityUI(abilityUI4, character.abilityUIDefinition.strings4);
+
+        // statuses
+        UpdateStatusUI(character);
     }
 
     private void UpdateAbilityUI(AbilityUI ui, AbilityUIStrings strings)
@@ -287,5 +312,41 @@ public class CharacterUI : MonoBehaviour
         }
 
         return effects;
+    }
+
+    private void UpdateStatusUI(Character character)
+    {
+        List<StatusUIDefinition> definitions = new List<StatusUIDefinition>();
+
+        // get statuses from passives first
+
+        // process universal statuses
+        if (character.statusFrosty)
+        {
+            definitions.Add(statusDefFrosty);
+        }
+        if (character.statusToasty)
+        {
+            definitions.Add(statusDefToasty);
+        }
+        if (character.statusHoneyed)
+        {
+            definitions.Add(statusDefHoneyed);
+        }
+
+        // assign status sprites
+        for (int i = 0; i < imageListStatus.Count; ++i)
+        {
+            if (i < definitions.Count)
+            {
+                imageListStatus[i].sprite = definitions[i].sprite;
+                imageListStatus[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                imageListStatus[i].sprite = null;
+                imageListStatus[i].gameObject.SetActive(false);
+            }
+        }
     }
 }

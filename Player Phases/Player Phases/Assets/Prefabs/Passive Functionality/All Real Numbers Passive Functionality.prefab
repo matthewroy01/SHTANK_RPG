@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myCharacter: {fileID: 0}
-  curriculumMax: 5
+  curriculumMax: 3
   addAttackForEvery: 1

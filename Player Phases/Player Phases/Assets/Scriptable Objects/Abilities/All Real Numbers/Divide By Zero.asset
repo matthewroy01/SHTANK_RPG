@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Divide By Zero
   m_EditorClassIdentifier: 
   description: Commit the unthinkable and divide by zero, causing a huge explosion.
-    Damage scales with Curriculum. Reduces Curriculum to zero.
+    Reduces Curriculum to zero.
   moveCharacter: 0
   ignoreWalls: 1
   ignoreAttackMod: 0
@@ -22,7 +22,7 @@ MonoBehaviour:
   range: 0
   effects:
   - id: 0
-    value: 5
+    value: 4
     probability: 1
     source: {fileID: 0}
   radius: 4
