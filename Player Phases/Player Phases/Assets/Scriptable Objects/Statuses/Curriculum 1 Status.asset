@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae90d4317d24d414e97eb281bba2bd09, type: 3}
   m_Name: Curriculum 1 Status
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: 920f2a77a78626d44ab29cc2ea9a92b5, type: 3}
+  sprite: {fileID: 21300000, guid: 34400daa784e3914d8d77780cb9bf5df, type: 3}
   toolTip: The power of math is growing! Certain attacks have their damage boosted
     by 1.5.

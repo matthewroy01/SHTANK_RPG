@@ -10,6 +10,9 @@ public class Passive : MonoBehaviour
     // main function for listening to events
     public virtual void ReceiveEvent(PassiveEventID id) { }
     public virtual void ReceiveEvent<T>(PassiveEventID id, T param) { }
+
+    // function getting any active status effects
+    public virtual List<StatusUIDefinition> GetActiveStatuses() { return new List<StatusUIDefinition>(); }
 }
 
 public enum PassiveEventID

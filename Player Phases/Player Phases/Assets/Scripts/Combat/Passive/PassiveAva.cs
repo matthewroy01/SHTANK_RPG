@@ -9,6 +9,9 @@ public class PassiveAva : Passive
     private List<GridSpace> shadowWallSpaces = new List<GridSpace>();
     private int counter;
 
+    [Header("Shadow Wall Status UI")]
+    public StatusUIDefinition shadowWallStatus;
+
     public override void ReceiveEvent(PassiveEventID id)
     {
         switch(id)

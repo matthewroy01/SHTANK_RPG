@@ -46,3 +46,6 @@ MonoBehaviour:
   myCharacter: {fileID: 0}
   curriculumMax: 3
   addAttackForEvery: 1
+  curriculumStatus0: {fileID: 11400000, guid: 5024cf56334d11544a16a480a9e9560e, type: 2}
+  curriculumStatus1: {fileID: 11400000, guid: 90dafaf4397b5b84397a23bcf5f1424c, type: 2}
+  curriculumStatus2: {fileID: 11400000, guid: 40a40ea62ad2e1a4f930c8d7dc0af013, type: 2}

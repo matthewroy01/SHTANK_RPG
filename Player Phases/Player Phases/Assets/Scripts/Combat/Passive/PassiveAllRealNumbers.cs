@@ -9,6 +9,11 @@ public class PassiveAllRealNumbers : Passive
     private int curriculumCurrent;
     public int addAttackForEvery;
 
+    [Header("Curriculum Status UI")]
+    public StatusUIDefinition curriculumStatus0;
+    public StatusUIDefinition curriculumStatus1;
+    public StatusUIDefinition curriculumStatus2;
+
     public override void ReceiveEvent(PassiveEventID id)
     {
         switch(id)
@@ -41,8 +46,6 @@ public class PassiveAllRealNumbers : Passive
         {
             curriculumCurrent++;
         }
-
-        UpdateAttackMod();
     }
 
     private void CurriculumDecrease()
@@ -52,14 +55,6 @@ public class PassiveAllRealNumbers : Passive
         {
             curriculumCurrent--;
         }
-
-        UpdateAttackMod();
-    }
-
-    private void UpdateAttackMod()
-    {
-        // decrease the attack modifider based on the amount of curriculum
-        myCharacter.attackMod = curriculumCurrent / addAttackForEvery;
     }
 
     private void CurriculumReset()
@@ -67,5 +62,32 @@ public class PassiveAllRealNumbers : Passive
         // reset curriculum
         curriculumCurrent = 0;
         myCharacter.attackMod = 0;
+    }
+
+    public override List<StatusUIDefinition> GetActiveStatuses()
+    {
+        List<StatusUIDefinition> statuses = new List<StatusUIDefinition>();
+
+        switch(curriculumCurrent / addAttackForEvery)
+        {
+            case 1:
+            {
+                statuses.Add(curriculumStatus1);
+                break;
+            }
+            case 2:
+            {
+                statuses.Add(curriculumStatus2);
+                break;
+            }
+            default:
+            {
+                // no curriculum active
+                statuses.Add(curriculumStatus0);
+                break;
+            }
+        }
+
+        return statuses;
     }
 }

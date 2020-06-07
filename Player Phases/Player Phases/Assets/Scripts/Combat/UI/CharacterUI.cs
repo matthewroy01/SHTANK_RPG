@@ -319,6 +319,10 @@ public class CharacterUI : MonoBehaviour
         List<StatusUIDefinition> definitions = new List<StatusUIDefinition>();
 
         // get statuses from passives first
+        if (character.passive != null)
+        {
+            definitions.AddRange(character.passive.GetActiveStatuses());
+        }
 
         // process universal statuses
         if (character.statusFrosty)
