@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: Curriculum 1 Status
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 34400daa784e3914d8d77780cb9bf5df, type: 3}
-  toolTip: The power of math is growing! Certain attacks have their damage boosted
-    by 1.5.
+  tooltip: 'Curriculum:
+
+    The power of math is increasing! Certain attacks are
+    boosted by 1.5.'

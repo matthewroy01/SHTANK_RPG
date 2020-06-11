@@ -13,4 +13,7 @@ MonoBehaviour:
   m_Name: Frosty Status
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: e7b9e658c2c05de40b2f2a76e45a63c7, type: 3}
-  toolTip: Movement is reduced but chance of getting counterattacked is halved.
+  tooltip: 'Frosty:
+
+    Extreme cold reduces movement but halves the chance of getting
+    counterattacked.'

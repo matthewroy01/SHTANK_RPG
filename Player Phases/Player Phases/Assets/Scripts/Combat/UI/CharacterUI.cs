@@ -344,6 +344,11 @@ public class CharacterUI : MonoBehaviour
             if (i < definitions.Count)
             {
                 imageListStatus[i].sprite = definitions[i].sprite;
+                TooltipDetector tmp;
+                if (imageListStatus[i].TryGetComponent(out tmp))
+                {
+                    tmp.statusDef = definitions[i];
+                }
                 imageListStatus[i].gameObject.SetActive(true);
             }
             else

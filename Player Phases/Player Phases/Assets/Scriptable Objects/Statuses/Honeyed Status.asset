@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: Honeyed Status
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 88a916225eb2b1448b06543f2cec3d39, type: 3}
-  toolTip: Sticky and sweet smelling... Very attractive to insects.
+  tooltip: 'Honeyed:
+
+    You are sticky... and very attractive to insects.'

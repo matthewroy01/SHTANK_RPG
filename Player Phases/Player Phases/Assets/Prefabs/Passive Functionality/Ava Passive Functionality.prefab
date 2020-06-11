@@ -43,4 +43,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8be0d6d414d62db459b6e3c661a5100d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  myCharacter: {fileID: 0}
+  attackBoostOp: 0
+  attackBoost: 1
+  defenseBoostOp: 0
+  defenseBoost: 1
   shadowWallDuration: 3
+  shadowWallStatus: {fileID: 0}

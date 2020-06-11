@@ -7,5 +7,5 @@ public class StatusUIDefinition : ScriptableObject
 {
     public Sprite sprite;
     [TextArea(3, 10)]
-    public string toolTip;
+    public string tooltip;
 }

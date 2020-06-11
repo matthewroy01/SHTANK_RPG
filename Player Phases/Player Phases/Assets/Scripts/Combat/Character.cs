@@ -107,7 +107,16 @@ public class Character : MonoBehaviour
                     }
 
                     // take modifiers into account when taking damage
-                    int modValue = effect.value - defenseMod + effect.source.attackMod;
+                    int modValue = effect.value;
+
+                    // passive modifiers
+                    if (effect.source.passive != null)
+                    {
+                        modValue = effect.source.passive.GetAttackBoost(effect.value);
+                    }
+
+                    // active modifiers
+                    modValue = modValue - defenseMod + effect.source.attackMod;
                     if (modValue <= 0)
                     {
                         modValue = 0;

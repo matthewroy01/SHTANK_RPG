@@ -46,6 +46,8 @@ public class PassiveAllRealNumbers : Passive
         {
             curriculumCurrent++;
         }
+
+        UpdateAttackBoost();
     }
 
     private void CurriculumDecrease()
@@ -55,13 +57,38 @@ public class PassiveAllRealNumbers : Passive
         {
             curriculumCurrent--;
         }
+
+        UpdateAttackBoost();
     }
 
     private void CurriculumReset()
     {
         // reset curriculum
         curriculumCurrent = 0;
-        myCharacter.attackMod = 0;
+
+        UpdateAttackBoost();
+    }
+
+    private void UpdateAttackBoost()
+    {
+        switch(curriculumCurrent)
+        {
+            case 1:
+            {
+                boostAttack.boost = 2.0f;
+                break;
+            }
+            case 2:
+            {
+                boostAttack.boost = 1.5f;
+                break;
+            }
+            default:
+            {
+                boostAttack.boost = 1.0f;
+                break;
+            }
+        }
     }
 
     public override List<StatusUIDefinition> GetActiveStatuses()

@@ -13,4 +13,7 @@ MonoBehaviour:
   m_Name: Toasty Status
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: 83ce59e38806dfe4c8221dc4c9ac5fd6, type: 3}
-  toolTip: Chance of getting counterattacked is doubled but movement is increased.
+  tooltip: 'Toasy:
+
+    Extreme heat doubles the chance of getting counterattacked
+    but movement is increased.'
