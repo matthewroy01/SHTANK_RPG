@@ -142,6 +142,9 @@ public class PlayerBase : Character
         {
             //refMovementDialogueProcessor.Clear();
         }
+
+        // PASSIVE EVENT: END TURN
+        SendEvent(PassiveEventID.turnEnd);
     }
 
     public bool GetIdle()

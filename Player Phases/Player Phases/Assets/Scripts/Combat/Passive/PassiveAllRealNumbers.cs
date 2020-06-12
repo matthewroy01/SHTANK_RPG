@@ -6,7 +6,8 @@ public class PassiveAllRealNumbers : Passive
 {
     [Header("Curriculum Passive")]
     public int curriculumMax;
-    private int curriculumCurrent;
+    public int curriculumCurrent;
+    private int increase = 0;
     public int addAttackForEvery;
 
     [Header("Curriculum Status UI")]
@@ -26,7 +27,7 @@ public class PassiveAllRealNumbers : Passive
             }
             case PassiveEventID.receiveDamage:
             {
-                // reset curriculum when receiving damage
+                // decrease curriculum when receiving damage
                 CurriculumDecrease();
                 break;
             }
@@ -36,29 +37,39 @@ public class PassiveAllRealNumbers : Passive
                 CurriculumReset();
                 break;
             }
+            case PassiveEventID.turnEnd:
+            {
+                // update the attack boost value when the turn ends
+                UpdateAttackBoost();
+                break;
+            }
         }
     }
 
     private void CurriculumIncrease()
     {
         // increment curriculum if it's not already the max
-        if (curriculumCurrent + 1 < curriculumMax)
+        if ((curriculumCurrent + increase) + 1 <= curriculumMax)
         {
-            curriculumCurrent++;
+            increase++;
         }
-
-        UpdateAttackBoost();
+        else
+        {
+            curriculumCurrent = curriculumMax;
+        }
     }
 
     private void CurriculumDecrease()
     {
         // decrement curriculum if it's greater than 0
-        if (curriculumCurrent - 1 >= 0)
+        if ((curriculumCurrent + increase) - 1>= 0)
         {
-            curriculumCurrent--;
+            increase--;
         }
-
-        UpdateAttackBoost();
+        else
+        {
+            curriculumCurrent = 0;
+        }
     }
 
     private void CurriculumReset()
@@ -71,14 +82,17 @@ public class PassiveAllRealNumbers : Passive
 
     private void UpdateAttackBoost()
     {
+        curriculumCurrent += increase;
+        increase = 0;
+
         switch(curriculumCurrent)
         {
-            case 1:
+            case 2:
             {
                 boostAttack.boost = 2.0f;
                 break;
             }
-            case 2:
+            case 1:
             {
                 boostAttack.boost = 1.5f;
                 break;

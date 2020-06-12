@@ -44,11 +44,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myCharacter: {fileID: 0}
-  attackBoostOp: 0
-  attackBoost: 1
-  defenseBoostOp: 0
-  defenseBoost: 1
-  curriculumMax: 3
+  boostAttack:
+    boost: 1
+    op: 0
+  boostDefense:
+    boost: 1
+    op: 0
+  curriculumMax: 2
+  curriculumCurrent: 0
   addAttackForEvery: 1
   curriculumStatus0: {fileID: 11400000, guid: 5024cf56334d11544a16a480a9e9560e, type: 2}
   curriculumStatus1: {fileID: 11400000, guid: 90dafaf4397b5b84397a23bcf5f1424c, type: 2}
