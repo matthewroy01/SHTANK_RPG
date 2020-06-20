@@ -311,6 +311,26 @@ public class CharacterUI : MonoBehaviour
             effects += "ranged";
         }
 
+        if (abil.ignoreAttackMod)
+        {
+            if (effects != "")
+            {
+                effects += ", ";
+            }
+
+            effects += "ignores Atk Mod";
+        }
+
+        if (abil.ignoreDefenseMod)
+        {
+            if (effects != "")
+            {
+                effects += ", ";
+            }
+
+            effects += "ignores Def Mod";
+        }
+
         return effects;
     }
 

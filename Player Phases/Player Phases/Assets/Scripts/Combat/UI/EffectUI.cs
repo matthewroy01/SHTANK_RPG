@@ -13,11 +13,16 @@ public class EffectUI : MonoBehaviour
     [Header("Text for damage and healing")]
     public EffectUIParameters damage;
     public EffectUIParameters noDamage;
+    public EffectUIParameters miss;
     public EffectUIParameters healing;
     public EffectUIParameters frost;
     public EffectUIParameters aggro;
     public EffectUIParameters dispelAggro;
     public EffectUIParameters attackUp;
+
+    [Header("Text for other custom effects")]
+    public EffectUIParameters customEffect;
+    private string customEffectString;
 
     [Header("Timing")]
     public float timeBetweenEffects;
@@ -44,6 +49,16 @@ public class EffectUI : MonoBehaviour
     public void AddEffect(Effect effect)
     {
         toDisplay.Enqueue(effect);
+    }
+
+    public void AddEffectCustom(string customText, ManagedAudio customSound, Color customColor)
+    {
+        customEffectString = customText;
+
+        customEffect.sound = customSound;
+        customEffect.color = customColor;
+
+        toDisplay.Enqueue(new Effect(Effect_ID.custom, 1));
     }
 
     private IEnumerator IterateThroughEffects()
@@ -75,6 +90,11 @@ public class EffectUI : MonoBehaviour
             case Effect_ID.noDamage:
             {
                 noDamage.Apply(effect.value.ToString(), refAudioManager);
+                break;
+            }
+            case Effect_ID.miss:
+            {
+                miss.Apply("Miss", refAudioManager);
                 break;
             }
             case Effect_ID.healing:
@@ -111,6 +131,8 @@ public class EffectUI : MonoBehaviour
             }
             default:
             {
+                // custom effects
+                customEffect.Apply(customEffectString, refAudioManager);
                 break;
             }
         }
@@ -126,6 +148,8 @@ public class EffectUI : MonoBehaviour
         aggro.Clear();
         dispelAggro.Clear();
         attackUp.Clear();
+
+        customEffect.Clear();
     }
 }
 

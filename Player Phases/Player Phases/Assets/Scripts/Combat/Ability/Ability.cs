@@ -20,11 +20,17 @@ public class Ability : ScriptableObject
     [Header("Effects to apply when striking another character")]
     public List<Effect> effects = new List<Effect>();
 
-    public void ApplySource(Character newSource)
+    public void ApplySourceInfo(Character newSource)
     {
         for (int i = 0; i < effects.Count; ++i)
         {
             effects[i].source = newSource;
+
+            if (effects[i].id == Effect_ID.damage)
+            {
+                effects[i].pierceDefense = ignoreDefenseMod;
+                effects[i].trueDamage = ignoreAttackMod;
+            }
         }
     }
 }

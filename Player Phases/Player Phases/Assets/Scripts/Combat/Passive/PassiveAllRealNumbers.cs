@@ -15,6 +15,17 @@ public class PassiveAllRealNumbers : Passive
     public StatusUIDefinition curriculumStatus1;
     public StatusUIDefinition curriculumStatus2;
 
+    [Space]
+    public Color curriculumColor;
+
+    [Header("UI Effects For Curriculum Increasing")]
+    public ManagedAudio curriculumSoundInc;
+    public string curriculumMessageInc;
+
+    [Header("UI Effects For Curriculum Decreasing")]
+    public ManagedAudio curriculumSoundDec;
+    public string curriculumMessageDec;
+
     public override void ReceiveEvent(PassiveEventID id)
     {
         switch(id)
@@ -29,12 +40,14 @@ public class PassiveAllRealNumbers : Passive
             {
                 // decrease curriculum when receiving damage
                 CurriculumDecrease();
+                UpdateAttackBoost();
                 break;
             }
             case PassiveEventID.abilityUse3:
             {
                 // reset curriculum when using Divide By Zero
-                CurriculumReset();
+                CurriculumDecrease();
+                CurriculumDecrease();
                 break;
             }
             case PassiveEventID.turnEnd:
@@ -62,7 +75,7 @@ public class PassiveAllRealNumbers : Passive
     private void CurriculumDecrease()
     {
         // decrement curriculum if it's greater than 0
-        if ((curriculumCurrent + increase) - 1>= 0)
+        if ((curriculumCurrent + increase) - 1 >= 0)
         {
             increase--;
         }
@@ -83,6 +96,22 @@ public class PassiveAllRealNumbers : Passive
     private void UpdateAttackBoost()
     {
         curriculumCurrent += increase;
+
+        if (increase > 0)
+        {
+            for (int i = 0; i < increase; ++i)
+            {
+                myCharacter.refCharacterEffectUI.AddEffectCustom(curriculumMessageInc, curriculumSoundInc, curriculumColor);
+            }
+        }
+        else if (increase < 0)
+        {
+            for (int i = 0; i < Mathf.Abs(increase); ++i)
+            {
+                myCharacter.refCharacterEffectUI.AddEffectCustom(curriculumMessageDec, curriculumSoundDec, curriculumColor);
+            }
+        }
+
         increase = 0;
 
         switch(curriculumCurrent)

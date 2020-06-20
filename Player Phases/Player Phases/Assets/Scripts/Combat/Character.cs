@@ -60,7 +60,8 @@ public class Character : MonoBehaviour
 
     public GridSpace myGridSpace;
 
-    private EffectUI refCharacterEffectUI;
+    [HideInInspector]
+    public EffectUI refCharacterEffectUI;
 
     [HideInInspector]
     public AbilityUIDefinition abilityUIDefinition;
@@ -82,87 +83,116 @@ public class Character : MonoBehaviour
         {
             case Effect_ID.damage:
             {
-                if (Random.Range(0.0f, 1.0f) <= effect.probability && effect.source != this)
+                if (effect.source != this)
                 {
                     Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
 
-                    if (counterable && Random.Range(0.0f, 100.0f) <= nashbalm)
+                    if (Random.Range(0.0f, 1.0f) <= effect.probability)
                     {
-                        // perform a counterattack!
-                        Effect counterAttack = new Effect(effect, this);
-                        effect.source.StartApplyEffect(counterAttack, false);
+                        int modValue = effect.value;
 
-                        if (refMovementDialogueProcessor != null)
+                        // calculate attack modifiers
+                        if (!effect.trueDamage)
                         {
-                            refMovementDialogueProcessor.DisplayCounterAttackQuote();
+                            // apply attack mod
+                            modValue += effect.source.attackMod;
+
+                            // apply passive attack modifiers if any are present
+                            if (effect.source.passive != null)
+                            {
+                                modValue = effect.source.passive.GetAttackBoost(modValue);
+                            }
                         }
 
-                        yield return new WaitForSeconds(0.5f);
-
-                        // if the counterattack succeeds and it kills the other character, don't bother applying any other effects
-                        if (effect.source.healthCurrent <= 0)
+                        // calculate defense modifiers
+                        if (!effect.pierceDefense)
                         {
-                            yield break;
+                            // apply defense mod
+                            if (modValue - defenseMod > 0)
+                            {
+                                modValue -= defenseMod;
+                            }
+                            else
+                            {
+                                modValue = 0;
+                            }
+
+                            // apply passive defense modifiers if any are present
+                            if (passive != null)
+                            {
+                                modValue = passive.GetDefenseBoost(modValue);
+                            }
                         }
-                    }
 
-                    // take modifiers into account when taking damage
-                    int modValue = effect.value;
-
-                    // passive modifiers
-                    if (effect.source.passive != null)
-                    {
-                        modValue = effect.source.passive.GetAttackBoost(effect.value);
-                    }
-
-                    // active modifiers
-                    modValue = modValue - defenseMod + effect.source.attackMod;
-                    if (modValue <= 0)
-                    {
-                        modValue = 0;
-                    }
-
-                    // if the character's health was going to go below 0, set it to 0 instead
-                    if (healthCurrent - modValue < 0)
-                    {
-                        healthCurrent = 0;
-                    }
-                    else
-                    {
-                        healthCurrent -= modValue;
-
-                        SendEvent(PassiveEventID.receiveDamage);
-                        if (affiliation != effect.source.affiliation)
+                        // check nashblam for counterattacks
+                        if (counterable && Random.Range(0.0f, 100.0f) <= nashbalm)
                         {
-                            effect.source.SendEvent(PassiveEventID.dealDamageNotFriendly);
+                            // perform a counterattack!
+                            Effect counterAttack = new Effect(effect, this);
+                            effect.source.StartApplyEffect(counterAttack, false);
+
+                            if (refMovementDialogueProcessor != null)
+                            {
+                                refMovementDialogueProcessor.DisplayCounterAttackQuote();
+                            }
+
+                            yield return new WaitForSeconds(0.5f);
+
+                            // if the counterattack succeeds and it kills the other character, don't bother applying any other effects
+                            if (effect.source.healthCurrent <= 0)
+                            {
+                                yield break;
+                            }
+                        }
+
+                        // actually deal the damage
+                        // if the character's health was going to go below 0, set it to 0 instead
+                        if (healthCurrent - modValue < 0)
+                        {
+                            healthCurrent = 0;
                         }
                         else
                         {
-                            effect.source.SendEvent(PassiveEventID.dealDamageFriendly);
-                        }
-                        effect.source.SendEvent(PassiveEventID.dealDamage);
-                    }
+                            healthCurrent -= modValue;
 
-                    // if 0 damage was dealt, apply a special "no damage" effect, otherwise use the given effect
-                    if (modValue > 0)
-                    {
-                        refCharacterEffectUI.AddEffect(new Effect(Effect_ID.damage, modValue));
+                            SendEvent(PassiveEventID.receiveDamage);
+                            if (affiliation != effect.source.affiliation)
+                            {
+                                effect.source.SendEvent(PassiveEventID.dealDamageNotFriendly);
+                            }
+                            else
+                            {
+                                effect.source.SendEvent(PassiveEventID.dealDamageFriendly);
+                            }
+                            effect.source.SendEvent(PassiveEventID.dealDamage);
+                        }
+
+                        // if 0 damage was dealt, apply a special "no damage" effect, otherwise use the given effect
+                        if (modValue > 0)
+                        {
+                            refCharacterEffectUI.AddEffect(new Effect(Effect_ID.damage, modValue));
+                        }
+                        else
+                        {
+                            refCharacterEffectUI.AddEffect(new Effect(Effect_ID.noDamage, 0));
+                        }
+
+                        // for enemies, also apply some aggro and alert the other enemies
+                        if (GetType().Name == "EnemyBase")
+                        {
+                            ((EnemyBase)this).ApplyAggro(effect.source, 1);
+                            FindObjectOfType<EnemyManager>().AlertAllEnemies(effect.source, (EnemyBase)this);
+                        }
+
+                        if (healthCurrent == 0)
+                        {
+                            dead = true;
+                        }
                     }
                     else
                     {
-                        refCharacterEffectUI.AddEffect(new Effect(Effect_ID.noDamage, 0));
-                    }
-
-                    // for enemies, also apply some aggro and alert the other enemies
-                    if (GetType().Name == "EnemyBase")
-                    {
-                        ((EnemyBase)this).ApplyAggro(effect.source, 1);
-                        FindObjectOfType<EnemyManager>().AlertAllEnemies(effect.source, (EnemyBase)this);
-                    }
-
-                    if (healthCurrent == 0)
-                    {
-                        dead = true;
+                        // the attack missed
+                        refCharacterEffectUI.AddEffect(new Effect(Effect_ID.miss, 0));
                     }
                 }
                 break;

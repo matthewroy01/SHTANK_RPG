@@ -73,10 +73,13 @@ MonoBehaviour:
   moveset: {fileID: 0}
   passive: {fileID: 0}
   statusFrosty: 0
+  statusToasty: 0
+  statusHoneyed: 0
   statusAttackUp: 0
   affiliation: 1
   terrainTypes: 00000000
   portrait: {fileID: 0}
+  refCharacterEffectUI: {fileID: 0}
   aggroData: []
 --- !u!114 &3562530829772462661
 MonoBehaviour:
@@ -130,6 +133,15 @@ MonoBehaviour:
       pitch: 0
       randomPitchMinMax: {x: 0.9, y: 1.1}
     effect: {fileID: 5015504054715388862}
+  miss:
+    ui: {fileID: 3109874743321440206}
+    color: {r: 0.49803922, g: 0.49803922, b: 0.49803922, a: 1}
+    sound:
+      clip: {fileID: 8300000, guid: 95d198c07f8425545a67723d260100b7, type: 3}
+      volume: 1
+      pitch: 0
+      randomPitchMinMax: {x: 0.9, y: 1.1}
+    effect: {fileID: 5202297617834903145}
   healing:
     ui: {fileID: 6216352474460666404}
     color: {r: 0, g: 1, b: 0, a: 1}
@@ -175,6 +187,15 @@ MonoBehaviour:
       pitch: 0
       randomPitchMinMax: {x: 0.9, y: 1.1}
     effect: {fileID: 5202297617834903145}
+  customEffect:
+    ui: {fileID: 6216352474460666404}
+    color: {r: 0, g: 0, b: 0, a: 0}
+    sound:
+      clip: {fileID: 0}
+      volume: 0
+      pitch: 0
+      randomPitchMinMax: {x: 0, y: 0}
+    effect: {fileID: 1303683667046823174}
   timeBetweenEffects: 0.35
 --- !u!1 &4778557236081733018
 GameObject:

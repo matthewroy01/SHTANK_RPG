@@ -270,7 +270,7 @@ public class EnemyBase : Character
         if (moveset != null)
         {
             // apply source to basic attack for things like aggro and friendly fire
-            moveset.ability1.ApplySource(this);
+            moveset.ability1.ApplySourceInfo(this);
 
             // make the grid space dirty
             refCombatGrid.MakeDirty(aggroTarget, moveset.ability1);

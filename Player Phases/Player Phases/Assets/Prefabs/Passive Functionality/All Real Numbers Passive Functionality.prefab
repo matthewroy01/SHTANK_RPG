@@ -56,3 +56,16 @@ MonoBehaviour:
   curriculumStatus0: {fileID: 11400000, guid: 5024cf56334d11544a16a480a9e9560e, type: 2}
   curriculumStatus1: {fileID: 11400000, guid: 90dafaf4397b5b84397a23bcf5f1424c, type: 2}
   curriculumStatus2: {fileID: 11400000, guid: 40a40ea62ad2e1a4f930c8d7dc0af013, type: 2}
+  curriculumColor: {r: 0, g: 0.49803922, b: 1, a: 1}
+  curriculumSoundInc:
+    clip: {fileID: 8300000, guid: 2f866d1515bab394d86df46a255bc8b4, type: 3}
+    volume: 0.5
+    pitch: 0
+    randomPitchMinMax: {x: 0.9, y: 1.1}
+  curriculumMessageInc: Math Up!
+  curriculumSoundDec:
+    clip: {fileID: 8300000, guid: c7c7003c62f1c2244bbfa65715a09e4d, type: 3}
+    volume: 0.5
+    pitch: 0
+    randomPitchMinMax: {x: 0.9, y: 1.1}
+  curriculumMessageDec: Math Down!

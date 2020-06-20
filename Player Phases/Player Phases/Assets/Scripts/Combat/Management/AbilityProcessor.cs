@@ -145,7 +145,7 @@ public class AbilityProcessor : MonoBehaviour
     public void ApplyAbility()
     {
         // add source to ability for use with things like aggro and friendly fire
-        savedAbility.ApplySource(savedPlayer);
+        savedAbility.ApplySourceInfo(savedPlayer);
 
         // set saved grid spaces as dirty
         for (int i = 0; i < gridSpaces.Count; ++i)
