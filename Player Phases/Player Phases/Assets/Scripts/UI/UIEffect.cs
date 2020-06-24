@@ -6,3 +6,5 @@ public abstract class UIEffect : MonoBehaviour
 {
     public abstract void DoEffect();
 }
+
+public enum UIEffect_Type { pop, shake };

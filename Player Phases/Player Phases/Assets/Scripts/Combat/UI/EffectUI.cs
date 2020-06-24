@@ -10,18 +10,24 @@ public class EffectUI : MonoBehaviour
     public Slider healthBar;
     public TextMeshProUGUI healthNumber;
 
-    [Header("Text for damage and healing")]
-    public EffectUIParameters damage;
-    public EffectUIParameters noDamage;
-    public EffectUIParameters miss;
-    public EffectUIParameters healing;
-    public EffectUIParameters frost;
-    public EffectUIParameters aggro;
-    public EffectUIParameters dispelAggro;
-    public EffectUIParameters attackUp;
+    [Header("Effect Text")]
+    public TextMeshProUGUI effectText;
+    public UIEffect uiEffectPop;
+    public UIEffect uiEffectShake;
+
+    [Header("Colors and Sounds for Effects")]
+    public EffectUIColorAndSound damage;
+    public EffectUIColorAndSound noDamage;
+    public EffectUIColorAndSound miss;
+    public EffectUIColorAndSound healing;
+    public EffectUIColorAndSound frosty;
+    public EffectUIColorAndSound aggro;
+    public EffectUIColorAndSound dispelAggro;
+    public EffectUIColorAndSound attackUp;
 
     [Header("Text for other custom effects")]
-    public EffectUIParameters customEffect;
+    private Color customEffectColor;
+    private ManagedAudio customEffectAudio;
     private string customEffectString;
 
     [Header("Timing")]
@@ -55,8 +61,8 @@ public class EffectUI : MonoBehaviour
     {
         customEffectString = customText;
 
-        customEffect.sound = customSound;
-        customEffect.color = customColor;
+        customEffectAudio = customSound;
+        customEffectColor = customColor;
 
         toDisplay.Enqueue(new Effect(Effect_ID.custom, 1));
     }
@@ -84,55 +90,55 @@ public class EffectUI : MonoBehaviour
         {
             case Effect_ID.damage:
             {
-                damage.Apply(effect.value.ToString(), refAudioManager);
+                ApplyEffect(effect.value.ToString(), damage.color, damage.audio, uiEffectShake);
                 break;
             }
             case Effect_ID.noDamage:
             {
-                noDamage.Apply(effect.value.ToString(), refAudioManager);
+                ApplyEffect(effect.value.ToString(), noDamage.color, noDamage.audio, uiEffectShake);
                 break;
             }
             case Effect_ID.miss:
             {
-                miss.Apply("Miss", refAudioManager);
+                ApplyEffect("Miss", miss.color, miss.audio, uiEffectShake);
                 break;
             }
             case Effect_ID.healing:
             {
-                healing.Apply(effect.value.ToString(), refAudioManager);
+                ApplyEffect(effect.value.ToString(), healing.color, healing.audio, uiEffectPop);
                 break;
             }
             case Effect_ID.aggro:
             {
                 if (effect.value > 0)
                 {
-                    aggro.Apply("Aggro+", refAudioManager);
+                    ApplyEffect("Aggro+", aggro.color, aggro.audio, uiEffectPop);
                 }
                 else
                 {
-                    aggro.Apply("Aggro-", refAudioManager);
+                    ApplyEffect("Aggro-", aggro.color, aggro.audio, uiEffectPop);
                 }
                 break;
             }
             case Effect_ID.frosty:
             {
-                frost.Apply("Frosty!", refAudioManager);
+                ApplyEffect("Frosty!", frosty.color, frosty.audio, uiEffectShake);
                 break;
             }
             case Effect_ID.aggroDispel:
             {
-                dispelAggro.Apply("Aggro Dispelled!", refAudioManager);
+                ApplyEffect("Aggro Dispelled!", dispelAggro.color, dispelAggro.audio, uiEffectPop);
                 break;
             }
             case Effect_ID.attackUp:
             {
-                attackUp.Apply("Attack Up!", refAudioManager);
+                ApplyEffect("Attack Up!", attackUp.color, attackUp.audio, uiEffectPop);
                 break;
             }
             default:
             {
                 // custom effects
-                customEffect.Apply(customEffectString, refAudioManager);
+                ApplyEffect(customEffectString, customEffectColor, customEffectAudio, uiEffectPop);
                 break;
             }
         }
@@ -140,16 +146,28 @@ public class EffectUI : MonoBehaviour
         Invoke("Reset", timeBetweenEffects);
     }
 
+    private void ApplyEffect(string text, Color color, ManagedAudio audio, UIEffect uiEffect)
+    {
+        if (text != null)
+        {
+            effectText.color = color;
+            effectText.text = text;
+        }
+
+        if (audio != null && refAudioManager != null)
+        {
+            refAudioManager.QueueSound(audio);
+        }
+
+        if (uiEffect != null)
+        {
+            uiEffect.DoEffect();
+        }
+    }
+
     private void Reset()
     {
-        damage.Clear();
-        healing.Clear();
-        frost.Clear();
-        aggro.Clear();
-        dispelAggro.Clear();
-        attackUp.Clear();
-
-        customEffect.Clear();
+        effectText.text = "";
     }
 }
 
@@ -187,4 +205,11 @@ public class EffectUIParameters
             ui.text = "";
         }
     }
+}
+
+[System.Serializable]
+public class EffectUIColorAndSound
+{
+    public Color color;
+    public ManagedAudio audio;
 }
