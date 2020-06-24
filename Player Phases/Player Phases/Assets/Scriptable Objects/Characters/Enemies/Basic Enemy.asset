@@ -17,10 +17,11 @@ MonoBehaviour:
   healthMax: 6
   attackMod: 0
   defenseMod: 0
-  nashbalm: 1
+  nashbalm: 0
   movementRange: 5
   moveset: {fileID: 11400000, guid: c996067910d45774bad4c812027d2e57, type: 2}
   movementDialogue: {fileID: 11400000, guid: 120de503b46b71645b2cde1fdf560319, type: 2}
   movementDialogueSound: {fileID: 0}
   terrainTypes: 00000000
+  passiveFunctionality: {fileID: 0}
   sprite: {fileID: 21300000, guid: 73eecd28761b7f2428eea4d764e3f92c, type: 3}

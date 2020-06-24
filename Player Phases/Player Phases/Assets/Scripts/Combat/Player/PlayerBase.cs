@@ -15,6 +15,7 @@ public class PlayerBase : Character
     private void Start()
     {
         refMovementDialogueProcessor = GetComponent<MovementDialogueProcessor>();
+        refCharacterEffectUI = GetComponent<EffectUI>();
 
         // this may be redundant, as the player manager initializes each player's stats
         healthCurrent = healthMax;

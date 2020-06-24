@@ -62,26 +62,18 @@ public class PassiveAllRealNumbers : Passive
     private void CurriculumIncrease()
     {
         // increment curriculum if it's not already the max
-        if ((curriculumCurrent + increase) + 1 <= curriculumMax)
+        if (curriculumCurrent + increase < curriculumMax)
         {
             increase++;
-        }
-        else
-        {
-            curriculumCurrent = curriculumMax;
         }
     }
 
     private void CurriculumDecrease()
     {
         // decrement curriculum if it's greater than 0
-        if ((curriculumCurrent + increase) - 1 >= 0)
+        if (curriculumCurrent + increase > 0)
         {
             increase--;
-        }
-        else
-        {
-            curriculumCurrent = 0;
         }
     }
 

@@ -74,11 +74,6 @@ public class Character : MonoBehaviour
 
     private IEnumerator ApplyEffect(Effect effect, bool counterable)
     {
-        if (refCharacterEffectUI == null)
-        {
-            refCharacterEffectUI = GetComponent<EffectUI>();
-        }
-
         switch (effect.id)
         {
             case Effect_ID.damage:
