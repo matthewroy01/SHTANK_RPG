@@ -5,6 +5,7 @@ public class AbilityProcessor : MonoBehaviour
 {
     private CombatGrid refCombatGrid;
     private AbilityForecast refAbilityForecast;
+    private MovementAbilityForecast refMovementAbilityForecast;
 
     private List<GridSpace> gridSpaces = new List<GridSpace>();
     private List<GridSpace> startingSpaces = new List<GridSpace>();
@@ -17,6 +18,7 @@ public class AbilityProcessor : MonoBehaviour
     {
         refCombatGrid = FindObjectOfType<CombatGrid>();
         refAbilityForecast = FindObjectOfType<AbilityForecast>();
+        refMovementAbilityForecast = FindObjectOfType<MovementAbilityForecast>();
     }
 
     public void ProcessAbility(PlayerBase player, GridSpace startingSpace, int abilNum, CombatDirection facing, bool flipped)
@@ -179,6 +181,14 @@ public class AbilityProcessor : MonoBehaviour
     public void UpdateAbilityForecast()
     {
         refAbilityForecast.DisplayForecast(refCombatGrid);
+    }
+
+    public void UpdateMovementAbilityForecast()
+    {
+        if (endingSpace != null)
+        {
+            refMovementAbilityForecast.DisplayForecast(endingSpace.obj.transform.position, savedPlayer);
+        }
     }
 
     private void ProcessPathAbility(PathAbility abil, GridSpace startingGridSpace, CombatDirection direction, bool flipped)

@@ -178,6 +178,9 @@ public class CharacterSelector : MonoBehaviour
                 // deselect the current ability
                 AbilityDeselect();
 
+                // try to display the movement ability forecast
+                refAbilityProcessor.UpdateMovementAbilityForecast();
+
                 break;
             }
         }
@@ -318,6 +321,8 @@ public class CharacterSelector : MonoBehaviour
 
     private void EndTurnFunctionality()
     {
+        tmpGridSpace = null;
+
         currentPlayer.EndTurn();
         currentPlayer = null;
 
