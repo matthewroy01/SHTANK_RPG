@@ -215,12 +215,12 @@ public class Character : MonoBehaviour
             {
                 if (Random.Range(0.0f, 1.0f) <= effect.probability)
                 {
-                    Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
-
-                    refCharacterEffectUI.AddEffect(effect);
-
                     if (GetType().Name == "EnemyBase")
                     {
+                        Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
+
+                        refCharacterEffectUI.AddEffect(effect);
+
                         ((EnemyBase)this).ApplyAggro(effect.source, effect.value);
                         FindObjectOfType<EnemyManager>().AlertAllEnemies(effect.source, (EnemyBase)this);
                     }
@@ -244,16 +244,19 @@ public class Character : MonoBehaviour
             {
                 if (Random.Range(0.0f, 1.0f) <= effect.probability && effect.source != this)
                 {
-                    Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
-
-                    // inflict aggro dispel
-                    EnemyManager tmp = FindObjectOfType<EnemyManager>();
-                    if (tmp != null)
+                    if (GetType().Name == "PlayerBase")
                     {
-                        tmp.DispelAggroFromTarget(this, effect.value);
-                    }
+                        Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
 
-                    refCharacterEffectUI.AddEffect(effect);
+                        // inflict aggro dispel
+                        EnemyManager tmp = FindObjectOfType<EnemyManager>();
+                        if (tmp != null)
+                        {
+                            tmp.DispelAggroFromTarget(this, effect.value);
+                        }
+
+                        refCharacterEffectUI.AddEffect(effect);
+                    }
                 }
                 break;
             }

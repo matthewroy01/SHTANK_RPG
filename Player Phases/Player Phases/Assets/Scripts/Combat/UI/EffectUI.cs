@@ -74,7 +74,7 @@ public class EffectUI : MonoBehaviour
             // keep checking if there are any effects to display, and then call them to be displayed
             while (toDisplay.Count > 0)
             {
-                DisplayEffect(toDisplay.Dequeue());
+                DisplayEffect(toDisplay.Dequeue(), true, timeBetweenEffects);
 
                 // wait in between effects so they don't overlap
                 yield return new WaitForSeconds(timeBetweenEffects);
@@ -84,66 +84,89 @@ public class EffectUI : MonoBehaviour
         }
     }
 
-    private void DisplayEffect(Effect effect)
+    private void DisplayEffect(Effect effect, bool audio, float timeBetween)
     {
         switch(effect.id)
         {
             case Effect_ID.damage:
             {
-                ApplyEffect(effect.value.ToString(), damage.color, damage.audio, uiEffectShake);
+                ApplyEffect(effect.value.ToString(), damage.color, audio ? damage.audio : null, uiEffectShake);
                 break;
             }
             case Effect_ID.noDamage:
             {
-                ApplyEffect(effect.value.ToString(), noDamage.color, noDamage.audio, uiEffectShake);
+                ApplyEffect(effect.value.ToString(), noDamage.color, audio ? noDamage.audio : null, uiEffectShake);
                 break;
             }
             case Effect_ID.miss:
             {
-                ApplyEffect("Miss", miss.color, miss.audio, uiEffectShake);
+                ApplyEffect("Miss", miss.color, audio ? miss.audio : null, uiEffectShake);
                 break;
             }
             case Effect_ID.healing:
             {
-                ApplyEffect(effect.value.ToString(), healing.color, healing.audio, uiEffectPop);
+                ApplyEffect(effect.value.ToString(), healing.color, audio ? healing.audio : null, uiEffectPop);
                 break;
             }
             case Effect_ID.aggro:
             {
                 if (effect.value > 0)
                 {
-                    ApplyEffect("Aggro+", aggro.color, aggro.audio, uiEffectPop);
+                    ApplyEffect("Aggro+", aggro.color, audio ? aggro.audio : null, uiEffectPop);
                 }
                 else
                 {
-                    ApplyEffect("Aggro-", aggro.color, aggro.audio, uiEffectPop);
+                    ApplyEffect("Aggro-", aggro.color, audio ? aggro.audio : null, uiEffectPop);
                 }
                 break;
             }
             case Effect_ID.frosty:
             {
-                ApplyEffect("Frosty!", frosty.color, frosty.audio, uiEffectShake);
+                ApplyEffect("Frosty!", frosty.color, audio ? frosty.audio : null, uiEffectShake);
                 break;
             }
             case Effect_ID.aggroDispel:
             {
-                ApplyEffect("Aggro Dispelled!", dispelAggro.color, dispelAggro.audio, uiEffectPop);
+                ApplyEffect("Aggro Dispelled!", dispelAggro.color, audio ? dispelAggro.audio : null, uiEffectPop);
                 break;
             }
             case Effect_ID.attackUp:
             {
-                ApplyEffect("Attack Up!", attackUp.color, attackUp.audio, uiEffectPop);
+                ApplyEffect("Attack Up!", attackUp.color, audio ? attackUp.audio : null, uiEffectPop);
                 break;
             }
             default:
             {
                 // custom effects
-                ApplyEffect(customEffectString, customEffectColor, customEffectAudio, uiEffectPop);
+                ApplyEffect(customEffectString, customEffectColor, audio ? customEffectAudio : null, uiEffectPop);
                 break;
             }
         }
 
-        Invoke("Reset", timeBetweenEffects);
+        CancelInvoke("Reset");
+        Invoke("Reset", timeBetween - (timeBetween * 0.1f));
+    }
+
+    public IEnumerator DisplayEffectLoop(List<Effect> effects, float timeBetween, bool audio)
+    {
+        int counter = 0;
+
+        while (true)
+        {
+            if (effects.Count > 0)
+            {
+                if (counter >= effects.Count)
+                {
+                    counter = 0;
+                }
+
+                DisplayEffect(effects[counter], audio, timeBetween);
+
+                counter++;
+            }
+
+            yield return new WaitForSecondsRealtime(timeBetween);
+        }
     }
 
     private void ApplyEffect(string text, Color color, ManagedAudio audio, UIEffect uiEffect)

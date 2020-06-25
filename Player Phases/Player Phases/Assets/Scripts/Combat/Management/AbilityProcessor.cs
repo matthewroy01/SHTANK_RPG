@@ -4,6 +4,7 @@ using UnityEngine;
 public class AbilityProcessor : MonoBehaviour
 {
     private CombatGrid refCombatGrid;
+    private AbilityForecast refAbilityForecast;
 
     private List<GridSpace> gridSpaces = new List<GridSpace>();
     private List<GridSpace> startingSpaces = new List<GridSpace>();
@@ -15,11 +16,15 @@ public class AbilityProcessor : MonoBehaviour
     void Start()
     {
         refCombatGrid = FindObjectOfType<CombatGrid>();
+        refAbilityForecast = FindObjectOfType<AbilityForecast>();
     }
 
     public void ProcessAbility(PlayerBase player, GridSpace startingSpace, int abilNum, CombatDirection facing, bool flipped)
     {
         CancelAbility();
+
+        // clean previously processed effects without applying them
+        refCombatGrid.CleanGridWithoutApplying();
 
         if (startingSpace == null)
         {
@@ -53,6 +58,9 @@ public class AbilityProcessor : MonoBehaviour
 
         // save the supplied player
         savedPlayer = player;
+
+        // apply source data from the saved player to the saved ability
+        savedAbility.ApplySourceInfo(player);
 
         if (savedAbility != null)
         {
@@ -101,6 +109,15 @@ public class AbilityProcessor : MonoBehaviour
                 }
             }
         }
+
+        // set saved grid spaces as dirty for things like Ability Forecast
+        for (int i = 0; i < gridSpaces.Count; ++i)
+        {
+            refCombatGrid.MakeDirty(gridSpaces[i], savedAbility);
+        }
+
+        // let the ability forecaster know it should try to display something
+        UpdateAbilityForecast();
     }
 
     private void RemoveCharactersFromStartingSpaces(Character player)
@@ -131,6 +148,8 @@ public class AbilityProcessor : MonoBehaviour
 
     public void CancelAbility()
     {
+        refCombatGrid.CleanGridWithoutApplying();
+
         gridSpaces.Clear();
         startingSpaces.Clear();
         savedAbility = null;
@@ -144,15 +163,6 @@ public class AbilityProcessor : MonoBehaviour
 
     public void ApplyAbility()
     {
-        // add source to ability for use with things like aggro and friendly fire
-        savedAbility.ApplySourceInfo(savedPlayer);
-
-        // set saved grid spaces as dirty
-        for (int i = 0; i < gridSpaces.Count; ++i)
-        {
-            refCombatGrid.MakeDirty(gridSpaces[i], savedAbility);
-        }
-
         string abilType = savedAbility.GetType().Name;
         Debug.Log(abilType + " applied.");
 
@@ -164,6 +174,11 @@ public class AbilityProcessor : MonoBehaviour
 
         // then erase whatever ability information is currently saved
         CancelAbility();
+    }
+
+    public void UpdateAbilityForecast()
+    {
+        refAbilityForecast.DisplayForecast(refCombatGrid);
     }
 
     private void ProcessPathAbility(PathAbility abil, GridSpace startingGridSpace, CombatDirection direction, bool flipped)

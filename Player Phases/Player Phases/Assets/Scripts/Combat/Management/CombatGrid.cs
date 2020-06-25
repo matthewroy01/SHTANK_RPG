@@ -117,7 +117,6 @@ public class CombatGrid : MonoBehaviour
         // loop through all dirty grid spaces and apply their effects
         while (dirty.Count > 0)
         {
-            dirty.Peek().obj.GetComponent<Renderer>().material.color = Color.white;
             dirty.Pop().Apply();
         }
     }
@@ -129,7 +128,6 @@ public class CombatGrid : MonoBehaviour
         // loop through all dirty grid spaces and apply their effects
         while (dirty.Count > 0)
         {
-            dirty.Peek().obj.GetComponent<Renderer>().material.color = Color.white;
             dirty.Pop().RemoveAllEffects();
         }
     }
@@ -570,18 +568,18 @@ public class GridSpace
             }
         }
 
-        // only apply effects if the grid space is currently storing a character
-        if (character != null)
+        while (effects.Count > 0)
         {
-            while (effects.Count > 0)
+            // only apply effects if the grid space is currently storing a character
+            if (character != null)
             {
                 character.StartApplyEffect(effects.Dequeue(), true);
             }
-        }
-        else
-        {
-            // when the grid space is not storing a character, do nothing and clear the effects
-            effects.Clear();
+            else
+            {
+                // when the grid space is not storing a character, do nothing and clear the effects
+                effects.Clear();
+            }
         }
 
         return effects.Count;

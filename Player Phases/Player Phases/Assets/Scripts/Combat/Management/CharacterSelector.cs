@@ -7,6 +7,7 @@ public class CharacterSelector : MonoBehaviour
     [Header("Selected Characters (for display only)")]
     public PlayerBase currentPlayer;
     private GridSpace defaultGridSpace;
+    private GridSpace tmpGridSpace;
     public Character overlayCharacter;
 
     [Header("Layer Masks for raycast collision from mouse")]
@@ -248,17 +249,29 @@ public class CharacterSelector : MonoBehaviour
             if (hit.transform != null)
             {
                 // if the A* movement was succesful (the character actually moved)
-                if (currentPlayer.TryMoveAStar(refCombatGrid, refCombatGrid.GetGridSpace(hit.transform.gameObject)))
+                GridSpace newGridSpace = refCombatGrid.GetGridSpace(hit.transform.gameObject);
+                if (currentPlayer.TryMoveAStar(refCombatGrid, newGridSpace))
                 {
+                    if (tmpGridSpace != null)
+                    {
+                        tmpGridSpace.character = null;
+                    }
+
                     // and the player didn't just move back to its original starting space
                     if (currentPlayer.myGridSpace != defaultGridSpace)
                     {
+                        defaultGridSpace.character = null;
+                        newGridSpace.character = currentPlayer;
+                        tmpGridSpace = newGridSpace;
+
                         // update the state machine
                         stateMachine.TryUpdateConnection((int)SelectorState.playerSelectedWithMovement);
                     }
                     // but the player moved back to its original starting space
                     else
                     {
+                        defaultGridSpace.character = currentPlayer;
+
                         // update the state machine
                         stateMachine.TryUpdateConnection((int)SelectorState.playerSelected);
                     }
@@ -285,6 +298,8 @@ public class CharacterSelector : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             currentPlayer.ResetToDefaultPosition(defaultGridSpace);
+            defaultGridSpace.character = currentPlayer;
+            tmpGridSpace.character = null;
 
             stateMachine.TryUpdateConnection((int)SelectorState.playerSelected);
         }
@@ -307,6 +322,8 @@ public class CharacterSelector : MonoBehaviour
         currentPlayer = null;
 
         refCharacterUI.ToggleUI(false);
+
+        refAbilityProcessor.UpdateAbilityForecast();
 
         stateMachine.TryUpdateConnection((int)SelectorState.doingNothing);
     }
@@ -335,6 +352,8 @@ public class CharacterSelector : MonoBehaviour
         {
             TryProcessAbility();
 
+            refAbilityProcessor.UpdateAbilityForecast();
+
             dirty = false;
         }
     }
@@ -361,6 +380,8 @@ public class CharacterSelector : MonoBehaviour
 
             // update the ability UI's colors
             refCharacterUI.SetSelectedAbilityColor(selectedAbilityNum);
+
+            refAbilityProcessor.UpdateAbilityForecast();
         }
     }
 
@@ -423,6 +444,9 @@ public class CharacterSelector : MonoBehaviour
         {
             flipped = !flipped;
 
+            // update the ability forecast in case the flip changed what characters are within the selection
+            refAbilityProcessor.UpdateAbilityForecast();
+
             dirty = true;
         }
     }
@@ -471,10 +495,9 @@ public class CharacterSelector : MonoBehaviour
         // assign the new direction
         facing = tmp;
 
-        // only update the ability processor if the direction changed
         if (previous != facing)
         {
-            TryProcessAbility();
+            dirty = true;
         }
     }
 
@@ -523,6 +546,8 @@ public class CharacterSelector : MonoBehaviour
 
                 // update the ability UI's colors
                 refCharacterUI.SetSelectedAbilityColor(selectedAbilityNum);
+
+                dirty = true;
             }
         }
     }
