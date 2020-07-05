@@ -34,6 +34,10 @@ public class CharacterUI : MonoBehaviour
     public float pixelsBetweenStatuses;
     private List<Image> imageListStatus = new List<Image>();
 
+    [Header("Aggro Target")]
+    public TextMeshProUGUI textMeshAggroTarget;
+    public Image aggroTargetPortrait;
+
     [Header("Status Definitions")]
     public StatusUIDefinition statusDefFrosty;
     public StatusUIDefinition statusDefToasty;
@@ -130,6 +134,31 @@ public class CharacterUI : MonoBehaviour
 
         // statuses
         UpdateStatusUI(character);
+
+        // aggro target
+        EnemyBase enemy = null;
+        character.TryGetComponent(out enemy);
+
+        if (enemy != null)
+        {
+            textMeshAggroTarget.enabled = true;
+            GridSpace tmp = enemy.ProcessAggro();
+            if (tmp != character.myGridSpace)
+            {
+                aggroTargetPortrait.sprite = tmp.character.portrait;
+                aggroTargetPortrait.enabled = true;
+            }
+            else
+            {
+                textMeshAggroTarget.enabled = false;
+                aggroTargetPortrait.enabled = false;
+            }
+        }
+        else
+        {
+            textMeshAggroTarget.enabled = false;
+            aggroTargetPortrait.enabled = false;
+        }
     }
 
     private void UpdateAbilityUI(AbilityUI ui, AbilityUIStrings strings)

@@ -130,7 +130,7 @@ public class EnemyBase : Character
         return closest;
     }
 
-    private GridSpace ProcessAggro()
+    public GridSpace ProcessAggro()
     {
         List<AggroData> aggroCandidates = new List<AggroData>();
 

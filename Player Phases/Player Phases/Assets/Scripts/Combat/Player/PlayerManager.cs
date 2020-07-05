@@ -194,8 +194,6 @@ public class PlayerManager : MonoBehaviour
         {
             players[i].EndTurn();
         }
-
-        refPhaseManager.NextPhase();
     }
 
     public void DestroyCharacters()
