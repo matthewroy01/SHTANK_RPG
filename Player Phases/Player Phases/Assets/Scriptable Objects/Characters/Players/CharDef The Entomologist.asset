@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 869e1db15c6348246bbd3cef8c92dda0, type: 3}
   m_Name: CharDef The Entomologist
   m_EditorClassIdentifier: 
-  characterName: 
+  characterName: The Entomologist
+  characterDescription: The Entomologist is an accomplished biologist and chemist
+    putting her love of insects to use with witch themed "potions" to summon her
+    bug friends into battle.
   portrait: {fileID: 21300000, guid: 182a2ad2858ad024d8666bddbc82d461, type: 3}
   healthMax: 10
   attackMod: 0

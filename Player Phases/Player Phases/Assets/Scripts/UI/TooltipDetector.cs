@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class TooltipDetector : MonoBehaviour
 {
+    [Header("Override any externap tooltip text here")]
+    [TextArea(3, 10)]
+    public string tooltipOverride;
+
     private TooltipController refTooltipController;
     private RectTransform rectTransform;
 

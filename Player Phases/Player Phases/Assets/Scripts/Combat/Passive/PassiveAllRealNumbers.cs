@@ -26,6 +26,12 @@ public class PassiveAllRealNumbers : Passive
     public ManagedAudio curriculumSoundDec;
     public string curriculumMessageDec;
 
+    [Header("Particles")]
+    public ParticleSystem particles;
+    public float rate0;
+    public float rate1;
+    public float rate2;
+
     public override void ReceiveEvent(PassiveEventID id)
     {
         switch(id)
@@ -106,21 +112,29 @@ public class PassiveAllRealNumbers : Passive
 
         increase = 0;
 
-        switch(curriculumCurrent)
+        ParticleSystem.EmissionModule tmp = particles.emission;
+
+        switch (curriculumCurrent)
         {
             case 2:
             {
                 boostAttack.boost = 2.0f;
+
+                tmp.rateOverTime = rate2;
                 break;
             }
             case 1:
             {
                 boostAttack.boost = 1.5f;
+
+                tmp.rateOverTime = rate1;
                 break;
             }
             default:
             {
                 boostAttack.boost = 1.0f;
+
+                tmp.rateOverTime = rate0;
                 break;
             }
         }

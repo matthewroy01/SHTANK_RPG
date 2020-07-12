@@ -124,6 +124,9 @@ public class PlayerManager : MonoBehaviour
 
             // ability definitions for UI
             refPlayerBase.abilityUIDefinition = FindObjectOfType<CharacterUI>().InitializeAbilityUI(refPlayerBase);
+
+            // character description for tooltips
+            refPlayerBase.characterDescription = def.characterDescription;
         }
 
         if (refMovementDialogueProcessor != null)

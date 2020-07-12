@@ -6,6 +6,11 @@ public class MovementAbilityForecast : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer;
 
+    private void Start()
+    {
+        spriteRenderer.color = new Color(Color.white.r, Color.white.g, Color.white.b, 0.0f);
+    }
+
     public void DisplayForecast(Vector3 position, Character character)
     {
         if (character != null)

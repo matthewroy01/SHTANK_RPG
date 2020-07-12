@@ -15,7 +15,7 @@ public class TooltipController : MonoBehaviour
     public float extraPixelsMouse;
 
     [HideInInspector]
-    public bool shouldDisplay;
+    public bool shouldDisplay = false;
     private string toDisplay;
 
     private List<TooltipDetector> detectors = new List<TooltipDetector>();
@@ -47,7 +47,17 @@ public class TooltipController : MonoBehaviour
             if (detectors[i].CheckForMouseOver() == true)
             {
                 mousingOver = true;
-                toDisplay = detectors[i].statusDef.tooltip;
+                if (detectors[i] != null)
+                {
+                    if (detectors[i].tooltipOverride != "")
+                    {
+                        toDisplay = detectors[i].tooltipOverride;
+                    }
+                    else if (detectors[i].statusDef != null)
+                    {
+                        toDisplay = detectors[i].statusDef.tooltip;
+                    }
+                }
             }
         }
 

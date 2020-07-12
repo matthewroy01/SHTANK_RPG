@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using DG.Tweening;
+
 public class Character : MonoBehaviour
 {
     public Renderer placeholderRenderer;
@@ -57,6 +59,8 @@ public class Character : MonoBehaviour
 
     [Header("UI Character Portrait")]
     public Sprite portrait;
+    [HideInInspector]
+    public string characterDescription;
 
     public GridSpace myGridSpace;
 
@@ -161,6 +165,8 @@ public class Character : MonoBehaviour
                             }
                             effect.source.SendEvent(PassiveEventID.dealDamage);
                         }
+
+                        transform.DOPunchPosition((transform.position - effect.source.transform.position).normalized * 0.5f, 0.25f, 0, 0);
 
                         // if 0 damage was dealt, apply a special "no damage" effect, otherwise use the given effect
                         if (modValue > 0)

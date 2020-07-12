@@ -6,6 +6,8 @@ using UnityEngine;
 public class CharacterDefinition : ScriptableObject
 {
     public string characterName;
+    [TextArea(3, 10)]
+    public string characterDescription;
     public Sprite portrait;
 
     [Header("Stats")]

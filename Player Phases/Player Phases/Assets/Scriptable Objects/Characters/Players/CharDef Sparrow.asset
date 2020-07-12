@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: CharDef Sparrow
   m_EditorClassIdentifier: 
   characterName: Sparrow
+  characterDescription: Sparrow hails from the Superhero Agency and loves the theatrics
+    associated with heroism. Her bubbly personality shines as a light for the team
+    but can be overbearing.
   portrait: {fileID: 21300000, guid: 1aa546fe98fe75e41a5c0a3f7232d921, type: 3}
   healthMax: 8
   attackMod: 0

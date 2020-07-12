@@ -5,11 +5,15 @@ using System;
 using TMPro;
 using UnityEngine.UI;
 
+using DG.Tweening;
+
 public class CharacterUI : MonoBehaviour
 {
     private Character currentCharacter;
 
     public GameObject parentToToggle;
+
+    private bool active;
 
     [Header("Stats")]
     public Image imagePortrait;
@@ -77,19 +81,43 @@ public class CharacterUI : MonoBehaviour
             RectTransform tmp = imageListStatus[imageListStatus.Count - 1].rectTransform;
             tmp.name = "Status " + (i + 1).ToString();
             tmp.localPosition = new Vector2(tmp.localPosition.x + (pixelsBetweenStatuses * i), tmp.localPosition.y);
+            tmp.GetComponent<MaskableGraphic>().enabled = false;
+            //tmp.gameObject.SetActive(false);
         }
+
+        // slide off the screen to our default position upon starting
+        parentToToggle.transform.DOLocalMoveX(-1000, 0.0f, false);
     }
 
     public void ToggleUI(bool val)
     {
-        parentToToggle.SetActive(val);
+        if (active == true && val == false)
+        {
+            parentToToggle.transform.DOLocalMoveX(-1000, 0.15f, false);
+        }
+
+        if (active == false && val == true)
+        {
+            parentToToggle.transform.DOLocalMoveX(0, 0.25f, false);
+        }
+
+        active = val;
     }
 
     public void UpdateCharacterUI(Character character)
     {
         // character portrait, name, and HP
         imagePortrait.sprite = character.portrait;
+        TooltipDetector tmp1 = null, tmp2 = null;
+        if (imagePortrait.TryGetComponent(out tmp1))
+        {
+            tmp1.tooltipOverride = character.characterDescription;
+        }
         textMeshCharacterName.text = character.name;
+        if (textMeshCharacterName.TryGetComponent(out tmp2))
+        {
+            tmp2.tooltipOverride = character.characterDescription;
+        }
         textMeshHP.text = "HP " + character.healthCurrent + "/" + character.healthMax;
 
         // decide whether or not to use '+' or '-' when describing attack and defense modifiers
@@ -398,12 +426,14 @@ public class CharacterUI : MonoBehaviour
                 {
                     tmp.statusDef = definitions[i];
                 }
-                imageListStatus[i].gameObject.SetActive(true);
+                imageListStatus[i].GetComponent<MaskableGraphic>().enabled = true;
+                //imageListStatus[i].gameObject.SetActive(true);
             }
             else
             {
                 imageListStatus[i].sprite = null;
-                imageListStatus[i].gameObject.SetActive(false);
+                imageListStatus[i].GetComponent<MaskableGraphic>().enabled = false;
+                //imageListStatus[i].gameObject.SetActive(false);
             }
         }
     }

@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: CharDef Melon Man
   m_EditorClassIdentifier: 
   characterName: Melon Man
+  characterDescription: Stoic and strong, Melon Man is cursed to forever have a watermelon
+    on his head.
   portrait: {fileID: 21300000, guid: cfc7587d87b73544289e354bc0d0b7fb, type: 3}
   healthMax: 12
   attackMod: 0

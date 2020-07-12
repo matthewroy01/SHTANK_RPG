@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+using DG.Tweening;
+
 public class ToggleUIPosition : MonoBehaviour
 {
     public bool hiddenByDefault;
@@ -10,7 +12,7 @@ public class ToggleUIPosition : MonoBehaviour
     [Header("Movement")]
     public RectTransform toMove;
     public Vector3 moveBy;
-    public float lerpSpeed;
+    public float animationTime;
     private Vector3 posRevealed;
     private Vector3 posHidden;
 
@@ -34,37 +36,17 @@ public class ToggleUIPosition : MonoBehaviour
 
     public void ToggleUI()
     {
-        StopAllCoroutines();
         hidden = !hidden;
-        StartCoroutine(Move());
 
-        if (hidden)
+        if (hidden == true)
         {
+            toMove.DOLocalMove(posHidden, animationTime, false);
             image.rectTransform.localScale = new Vector3(image.rectTransform.localScale.x, -1.0f, image.rectTransform.localScale.z);
         }
         else
         {
+            toMove.DOLocalMove(posRevealed, animationTime, false);
             image.rectTransform.localScale = new Vector3(image.rectTransform.localScale.x, 1.0f, image.rectTransform.localScale.z);
-        }
-    }
-
-    private IEnumerator Move()
-    {
-        if (hidden)
-        {
-            while (Vector2.Distance(toMove.localPosition, posHidden) > 1.0f)
-            {
-                toMove.localPosition = Vector2.Lerp(toMove.localPosition, posHidden, lerpSpeed);
-                yield return new WaitForEndOfFrame();
-            }
-        }
-        else
-        {
-            while (Vector2.Distance(toMove.localPosition, posRevealed) > 1.0f)
-            {
-                toMove.localPosition = Vector2.Lerp(toMove.localPosition, posRevealed, lerpSpeed);
-                yield return new WaitForEndOfFrame();
-            }
         }
     }
 }

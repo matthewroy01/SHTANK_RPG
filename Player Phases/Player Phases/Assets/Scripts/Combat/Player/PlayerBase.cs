@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Reflection;
 
+using DG.Tweening;
+
 public class PlayerBase : Character
 {
     private bool idle = true;
@@ -119,7 +121,37 @@ public class PlayerBase : Character
     {
         if (toMoveTo != null)
         {
-            transform.position = toMoveTo.obj.transform.position;
+            transform.DOMove(toMoveTo.obj.transform.position, 0.25f);
+            myGridSpace = toMoveTo;
+        }
+    }
+
+    public void MoveToGridSpacePath(List<GridSpace> spaces, GridSpace end)
+    {
+        if (spaces != null && spaces.Count > 1)
+        {
+            List<Vector3> positions = new List<Vector3>();
+
+            for (int i = 0; i < spaces.Count; ++i)
+            {
+                positions.Add(spaces[i].obj.transform.position);
+
+                if (spaces[i] == end)
+                {
+                    break;
+                }
+            }
+
+            transform.DOPath(positions.ToArray(), 0.25f);
+            myGridSpace = end;
+        }
+    }
+
+    public void MoveToGridSpaceJump(GridSpace toMoveTo)
+    {
+        if (toMoveTo != null)
+        {
+            transform.DOJump(toMoveTo.obj.transform.position, 2.0f, 1, 0.25f);
             myGridSpace = toMoveTo;
         }
     }

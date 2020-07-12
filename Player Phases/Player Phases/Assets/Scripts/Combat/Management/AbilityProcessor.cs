@@ -169,7 +169,45 @@ public class AbilityProcessor : MonoBehaviour
         Debug.Log(abilType + " applied.");
 
         // move the player to the saved ending space
-        savedPlayer.MoveToGridSpace(endingSpace);
+        switch(savedAbility.GetType().Name)
+        {
+            case "CircleAbility":
+            {
+                if (savedAbility.moveCharacter)
+                {
+                    savedPlayer.MoveToGridSpace(endingSpace);
+                }
+                else
+                {
+                    savedPlayer.MoveToGridSpace(endingSpace);
+                }
+                break;
+            }
+            case "PathAbility":
+            {
+                if (savedAbility.moveCharacter)
+                {
+                    savedPlayer.MoveToGridSpacePath(gridSpaces, endingSpace);
+                }
+                else
+                {
+                    savedPlayer.MoveToGridSpace(endingSpace);
+                }
+                break;
+            }
+            case "ConeAbility":
+            {
+                if (savedAbility.moveCharacter)
+                {
+                    savedPlayer.MoveToGridSpace(endingSpace);
+                }
+                else
+                {
+                    savedPlayer.MoveToGridSpace(endingSpace);
+                }
+                break;
+            }
+        }
 
         // and apply their saved effects
         refCombatGrid.CleanGrid();

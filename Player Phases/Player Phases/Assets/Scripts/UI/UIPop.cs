@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+using DG.Tweening;
+
 public class UIPop : UIEffect
 {
     private RectTransform refRectTransform;
