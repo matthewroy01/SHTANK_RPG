@@ -20,6 +20,9 @@ public class OverworldPlayerMovement : MonoBehaviour
     [Header("Artificial Gravity")]
     public float gravityMultiplier;
 
+    [Header("Cartoon Shadow")]
+    public GameObject shadow;
+
     [HideInInspector]
     public Rigidbody refRigidbody;
 
@@ -43,6 +46,9 @@ public class OverworldPlayerMovement : MonoBehaviour
 
         // artificial gravity
         ApplyArtificalGravity();
+
+        // move cartoon shadow
+        MoveShadow();
     }
 
     private void GetAxes()
@@ -73,5 +79,31 @@ public class OverworldPlayerMovement : MonoBehaviour
     private void ApplyArtificalGravity()
     {
         refRigidbody.AddForce(Vector3.down * gravityMultiplier);
+    }
+
+    private void MoveShadow()
+    {
+        RaycastHit hit;
+        Physics.Raycast(transform.position, Vector3.down, out hit, groundLayerMask);
+
+        if (hit.transform)
+        {
+            shadow.SetActive(true);
+
+            shadow.transform.position = new Vector3(hit.point.x, hit.point.y, hit.point.z);
+
+            float distance = Vector3.Distance(transform.position, hit.point);
+            if (distance != 0)
+            {
+                float dividedDistance = 1.0f / distance;
+                Mathf.Clamp(dividedDistance, 0.001f, 1.0f);
+                shadow.transform.localScale = Vector3.ClampMagnitude(Vector3.one * dividedDistance, 3.464f);
+            }
+        }
+        else
+        {
+            // don't display a shadow
+            shadow.SetActive(false);
+        }
     }
 }

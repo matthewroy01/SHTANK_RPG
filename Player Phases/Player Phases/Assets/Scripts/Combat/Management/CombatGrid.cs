@@ -22,6 +22,8 @@ public class CombatGrid : MonoBehaviour
 
     public bool yUp;
 
+    const float antiZFightBuffer = 0.1f;
+
     public void SpawnGrid(Vector3 center)
     {
         grid = new GridSpace[gridWidth, gridHeight];
@@ -65,7 +67,7 @@ public class CombatGrid : MonoBehaviour
                 // create new Grid Space with associated Game Object and terrain type from scan
                 if (yUp)
                 {
-                    grid[x, y] = new GridSpace(Instantiate(gridSpacePrefab, new Vector3(x, 0.0f, y) + bottomLeft, Quaternion.identity, transform), terrainType, new Vector2Int(x, y));
+                    grid[x, y] = new GridSpace(Instantiate(gridSpacePrefab, new Vector3(x, hit.point.y + antiZFightBuffer, y) + bottomLeft, Quaternion.identity, transform), terrainType, new Vector2Int(x, y));
                 }
                 else
                 {
