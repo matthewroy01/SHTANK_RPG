@@ -14,6 +14,7 @@ public class CharacterUI : MonoBehaviour
     public GameObject parentToToggle;
 
     private bool active;
+    private Tweener activeTweener;
 
     [Header("Stats")]
     public Image imagePortrait;
@@ -46,6 +47,11 @@ public class CharacterUI : MonoBehaviour
     public StatusUIDefinition statusDefFrosty;
     public StatusUIDefinition statusDefToasty;
     public StatusUIDefinition statusDefHoneyed;
+
+    private void Update()
+    {
+        Debug.Log(active);
+    }
 
     private void Start()
     {
@@ -93,12 +99,14 @@ public class CharacterUI : MonoBehaviour
     {
         if (active == true && val == false)
         {
-            parentToToggle.transform.DOLocalMoveX(-1000, 0.15f, false);
+            activeTweener.Kill();
+            activeTweener = parentToToggle.transform.DOLocalMoveX(-1000, 0.15f, false);
         }
 
         if (active == false && val == true)
         {
-            parentToToggle.transform.DOLocalMoveX(0, 0.25f, false);
+            activeTweener.Kill();
+            activeTweener = parentToToggle.transform.DOLocalMoveX(0, 0.25f, false);
         }
 
         active = val;

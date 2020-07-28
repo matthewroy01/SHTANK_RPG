@@ -59,31 +59,67 @@ public class PlayerManager : MonoBehaviour
 
     public void SpawnPlayers()
     {
+        int targetX = 0, targetY = 0;
+
         for (int i = 0; i < characterDefinitions.Count; ++i)
         {
             // spawn players and add them to the list
             PlayerBase tmp = Instantiate(playerPrefab, transform).GetComponent<PlayerBase>();
             players.Add(tmp);
 
-            int x = 0, y = 0;
-            x = i;
+            // get a valid spawning space for this character
+            GridSpace spawnSpace = GetSpawnSpace(targetX, targetY, characterDefinitions[i].terrainTypes);
 
-            if (i % 2 == 0)
-            {
-                y = 0;
-            }
-            else
-            {
-                y = 1;
-            }
-
-            tmp.transform.position = refCombatGrid.grid[x, y].obj.transform.position;
-            refCombatGrid.grid[x, y].character = tmp;
-            tmp.myGridSpace = refCombatGrid.grid[x, y];
+            tmp.transform.position = spawnSpace.obj.transform.position;
+            spawnSpace.character = tmp;
+            tmp.myGridSpace = spawnSpace;
 
             AssignPlayerValues(tmp.gameObject, characterDefinitions[i]);
             AssignPassive(tmp, characterDefinitions[i]);
         }
+    }
+
+    private GridSpace GetSpawnSpace(int targetX, int targetY, List<GridSpace_TerrainType> validTerrainTypes)
+    {
+        List<GridSpace> search = refCombatGrid.GetBreadthFirst(refCombatGrid.grid[targetX, targetY], refCombatGrid.gridWidth * refCombatGrid.gridHeight, TerrainTypePresets.all, Character_Affiliation.player);
+
+        for (int i = 0; i < search.Count; ++i)
+        {
+            if (validTerrainTypes.Contains(search[i].GetTerrainType()) && search[i].character == null && IsOnCheckerboard(search[i].coordinate))
+            {
+                return search[i];
+            }
+        }
+
+        return refCombatGrid.grid[targetX, targetY];
+    }
+
+    private bool IsOnCheckerboard(Vector2Int coordinate)
+    {
+        if (coordinate.x % 2 == 0)
+        {
+            if (coordinate.y % 2 == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else if (coordinate.x % 2 == 1)
+        {
+            if (coordinate.y % 2 == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        return false;
     }
 
     private void AssignPlayerValues(GameObject obj, CharacterDefinition def)

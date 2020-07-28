@@ -8,6 +8,7 @@ public class SHTANKCamera : MonoBehaviour
     public float followSpeed;
     [Range(0, 1)]
     public float turnSpeed;
+    public bool functionRegardlessOfState = false;
 
     [Header("Overworld Camera Movement")]
     public Transform cameraTargetOverworld;
@@ -46,6 +47,23 @@ public class SHTANKCamera : MonoBehaviour
         refEnemyManager = FindObjectOfType<EnemyManager>();
         refPlayerManager = FindObjectOfType<PlayerManager>();
         refCombatGrid = FindObjectOfType<CombatGrid>();
+
+        // function regardless of state for special purposes (such as the concept art scene)
+        if (functionRegardlessOfState)
+        {
+            InitiateCombatCamera();
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        // function regardless of state for special purposes (such as the concept art scene)
+        if (functionRegardlessOfState)
+        {
+            MouseMovement();
+
+            MoveCamera(cameraTargetCombat, smoothing, turnSpeed);
+        }
     }
 
     public void CameraFunctionalityCombat()
@@ -89,7 +107,8 @@ public class SHTANKCamera : MonoBehaviour
         // this function must be called after the Combat Grid has already initialized itself, otherwise a null reference will occur when trying to get the position of the [0, 0] grid space from it
         CenterCamera();
 
-        maxBounds = new Bounds(transform.position, new Vector3(movementAreaSize.x, 1.0f, movementAreaSize.y));
+        cameraTargetCombat.position = defaultPosition;
+        maxBounds = new Bounds(defaultPosition, new Vector3(movementAreaSize.x, 1.0f, movementAreaSize.y));
     }
 
     private void MouseMovement()

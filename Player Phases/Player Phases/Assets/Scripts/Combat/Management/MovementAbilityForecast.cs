@@ -11,11 +11,12 @@ public class MovementAbilityForecast : MonoBehaviour
         spriteRenderer.color = new Color(Color.white.r, Color.white.g, Color.white.b, 0.0f);
     }
 
-    public void DisplayForecast(Vector3 position, Character character)
+    public void DisplayForecast(Vector3 position, Character character, bool movesCharacter)
     {
-        if (character != null)
+        if (character != null && movesCharacter)
         {
             SpriteRenderer tmp = character.GetComponentInChildren<SpriteRenderer>();
+
             if (tmp != null)
             {
                 spriteRenderer.sprite = tmp.sprite;
@@ -24,8 +25,19 @@ public class MovementAbilityForecast : MonoBehaviour
 
                 return;
             }
+            else
+            {
+                SetInvisible();
+
+                return;
+            }
         }
 
+        SetInvisible();
+    }
+
+    private void SetInvisible()
+    {
         spriteRenderer.color = new Color(Color.white.r, Color.white.g, Color.white.b, 0.0f);
     }
 }

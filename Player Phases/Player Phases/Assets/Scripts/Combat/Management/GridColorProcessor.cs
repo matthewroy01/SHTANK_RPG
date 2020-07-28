@@ -40,7 +40,7 @@ public class GridColorProcessor : MonoBehaviour
                 for (int j = 0; j < refCombatGrid.grid.GetLength(1); ++j)
                 {
                     // reset grid space color to the default state
-                    refCombatGrid.grid[i, j].obj.GetComponentInChildren<MeshRenderer>().material.color = colorDefaultState;
+                    refCombatGrid.grid[i, j].obj.GetComponent<GridSpaceRendering>().ResetColor();
                 }
             }
 
@@ -71,7 +71,7 @@ public class GridColorProcessor : MonoBehaviour
                     {
                         if (refCombatGrid.grid[i, j].character != null)
                         {
-                            refCombatGrid.grid[i, j].obj.GetComponent<Renderer>().material.color = Color.black;
+                            refCombatGrid.grid[i, j].obj.GetComponent<GridSpaceRendering>().SetColor(Color.black);
                         }
                     }
                 }
@@ -83,7 +83,7 @@ public class GridColorProcessor : MonoBehaviour
     {
         if (checkAgainst.Contains(toCheck))
         {
-            toCheck.obj.GetComponentInChildren<MeshRenderer>().material.color = Color.Lerp(Color.Lerp(color, Color.white, 0.5f), color, Mathf.Sin(Time.time * 10.0f + (0.5f * (i - j))));
+            toCheck.obj.GetComponent<GridSpaceRendering>().SetColor(Color.Lerp(Color.Lerp(color, Color.white, 0.5f), color, Mathf.Sin(Time.time * 10.0f + (0.5f * (i - j)))));
         }
     }
 }

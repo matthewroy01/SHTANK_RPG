@@ -13,12 +13,12 @@ public class OverworldPlayerController : MonoBehaviour
     {
         if (!TryGetComponent(out refMovement))
         {
-            Debug.LogError("OverworldPlayerMovement could not find component OverworldPlayerMovement.");
+            Debug.LogError("OverworldPlayerController could not find component OverworldPlayerMovement.");
         }
 
         if (!TryGetComponent(out refAnimation))
         {
-            Debug.LogError("OverworldPlayerMovement could not find component OverworldPlayerAnimation.");
+            Debug.LogError("OverworldPlayerController could not find component OverworldPlayerAnimation.");
         }
     }
 

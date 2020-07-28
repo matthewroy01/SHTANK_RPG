@@ -48,11 +48,11 @@ public class CombatGrid : MonoBehaviour
                 RaycastHit hit;
                 if (yUp)
                 {
-                    Physics.Raycast(new Vector3(x, 2.0f, y) + bottomLeft, Vector3.down, out hit, scannable);
+                    Physics.Raycast(new Vector3(x, 2.0f, y) + bottomLeft, Vector3.down, out hit, Mathf.Infinity, scannable);
                 }
                 else
                 {
-                    Physics.Raycast(new Vector3(x, y, -1.0f) + bottomLeft, Vector3.forward, out hit, scannable);
+                    Physics.Raycast(new Vector3(x, y, -1.0f) + bottomLeft, Vector3.forward, out hit, Mathf.Infinity, scannable);
                 }
 
                 // set the terrain type to standard by default
@@ -482,6 +482,10 @@ public class CombatGrid : MonoBehaviour
             case "TerrainType_Wall":
             {
                 return GridSpace_TerrainType.wall;
+            }
+            case "TerrainType_Water":
+            {
+                return GridSpace_TerrainType.water;
             }
             default:
             {

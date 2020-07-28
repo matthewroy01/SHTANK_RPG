@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   description: Toss a smoke bomb at your allies to help them lose their enemies.
   moveCharacter: 0
-  ignoreWalls: 0
+  ignoreWalls: 1
+  ignoreAttackMod: 0
+  ignoreDefenseMod: 0
   ranged: 1
   range: 5
   effects:
@@ -22,4 +24,6 @@ MonoBehaviour:
     value: 10
     probability: 1
     source: {fileID: 0}
+    trueDamage: 0
+    pierceDefense: 0
   radius: 1

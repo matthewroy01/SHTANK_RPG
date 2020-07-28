@@ -86,28 +86,36 @@ public class AbilityProcessor : MonoBehaviour
                 }
 
                 // process ability
-                if (abilType == "PathAbility")
+                switch(abilType)
                 {
-                    Debug.Log(abilType + " processed.");
-                    ProcessPathAbility((PathAbility)savedAbility, startingSpace, facing, flipped);
-                }
-                else if (abilType == "CircleAbility")
-                {
-                    Debug.Log(abilType + " processed.");
-                    ProcessCircleAbility((CircleAbility)savedAbility, startingSpace);
-                }
-                else if (abilType == "ConeAbility")
-                {
-                    Debug.Log(abilType + " processed.");
-                    ProcessConeAbility((ConeAbility)savedAbility, startingSpace, facing);
-                }
-                else if (abilType == "RectangleAbility")
-                {
-                    Debug.Log(abilType + " processed.");
-                }
-                else
-                {
-                    Debug.LogError(abilType + " is not a valid Ability type.");
+                    case "PathAbility":
+                    {
+                        Debug.Log(abilType + " processed.");
+                        ProcessPathAbility((PathAbility)savedAbility, startingSpace, facing, flipped);
+                        break;
+                    }
+                    case "CircleAbility":
+                    {
+                        Debug.Log(abilType + " processed.");
+                        ProcessCircleAbility((CircleAbility)savedAbility, startingSpace);
+                        break;
+                    }
+                    case "ConeAbility":
+                    {
+                        Debug.Log(abilType + " processed.");
+                        ProcessConeAbility((ConeAbility)savedAbility, startingSpace, facing);
+                        break;
+                    }
+                    case "RectangleAbility":
+                    {
+                        Debug.Log(abilType + " processed.");
+                        break;
+                    }
+                    default:
+                    {
+                        Debug.LogError(abilType + " is not a valid Ability type.");
+                        break;
+                    }
                 }
             }
         }
@@ -225,7 +233,7 @@ public class AbilityProcessor : MonoBehaviour
     {
         if (endingSpace != null)
         {
-            refMovementAbilityForecast.DisplayForecast(endingSpace.obj.transform.position, savedPlayer);
+            refMovementAbilityForecast.DisplayForecast(endingSpace.obj.transform.position, savedPlayer, savedAbility != null ? savedAbility.moveCharacter : false);
         }
     }
 

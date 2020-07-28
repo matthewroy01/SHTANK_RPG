@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class OverworldEnemyController : MonoBehaviour
 {
-    void Start()
+    [HideInInspector]
+    public OverworldEnemyMovement refMovement;
+
+    private void Start()
     {
-        
+        if (!TryGetComponent(out refMovement))
+        {
+            Debug.LogError("OverworldEnemyController could not find OverworldEnemyMovmeent.");
+        }
     }
 
-    void Update()
+    public void MyUpdate()
     {
-        
+        refMovement.MyUpdate();
     }
 }

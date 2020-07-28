@@ -11,6 +11,9 @@ public class SHTANKManager : MonoBehaviour
 
     private SHTANKCamera refSHTANKCamera;
 
+    public AudioSource musicOverworld;
+    public AudioSource musicBattle;
+
     private void Awake()
     {
         InitializeStateMachine();
@@ -93,6 +96,9 @@ public class SHTANKManager : MonoBehaviour
         {
             refCombatManager.InitiatePhase(CombatPhase.Player, position, targetEnemy);
             refOverworldManager.DisableOverworldObjects();
+
+            musicOverworld.volume = 0.0f;
+            musicBattle.Play();
         }
     }
 
@@ -102,6 +108,9 @@ public class SHTANKManager : MonoBehaviour
         {
             refOverworldManager.EnableOverworldObjects();
             refCombatManager.DestroyCombatObjects();
+
+            musicOverworld.volume = 1.0f;
+            musicBattle.Stop();
         }
     }
 

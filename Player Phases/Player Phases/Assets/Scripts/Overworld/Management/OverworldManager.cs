@@ -19,6 +19,11 @@ public class OverworldManager : MonoBehaviour
     public void MyUpdate()
     {
         refPlayerController.MyUpdate();
+
+        for (int i = 0; i < refEnemyControllers.Count; ++i)
+        {
+            refEnemyControllers[i].MyUpdate();
+        }
     }
 
     public void DisableOverworldObjects()

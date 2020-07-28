@@ -41,6 +41,8 @@ public class EnemyManager : MonoBehaviour
         names.Add("Gimbal Lock");
         names.Add("Nicholas Picholas");
         names.Add("Scarred Jellybean");
+        names.Add("The Food Machine");
+        names.Add("No Clue's Grandma");
     }
 
     public void MyUpdate()
@@ -66,6 +68,8 @@ public class EnemyManager : MonoBehaviour
 
     public void SpawnEnemies()
     {
+        int targetX = (int)refCombatGrid.gridWidth - 1, targetY = (int)refCombatGrid.gridHeight - 1;
+
         for (int i = 0; i < characterDefinitions.Count; ++i)
         {
             EnemyBase tmp;
@@ -74,23 +78,13 @@ public class EnemyManager : MonoBehaviour
             tmp = Instantiate(enemyPrefab, transform).GetComponent<EnemyBase>();
             enemies.Add(tmp);
 
-            // calculate position
-            int x = 0, y = 0;
-            x = (int)refCombatGrid.gridWidth - i - 1;
-
-            if (i % 2 == 0)
-            {
-                y = (int)refCombatGrid.gridHeight - 1;
-            }
-            else
-            {
-                y = (int)refCombatGrid.gridHeight - 2;
-            }
+            // get a valid spawning space for this character
+            GridSpace spawnSpace = GetSpawnSpace(targetX, targetY, characterDefinitions[i].terrainTypes);
 
             // set enemy position and grid space
-            tmp.transform.position = refCombatGrid.grid[x, y].obj.transform.position;
-            refCombatGrid.grid[x, y].character = tmp;
-            tmp.myGridSpace = refCombatGrid.grid[x, y];
+            tmp.transform.position = spawnSpace.obj.transform.position;
+            spawnSpace.character = tmp;
+            tmp.myGridSpace = spawnSpace;
 
             AssignEnemyValues(tmp.gameObject, characterDefinitions[i]);
             AssignPassive(tmp, characterDefinitions[i]);
@@ -109,6 +103,49 @@ public class EnemyManager : MonoBehaviour
                 tmp.aggroData.Add(new AggroData(refPlayerManager.players[j], 0));
             }
         }
+    }
+
+    private GridSpace GetSpawnSpace(int targetX, int targetY, List<GridSpace_TerrainType> validTerrainTypes)
+    {
+        List<GridSpace> search = refCombatGrid.GetBreadthFirst(refCombatGrid.grid[targetX, targetY], refCombatGrid.gridWidth * refCombatGrid.gridHeight, TerrainTypePresets.all, Character_Affiliation.enemy);
+
+        for (int i = 0; i < search.Count; ++i)
+        {
+            if (validTerrainTypes.Contains(search[i].GetTerrainType()) && search[i].character == null && IsOnCheckerboard(search[i].coordinate))
+            {
+                return search[i];
+            }
+        }
+
+        return refCombatGrid.grid[targetX, targetY];
+    }
+
+    private bool IsOnCheckerboard(Vector2Int coordinate)
+    {
+        if (coordinate.x % 2 == 0)
+        {
+            if (coordinate.y % 2 == 1)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else if (coordinate.x % 2 == 1)
+        {
+            if (coordinate.y % 2 == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        return false;
     }
 
     private void AssignEnemyValues(GameObject obj, CharacterDefinition def)

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - TerrainType_Wall
   - Overworld_Encounter
+  - TerrainType_Water
   layers:
   - Default
   - TransparentFX
