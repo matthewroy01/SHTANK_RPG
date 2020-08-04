@@ -19,4 +19,17 @@ public class OverworldEnemyController : MonoBehaviour
     {
         refMovement.MyUpdate();
     }
+
+    public void Disable()
+    {
+        refMovement.StopAllCoroutines();
+        refMovement.runningAI = false;
+
+        gameObject.SetActive(false);
+    }
+
+    public void Enable()
+    {
+        refMovement.SetState(OverworldEnemyState.fleeing);
+    }
 }

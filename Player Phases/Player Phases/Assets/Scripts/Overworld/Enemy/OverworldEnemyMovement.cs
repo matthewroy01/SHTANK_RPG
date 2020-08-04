@@ -22,7 +22,8 @@ public class OverworldEnemyMovement : MonoBehaviour
 
     private OverworldPlayerController refPlayer;
 
-    private bool runningAI = false;
+    [HideInInspector]
+    public bool runningAI = false;
 
     private void Start()
     {
@@ -122,6 +123,11 @@ public class OverworldEnemyMovement : MonoBehaviour
             // don't display a shadow
             shadow.SetActive(false);
         }
+    }
+
+    public void SetState(OverworldEnemyState newState)
+    {
+        state = newState;
     }
 }
 

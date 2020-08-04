@@ -28,21 +28,6 @@ public class EnemyManager : MonoBehaviour
         refCombatInitiator = FindObjectOfType<CombatManager>();
 
         refCombatGrid = FindObjectOfType<CombatGrid>();
-
-        names.Add("S-Fear");
-        names.Add("P-Trol");
-        names.Add("Some Robot");
-        names.Add("M4L-Function");
-        names.Add("Barely a Threat");
-        names.Add("Crazy Eyes");
-        names.Add("A-Nihilate");
-        names.Add("D-Struction");
-        names.Add("Peter Plum");
-        names.Add("Gimbal Lock");
-        names.Add("Nicholas Picholas");
-        names.Add("Scarred Jellybean");
-        names.Add("The Food Machine");
-        names.Add("No Clue's Grandma");
     }
 
     public void MyUpdate()
@@ -68,6 +53,8 @@ public class EnemyManager : MonoBehaviour
 
     public void SpawnEnemies()
     {
+        AddRandomNames();
+
         int targetX = (int)refCombatGrid.gridWidth - 1, targetY = (int)refCombatGrid.gridHeight - 1;
 
         for (int i = 0; i < characterDefinitions.Count; ++i)
@@ -275,5 +262,26 @@ public class EnemyManager : MonoBehaviour
         }
 
         enemies.Clear();
+    }
+
+    private void AddRandomNames()
+    {
+        string[] tmp = {
+            "S-Fear",
+            "P-Trol",
+            "Some Robot",
+            "M4L-Function",
+            "Barely a Threat",
+            "Crazy Eyes",
+            "A-Nihilation",
+            "D-Struction",
+            "Peter Plum",
+            "Gimbal Lock",
+            "Nicholas Picholas",
+            "Scarred Jellybean",
+            "The Food Machine",
+            "No Clue's Grandma"
+        };
+        names = new List<string>(tmp);
     }
 }

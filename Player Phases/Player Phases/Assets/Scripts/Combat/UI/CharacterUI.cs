@@ -48,11 +48,6 @@ public class CharacterUI : MonoBehaviour
     public StatusUIDefinition statusDefToasty;
     public StatusUIDefinition statusDefHoneyed;
 
-    private void Update()
-    {
-        Debug.Log(active);
-    }
-
     private void Start()
     {
         CharacterSelector refCharacterSelector = FindObjectOfType<CharacterSelector>();

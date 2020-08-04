@@ -36,11 +36,14 @@ public class CombatManager : MonoBehaviour
         currentEnemy = targetEnemy;
     }
 
-    public void DestroyCombatObjects()
+    public void DestroyCombatObjects(bool won)
     {
         refCombatGrid.DestroyGrid();
         refPhaseManager.DestroyCharacters();
 
-        Destroy(currentEnemy.gameObject);
+        if (won)
+        {
+            Destroy(currentEnemy.gameObject);
+        }
     }
 }

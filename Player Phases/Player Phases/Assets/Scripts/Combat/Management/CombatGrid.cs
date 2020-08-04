@@ -22,7 +22,7 @@ public class CombatGrid : MonoBehaviour
 
     public bool yUp;
 
-    const float antiZFightBuffer = 0.1f;
+    const float antiZFightBuffer = 0.05f;
 
     public void SpawnGrid(Vector3 center)
     {
@@ -48,11 +48,11 @@ public class CombatGrid : MonoBehaviour
                 RaycastHit hit;
                 if (yUp)
                 {
-                    Physics.Raycast(new Vector3(x, 2.0f, y) + bottomLeft, Vector3.down, out hit, Mathf.Infinity, scannable);
+                    Physics.Raycast(new Vector3(x, 100.0f, y) + bottomLeft, Vector3.down, out hit, Mathf.Infinity, scannable);
                 }
                 else
                 {
-                    Physics.Raycast(new Vector3(x, y, -1.0f) + bottomLeft, Vector3.forward, out hit, Mathf.Infinity, scannable);
+                    Physics.Raycast(new Vector3(x, y, -100.0f) + bottomLeft, Vector3.forward, out hit, Mathf.Infinity, scannable);
                 }
 
                 // set the terrain type to standard by default
@@ -64,10 +64,12 @@ public class CombatGrid : MonoBehaviour
                     terrainType = GetTerrainTypeFromTag(hit.transform.tag);
                 }
 
+                float gridSpaceHeight = hit.transform != null ? hit.point.y + antiZFightBuffer : -0.55f;
+
                 // create new Grid Space with associated Game Object and terrain type from scan
                 if (yUp)
                 {
-                    grid[x, y] = new GridSpace(Instantiate(gridSpacePrefab, new Vector3(x, hit.point.y + antiZFightBuffer, y) + bottomLeft, Quaternion.identity, transform), terrainType, new Vector2Int(x, y));
+                    grid[x, y] = new GridSpace(Instantiate(gridSpacePrefab, new Vector3(x, gridSpaceHeight, y) + bottomLeft, Quaternion.identity, transform), terrainType, new Vector2Int(x, y));
                 }
                 else
                 {

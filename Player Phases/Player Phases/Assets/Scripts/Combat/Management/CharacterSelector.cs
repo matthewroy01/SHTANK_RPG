@@ -400,7 +400,7 @@ public class CharacterSelector : MonoBehaviour
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            if (Input.GetMouseButton(0) && Physics.Raycast(ray, out hit))
+            if (Input.GetMouseButton(0) && Physics.Raycast(ray, out hit, float.MaxValue, layerMaskGrid))
             {
                 Character tmp = null;
 
@@ -613,6 +613,33 @@ public class CharacterSelector : MonoBehaviour
 
             overlayCharacter = null;
         }
+    }
+
+    public void EndPhase()
+    {
+        if (currentPlayer != null)
+        {
+            // reset any movement if a player was selected
+            currentPlayer.ResetToDefaultPosition(defaultGridSpace);
+            defaultGridSpace.character = currentPlayer;
+            if (tmpGridSpace != null)
+            {
+                tmpGridSpace.character = null;
+            }
+
+            // cancel selected abilities
+            selectedAbilityNum = 0;
+            refAbilityProcessor.CancelAbility();
+            refCharacterUI.SetSelectedAbilityColor(selectedAbilityNum);
+            refAbilityProcessor.UpdateAbilityForecast();
+            refAbilityProcessor.UpdateMovementAbilityForecast();
+
+            stateMachine.TryUpdateConnection((int)SelectorState.doingNothing);
+
+            currentPlayer = null;
+        }
+
+        stateMachine.TryUpdateConnection((int)SelectorState.doingNothing);
     }
 
     public enum SelectorState

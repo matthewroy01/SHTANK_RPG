@@ -14,6 +14,10 @@ public class SHTANKManager : MonoBehaviour
     public AudioSource musicOverworld;
     public AudioSource musicBattle;
 
+    private Vector2 combatDirection;
+
+    private Coroutine ignoreCollisionCoroutine;
+
     private void Awake()
     {
         InitializeStateMachine();
@@ -99,19 +103,39 @@ public class SHTANKManager : MonoBehaviour
 
             musicOverworld.volume = 0.0f;
             musicBattle.Play();
+
+            combatDirection = (targetEnemy.transform.position - position).normalized;
         }
     }
 
-    public void TryEndCombat()
+    public void TryEndCombat(bool won)
     {
         if (stateMachine.TryUpdateConnection((int)GameState.overworld))
         {
+            if (!won)
+            {
+                if (ignoreCollisionCoroutine != null)
+                {
+                    StopCoroutine(ignoreCollisionCoroutine);
+                }
+                ignoreCollisionCoroutine = StartCoroutine(IgnorePlayerEnemyCollision());
+            }
+
             refOverworldManager.EnableOverworldObjects();
-            refCombatManager.DestroyCombatObjects();
+            refCombatManager.DestroyCombatObjects(won);
 
             musicOverworld.volume = 1.0f;
             musicBattle.Stop();
         }
+    }
+
+    public IEnumerator IgnorePlayerEnemyCollision()
+    {
+        Physics.IgnoreLayerCollision(11, 12, true);
+
+        yield return new WaitForSecondsRealtime(2.0f);
+
+        Physics.IgnoreLayerCollision(11, 12, false);
     }
 
     public enum GameState

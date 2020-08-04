@@ -27,6 +27,10 @@ public class OverworldPlayerCollision : MonoBehaviour
             collisionPoint.x = Mathf.Round(collisionPoint.x);
             collisionPoint.z = Mathf.Round(collisionPoint.z);
 
+            // temporary code to keep the grid within the bounds of the test level
+            collisionPoint.x = Mathf.Clamp(collisionPoint.x, -10, 10);
+            collisionPoint.z = Mathf.Clamp(collisionPoint.z, -11, 11);
+
             OverworldEnemyController tmp = other.gameObject.GetComponent<OverworldEnemyController>();
 
             // pass the collision point along to the Combat Initiator to begin combat at that position

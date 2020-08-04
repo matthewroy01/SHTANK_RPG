@@ -79,14 +79,21 @@ public class PhaseManager : MonoBehaviour
     {
         uiEffectVictoryAndDefeat.Apply("Victory!", refAudioManager);
 
-        Invoke("EndCombat", 3.0f);
+        StartCoroutine(EndCombatDelay(true, 3.0f));
     }
 
     public void Defeat()
     {
         uiEffectVictoryAndDefeat.Apply("Defeat...", refAudioManager);
 
-        Invoke("EndCombat", 3.0f);
+        StartCoroutine(EndCombatDelay(false, 3.0f));
+    }
+
+    IEnumerator EndCombatDelay(bool won, float delay)
+    {
+        yield return new WaitForSecondsRealtime(delay);
+
+        EndCombat(won);
     }
 
     public EnemyManager GetEnemyManager()
@@ -247,12 +254,11 @@ public class PhaseManager : MonoBehaviour
         uiEffectVictoryAndDefeat.Clear();
     }
 
-    private void EndCombat()
+    private void EndCombat(bool won)
     {
         ClearText();
 
-
-        FindObjectOfType<SHTANKManager>().TryEndCombat();
+        FindObjectOfType<SHTANKManager>().TryEndCombat(won);
     }
 
     public void DestroyCharacters()
