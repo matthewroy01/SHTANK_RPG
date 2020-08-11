@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class OverworldEnemyController : MonoBehaviour
 {
+    public EnemyGroup toSpawn;
+
     [HideInInspector]
     public OverworldEnemyMovement refMovement;
 
@@ -22,8 +24,7 @@ public class OverworldEnemyController : MonoBehaviour
 
     public void Disable()
     {
-        refMovement.StopAllCoroutines();
-        refMovement.runningAI = false;
+        refMovement.StopAI();
 
         gameObject.SetActive(false);
     }

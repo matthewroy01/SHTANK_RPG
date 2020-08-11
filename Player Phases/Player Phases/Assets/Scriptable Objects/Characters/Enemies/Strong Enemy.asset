@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: Strong Enemy
   m_EditorClassIdentifier: 
   characterName: Humungalaga
+  characterDescription: 
   portrait: {fileID: 21300000, guid: 710fb091bccc39e42bd8508daa33276f, type: 3}
   healthMax: 10
   attackMod: 0
   defenseMod: 0
-  nashbalm: 0
+  nashbalm: 10
   movementRange: 5
   moveset: {fileID: 11400000, guid: da59fc9c689aa534b9165d04afbeba68, type: 2}
   movementDialogue: {fileID: 11400000, guid: 120de503b46b71645b2cde1fdf560319, type: 2}

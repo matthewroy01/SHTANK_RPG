@@ -11,9 +11,6 @@ public class EnemyManager : MonoBehaviour
     [Header("Base Enemy Prefab")]
     public GameObject enemyPrefab;
 
-    [Header("List of specific characters to spawn")]
-    public List<CharacterDefinition> characterDefinitions;
-
     [Header("List of characters in combat after spawning")]
     public List<EnemyBase> enemies = new List<EnemyBase>();
 
@@ -51,13 +48,13 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    public void SpawnEnemies()
+    public void SpawnEnemies(EnemyGroup group)
     {
         AddRandomNames();
 
         int targetX = (int)refCombatGrid.gridWidth - 1, targetY = (int)refCombatGrid.gridHeight - 1;
 
-        for (int i = 0; i < characterDefinitions.Count; ++i)
+        for (int i = 0; i < group.characterDefinitions.Count; ++i)
         {
             EnemyBase tmp;
 
@@ -66,15 +63,15 @@ public class EnemyManager : MonoBehaviour
             enemies.Add(tmp);
 
             // get a valid spawning space for this character
-            GridSpace spawnSpace = GetSpawnSpace(targetX, targetY, characterDefinitions[i].terrainTypes);
+            GridSpace spawnSpace = GetSpawnSpace(targetX, targetY, group.characterDefinitions[i].terrainTypes);
 
             // set enemy position and grid space
             tmp.transform.position = spawnSpace.obj.transform.position;
             spawnSpace.character = tmp;
             tmp.myGridSpace = spawnSpace;
 
-            AssignEnemyValues(tmp.gameObject, characterDefinitions[i]);
-            AssignPassive(tmp, characterDefinitions[i]);
+            AssignEnemyValues(tmp.gameObject, group.characterDefinitions[i]);
+            AssignPassive(tmp, group.characterDefinitions[i]);
 
             // if the enemy name is blank, set it to something random
             if (tmp.name == "")
@@ -87,7 +84,7 @@ public class EnemyManager : MonoBehaviour
             // initialize aggro data for each enemy
             for (int j = 0; j < refPlayerManager.players.Count; ++j)
             {
-                tmp.aggroData.Add(new AggroData(refPlayerManager.players[j], 0));
+                tmp.aggroData.Add(new AggroData(refPlayerManager.players[j], 1));
             }
         }
     }
@@ -280,7 +277,11 @@ public class EnemyManager : MonoBehaviour
             "Nicholas Picholas",
             "Scarred Jellybean",
             "The Food Machine",
-            "No Clue's Grandma"
+            "No Clue's Grandma",
+            "A Unity Primitive",
+            "Reluctant Game Tester",
+            "John Quoiby",
+            "Michael Aberdeen"
         };
         names = new List<string>(tmp);
     }

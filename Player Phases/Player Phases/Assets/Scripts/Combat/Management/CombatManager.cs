@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class CombatManager : MonoBehaviour
 {
@@ -9,12 +10,15 @@ public class CombatManager : MonoBehaviour
     private PhaseManager refPhaseManager;
 
     public OverworldEnemyController currentEnemy;
+    public CanvasGroup combatSpecificUI;
 
     void Start()
     {
         refCombatGrid = GetComponent<CombatGrid>();
         refCombatCamera = FindObjectOfType<SHTANKCamera>();
         refPhaseManager = FindObjectOfType<PhaseManager>();
+
+        combatSpecificUI.transform.DOLocalMoveY(-200, 0);
     }
 
     public void MyUpdate()
@@ -31,9 +35,11 @@ public class CombatManager : MonoBehaviour
 
         refCombatGrid.SpawnGrid(collisionPosition);
         refCombatCamera.InitiateCombatCamera();
-        refPhaseManager.InitiateCombat(initialPhase, collisionPosition);
+        refPhaseManager.InitiateCombat(initialPhase, collisionPosition, targetEnemy);
 
         currentEnemy = targetEnemy;
+
+        combatSpecificUI.transform.DOLocalMoveY(0, 0.25f);
     }
 
     public void DestroyCombatObjects(bool won)
@@ -45,5 +51,7 @@ public class CombatManager : MonoBehaviour
         {
             Destroy(currentEnemy.gameObject);
         }
+
+        combatSpecificUI.transform.DOLocalMoveY(-200, 0.25f);
     }
 }

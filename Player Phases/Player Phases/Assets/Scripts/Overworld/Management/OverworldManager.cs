@@ -38,6 +38,11 @@ public class OverworldManager : MonoBehaviour
 
         for (int i = 0; i < refEnemyControllers.Count; ++i)
         {
+            if (refEnemyControllers[i] == null)
+            {
+                refEnemyControllers.RemoveAt(i);
+                --i;
+            }
             refEnemyControllers[i].MyUpdate();
         }
     }

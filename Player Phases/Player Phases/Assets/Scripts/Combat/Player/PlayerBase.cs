@@ -28,16 +28,16 @@ public class PlayerBase : Character
     {
         if (selected)
         {
-            placeholderRenderer.material.color = Color.Lerp(Color.Lerp(Color.blue, Color.white, 0.5f), Color.blue, Mathf.Sin(Time.time * 10.0f));
+            placeholderRenderer.material.color = Color.Lerp(Color.Lerp(Color.white, Color.white * 0.5f, 0.5f), Color.white, Mathf.Sin(Time.time * 10.0f));
         }
         else
         {
-            placeholderRenderer.material.color = Color.blue;
+            placeholderRenderer.material.color = Color.white;
         }
 
         if (idle == true)
         {
-            placeholderRenderer.material.color = Color.Lerp(Color.blue, Color.black, 0.75f);
+            placeholderRenderer.material.color = Color.Lerp(Color.white, Color.white * 0.5f, 0.75f);
         }
     }
 

@@ -32,12 +32,19 @@ public class CombatGrid : MonoBehaviour
         Vector3 bottomLeft = Vector3.zero;
         if (yUp)
         {
-            bottomLeft = new Vector3(center.x - (gridWidth / 2.0f), center.y, center.z - (gridHeight / 2.0f));
+            bottomLeft = new Vector3(center.x - (gridWidth / 2.0f), 0, center.z - (gridHeight / 2.0f));
+            bottomLeft.x = Mathf.RoundToInt(bottomLeft.x);
+            bottomLeft.z = Mathf.RoundToInt(bottomLeft.z);
         }
         else
         {
             bottomLeft = new Vector3(center.x - (gridWidth / 2.0f), center.y - (gridHeight / 2.0f), center.z);
         }
+
+        // calculate offset and adjust the bottom left corner based on the grid overlapping with any empty space
+        Vector2 offset = GetCenterOffset(center);
+        bottomLeft += new Vector3(offset.x, 0.0f, offset.y);
+        Debug.Log("Offset was " + offset);
 
         // loop through to create all grid spaces
         for (int x = 0; x < gridWidth; ++x)
@@ -64,7 +71,7 @@ public class CombatGrid : MonoBehaviour
                     terrainType = GetTerrainTypeFromTag(hit.transform.tag);
                 }
 
-                float gridSpaceHeight = hit.transform != null ? hit.point.y + antiZFightBuffer : -0.55f;
+                float gridSpaceHeight = hit.transform != null ? hit.point.y : 0;
 
                 // create new Grid Space with associated Game Object and terrain type from scan
                 if (yUp)
@@ -112,6 +119,58 @@ public class CombatGrid : MonoBehaviour
                 }
             }
         }
+    }
+
+    private Vector2 GetCenterOffset(Vector3 center)
+    {
+        Vector2 offset = Vector2.zero;
+
+        // check right
+        offset.x -= CheckForVoid(center, gridWidth / 2, true, false);
+        // check left
+        offset.x += CheckForVoid(center, gridWidth / 2, true, true);
+
+        // check up
+        offset.y -= CheckForVoid(center, gridHeight / 2, false, false);
+        // check down
+        offset.y += CheckForVoid(center, gridHeight / 2, false, true);
+
+        if (offset.x < 0)
+        {
+            offset.x++;
+        }
+        if (offset.y < 0)
+        {
+            offset.y++;
+        }
+        return offset;
+    }
+
+    private int CheckForVoid(Vector3 center, float distance, bool horizontal, bool negative)
+    {
+        int counter = 0;
+
+        int hor = horizontal ? 1 : 0;
+        int ver = horizontal ? 0 : 1;
+
+        if (negative)
+        {
+            hor *= -1;
+            ver *= -1;
+        }
+
+        RaycastHit hit;
+
+        for (int i = 1; i < distance + 1; ++i)
+        {
+            Physics.Raycast(new Vector3(center.x + (i * hor), 100.0f, center.z + (i * ver)), Vector3.down, out hit, Mathf.Infinity, scannable);
+            if (hit.transform == null)
+            {
+                counter++;
+            }
+        }
+
+        return counter;
     }
 
     public void CleanGrid()

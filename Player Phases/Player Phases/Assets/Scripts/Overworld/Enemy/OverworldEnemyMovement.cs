@@ -24,6 +24,7 @@ public class OverworldEnemyMovement : MonoBehaviour
 
     [HideInInspector]
     public bool runningAI = false;
+    private Coroutine aiCoroutine;
 
     private void Start()
     {
@@ -46,7 +47,7 @@ public class OverworldEnemyMovement : MonoBehaviour
     {
         if (!runningAI)
         {
-            StartCoroutine(DoAI());
+            aiCoroutine = StartCoroutine(DoAI());
         }
 
         MoveShadow();
@@ -77,6 +78,7 @@ public class OverworldEnemyMovement : MonoBehaviour
                     if (Vector3.Distance(transform.position, skuttlebugHome) > maxDistanceFromHome)
                     {
                         state = OverworldEnemyState.fleeing;
+                        refRigidbody.velocity = Vector3.zero;
                         yield return new WaitForSecondsRealtime(1.0f);
                     }
 
@@ -85,7 +87,7 @@ public class OverworldEnemyMovement : MonoBehaviour
                 }
                 case OverworldEnemyState.fleeing:
                 {
-                    if (Vector3.Distance(transform.position, skuttlebugHome) < 0.5f)
+                    if (Vector3.Distance(new Vector3(transform.position.x, 0.0f, transform.position.z), new Vector3(skuttlebugHome.x, 0.0f, skuttlebugHome.z)) < 0.5f)
                     {
                         state = OverworldEnemyState.idling;
                     }
@@ -128,6 +130,15 @@ public class OverworldEnemyMovement : MonoBehaviour
     public void SetState(OverworldEnemyState newState)
     {
         state = newState;
+    }
+
+    public void StopAI()
+    {
+        if (aiCoroutine != null)
+        {
+            StopCoroutine(aiCoroutine);
+            runningAI = false;
+        }
     }
 }
 

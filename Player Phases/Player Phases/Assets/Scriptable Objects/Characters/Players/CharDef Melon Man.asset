@@ -19,7 +19,7 @@ MonoBehaviour:
   healthMax: 12
   attackMod: 0
   defenseMod: 1
-  nashbalm: 0
+  nashbalm: 1
   movementRange: 5
   moveset: {fileID: 11400000, guid: 641a4033d53756a43afe39f3b4b47225, type: 2}
   movementDialogue: {fileID: 11400000, guid: f8afd97d981b1c94c8763fc7da4fcf0f, type: 2}

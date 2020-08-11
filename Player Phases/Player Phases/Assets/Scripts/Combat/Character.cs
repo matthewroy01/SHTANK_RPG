@@ -6,7 +6,7 @@ using DG.Tweening;
 
 public class Character : MonoBehaviour
 {
-    public Renderer placeholderRenderer;
+    public SpriteRenderer placeholderRenderer;
 
     // stats
     /* ----------------------------------------------------------*/

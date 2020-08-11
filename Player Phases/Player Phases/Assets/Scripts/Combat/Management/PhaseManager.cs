@@ -46,14 +46,14 @@ public class PhaseManager : MonoBehaviour
     }
 
     // start combat by changing the current state to something other than "Null"
-    public void InitiateCombat(CombatPhase startingPhase, Vector3 collisionPoint)
+    public void InitiateCombat(CombatPhase startingPhase, Vector3 collisionPoint, OverworldEnemyController enemy)
     {
         // change the current phase
         // by allowing any starting phase, we can create scenarios where the player or the enemy can initate combat
         currentPhase = startingPhase;
 
         refPlayerManager.SpawnPlayers();
-        refEnemyManager.SpawnEnemies();
+        refEnemyManager.SpawnEnemies(enemy.toSpawn);
 
         StartCoroutine(PreCombatAnimation(collisionPoint));
     }

@@ -101,7 +101,7 @@ public class SHTANKManager : MonoBehaviour
             refCombatManager.InitiatePhase(CombatPhase.Player, position, targetEnemy);
             refOverworldManager.DisableOverworldObjects();
 
-            musicOverworld.volume = 0.0f;
+            musicOverworld.Pause();
             musicBattle.Play();
 
             combatDirection = (targetEnemy.transform.position - position).normalized;
@@ -124,7 +124,7 @@ public class SHTANKManager : MonoBehaviour
             refOverworldManager.EnableOverworldObjects();
             refCombatManager.DestroyCombatObjects(won);
 
-            musicOverworld.volume = 1.0f;
+            musicOverworld.Play();
             musicBattle.Stop();
         }
     }

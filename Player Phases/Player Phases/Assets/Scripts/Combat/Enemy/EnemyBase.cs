@@ -27,11 +27,11 @@ public class EnemyBase : Character
     {
         if (idle == true)
         {
-            placeholderRenderer.material.color = Color.Lerp(Color.red, Color.black, 0.75f);
+            placeholderRenderer.material.color = Color.Lerp(Color.white, Color.white * 0.5f, 0.75f);
         }
         else
         {
-            placeholderRenderer.material.color = Color.red;
+            placeholderRenderer.material.color = Color.white;
         }
     }
 
