@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
+using UnityEngine.EventSystems;
 
 public class CharacterSelector : MonoBehaviour
 {
@@ -12,6 +14,11 @@ public class CharacterSelector : MonoBehaviour
 
     [Header("Layer Masks for raycast collision from mouse")]
     public LayerMask layerMaskGrid;
+
+    [Header("Cursor")]
+    public GameObject cursor;
+    private Collider cursorSpace = null;
+    private Tweener cursorTween;
 
     // information to send to the Ability Processor
     private bool dirty = false;
@@ -106,6 +113,8 @@ public class CharacterSelector : MonoBehaviour
         {
             refContextSensitiveUI.UpdateContextSensitiveUI(stateMachine.currentState, refAbilityProcessor.GetAbility().ranged);
         }
+
+        ShowCursor();
     }
 
     private void ProcessState()
@@ -640,6 +649,37 @@ public class CharacterSelector : MonoBehaviour
         }
 
         stateMachine.TryUpdateConnection((int)SelectorState.doingNothing);
+    }
+
+    private void ShowCursor()
+    {
+        RaycastHit hit;
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit, float.MaxValue, layerMaskGrid))
+        {
+            if (hit.transform != null && hit.collider != cursorSpace)
+            {
+                cursorSpace = hit.collider;
+
+                cursor.transform.position = hit.transform.position + Vector3.up * 0.01f;
+
+                if (cursorTween != null)
+                {
+                    cursorTween.Kill();
+                }
+                cursor.transform.localScale = Vector3.one;
+                cursorTween = cursor.transform.DOPunchScale(Vector3.one * 0.25f, 0.1f, 0, 0.0f);
+                Debug.Log("New scale is " + cursor.transform.localScale);
+            }
+
+            cursor.transform.localScale = Vector3.Lerp(cursor.transform.localScale, Vector3.one + (Vector3.one * (Mathf.Sin(Time.time * 3.0f) * 0.1f)), 0.1f);
+        }
+        else
+        {
+            cursor.transform.localScale = Vector3.Lerp(cursor.transform.localScale, Vector3.zero, 0.1f);
+            cursorSpace = null;
+        }
     }
 
     public enum SelectorState

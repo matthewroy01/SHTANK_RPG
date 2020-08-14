@@ -11,6 +11,7 @@ public class CombatManager : MonoBehaviour
 
     public OverworldEnemyController currentEnemy;
     public CanvasGroup combatSpecificUI;
+    public ManagedAudio enterCombatAudio;
 
     void Start()
     {
@@ -32,6 +33,8 @@ public class CombatManager : MonoBehaviour
         {
             Debug.LogWarning("Combat Initiator: Initial Phase probably shouldn't be Null.");
         }
+
+        FindObjectOfType<UtilityAudioManager>().QueueSound(enterCombatAudio);
 
         refCombatGrid.SpawnGrid(collisionPosition);
         refCombatCamera.InitiateCombatCamera();

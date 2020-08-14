@@ -25,4 +25,6 @@ MonoBehaviour:
     value: 2
     probability: 0.9
     source: {fileID: 0}
+    trueDamage: 0
+    pierceDefense: 0
   radius: 0

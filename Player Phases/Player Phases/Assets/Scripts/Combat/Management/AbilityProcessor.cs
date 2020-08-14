@@ -532,16 +532,21 @@ public class AbilityProcessor : MonoBehaviour
     {
         if (savedAbility != null && savedPlayer != null)
         {
-            List<GridSpace_TerrainType> validTerrainTypes = new List<GridSpace_TerrainType>(savedPlayer.terrainTypes);
+            List<GridSpace_TerrainType> validTerrainTypes = new List<GridSpace_TerrainType>();
+            validTerrainTypes.AddRange(savedPlayer.terrainTypes);
 
             if (savedAbility.moveCharacter)
             {
-                validTerrainTypes = new List<GridSpace_TerrainType>(TerrainTypePresets.onlyStandard);
+                validTerrainTypes = new List<GridSpace_TerrainType>(savedPlayer.terrainTypes);
             }
             else if (savedAbility.ignoreWalls)
             {
                 validTerrainTypes.Add(GridSpace_TerrainType.wall);
                 validTerrainTypes.Add(GridSpace_TerrainType.wall_artificial);
+            }
+            else
+            {
+                validTerrainTypes = new List<GridSpace_TerrainType>(TerrainTypePresets.all);
             }
 
             return validTerrainTypes;
