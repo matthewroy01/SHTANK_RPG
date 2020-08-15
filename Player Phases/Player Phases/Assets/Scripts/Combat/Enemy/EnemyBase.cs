@@ -132,80 +132,102 @@ public class EnemyBase : Character
 
     public GridSpace ProcessAggro()
     {
-        List<AggroData> aggroCandidates = new List<AggroData>();
+        GridSpace result = null;
 
-        // valid aggro candidates are either in range or have built up some kind of aggro
-        for (int i = 0; i < aggroData.Count; ++i)
+        while (result == null)
         {
-            // remove any player characters that have died
-            if (aggroData[i].character == null || aggroData[i].character.GetDead() == true)
+            List<AggroData> aggroCandidatesHighest = new List<AggroData>();
+            int highestAggro = int.MinValue;
+
+            // first find the characters with the highest aggro values
+            for (int i = 0; i < aggroData.Count; ++i)
             {
-                aggroData.RemoveAt(i);
-                --i;
-                break;
+                if (aggroData[i].aggro > highestAggro)
+                {
+                    aggroCandidatesHighest.Clear();
+                    aggroCandidatesHighest.Add(aggroData[i]);
+                    highestAggro = aggroData[i].aggro;
+                }
+                else if (aggroData[i].aggro == highestAggro)
+                {
+                    aggroCandidatesHighest.Add(aggroData[i]);
+                }
             }
 
-            if (aggroData[i].aggro > 0 || refCombatGrid.GetDistance(myGridSpace, aggroData[i].character.myGridSpace) <= movementRangeCurrent)
+            // if only one character has the highest aggro, this is our target
+            if (aggroCandidatesHighest.Count == 1)
             {
-                aggroCandidates.Add(aggroData[i]);
+                result = aggroCandidatesHighest[0].character.myGridSpace;
+                return result;
+            }
+
+            // next, look for characters in range
+            List<AggroData> aggroCandidatesInRange = new List<AggroData>();
+            List<GridSpace> attackSpaces = refCombatGrid.GetBreadthFirst(myGridSpace, movementRangeCurrent + 1, terrainTypes, Character_Affiliation.none);
+            for (int i = 0; i < aggroCandidatesHighest.Count; ++i)
+            {
+                for (int j = 0; j < attackSpaces.Count; ++j)
+                {
+                    if (aggroCandidatesHighest[i].character == attackSpaces[j].character)
+                    {
+                        aggroCandidatesInRange.Add(aggroCandidatesHighest[i]);
+                    }
+                }
+            }
+
+            // if only one character is in range, this is our target
+            if (aggroCandidatesInRange.Count == 1)
+            {
+                result = aggroCandidatesInRange[0].character.myGridSpace;
+                return result;
+            }
+            // if no characters were in range, look for the character with the lowest bulk and we'll move towards them
+            else if (aggroCandidatesInRange.Count == 0)
+            {
+                result = GetTargetWithLowestBulk(aggroData);
+                return result;
+            }
+            // if multiple characters were in range, the one with the lowest bulk is our target
+            else
+            {
+                result = GetTargetWithLowestBulk(aggroCandidatesInRange);
+                return result;
             }
         }
 
-        // if there are no valid aggro candidates, simply don't move
-        if (aggroCandidates.Count == 0)
-        {
-            return myGridSpace;
-        }
+        return result;
+    }
 
-        List<AggroData> highestAggro = new List<AggroData>();
-        highestAggro.Add(aggroCandidates[0]);
+    private GridSpace GetTargetWithLowestBulk(List<AggroData> list)
+    {
+        List<AggroData> aggroCandidatesLowestBulk = new List<AggroData>();
+        int lowestBulk = int.MaxValue;
 
-        // find the aggro data with the highest aggro value
-        for(int i = 0; i < aggroCandidates.Count; ++i)
+        // find the characters with the lowest bulk
+        for (int i = 0; i < list.Count; ++i)
         {
-            // if a new highest aggro is found, clear the list and add the new character
-            if (aggroCandidates[i].aggro > highestAggro[0].aggro)
+            if (list[i].character.healthCurrent + list[i].character.defenseMod < lowestBulk)
             {
-                highestAggro.Clear();
-                highestAggro.Add(aggroCandidates[i]);
+                aggroCandidatesLowestBulk.Clear();
+                aggroCandidatesLowestBulk.Add(aggroData[i]);
+                lowestBulk = list[i].character.healthCurrent + list[i].character.defenseMod;
             }
-            // if the aggros are equal, add it to the list as well
-            else if (aggroCandidates[i].aggro == highestAggro[0].aggro && !highestAggro.Contains(aggroCandidates[i]))
+            else if (list[i].character.healthCurrent + list[i].character.defenseMod == lowestBulk)
             {
-                highestAggro.Add(aggroCandidates[i]);
+                aggroCandidatesLowestBulk.Add(aggroData[i]);
             }
         }
 
-        // if only one was found, return the corresponding grid space
-        if (highestAggro.Count == 1)
+        // if only one character had the lowest bulk, this is our target
+        if (aggroCandidatesLowestBulk.Count == 0)
         {
-            return highestAggro[0].character.myGridSpace;
+            return aggroCandidatesLowestBulk[0].character.myGridSpace;
         }
-
-        // if more than one was found, look for the character with the lowest overall bulk
-        List<AggroData> weakest = new List<AggroData>();
-        int bulkLowest = int.MaxValue;
-
-        for (int i = 0; i < highestAggro.Count; ++i)
+        // otherwise randomly select one
+        else
         {
-            int bulkNew = highestAggro[i].character.healthCurrent + highestAggro[i].character.defenseMod;
-
-            // if a new lowest bulk is found, clear the list and add the new character
-            if (bulkNew < bulkLowest)
-            {
-                weakest.Clear();
-                bulkLowest = bulkNew;
-                weakest.Add(highestAggro[i]);
-            }
-            // if the bulks are equal, add it to the list as well
-            else if (bulkNew == bulkLowest)
-            {
-                weakest.Add(highestAggro[i]);
-            }
+            return aggroCandidatesLowestBulk[Random.Range(0, aggroCandidatesLowestBulk.Count)].character.myGridSpace;
         }
-
-        // at this point if bulks are the same, pick one at random
-        return weakest[Random.Range(0, weakest.Count)].character.myGridSpace;
     }
 
     public void ApplyAggro(Character source, int amount)
@@ -228,6 +250,19 @@ public class EnemyBase : Character
                 }
             }
         }
+    }
+
+    private AggroData GetAggroCandidateFromList(Character c)
+    {
+        for (int i = 0; i < aggroData.Count; ++i)
+        {
+            if (aggroData[i].character == c)
+            {
+                return aggroData[i];
+            }
+        }
+
+        return null;
     }
 
     IEnumerator MoveAlongPath(List<GridSpace> path)
@@ -321,5 +356,14 @@ public class AggroData
     {
         character = newCharacter;
         aggro = value;
+    }
+
+    public bool Contains(Character c)
+    {
+        if (character == c)
+        {
+            return true;
+        }
+        return false;
     }
 }
