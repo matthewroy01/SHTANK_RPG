@@ -15,6 +15,7 @@ public class SHTANKCamera : MonoBehaviour
 
     [Header("Combat Camera Movement")]
     public Transform cameraTargetCombat;
+    public Vector3 initialOffset;
     [Range(0.0f, 1.0f)]
     public float moveSpeed;
     [Range(0.0f, 1.0f)]
@@ -39,7 +40,6 @@ public class SHTANKCamera : MonoBehaviour
     private EnemyManager refEnemyManager;
     private PlayerManager refPlayerManager;
     private CombatGrid refCombatGrid;
-
     private Vector3 defaultPosition;
 
     void Start()
@@ -186,17 +186,17 @@ public class SHTANKCamera : MonoBehaviour
         {
             case CombatCameraCenterMode.centerOnCharacters:
             {
-                defaultPosition = CalcPosCenteredOnCharacters();
+                defaultPosition = CalcPosCenteredOnCharacters() + initialOffset;
                 break;
             }
             case CombatCameraCenterMode.centerOnGrid:
             {
-                defaultPosition = CalcPosCenteredOnGrid();
+                defaultPosition = CalcPosCenteredOnGrid() + initialOffset;
                 break;
             }
             case CombatCameraCenterMode.maintainPosition:
             {
-                defaultPosition = cameraTargetCombat.position;
+                defaultPosition = cameraTargetCombat.position + initialOffset;
                 break;
             }
         }
@@ -224,7 +224,7 @@ public class SHTANKCamera : MonoBehaviour
         avgX /= refEnemyManager.enemies.Count + refPlayerManager.players.Count;
         avgZ /= refEnemyManager.enemies.Count + refPlayerManager.players.Count;
 
-        return new Vector3(avgX, transform.position.y, avgZ);
+        return new Vector3(avgX, cameraTargetCombat.position.y, avgZ);
     }
 
     private Vector3 CalcPosCenteredOnGrid()
@@ -234,7 +234,7 @@ public class SHTANKCamera : MonoBehaviour
         corner1 = refCombatGrid.grid[0, 0].obj.transform.position;
         corner2 = refCombatGrid.grid[refCombatGrid.gridWidth - 1, refCombatGrid.gridHeight - 1].obj.transform.position;
 
-        return new Vector3((corner1.x + corner2.x) / 2.0f, transform.position.y, (corner1.z + corner2.z) / 2.0f);
+        return new Vector3((corner1.x + corner2.x) / 2.0f, cameraTargetCombat.position.y, (corner1.z + corner2.z) / 2.0f);
     }
 
     public enum CombatCameraCenterMode { centerOnGrid, centerOnCharacters, maintainPosition};

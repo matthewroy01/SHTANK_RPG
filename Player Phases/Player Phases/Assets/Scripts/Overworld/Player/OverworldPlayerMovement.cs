@@ -16,6 +16,7 @@ public class OverworldPlayerMovement : MonoBehaviour
     public bool grounded;
     public Transform groundCheck;
     public LayerMask groundLayerMask;
+    public ManagedAudio jumpAudio;
 
     [Header("Artificial Gravity")]
     public float gravityMultiplier;
@@ -26,12 +27,25 @@ public class OverworldPlayerMovement : MonoBehaviour
     [HideInInspector]
     public Rigidbody refRigidbody;
 
+    private OverworldPlayerController controller;
+
     private void Start()
     {
+        if (!TryGetComponent(out controller))
+        {
+            Debug.LogError("OverworldPlayerMovement could not find component OverworldPlayerController.");
+        }
+
         if (!TryGetComponent(out refRigidbody))
         {
             Debug.LogError("OverworldPlayerMovement could not find component Rigidbody.");
         }
+    }
+
+    private void Update()
+    {
+        // move cartoon shadow
+        MoveShadow();
     }
 
     public void MyUpdate()
@@ -46,9 +60,6 @@ public class OverworldPlayerMovement : MonoBehaviour
 
         // artificial gravity
         ApplyArtificalGravity();
-
-        // move cartoon shadow
-        MoveShadow();
     }
 
     private void GetAxes()
@@ -73,6 +84,8 @@ public class OverworldPlayerMovement : MonoBehaviour
         if (grounded && Input.GetKeyDown(KeyCode.Space))
         {
             refRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+
+            controller.refAudioManager.QueueSound(jumpAudio);
         }
     }
 

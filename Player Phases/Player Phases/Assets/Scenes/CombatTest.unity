@@ -1654,7 +1654,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 245784170}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 1.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 963194228}
@@ -5331,12 +5331,12 @@ GameObject:
   - component: {fileID: 772481295}
   - component: {fileID: 772481294}
   m_Layer: 0
-  m_Name: Battle Theme - Paper Mario The Thousand-Year Door
+  m_Name: Battle Music
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!82 &772481294
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5347,10 +5347,10 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: bf92b23edf443194787b96eed2bac71f, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 3a929057491a07d4da79e9aefc691e93, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 0.5
-  m_Pitch: 1
+  m_Volume: 1
+  m_Pitch: 1.2
   Loop: 1
   Mute: 0
   Spatialize: 0
@@ -6991,6 +6991,7 @@ MonoBehaviour:
   functionRegardlessOfState: 0
   cameraTargetOverworld: {fileID: 854649049}
   cameraTargetCombat: {fileID: 245784171}
+  initialOffset: {x: -2, y: 0, z: 0}
   moveSpeed: 0.15
   edgeSensitivity: 0.05
   smoothing: 0.5
@@ -7545,6 +7546,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicOverworld: {fileID: 1757646403}
   musicBattle: {fileID: 772481294}
+  debugDialogueStart: {fileID: 11400000, guid: a3971e50096f704498b54d6b044892ae, type: 2}
+  debugDialogueEnd: {fileID: 11400000, guid: aab4e20d0d7a51544a0d5ac0c80b2c28, type: 2}
 --- !u!1 &1023534199
 GameObject:
   m_ObjectHideFlags: 0
@@ -10253,7 +10256,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1495870367
 Transform:
   m_ObjectHideFlags: 0
@@ -11723,6 +11726,7 @@ GameObject:
   - component: {fileID: 1733401392}
   - component: {fileID: 1733401393}
   - component: {fileID: 1733401394}
+  - component: {fileID: 1733401395}
   m_Layer: 0
   m_Name: Combat Manager
   m_TagString: Untagged
@@ -11762,9 +11766,9 @@ MonoBehaviour:
   combatSpecificUI: {fileID: 590022764}
   enterCombatAudio:
     clip: {fileID: 0}
-    volume: 0
+    volume: 0.5
     pitch: 0
-    randomPitchMinMax: {x: 0, y: 0}
+    randomPitchMinMax: {x: 1.5, y: 1.5}
 --- !u!114 &1733401389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11835,6 +11839,16 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   cursor: {fileID: 1997820154}
+  audioSelect:
+    clip: {fileID: 8300000, guid: 7309c41e8d53c404a9c613e9cdadeee6, type: 3}
+    volume: 1
+    pitch: 0
+    randomPitchMinMax: {x: 0.9, y: 1.1}
+  audioDeselect:
+    clip: {fileID: 8300000, guid: c784eedbb4fdaba47b14749b3dc4912a, type: 3}
+    volume: 0.25
+    pitch: 0
+    randomPitchMinMax: {x: 0.9, y: 1.1}
 --- !u!114 &1733401393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11860,6 +11874,102 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 762004897}
+--- !u!82 &1733401395
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733401386}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1757646402
 GameObject:
   m_ObjectHideFlags: 0
@@ -11871,12 +11981,12 @@ GameObject:
   - component: {fileID: 1757646404}
   - component: {fileID: 1757646403}
   m_Layer: 0
-  m_Name: Petal Meadows - Paper Mario The Thousand-Year Door
+  m_Name: Overworld Music
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!82 &1757646403
 AudioSource:
   m_ObjectHideFlags: 0
@@ -11887,9 +11997,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: adab4af0a9831dd45b5ff81b5f0aba77, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 9acdfc59a14b2d74f8e38f72b47a9ddd, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
+  m_Volume: 1
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -13321,6 +13431,11 @@ MonoBehaviour:
   groundLayerMask:
     serializedVersion: 2
     m_Bits: 1024
+  jumpAudio:
+    clip: {fileID: 8300000, guid: 1a91429b963807b4e9f1f2216126a1c7, type: 3}
+    volume: 1
+    pitch: 0
+    randomPitchMinMax: {x: 0.9, y: 1.1}
   gravityMultiplier: 5
   shadow: {fileID: 874670846}
   refRigidbody: {fileID: 0}
@@ -13352,6 +13467,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   refMovement: {fileID: 0}
   refAnimation: {fileID: 0}
+  refAudioManager: {fileID: 0}
 --- !u!114 &1999858493
 MonoBehaviour:
   m_ObjectHideFlags: 0

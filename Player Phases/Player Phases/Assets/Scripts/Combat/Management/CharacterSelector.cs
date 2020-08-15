@@ -20,6 +20,10 @@ public class CharacterSelector : MonoBehaviour
     private Collider cursorSpace = null;
     private Tweener cursorTween;
 
+    [Header("Sounds")]
+    public ManagedAudio audioSelect;
+    public ManagedAudio audioDeselect;
+
     // information to send to the Ability Processor
     private bool dirty = false;
     private int selectedAbilityNum = 0;
@@ -34,6 +38,7 @@ public class CharacterSelector : MonoBehaviour
     private CharacterUI refCharacterUI;
     private ContextSensitiveUI refContextSensitiveUI;
     private PhaseManager refPhaseManager;
+    private UtilityAudioManager refAudioManager;
 
     System.Tuple<KeyCode, CombatDirection>[] keysAndDirections = {
             new System.Tuple<KeyCode, CombatDirection>(KeyCode.W, CombatDirection.up),
@@ -87,6 +92,7 @@ public class CharacterSelector : MonoBehaviour
         refCharacterUI = FindObjectOfType<CharacterUI>();
         refContextSensitiveUI = FindObjectOfType<ContextSensitiveUI>();
         refPhaseManager = FindObjectOfType<PhaseManager>();
+        refAudioManager = FindObjectOfType<UtilityAudioManager>();
 
         refCharacterUI.ToggleUI(false);
     }
@@ -231,6 +237,9 @@ public class CharacterSelector : MonoBehaviour
 
                     // update the state machine
                     stateMachine.TryUpdateConnection((int)SelectorState.playerSelected);
+
+                    // play sound
+                    refAudioManager.QueueSound(audioSelect);
                 }
             }
         }
@@ -246,6 +255,8 @@ public class CharacterSelector : MonoBehaviour
             refCharacterUI.ToggleUI(false);
 
             stateMachine.TryUpdateConnection((int)SelectorState.doingNothing);
+
+            refAudioManager.QueueSound(audioDeselect);
         }
     }
 
@@ -314,6 +325,8 @@ public class CharacterSelector : MonoBehaviour
             tmpGridSpace.character = null;
 
             stateMachine.TryUpdateConnection((int)SelectorState.playerSelected);
+
+            refAudioManager.QueueSound(audioDeselect);
         }
     }
 
@@ -356,6 +369,8 @@ public class CharacterSelector : MonoBehaviour
             refCharacterUI.SetSelectedAbilityColor(selectedAbilityNum);
 
             dirty = true;
+
+            refAudioManager.QueueSound(audioSelect);
         }
     }
 
@@ -396,6 +411,8 @@ public class CharacterSelector : MonoBehaviour
             refCharacterUI.SetSelectedAbilityColor(selectedAbilityNum);
 
             refAbilityProcessor.UpdateAbilityForecast();
+
+            refAudioManager.QueueSound(audioDeselect);
         }
     }
 

@@ -470,9 +470,9 @@ public class CharacterUI : MonoBehaviour
 
     private bool CheckMouseOver(Vector2 mousePos, AbilityUI abilityUI)
     {
-        if (abilityUI1.gameObject.activeInHierarchy)
+        if (abilityUI.gameObject.activeInHierarchy)
         {
-            if (RectTransformUtility.RectangleContainsScreenPoint(abilityUI1.imageOverlay.rectTransform, mousePos))
+            if (RectTransformUtility.RectangleContainsScreenPoint(abilityUI.imageOverlay.rectTransform, mousePos))
             {
                 return true;
             }

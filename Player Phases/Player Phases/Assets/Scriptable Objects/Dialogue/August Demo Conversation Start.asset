@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80f9051fe9d6fd0409d1b2955be8831e, type: 3}
-  m_Name: August Demo Conversation
+  m_Name: August Demo Conversation Start
   m_EditorClassIdentifier: 
   sentences:
   - speaker: {fileID: 11400000, guid: 233067af1a30b4a4384896decd4c902e, type: 2}

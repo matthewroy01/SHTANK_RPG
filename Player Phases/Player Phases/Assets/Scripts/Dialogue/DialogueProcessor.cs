@@ -23,8 +23,6 @@ public class DialogueProcessor : MonoBehaviour
     public GameObject backgroundLeft;
     public Image portraitLeft;
 
-    private DialogueDefinition dialogue;
-
     private TextMeshProUGUI currentBody;
     private TextMeshProUGUI currentName;
     private Image currentPortrait;
@@ -46,9 +44,7 @@ public class DialogueProcessor : MonoBehaviour
 
         if (debugDefinition != null)
         {
-            dialogue = debugDefinition;
-
-            Display();
+            Display(debugDefinition);
         }
     }
 
@@ -60,11 +56,11 @@ public class DialogueProcessor : MonoBehaviour
         }
     }
 
-    public void Display()
+    public void Display(DialogueDefinition newDialogue)
     {
         StopAllCoroutines();
 
-        StartCoroutine(WriteText(dialogue));
+        StartCoroutine(WriteText(newDialogue));
     }
 
     private IEnumerator WriteText(DialogueDefinition dialogue)
@@ -154,6 +150,8 @@ public class DialogueProcessor : MonoBehaviour
                 Clear();
             }
         }
+
+        FindObjectOfType<SHTANKManager>().TryEndDialogue();
     }
 
     public void Clear()

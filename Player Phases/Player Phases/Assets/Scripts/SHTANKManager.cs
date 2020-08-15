@@ -8,6 +8,7 @@ public class SHTANKManager : MonoBehaviour
 
     private OverworldManager refOverworldManager;
     private CombatManager refCombatManager;
+    private DialogueProcessor refDialogueProcessor;
 
     private SHTANKCamera refSHTANKCamera;
 
@@ -17,6 +18,9 @@ public class SHTANKManager : MonoBehaviour
     private Vector2 combatDirection;
 
     private Coroutine ignoreCollisionCoroutine;
+
+    public DialogueDefinition debugDialogueStart;
+    public DialogueDefinition debugDialogueEnd;
 
     private void Awake()
     {
@@ -30,7 +34,9 @@ public class SHTANKManager : MonoBehaviour
 
             // overworld and combat
             new StateMachineConnection((int)GameState.overworld, (int)GameState.combat),
-            new StateMachineConnection((int)GameState.combat, (int)GameState.overworld)
+            new StateMachineConnection((int)GameState.combat, (int)GameState.overworld),
+            new StateMachineConnection((int)GameState.overworld, (int)GameState.dialogue),
+            new StateMachineConnection((int)GameState.dialogue, (int)GameState.overworld)
         );
     }
 
@@ -38,8 +44,13 @@ public class SHTANKManager : MonoBehaviour
     {
         refOverworldManager = FindObjectOfType<OverworldManager>();
         refCombatManager = FindObjectOfType<CombatManager>();
-
+        
         refSHTANKCamera = FindObjectOfType<SHTANKCamera>();
+
+        refDialogueProcessor = FindObjectOfType<DialogueProcessor>();
+
+        stateMachine.TryUpdateConnection((int)GameState.dialogue);
+        refDialogueProcessor.Display(debugDialogueStart);
     }
 
     void Update()
@@ -61,6 +72,17 @@ public class SHTANKManager : MonoBehaviour
                 // run overworld behaviour
                 refOverworldManager.MyUpdate();
 
+                if (debugDialogueEnd != null)
+                {
+                    OverworldEnemyController[] tmp = FindObjectsOfType<OverworldEnemyController>();
+                    if (tmp.Length == 0)
+                    {
+                        stateMachine.TryUpdateConnection((int)GameState.dialogue);
+                        refDialogueProcessor.Display(debugDialogueEnd);
+                        debugDialogueEnd = null;
+                    }
+                }
+
                 break;
             }
             case (int)GameState.combat:
@@ -68,6 +90,11 @@ public class SHTANKManager : MonoBehaviour
                 // run combat behaviour
                 refCombatManager.MyUpdate();
 
+                break;
+            }
+            case (int)GameState.dialogue:
+            {
+                // do nothing, lol
                 break;
             }
         }
@@ -89,6 +116,12 @@ public class SHTANKManager : MonoBehaviour
                 // use combat camera functionality
                 refSHTANKCamera.CameraFunctionalityCombat();
 
+                break;
+            }
+            case (int)GameState.dialogue:
+            {
+                // use overworld camera functionality
+                refSHTANKCamera.CameraFunctionalityOverworld();
                 break;
             }
         }
@@ -129,6 +162,11 @@ public class SHTANKManager : MonoBehaviour
         }
     }
 
+    public void TryEndDialogue()
+    {
+        stateMachine.TryUpdateConnection((int)GameState.overworld);
+    }
+
     public IEnumerator IgnorePlayerEnemyCollision()
     {
         Physics.IgnoreLayerCollision(11, 12, true);
@@ -141,6 +179,7 @@ public class SHTANKManager : MonoBehaviour
     public enum GameState
     {
         overworld = 0,
-        combat = 1
+        combat = 1,
+        dialogue = 2
     }
 }

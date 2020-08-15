@@ -9,6 +9,9 @@ public class OverworldPlayerController : MonoBehaviour
     [HideInInspector]
     public OverworldPlayerAnimation refAnimation;
 
+    [HideInInspector]
+    public UtilityAudioManager refAudioManager;
+
     private void Start()
     {
         if (!TryGetComponent(out refMovement))
@@ -20,6 +23,8 @@ public class OverworldPlayerController : MonoBehaviour
         {
             Debug.LogError("OverworldPlayerController could not find component OverworldPlayerAnimation.");
         }
+
+        refAudioManager = FindObjectOfType<UtilityAudioManager>();
     }
 
     public void MyUpdate()

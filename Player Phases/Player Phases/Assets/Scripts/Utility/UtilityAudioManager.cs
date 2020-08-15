@@ -61,7 +61,7 @@ public class UtilityAudioManager : MonoBehaviour
             }
         }
 
-        newAudio.pitch = Random.Range(Mathf.Clamp(newAudio.randomPitchMinMax.x, 0.0f, 1.0f), Mathf.Clamp(newAudio.randomPitchMinMax.y, 0.0f, 1.0f));
+        newAudio.pitch = Random.Range(Mathf.Clamp(newAudio.randomPitchMinMax.x, -3.0f, 3.0f), Mathf.Clamp(newAudio.randomPitchMinMax.y, -3.0f, 3.0f));
         queuedUpAudio.Add(newAudio);
     }
 
