@@ -202,7 +202,7 @@ public class CharacterSelector : MonoBehaviour
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Input.GetMouseButtonDown(0) && Physics.Raycast(ray, out hit))
+        if (Input.GetMouseButtonDown(0) && Physics.Raycast(ray, out hit) && refCharacterUI.GetMouseIsntOverButton())
         {
             if (hit.transform)
             {
@@ -256,7 +256,7 @@ public class CharacterSelector : MonoBehaviour
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Input.GetMouseButton(0) && Physics.Raycast(ray, out hit, layerMaskGrid))
+        if (Input.GetMouseButton(0) && Physics.Raycast(ray, out hit, layerMaskGrid) && refCharacterUI.GetMouseIsntOverButton())
         {
             if (hit.transform != null)
             {
@@ -409,7 +409,7 @@ public class CharacterSelector : MonoBehaviour
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            if (Input.GetMouseButton(0) && Physics.Raycast(ray, out hit, float.MaxValue, layerMaskGrid))
+            if (Input.GetMouseButton(0) && Physics.Raycast(ray, out hit, float.MaxValue, layerMaskGrid) && refCharacterUI.GetMouseIsntOverButton())
             {
                 Character tmp = null;
 
@@ -581,7 +581,7 @@ public class CharacterSelector : MonoBehaviour
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Physics.Raycast(ray, out hit, layerMaskGrid) && !Input.GetMouseButton(0))
+        if (Physics.Raycast(ray, out hit, layerMaskGrid) && !Input.GetMouseButton(0) && refCharacterUI.GetMouseIsntOverButton())
         {
             EnemyBase tmpEnemy;
 

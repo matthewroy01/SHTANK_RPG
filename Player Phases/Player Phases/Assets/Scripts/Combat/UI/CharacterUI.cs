@@ -440,4 +440,44 @@ public class CharacterUI : MonoBehaviour
             }
         }
     }
+
+    public bool GetMouseIsntOverButton()
+    {
+        Vector2 mousePos = Input.mousePosition;
+
+        if (CheckMouseOver(mousePos, abilityUI1))
+        {
+            return false;
+        }
+
+        if (CheckMouseOver(mousePos, abilityUI2))
+        {
+            return false;
+        }
+
+        if (CheckMouseOver(mousePos, abilityUI3))
+        {
+            return false;
+        }
+
+        if (CheckMouseOver(mousePos, abilityUI4))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    private bool CheckMouseOver(Vector2 mousePos, AbilityUI abilityUI)
+    {
+        if (abilityUI1.gameObject.activeInHierarchy)
+        {
+            if (RectTransformUtility.RectangleContainsScreenPoint(abilityUI1.imageOverlay.rectTransform, mousePos))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
