@@ -90,7 +90,8 @@ public class Character : MonoBehaviour
                     {
                         int modValue = effect.value;
 
-                        // calculate attack modifiers
+                        modValue = GetTrueDamage(effect.value, effect);
+                        /*// calculate attack modifiers
                         if (!effect.trueDamage)
                         {
                             // apply attack mod
@@ -121,7 +122,7 @@ public class Character : MonoBehaviour
                             {
                                 modValue = passive.GetDefenseBoost(modValue);
                             }
-                        }
+                        }*/
 
                         // check nashblam for counterattacks
                         if (counterable && Random.Range(0.0f, 100.0f) <= nashbalm)
@@ -166,12 +167,17 @@ public class Character : MonoBehaviour
                             effect.source.SendEvent(PassiveEventID.dealDamage);
                         }
 
-                        transform.DOPunchPosition((transform.position - effect.source.transform.position).normalized * 0.5f, 0.25f, 0, 0);
+                        // don't tween against a counterattack since we're probably already in the middle of a tween
+                        if (counterable)
+                        {
+                            transform.DOPunchPosition((transform.position - effect.source.transform.position).normalized * 0.5f, 0.25f, 0, 0);
+                        }
 
                         // if 0 damage was dealt, apply a special "no damage" effect, otherwise use the given effect
                         if (modValue > 0)
                         {
-                            refCharacterEffectUI.AddEffect(new Effect(Effect_ID.damage, modValue));
+                            // we pass in the effect's value instead of the modifed value since the EffectUI script recalculates the true damage (because true damage also has to be calculated for the Ability Forecast)
+                            refCharacterEffectUI.AddEffect(new Effect(Effect_ID.damage, effect.value, effect.source));
                         }
                         else
                         {
@@ -366,5 +372,34 @@ public class Character : MonoBehaviour
         {
             passive.ReceiveEvent<T>(id, param);
         }
+    }
+
+    public int GetTrueDamage(int baseDamage, Effect effect)
+    {
+        int trueDamage = baseDamage;
+
+        // add damage modifiers from the source of the damage
+        if (!effect.trueDamage)
+        {
+            trueDamage += effect.source.attackMod;
+
+            if (effect.source.passive != null)
+            {
+                trueDamage = effect.source.passive.GetAttackBoost(trueDamage);
+            }
+        }
+
+        // add our defense modifiers
+        if (!effect.pierceDefense)
+        {
+            trueDamage -= defenseMod;
+
+            if (passive != null)
+            {
+                trueDamage = passive.GetDefenseBoost(trueDamage);
+            }
+        }
+
+        return trueDamage;
     }
 }

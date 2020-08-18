@@ -391,6 +391,16 @@ public class CharacterUI : MonoBehaviour
             effects += "ignores Def Mod";
         }
 
+        if (abil.effects[0].probability < 1.0f)
+        {
+            if (effects != "")
+            {
+                effects += ", ";
+            }
+
+            effects += "can miss";
+        }
+
         return effects;
     }
 

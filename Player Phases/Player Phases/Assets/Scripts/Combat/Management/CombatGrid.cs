@@ -373,8 +373,37 @@ public class CombatGrid : MonoBehaviour
         }
     }
 
-    public List<GridSpace> GetAStar(CombatGrid refCombatGrid, GridSpace start, GridSpace target, Character subject, bool includeTarget)
+    public List<GridSpace> GetBorder(List<GridSpace> area)
     {
+        List<GridSpace> result = new List<GridSpace>();
+
+        for (int i = 0; i < area.Count; ++i)
+        {
+            AddToBorder(result, area[i].up, area);
+            AddToBorder(result, area[i].down, area);
+            AddToBorder(result, area[i].left, area);
+            AddToBorder(result, area[i].right, area);
+        }
+
+        return result;
+    }
+
+    private void AddToBorder(List<GridSpace> toAddTo, GridSpace toAdd, List<GridSpace> source)
+    {
+        if (toAdd != null && !source.Contains(toAdd) && !toAddTo.Contains(toAdd))
+        {
+            toAddTo.Add(toAdd);
+        }
+    }
+
+    public List<GridSpace> GetAStar(CombatGrid refCombatGrid, GridSpace start, GridSpace target, Character subject, bool includeTarget, List<GridSpace_TerrainType> terrainTypeOverride = null)
+    {
+        List<GridSpace_TerrainType> terrainTypes = subject.terrainTypes;
+        if (terrainTypeOverride != null)
+        {
+            terrainTypes = terrainTypeOverride;
+        }
+
         AStarInitializeCosts(refCombatGrid.grid, start, target);
 
         // store all nodes where F cost has been calculated
@@ -421,17 +450,17 @@ public class CombatGrid : MonoBehaviour
             }
 
             // check all neighbors
-            AStarCheckNeighborNode(open, closed, current, start, target, subject, current.up);
-            AStarCheckNeighborNode(open, closed, current, start, target, subject, current.down);
-            AStarCheckNeighborNode(open, closed, current, start, target, subject, current.left);
-            AStarCheckNeighborNode(open, closed, current, start, target, subject, current.right);
+            AStarCheckNeighborNode(open, closed, current, start, target, terrainTypes, current.up);
+            AStarCheckNeighborNode(open, closed, current, start, target, terrainTypes, current.down);
+            AStarCheckNeighborNode(open, closed, current, start, target, terrainTypes, current.left);
+            AStarCheckNeighborNode(open, closed, current, start, target, terrainTypes, current.right);
         }
 
         Debug.LogError("CombatGrid, GetAStar, current node never reached the target, returning empty path.");
         return result;
     }
 
-    private void AStarCheckNeighborNode(List<GridSpace> open, List<GridSpace> closed, GridSpace current, GridSpace start, GridSpace target, Character subject, GridSpace neighbor)
+    private void AStarCheckNeighborNode(List<GridSpace> open, List<GridSpace> closed, GridSpace current, GridSpace start, GridSpace target, List<GridSpace_TerrainType> terrainTypes, GridSpace neighbor)
     {
         // check if the neighbor is null for safety (we don't want to check a space that is off of the grid)
         if (neighbor != null)
@@ -439,7 +468,7 @@ public class CombatGrid : MonoBehaviour
             if (neighbor != start)
             {
                 // skip the node if it is closed or it is not traversable
-                if (!subject.terrainTypes.Contains(neighbor.GetTerrainType()) || closed.Contains(neighbor) /*|| (neighbor.character != null && subject.affiliation != neighbor.character.affiliation)*/)
+                if (!terrainTypes.Contains(neighbor.GetTerrainType()) || closed.Contains(neighbor) /*|| (neighbor.character != null && subject.affiliation != neighbor.character.affiliation)*/)
                 {
                     return;
                 }
@@ -724,6 +753,15 @@ public class Effect
         id = effect_id;
         value = val;
         probability = 1.0f;
+    }
+
+    // alternate constructor with probability set to 1 by default and the option to set the source
+    public Effect(Effect_ID effect_id, int val, Character newSource)
+    {
+        id = effect_id;
+        value = val;
+        probability = 1.0f;
+        source = newSource;
     }
 
     // alternate constructor for counterattacks where the source is changed

@@ -83,7 +83,7 @@ public class EnemyBase : Character
             GridSpace adjacent = (GridSpace)center.GetType().GetField(directions[i]).GetValue(center);
             int distance = refCombatGrid.GetAStar(refCombatGrid, adjacent, myGridSpace, this, true).Count;
 
-            if (adjacent.character == null)
+            if (adjacent.character == null && terrainTypes.Contains(adjacent.GetTerrainType()))
             {
                 if (distance < currentDistance)
                 {
@@ -118,7 +118,7 @@ public class EnemyBase : Character
         {
             for (int i = 0; i < movementSpaces.Count; ++i)
             {
-                int pathCount = refCombatGrid.GetAStar(refCombatGrid, movementSpaces[i], toCheckWith, this, true).Count;
+                int pathCount = refCombatGrid.GetAStar(refCombatGrid, toCheckWith, movementSpaces[i], this, true).Count;
                 if (pathCount < lowest)
                 {
                     lowest = pathCount;
@@ -163,12 +163,14 @@ public class EnemyBase : Character
 
             // next, look for characters in range
             List<AggroData> aggroCandidatesInRange = new List<AggroData>();
-            List<GridSpace> attackSpaces = refCombatGrid.GetBreadthFirst(myGridSpace, movementRangeCurrent + 1, terrainTypes, Character_Affiliation.none);
+            List<GridSpace> attackSpaces = refCombatGrid.GetBreadthFirst(myGridSpace, movementRangeCurrent, terrainTypes, Character_Affiliation.none);
+            // add one extra range regardless of terrain type to cover player characters inside of impassable tiles
+            attackSpaces.AddRange(refCombatGrid.GetBorder(attackSpaces));
             for (int i = 0; i < aggroCandidatesHighest.Count; ++i)
             {
                 for (int j = 0; j < attackSpaces.Count; ++j)
                 {
-                    if (aggroCandidatesHighest[i].character == attackSpaces[j].character)
+                    if (aggroCandidatesHighest[i].character == attackSpaces[j].character && (movementSpaces.Contains(attackSpaces[j]) || refCombatGrid.GetBorder(movementSpaces).Contains(attackSpaces[j])))
                     {
                         aggroCandidatesInRange.Add(aggroCandidatesHighest[i]);
                     }
@@ -209,24 +211,28 @@ public class EnemyBase : Character
             if (list[i].character.healthCurrent + list[i].character.defenseMod < lowestBulk)
             {
                 aggroCandidatesLowestBulk.Clear();
-                aggroCandidatesLowestBulk.Add(aggroData[i]);
+                aggroCandidatesLowestBulk.Add(list[i]);
                 lowestBulk = list[i].character.healthCurrent + list[i].character.defenseMod;
             }
             else if (list[i].character.healthCurrent + list[i].character.defenseMod == lowestBulk)
             {
-                aggroCandidatesLowestBulk.Add(aggroData[i]);
+                aggroCandidatesLowestBulk.Add(list[i]);
             }
         }
 
         // if only one character had the lowest bulk, this is our target
-        if (aggroCandidatesLowestBulk.Count == 0)
+        if (aggroCandidatesLowestBulk.Count == 1)
         {
             return aggroCandidatesLowestBulk[0].character.myGridSpace;
         }
         // otherwise randomly select one
-        else
+        else if (aggroCandidatesLowestBulk.Count > 1)
         {
             return aggroCandidatesLowestBulk[Random.Range(0, aggroCandidatesLowestBulk.Count)].character.myGridSpace;
+        }
+        else
+        {
+            return myGridSpace;
         }
     }
 

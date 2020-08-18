@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerManager : MonoBehaviour
 {
     private PhaseManager refPhaseManager;
+    private EnemyManager refEnemyManager;
     private CombatManager refCombatInitiator;
 
     [Header("Base Player Prefab")]
@@ -23,7 +24,7 @@ public class PlayerManager : MonoBehaviour
     private void Start()
     {
         refPhaseManager = FindObjectOfType<PhaseManager>();
-
+        refEnemyManager = FindObjectOfType<EnemyManager>();
         refCombatGrid = FindObjectOfType<CombatGrid>();
 
         /*names.Add("Karate Person");
@@ -51,6 +52,7 @@ public class PlayerManager : MonoBehaviour
             if (players[i].GetDead() == true)
             {
                 StartCoroutine(players[i].Death());
+                refEnemyManager.RemoveFromAggroTargets(players[i]);
 
                 players.RemoveAt(i);
             }

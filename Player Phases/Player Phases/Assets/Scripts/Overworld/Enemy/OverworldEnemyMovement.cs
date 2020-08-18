@@ -43,14 +43,17 @@ public class OverworldEnemyMovement : MonoBehaviour
         skuttlebugHome = transform.position;
     }
 
+    private void Update()
+    {
+        MoveShadow();
+    }
+
     public void MyUpdate()
     {
         if (!runningAI)
         {
             aiCoroutine = StartCoroutine(DoAI());
         }
-
-        MoveShadow();
     }
 
     private IEnumerator DoAI()

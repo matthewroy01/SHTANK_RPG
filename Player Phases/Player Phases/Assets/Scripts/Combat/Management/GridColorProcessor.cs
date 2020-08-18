@@ -17,7 +17,7 @@ public class GridColorProcessor : MonoBehaviour
     public Color colorDefaultState;
     public Color colorMovementEnemy;
 
-    // default state < possible movement spaces < possible starting spaces for ranged abilities < enemy movement spaces < ability previews
+    // default state < possible movement spaces < enemy movement spaces < possible starting spaces for ranged abilities < ability previews
 
     void Start()
     {
@@ -54,14 +54,14 @@ public class GridColorProcessor : MonoBehaviour
                         CheckListForGridSpace(refCharacterSelector.currentPlayer.movementSpaces, refCombatGrid.grid[i, j], colorMovement, i, j);
                     }
 
-                    // color for ranged starting spaces
-                    CheckListForGridSpace(refAbilityProcessor.GetStartingSpaces(), refCombatGrid.grid[i, j], colorRangedStartingSpaces, i, j);
-
                     if (refCharacterSelector.overlayCharacter != null)
                     {
                         // color for overlayed enemy movement areas
                         CheckListForGridSpace(refCharacterSelector.overlayCharacter.movementSpaces, refCombatGrid.grid[i, j], colorMovementEnemy, i, j);
                     }
+
+                    // color for ranged starting spaces
+                    CheckListForGridSpace(refAbilityProcessor.GetStartingSpaces(), refCombatGrid.grid[i, j], colorRangedStartingSpaces, i, j);
 
                     // color for ability preview
                     CheckListForGridSpace(refAbilityProcessor.GetGridSpaces(), refCombatGrid.grid[i, j], colorAbilityPreview, i, j);

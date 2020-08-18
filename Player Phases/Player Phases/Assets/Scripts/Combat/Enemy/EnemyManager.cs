@@ -261,6 +261,21 @@ public class EnemyManager : MonoBehaviour
         enemies.Clear();
     }
 
+    public void RemoveFromAggroTargets(Character character)
+    {
+        for (int i = 0; i < enemies.Count; ++i)
+        {
+            for (int j = 0; j < enemies[i].aggroData.Count; ++j)
+            {
+                if (enemies[i].aggroData[j].character == character)
+                {
+                    enemies[i].aggroData.RemoveAt(j);
+                    --j;
+                }
+            }
+        }
+    }
+
     private void AddRandomNames()
     {
         string[] tmp = {

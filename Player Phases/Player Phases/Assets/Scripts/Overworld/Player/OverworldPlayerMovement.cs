@@ -48,6 +48,12 @@ public class OverworldPlayerMovement : MonoBehaviour
         MoveShadow();
     }
 
+    private void FixedUpdate()
+    {
+        // artificial gravity
+        ApplyArtificalGravity();
+    }
+
     public void MyUpdate()
     {
         // movement
@@ -57,9 +63,6 @@ public class OverworldPlayerMovement : MonoBehaviour
         // jumping
         CheckGround();
         Jump();
-
-        // artificial gravity
-        ApplyArtificalGravity();
     }
 
     private void GetAxes()

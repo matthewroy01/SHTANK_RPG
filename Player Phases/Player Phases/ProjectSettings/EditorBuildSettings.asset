@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/CombatTest.unity
     guid: d9c48de2ec93c704fbb3997f3a54c903
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/ConceptArt.unity
     guid: 4a922bda0562f2e468029ad87aa0ecc7
   m_configObjects: {}

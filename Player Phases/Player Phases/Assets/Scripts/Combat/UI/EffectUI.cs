@@ -90,7 +90,7 @@ public class EffectUI : MonoBehaviour
         {
             case Effect_ID.damage:
             {
-                ApplyEffect(effect.value.ToString(), damage.color, audio ? damage.audio : null, uiEffectShake);
+                ApplyEffect(owner.GetTrueDamage(effect.value, effect).ToString(), damage.color, audio ? damage.audio : null, uiEffectShake);
                 break;
             }
             case Effect_ID.noDamage:
