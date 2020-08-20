@@ -86,6 +86,7 @@ public class OverworldPlayerMovement : MonoBehaviour
     {
         if (grounded && Input.GetKeyDown(KeyCode.Space))
         {
+            refRigidbody.velocity = new Vector3(refRigidbody.velocity.x, 0.0f, refRigidbody.velocity.z);
             refRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
             controller.refAudioManager.QueueSound(jumpAudio);

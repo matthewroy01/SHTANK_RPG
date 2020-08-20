@@ -59,7 +59,7 @@ public class PassiveAllRealNumbers : Passive
             case PassiveEventID.turnEnd:
             {
                 // update the attack boost value when the turn ends
-                UpdateAttackBoost();
+                Invoke("UpdateAttackBoost", 0.1f);
                 break;
             }
         }
