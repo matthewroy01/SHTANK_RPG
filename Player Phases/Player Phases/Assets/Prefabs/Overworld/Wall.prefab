@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 7709409155450611315}
   - component: {fileID: 7709409155450611312}
   - component: {fileID: 7709409155450611313}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: OverworldCollision
   m_TagString: Untagged
   m_Icon: {fileID: 0}

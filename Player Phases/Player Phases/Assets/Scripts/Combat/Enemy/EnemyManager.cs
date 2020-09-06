@@ -294,7 +294,6 @@ public class EnemyManager : MonoBehaviour
             "The Food Machine",
             "No Clue's Grandma",
             "A Unity Primitive",
-            "Reluctant Game Tester",
             "John Quoiby",
             "Michael Aberdeen"
         };

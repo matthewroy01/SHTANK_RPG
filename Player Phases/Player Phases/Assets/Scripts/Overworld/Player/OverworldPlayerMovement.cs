@@ -6,6 +6,7 @@ public class OverworldPlayerMovement : MonoBehaviour
 {
     [Header("Movement Speed")]
     public float speedMovement;
+    [Range(0.0f, 1.0f)]
     public float speedAirHindrance;
     private float movHor;
     private float movVer;
@@ -14,9 +15,13 @@ public class OverworldPlayerMovement : MonoBehaviour
     public float jumpForce;
     [HideInInspector]
     public bool grounded;
+    private bool canWallJump = true;
     public Transform groundCheck;
     public LayerMask groundLayerMask;
     public ManagedAudio jumpAudio;
+    public LayerMask wallLayerMask;
+    public ParticleSystem wallJumpParts;
+    private Vector3 jumpTrajectory;
 
     [Header("Artificial Gravity")]
     public float gravityMultiplier;
@@ -63,6 +68,7 @@ public class OverworldPlayerMovement : MonoBehaviour
         // jumping
         CheckGround();
         Jump();
+        WallJump();
     }
 
     private void GetAxes()
@@ -73,13 +79,32 @@ public class OverworldPlayerMovement : MonoBehaviour
 
     private void MovementWASD()
     {
-        Vector3 newVelocity = new Vector3(movHor * speedMovement, refRigidbody.velocity.y, movVer * speedMovement);
-        refRigidbody.velocity = newVelocity;
+        if (grounded)
+        {
+            Vector3 newVelocity = new Vector3(movHor * speedMovement, refRigidbody.velocity.y, movVer * speedMovement);
+            refRigidbody.velocity = newVelocity;
+        }
+        else
+        {
+            refRigidbody.AddForce(new Vector3(movHor * speedMovement * speedAirHindrance, 0.0f, movVer * speedMovement * speedAirHindrance));
+
+            Vector3 horizontalVelocity = new Vector3(refRigidbody.velocity.x, 0.0f, refRigidbody.velocity.z);
+            if (horizontalVelocity.magnitude > speedMovement)
+            {
+                horizontalVelocity = horizontalVelocity.normalized * speedMovement;
+                refRigidbody.velocity = new Vector3(horizontalVelocity.x, refRigidbody.velocity.y, horizontalVelocity.z);
+            }
+        }
     }
 
     private void CheckGround()
     {
         grounded = Physics.OverlapSphere(groundCheck.position, 0.1f, groundLayerMask).Length > 0;
+
+        if (grounded && !canWallJump)
+        {
+            canWallJump = true;
+        }
     }
 
     private void Jump()
@@ -90,6 +115,27 @@ public class OverworldPlayerMovement : MonoBehaviour
             refRigidbody.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
             controller.refAudioManager.QueueSound(jumpAudio);
+
+            jumpTrajectory = refRigidbody.velocity;
+        }
+    }
+
+    private void WallJump()
+    {
+        Vector3 direction = new Vector3(jumpTrajectory.x, 0.0f, jumpTrajectory.z);
+        RaycastHit hit;
+        Physics.Raycast(transform.position, direction, out hit, 0.7f, wallLayerMask);
+
+        if (canWallJump && !grounded && hit.transform != null && Input.GetKeyDown(KeyCode.Space))
+        {
+            Vector3 reflection = Vector3.Reflect(direction, hit.normal);
+
+            refRigidbody.velocity = Vector3.zero;
+            refRigidbody.AddForce(new Vector3(reflection.x, jumpForce, reflection.z), ForceMode.Impulse);
+
+            GameObject tmp = Instantiate(wallJumpParts, hit.point, wallJumpParts.transform.rotation).gameObject;
+
+            Destroy(tmp, 0.5f);
         }
     }
 

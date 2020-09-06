@@ -16,7 +16,7 @@ public class CharacterSelector : MonoBehaviour
     public LayerMask layerMaskGrid;
 
     [Header("Cursor")]
-    public GameObject cursor;
+    public SpriteRenderer cursor;
     private Collider cursorSpace = null;
     private Tweener cursorTween;
 
@@ -675,19 +675,43 @@ public class CharacterSelector : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, float.MaxValue, layerMaskGrid))
         {
-            if (hit.transform != null && hit.collider != cursorSpace)
+            if (hit.transform != null)
             {
-                cursorSpace = hit.collider;
-
-                cursor.transform.position = hit.transform.position + Vector3.up * 0.01f;
-
-                if (cursorTween != null)
+                if (hit.collider != cursorSpace)
                 {
-                    cursorTween.Kill();
+                    cursorSpace = hit.collider;
+
+                    cursor.transform.position = hit.transform.position + Vector3.up * 0.01f;
+
+                    if (cursorTween != null)
+                    {
+                        cursorTween.Kill();
+                    }
+                    cursor.transform.localScale = Vector3.one;
+                    cursorTween = cursor.transform.DOPunchScale(Vector3.one * 0.25f, 0.1f, 0, 0.0f);
                 }
-                cursor.transform.localScale = Vector3.one;
-                cursorTween = cursor.transform.DOPunchScale(Vector3.one * 0.25f, 0.1f, 0, 0.0f);
-                Debug.Log("New scale is " + cursor.transform.localScale);
+
+                GridSpace gridSpace = refCombatGrid.GetGridSpace(hit.transform.gameObject);
+
+                if (gridSpace != null && gridSpace.character != null)
+                {
+                    if (gridSpace.character.GetComponent<PlayerBase>() != null)
+                    {
+                        cursor.color = Color.Lerp(Color.blue, Color.white, 0.25f);
+                    }
+                    else if (gridSpace.character.GetComponent<EnemyBase>() != null)
+                    {
+                        cursor.color = Color.Lerp(Color.red, Color.white, 0.25f);
+                    }
+                    else
+                    {
+                        cursor.color = Color.white;
+                    }
+                }
+                else
+                {
+                    cursor.color = Color.white;
+                }
             }
 
             cursor.transform.localScale = Vector3.Lerp(cursor.transform.localScale, Vector3.one + (Vector3.one * (Mathf.Sin(Time.time * 3.0f) * 0.1f)), 0.1f);

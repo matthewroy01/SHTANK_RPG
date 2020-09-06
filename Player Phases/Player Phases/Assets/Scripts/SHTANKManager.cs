@@ -49,8 +49,11 @@ public class SHTANKManager : MonoBehaviour
 
         refDialogueProcessor = FindObjectOfType<DialogueProcessor>();
 
-        stateMachine.TryUpdateConnection((int)GameState.dialogue);
-        refDialogueProcessor.Display(debugDialogueStart);
+        if (refDialogueProcessor != null)
+        {
+            stateMachine.TryUpdateConnection((int)GameState.dialogue);
+            refDialogueProcessor.Display(debugDialogueStart);
+        }
     }
 
     void Update()
@@ -72,7 +75,7 @@ public class SHTANKManager : MonoBehaviour
                 // run overworld behaviour
                 refOverworldManager.MyUpdate();
 
-                if (debugDialogueEnd != null)
+                if (refDialogueProcessor != null && debugDialogueEnd != null)
                 {
                     OverworldEnemyController[] tmp = FindObjectsOfType<OverworldEnemyController>();
                     if (tmp.Length == 0)

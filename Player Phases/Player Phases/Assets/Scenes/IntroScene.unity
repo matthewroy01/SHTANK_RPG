@@ -150,7 +150,7 @@ RectTransform:
   m_GameObject: {fileID: 59476534}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.75, y: 1, z: 1}
   m_Children:
   - {fileID: 1735585233}
   m_Father: {fileID: 1339086491}
@@ -158,7 +158,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -416}
+  m_AnchoredPosition: {x: 450, y: -416}
   m_SizeDelta: {x: 310.9, y: 107.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &59476536
@@ -529,7 +529,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 450, y: 0}
+  m_AnchoredPosition: {x: 450, y: -39}
   m_SizeDelta: {x: 900, y: 1000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &736200029
@@ -550,39 +550,40 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'How to play:
+  m_text: 'How to play (in combat):
 
 
-    Select with Left Click
+    <b>Select with Left Click
 
-    Cancel with Right Click
+    Cancel with
+    Right Click
 
-    Confirm
-    with Spacebar
+    Confirm with Spacebar
 
     Rotate abilities with mouse movement
 
-    Flip abilities with
-    Left shift
+    Flip
+    abilities with Left Shift</b>
 
 
-    The Controls Guide at the bottom right of the screen shows what
-    each button does at any given time! Toggle it with the arrow button.
+    The Controls Guide at the bottom right of
+    the screen shows what each button does at any given time! Toggle it with the
+    arrow button.
 
 
-    Some
-    more helpful tips from your fellow heroes:
+    Some more helpful tips from your fellow heroes:
 
 
-    - Move your mouse near the edge
-    of the screen to move the camera.
+    - Move
+    your mouse near the edge of the screen to move the camera.
 
-    - Hover your mouse over an enemy to reveal
-    their stats and movement range.
+    - Hover your
+    mouse over an enemy to reveal their stats and movement range.
 
-    - Player movement range is shown in BLUE,
-    spaces that will be affected by an ability are GREEN, ranged ability range is
-    CYAN, and enemy movement range is RED.'
+    - Player movement
+    range is shown in <color=#0000ff>BLUE</color>, spaces that will be affected by
+    an ability are <color=#00ff00>GREEN</color>, ranged ability range is <color=#00ffff>CYAN</color>,
+    and enemy movement range is <color=#ff0000>RED</color>.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
@@ -610,8 +611,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 34
-  m_fontSizeBase: 34
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -651,12 +652,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 736200029}
-    characterCount: 634
+    characterCount: 646
     spriteCount: 0
-    spaceCount: 117
-    wordCount: 114
+    spaceCount: 119
+    wordCount: 116
     linkCount: 0
-    lineCount: 21
+    lineCount: 20
     pageCount: 1
     materialCount: 2
   m_isUsingLegacyAnimationComponent: 0
@@ -954,8 +955,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -497.4, y: -154}
-  m_SizeDelta: {x: 440.23, y: 247.5}
+  m_AnchoredPosition: {x: -497.43, y: -376.3}
+  m_SizeDelta: {x: 440.05, y: 247.4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1000429935
 MonoBehaviour:
@@ -1509,13 +1510,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'How can you thwart your enemies if you can''t even reach them!?
+  m_text: 'Introducing the overworld!
 
-
-    Introducing
-    the overworld! Traverse it by moving with WASD and jumping with Spacebar.
-
-
+    Traverse it by moving with WASD and jumping
+    with Spacebar.
 
 
 
@@ -1523,19 +1521,12 @@ MonoBehaviour:
 
 
 
-    Where
-    combat begins affects the layout of the grid during combat, so be careful!
+    Where combat begins affects the layout of the grid
+    during combat, so be careful!
 
 
-
-
-
-
-
-
-
-    Try
-    defeating each of the enemies to complete the training session!'
+    Try defeating each of the enemies to complete
+    the training session!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
@@ -1563,8 +1554,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 30
-  m_fontSizeBase: 30
+  m_fontSize: 45
+  m_fontSizeBase: 45
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1604,12 +1595,12 @@ MonoBehaviour:
   m_margin: {x: 0, y: 0, z: 0, w: 0}
   m_textInfo:
     textComponent: {fileID: 1510578748}
-    characterCount: 314
+    characterCount: 241
     spriteCount: 0
-    spaceCount: 66
-    wordCount: 50
+    spaceCount: 44
+    wordCount: 38
     linkCount: 0
-    lineCount: 25
+    lineCount: 14
     pageCount: 1
     materialCount: 2
   m_isUsingLegacyAnimationComponent: 0
@@ -1669,8 +1660,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -497.4, y: 188}
-  m_SizeDelta: {x: 440.23, y: 247.5}
+  m_AnchoredPosition: {x: -497.4, y: 190}
+  m_SizeDelta: {x: 440.1, y: 247.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1588296881
 MonoBehaviour:
@@ -1892,7 +1883,7 @@ RectTransform:
   m_GameObject: {fileID: 1888814838}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.75, y: 1, z: 1}
   m_Children:
   - {fileID: 1317643861}
   m_Father: {fileID: 1339086491}
@@ -1900,7 +1891,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -500, y: -416}
+  m_AnchoredPosition: {x: 150, y: -416}
   m_SizeDelta: {x: 310.9, y: 107.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1888814840
@@ -2035,7 +2026,7 @@ RectTransform:
   m_GameObject: {fileID: 2049310572}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.75, y: 1, z: 1}
   m_Children:
   - {fileID: 948324776}
   m_Father: {fileID: 1339086491}
@@ -2043,7 +2034,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 500, y: -416}
+  m_AnchoredPosition: {x: 750, y: -416}
   m_SizeDelta: {x: 310.9, y: 107.5}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2049310574
@@ -2148,5 +2139,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e56c56906460e514e90fcc6db87a89c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  url: https://docs.google.com/forms/d/1zv5CmoNbSnU-2z2BCuAyjW_YyPWcIxHVkFSgDpjW-14/edit
+  url: https://docs.google.com/forms/d/e/1FAIpQLSfHk49FKYOyDFsMZTF0_iNr5huB0TapjO_feU56Cqi2Da53pg/viewform
   closeBuild: 1
