@@ -41,12 +41,20 @@ public class ToggleUIPosition : MonoBehaviour
         if (hidden == true)
         {
             toMove.DOLocalMove(posHidden, animationTime, false);
-            image.rectTransform.localScale = new Vector3(image.rectTransform.localScale.x, -1.0f, image.rectTransform.localScale.z);
+
+            if (image != null)
+            {
+                image.rectTransform.localScale = new Vector3(image.rectTransform.localScale.x, -1.0f, image.rectTransform.localScale.z);
+            }
         }
         else
         {
             toMove.DOLocalMove(posRevealed, animationTime, false);
-            image.rectTransform.localScale = new Vector3(image.rectTransform.localScale.x, 1.0f, image.rectTransform.localScale.z);
+
+            if (image != null)
+            {
+                image.rectTransform.localScale = new Vector3(image.rectTransform.localScale.x, 1.0f, image.rectTransform.localScale.z);
+            }
         }
     }
 }

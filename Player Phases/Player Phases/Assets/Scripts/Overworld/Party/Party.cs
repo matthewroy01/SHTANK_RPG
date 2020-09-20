@@ -28,19 +28,25 @@ public class Party : MonoBehaviour
         }
 
         float xPos = button.transform.position.x;
+        int counter = 0;
         for (int i = 0; i < partyActive.Count; ++i)
         {
             if (i == 0)
             {
                 button.SetDelegate(partyActive[i], this, button.transform.position.y);
+
+                button.gameObject.name = "Party Button " + (counter + 1);
             }
             else
             {
                 PartyButton tmp = Instantiate(button, new Vector2(xPos, button.transform.position.y), Quaternion.identity, button.transform.parent);
                 tmp.SetDelegate(partyActive[i], this, button.transform.position.y);
+
+                tmp.gameObject.name = "Party Button " + (counter + 1);
             }
 
             xPos += 200;
+            counter++;
         }
 
         for (int i = 0; i < partyReserve.Count; ++i)
@@ -48,7 +54,10 @@ public class Party : MonoBehaviour
             PartyButton tmp = Instantiate(button, new Vector2(xPos, button.transform.position.y), Quaternion.identity, button.transform.parent);
             tmp.SetDelegate(partyReserve[i], this, button.transform.position.y);
 
+            tmp.gameObject.name = "Party Button " + (counter + 1);
+
             xPos += 200;
+            counter++;
         }
     }
 

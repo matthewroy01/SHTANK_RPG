@@ -31,8 +31,6 @@ public class PartyButton : MonoBehaviour
     {
         float duration = 0.25f;
 
-        Debug.Log("Active was " + active);
-
         if (active)
         {
             myButton.transform.DOMoveY(defaultY - 25, duration);

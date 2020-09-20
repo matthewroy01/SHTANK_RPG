@@ -12,6 +12,8 @@ public class OverworldManager : MonoBehaviour
 
     public GameObject environmentParent;
 
+    public ToggleUIPosition overworldUI;
+
     private void Start()
     {
         refPlayerController = FindObjectOfType<OverworldPlayerController>();
@@ -63,6 +65,8 @@ public class OverworldManager : MonoBehaviour
         {
             refOverworldCollision[i].enabled = false;
         }
+
+        overworldUI.ToggleUI();
     }
 
     public void EnableOverworldObjects()
@@ -83,5 +87,7 @@ public class OverworldManager : MonoBehaviour
         {
             refOverworldCollision[i].enabled = true;
         }
+
+        overworldUI.ToggleUI();
     }
 }
