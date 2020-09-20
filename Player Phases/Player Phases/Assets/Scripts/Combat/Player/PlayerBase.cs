@@ -20,7 +20,6 @@ public class PlayerBase : Character
         refCharacterEffectUI = GetComponent<EffectUI>();
 
         // this may be redundant, as the player manager initializes each player's stats
-        healthCurrent = healthMax;
         movementRangeCurrent = movementRangeDefault;
     }
 

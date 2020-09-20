@@ -21,7 +21,7 @@ public class AbilityProcessor : MonoBehaviour
         refMovementAbilityForecast = FindObjectOfType<MovementAbilityForecast>();
     }
 
-    public void ProcessAbility(PlayerBase player, GridSpace startingSpace, int abilNum, CombatDirection facing, bool flipped)
+    public List<GridSpace> ProcessAbility(PlayerBase player, GridSpace startingSpace, int abilNum, CombatDirection facing, bool flipped, bool setDirty = true)
     {
         CancelAbility();
 
@@ -78,7 +78,7 @@ public class AbilityProcessor : MonoBehaviour
             }
 
             // make sure the specified starting grid space is a valid starting space contained within startingSpaces
-            if (startingSpaces.Contains(startingSpace))
+            if (startingSpaces.Contains(startingSpace) || !setDirty)
             {
                 if (!savedAbility.moveCharacter)
                 {
@@ -120,14 +120,19 @@ public class AbilityProcessor : MonoBehaviour
             }
         }
 
-        // set saved grid spaces as dirty for things like Ability Forecast
-        for (int i = 0; i < gridSpaces.Count; ++i)
+        if (setDirty)
         {
-            refCombatGrid.MakeDirty(gridSpaces[i], savedAbility);
+            // set saved grid spaces as dirty for things like Ability Forecast
+            for (int i = 0; i < gridSpaces.Count; ++i)
+            {
+                refCombatGrid.MakeDirty(gridSpaces[i], savedAbility);
+            }
+
+            // let the ability forecaster know it should try to display something
+            UpdateAbilityForecast();
         }
 
-        // let the ability forecaster know it should try to display something
-        UpdateAbilityForecast();
+        return gridSpaces;
     }
 
     private void RemoveCharactersFromStartingSpaces(Character player)

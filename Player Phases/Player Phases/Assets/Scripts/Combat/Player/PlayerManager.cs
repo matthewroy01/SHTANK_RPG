@@ -7,6 +7,7 @@ public class PlayerManager : MonoBehaviour
     private PhaseManager refPhaseManager;
     private EnemyManager refEnemyManager;
     private CombatManager refCombatInitiator;
+    private Party refParty;
 
     [Header("Base Player Prefab")]
     public GameObject playerPrefab;
@@ -26,6 +27,7 @@ public class PlayerManager : MonoBehaviour
         refPhaseManager = FindObjectOfType<PhaseManager>();
         refEnemyManager = FindObjectOfType<EnemyManager>();
         refCombatGrid = FindObjectOfType<CombatGrid>();
+        refParty = FindObjectOfType<Party>();
 
         /*names.Add("Karate Person");
         names.Add("Melon Man");
@@ -63,21 +65,21 @@ public class PlayerManager : MonoBehaviour
     {
         int targetX = 0, targetY = 0;
 
-        for (int i = 0; i < characterDefinitions.Count; ++i)
+        for (int i = 0; i < refParty.partyActive.Count; ++i)
         {
             // spawn players and add them to the list
             PlayerBase tmp = Instantiate(playerPrefab, transform).GetComponent<PlayerBase>();
             players.Add(tmp);
 
             // get a valid spawning space for this character
-            GridSpace spawnSpace = GetSpawnSpace(targetX, targetY, characterDefinitions[i].terrainTypes);
+            GridSpace spawnSpace = GetSpawnSpace(targetX, targetY, refParty.partyActive[i].loader.terrainTypes);
 
             tmp.transform.position = spawnSpace.obj.transform.position;
             spawnSpace.character = tmp;
             tmp.myGridSpace = spawnSpace;
 
-            AssignPlayerValues(tmp.gameObject, characterDefinitions[i]);
-            AssignPassive(tmp, characterDefinitions[i]);
+            AssignPlayerValues(tmp.gameObject, refParty.partyActive[i]);
+            AssignPassive(tmp, refParty.partyActive[i].loader);
         }
     }
 
@@ -124,11 +126,13 @@ public class PlayerManager : MonoBehaviour
         return false;
     }
 
-    private void AssignPlayerValues(GameObject obj, CharacterDefinition def)
+    private void AssignPlayerValues(GameObject obj, PartyMember member)
     {
         PlayerBase refPlayerBase = obj.GetComponent<PlayerBase>();
         MovementDialogueProcessor refMovementDialogueProcessor = obj.GetComponent<MovementDialogueProcessor>();
         SpriteRenderer refSpriteRenderer = obj.GetComponentInChildren<SpriteRenderer>();
+
+        CharacterDefinition def = member.loader;
 
         obj.name = def.characterName;
 
@@ -136,7 +140,7 @@ public class PlayerManager : MonoBehaviour
         {
             // max health and current health
             refPlayerBase.healthMax = def.healthMax;
-            refPlayerBase.healthCurrent = refPlayerBase.healthMax;
+            refPlayerBase.healthCurrent = member.currentHealth;
 
             // attack and defense modifiers
             refPlayerBase.attackMod = def.attackMod;

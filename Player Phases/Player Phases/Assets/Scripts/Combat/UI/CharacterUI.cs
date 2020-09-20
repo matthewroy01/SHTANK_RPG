@@ -391,7 +391,7 @@ public class CharacterUI : MonoBehaviour
             effects += "ignores Def Mod";
         }
 
-        if (abil.effects[0].probability < 1.0f)
+        if (abil.effects.Count > 0 && abil.effects[0].probability < 1.0f)
         {
             if (effects != "")
             {

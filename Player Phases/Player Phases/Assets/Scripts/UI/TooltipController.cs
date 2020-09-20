@@ -23,7 +23,6 @@ public class TooltipController : MonoBehaviour
     private void Start()
     {
         detectors = new List<TooltipDetector>(FindObjectsOfType<TooltipDetector>());
-        Debug.Log("Detectors found: " + detectors.Count);
     }
 
     private void Update()

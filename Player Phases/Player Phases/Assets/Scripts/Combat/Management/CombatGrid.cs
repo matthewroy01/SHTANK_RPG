@@ -44,7 +44,6 @@ public class CombatGrid : MonoBehaviour
         // calculate offset and adjust the bottom left corner based on the grid overlapping with any empty space
         Vector2 offset = GetCenterOffset(center);
         bottomLeft += new Vector3(offset.x, 0.0f, offset.y);
-        Debug.Log("Offset was " + offset);
 
         // loop through to create all grid spaces
         for (int x = 0; x < gridWidth; ++x)

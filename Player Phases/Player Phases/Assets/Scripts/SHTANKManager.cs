@@ -9,6 +9,7 @@ public class SHTANKManager : MonoBehaviour
     private OverworldManager refOverworldManager;
     private CombatManager refCombatManager;
     private DialogueProcessor refDialogueProcessor;
+    private Party refParty;
 
     private SHTANKCamera refSHTANKCamera;
 
@@ -48,6 +49,8 @@ public class SHTANKManager : MonoBehaviour
         refSHTANKCamera = FindObjectOfType<SHTANKCamera>();
 
         refDialogueProcessor = FindObjectOfType<DialogueProcessor>();
+
+        refParty = FindObjectOfType<Party>();
 
         if (refDialogueProcessor != null)
         {
@@ -148,6 +151,8 @@ public class SHTANKManager : MonoBehaviour
     {
         if (stateMachine.TryUpdateConnection((int)GameState.overworld))
         {
+            refParty.SaveHealth(FindObjectOfType<PlayerManager>().players);
+
             if (!won)
             {
                 if (ignoreCollisionCoroutine != null)
