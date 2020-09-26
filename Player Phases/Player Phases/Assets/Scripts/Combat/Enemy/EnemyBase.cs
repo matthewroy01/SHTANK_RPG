@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class EnemyBase : Character
 {
-    private bool idle = true;
-
     private CombatGrid refCombatGrid;
 
     public List<AggroData> aggroData = new List<AggroData>();
@@ -33,13 +31,6 @@ public class EnemyBase : Character
         {
             placeholderRenderer.material.color = Color.white;
         }
-    }
-
-    public void StartTurn()
-    {
-        idle = false;
-
-        FindMovementSpaces(refCombatGrid);
     }
 
     public void DoAI()
@@ -322,16 +313,11 @@ public class EnemyBase : Character
         }
     }
 
-    public void Selected()
+    public override void Selected(CombatGrid combatGrid)
     {
         FindMovementSpaces(refCombatGrid);
 
         HandleStatuses();
-    }
-
-    public bool GetIdle()
-    {
-        return idle;
     }
 
     public void DispelAggroFromTarget(Character target, int amount)

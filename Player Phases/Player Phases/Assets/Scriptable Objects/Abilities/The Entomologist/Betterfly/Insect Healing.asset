@@ -9,17 +9,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3041b94d2259d3b43b71cd7a25638ed2, type: 3}
-  m_Name: Summon Tox Beetle
+  m_Script: {fileID: 11500000, guid: f4171d8c7a89e384dac5c952b87f2508, type: 3}
+  m_Name: Insect Healing
   m_EditorClassIdentifier: 
-  description: Summon a Tox Beetle to attack your enemies.
+  description: Dust from this insect makes its target relax.
   moveCharacter: 0
   ignoreWalls: 0
   ignoreAttackMod: 0
   ignoreDefenseMod: 0
-  ranged: 1
-  range: 3
+  ranged: 0
+  range: 0
   uses: 1
-  endTurn: 0
-  effects: []
-  summon: {fileID: 0}
+  endTurn: 1
+  effects:
+  - id: 1
+    value: 3
+    probability: 1
+    source: {fileID: 0}
+    trueDamage: 0
+    pierceDefense: 0
+    summon: {fileID: 0}
+  path:
+  - directions: 0
+    amount: 1

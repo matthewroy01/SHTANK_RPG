@@ -17,6 +17,9 @@ public class Ability : ScriptableObject
     [Header("Whether or not the ability can be triggered away from its user")]
     public bool ranged;
     public uint range;
+    [Header("Number of times this ability can be used (-1 for unlimited)")]
+    public int uses = 1;
+    public bool endTurn = true;
     [Header("Effects to apply when striking another character")]
     public List<Effect> effects = new List<Effect>();
 
@@ -33,6 +36,11 @@ public class Ability : ScriptableObject
             }
         }
     }
+}
+
+public class AbilityData
+{
+    public int availableUses;
 }
 
 public enum AbilityDirection { forwards, sideways, sidewaysOpposite, backwards };

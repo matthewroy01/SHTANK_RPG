@@ -4,7 +4,7 @@ using UnityEngine;
 
 using DG.Tweening;
 
-public class Character : MonoBehaviour
+public abstract class Character : MonoBehaviour
 {
     public SpriteRenderer placeholderRenderer;
 
@@ -37,6 +37,8 @@ public class Character : MonoBehaviour
 
     [Header("Moveset")]
     public Moveset moveset;
+    [HideInInspector]
+    public MovesetData movesetData;
     public Passive passive;
 
     // statuses
@@ -70,6 +72,8 @@ public class Character : MonoBehaviour
     [HideInInspector]
     public AbilityUIDefinition abilityUIDefinition;
     protected MovementDialogueProcessor refMovementDialogueProcessor;
+
+    protected bool idle = true;
 
     public void StartApplyEffect(Effect effect, bool counterable)
     {
@@ -286,6 +290,19 @@ public class Character : MonoBehaviour
         }
     }
 
+    public virtual void StartTurn(CombatGrid grid)
+    {
+        movesetData.Reset(moveset);
+
+        idle = false;
+
+        HandleStatuses();
+        FindMovementSpaces(grid);
+
+        // PASSIVE EVENT: BEGIN TURN
+        SendEvent(PassiveEventID.turnStart);
+    }
+
     public void HandleStatuses()
     {
         if (statusFrosty)
@@ -299,9 +316,16 @@ public class Character : MonoBehaviour
         }
     }
 
+    public abstract void Selected(CombatGrid combatGrid);
+
     public bool GetDead()
     {
         return dead;
+    }
+
+    public bool GetIdle()
+    {
+        return idle;
     }
 
     private bool CheckValidAffiliation(Effect effect, bool shouldShare)

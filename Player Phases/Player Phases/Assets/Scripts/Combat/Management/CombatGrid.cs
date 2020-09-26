@@ -661,6 +661,11 @@ public class GridSpace
             {
                 effectArray[i].source.SendEvent(PassiveEventID.storeGridSpace, this);
             }
+
+            if (effectArray[i].id == Effect_ID.summon && character == null)
+            {
+                // let the combat manager know it should summon this character at this grid space!
+            }
         }
 
         while (effects.Count > 0)
@@ -735,6 +740,8 @@ public class Effect
     public bool trueDamage;
     [HideInInspector]
     public bool pierceDefense;
+    [HideInInspector]
+    public CharacterDefinition summon;
 
     // constructor for other classes to construct their own attack effects
     public Effect(Effect_ID effect_id, int val, float prob)
@@ -776,7 +783,7 @@ public class Effect
 
 public enum GridSpace_TerrainType { standard, wall, wall_artificial, water };
 
-public enum Effect_ID { damage, healing, aggro, frosty, aggroDispel, shadowWall, attackUp, noDamage, miss, custom };
+public enum Effect_ID { damage, healing, aggro, frosty, aggroDispel, shadowWall, attackUp, noDamage, miss, custom, summon};
 
 public enum Character_Affiliation { player, enemy, ally, none };
 

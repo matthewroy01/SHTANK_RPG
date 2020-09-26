@@ -2,15 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : CharacterManager
 {
-    private PhaseManager refPhaseManager;
-    private EnemyManager refEnemyManager;
-    private CombatManager refCombatInitiator;
     private Party refParty;
-
-    [Header("Base Player Prefab")]
-    public GameObject playerPrefab;
 
     [Header("List of specific players to spawn")]
     public List<CharacterDefinition> characterDefinitions;
@@ -18,15 +12,17 @@ public class PlayerManager : MonoBehaviour
     [Header("List of players in combat after spawning")]
     public List<PlayerBase> players = new List<PlayerBase>();
 
-    private CombatGrid refCombatGrid;
-
     private List<string> names = new List<string>();
 
     private void Start()
     {
         refPhaseManager = FindObjectOfType<PhaseManager>();
+        refCombatGrid = FindObjectOfType<CombatGrid>();
+
+        refAllyManager = FindObjectOfType<AllyManager>();
         refEnemyManager = FindObjectOfType<EnemyManager>();
         refCombatGrid = FindObjectOfType<CombatGrid>();
+
         refParty = FindObjectOfType<Party>();
 
         /*names.Add("Karate Person");
@@ -68,131 +64,18 @@ public class PlayerManager : MonoBehaviour
         for (int i = 0; i < refParty.partyActive.Count; ++i)
         {
             // spawn players and add them to the list
-            PlayerBase tmp = Instantiate(playerPrefab, transform).GetComponent<PlayerBase>();
+            PlayerBase tmp = Instantiate(characterPrefab, transform).GetComponent<PlayerBase>();
             players.Add(tmp);
 
             // get a valid spawning space for this character
-            GridSpace spawnSpace = GetSpawnSpace(targetX, targetY, refParty.partyActive[i].loader.terrainTypes);
+            GridSpace spawnSpace = GetSpawnSpace(targetX, targetY, refParty.partyActive[i].loader.terrainTypes, Character_Affiliation.player);
 
             tmp.transform.position = spawnSpace.obj.transform.position;
             spawnSpace.character = tmp;
             tmp.myGridSpace = spawnSpace;
 
-            AssignPlayerValues(tmp.gameObject, refParty.partyActive[i]);
+            AssignCharacterValues(tmp.gameObject, refParty.partyActive[i].loader, Character_Affiliation.player, refParty.partyActive[i]);
             AssignPassive(tmp, refParty.partyActive[i].loader);
-        }
-    }
-
-    private GridSpace GetSpawnSpace(int targetX, int targetY, List<GridSpace_TerrainType> validTerrainTypes)
-    {
-        List<GridSpace> search = refCombatGrid.GetBreadthFirst(refCombatGrid.grid[targetX, targetY], refCombatGrid.gridWidth * refCombatGrid.gridHeight, TerrainTypePresets.all, Character_Affiliation.player);
-
-        for (int i = 0; i < search.Count; ++i)
-        {
-            if (validTerrainTypes.Contains(search[i].GetTerrainType()) && search[i].character == null && IsOnCheckerboard(search[i].coordinate))
-            {
-                return search[i];
-            }
-        }
-
-        return refCombatGrid.grid[targetX, targetY];
-    }
-
-    private bool IsOnCheckerboard(Vector2Int coordinate)
-    {
-        if (coordinate.x % 2 == 0)
-        {
-            if (coordinate.y % 2 == 1)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else if (coordinate.x % 2 == 1)
-        {
-            if (coordinate.y % 2 == 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        return false;
-    }
-
-    private void AssignPlayerValues(GameObject obj, PartyMember member)
-    {
-        PlayerBase refPlayerBase = obj.GetComponent<PlayerBase>();
-        MovementDialogueProcessor refMovementDialogueProcessor = obj.GetComponent<MovementDialogueProcessor>();
-        SpriteRenderer refSpriteRenderer = obj.GetComponentInChildren<SpriteRenderer>();
-
-        CharacterDefinition def = member.loader;
-
-        obj.name = def.characterName;
-
-        if (refPlayerBase != null)
-        {
-            // max health and current health
-            refPlayerBase.healthMax = def.healthMax;
-            refPlayerBase.healthCurrent = member.currentHealth;
-
-            // attack and defense modifiers
-            refPlayerBase.attackMod = def.attackMod;
-            refPlayerBase.defenseMod = def.defenseMod;
-
-            // nashbalm
-            refPlayerBase.nashbalm = def.nashbalm;
-
-            // movement range
-            refPlayerBase.movementRangeDefault = def.movementRange;
-
-            // moveset
-            refPlayerBase.moveset = def.moveset;
-
-            // affiliation (always player, since this is the Player Manager)
-            refPlayerBase.affiliation = Character_Affiliation.player;
-
-            // navigable terrain types
-            refPlayerBase.terrainTypes = def.terrainTypes;
-
-            // character portrait for UI
-            refPlayerBase.portrait = def.portrait;
-
-            // ability definitions for UI
-            refPlayerBase.abilityUIDefinition = FindObjectOfType<CharacterUI>().InitializeAbilityUI(refPlayerBase);
-
-            // character description for tooltips
-            refPlayerBase.characterDescription = def.characterDescription;
-        }
-
-        if (refMovementDialogueProcessor != null)
-        {
-            // movement dialogue text
-            refMovementDialogueProcessor.dialogue = def.movementDialogue;
-
-            // movement dialogue sound
-            refMovementDialogueProcessor.speechBlip = def.movementDialogueSound;
-        }
-
-        if (refSpriteRenderer != null)
-        {
-            // temporary sprite
-            refSpriteRenderer.sprite = def.sprite;
-        }
-    }
-
-    private void AssignPassive(Character parent, CharacterDefinition def)
-    {
-        if (def.passiveFunctionality != null)
-        {
-            parent.passive = Instantiate(def.passiveFunctionality, parent.transform);
-            parent.passive.myCharacter = parent;
         }
     }
 
@@ -241,13 +124,8 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
-    public void DestroyCharacters()
+    public override void AddCharacter(CharacterDefinition def, GridSpace gridSpace)
     {
-        for (int i = 0; i < players.Count; ++i)
-        {
-            Destroy(players[i].gameObject);
-        }
-
-        players.Clear();
+        
     }
 }

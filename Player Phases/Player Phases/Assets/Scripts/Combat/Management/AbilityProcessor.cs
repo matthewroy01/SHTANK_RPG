@@ -14,6 +14,10 @@ public class AbilityProcessor : MonoBehaviour
     private Ability savedAbility;
     private PlayerBase savedPlayer;
 
+    public bool turnEnding = true;
+
+    public CharacterDefinition toSummon;
+
     void Start()
     {
         refCombatGrid = FindObjectOfType<CombatGrid>();
@@ -24,6 +28,8 @@ public class AbilityProcessor : MonoBehaviour
     public List<GridSpace> ProcessAbility(PlayerBase player, GridSpace startingSpace, int abilNum, CombatDirection facing, bool flipped, bool setDirty = true)
     {
         CancelAbility();
+
+        turnEnding = true;
 
         // clean previously processed effects without applying them
         refCombatGrid.CleanGridWithoutApplying();
@@ -111,6 +117,12 @@ public class AbilityProcessor : MonoBehaviour
                         Debug.Log(abilType + " processed.");
                         break;
                     }
+                    case "SummonAbility":
+                    {
+                        Debug.Log(abilType + " processed.");
+                        ProcessSummonAbility((SummonAbility)savedAbility, startingSpace);
+                        break;
+                    }
                     default:
                     {
                         Debug.LogError(abilType + " is not a valid Ability type.");
@@ -169,6 +181,7 @@ public class AbilityProcessor : MonoBehaviour
         startingSpaces.Clear();
         savedAbility = null;
         savedPlayer = null;
+        toSummon = null;
     }
 
     public bool ApplyAbilityCheck()
@@ -220,13 +233,41 @@ public class AbilityProcessor : MonoBehaviour
                 }
                 break;
             }
+            case "RectangleAbility":
+            {
+                break;
+            }
+            case "SummonAbility":
+            {
+                if (toSummon != null && gridSpaces.Count > 0)
+                {
+                    Character_Affiliation tmp = Character_Affiliation.none;
+
+                    if (savedPlayer.affiliation == Character_Affiliation.player)
+                    {
+                        tmp = Character_Affiliation.ally;
+                    }
+                    else if (savedPlayer.affiliation == Character_Affiliation.enemy)
+                    {
+                        tmp = Character_Affiliation.enemy;
+                    }
+
+                    FindObjectOfType<PhaseManager>().SpawnSummon(toSummon, gridSpaces[0], tmp);
+                }
+                break;
+            }
         }
+
+        turnEnding = savedAbility.endTurn;
 
         // and apply their saved effects
         refCombatGrid.CleanGrid();
 
-        // then erase whatever ability information is currently saved
-        CancelAbility();
+        if (turnEnding)
+        {
+            // then erase whatever ability information is currently saved
+            CancelAbility();
+        }
     }
 
     public void UpdateAbilityForecast()
@@ -497,6 +538,13 @@ public class AbilityProcessor : MonoBehaviour
                 currentGridSpace = (GridSpace)currentGridSpace.GetType().GetField(forwards).GetValue(currentGridSpace);
             }
         }
+    }
+
+    private void ProcessSummonAbility(SummonAbility abil, GridSpace startingGridSpace)
+    {
+        gridSpaces.Add(startingGridSpace);
+
+        toSummon = abil.summon;
     }
 
     private bool TryAddGridSpace(GridSpace target, bool ignoreWalls)

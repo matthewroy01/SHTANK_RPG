@@ -11,16 +11,18 @@ public class PhaseManager : MonoBehaviour
 
     [Header("Combat phase info")]
     public CombatPhase currentPhase; // the current combat phase, to keep track of which phase is active
-    private int totalPhases = 2; // the total number of phases (not including the Null phase) in the CombatPhase enum
+    private int totalPhases = 3; // the total number of phases (not including the Null phase) in the CombatPhase enum
 
     [Header("Phase UI")]
     public EffectUIParameters uiEffectPhasePlayer;
+    public EffectUIParameters uiEffectPhaseAlly;
     public EffectUIParameters uiEffectPhaseEnemy;
     public EffectUIParameters uiEffectVictoryAndDefeat;
     public float timeBetweenPhases;
 
     private PlayerManager refPlayerManager;
     private EnemyManager refEnemyManager;
+    private AllyManager refAllyManager;
     private GridColorProcessor refGridColorProcessor;
     private CombatGrid refCombatGrid;
 
@@ -29,6 +31,7 @@ public class PhaseManager : MonoBehaviour
     void Start()
     {
         refPlayerManager = FindObjectOfType<PlayerManager>();
+        refAllyManager = FindObjectOfType<AllyManager>();
         refEnemyManager = FindObjectOfType<EnemyManager>();
         refGridColorProcessor = FindObjectOfType<GridColorProcessor>();
         refCombatGrid = FindObjectOfType<CombatGrid>();
@@ -41,6 +44,7 @@ public class PhaseManager : MonoBehaviour
     public void MyUpdate()
     {
         refPlayerManager.MyUpdate();
+        refAllyManager.MyUpdate();
         refEnemyManager.MyUpdate();
         refGridColorProcessor.MyUpdate();
     }
@@ -65,6 +69,11 @@ public class PhaseManager : MonoBehaviour
         if ((int)currentPhase + 1 < totalPhases)
         {
             currentPhase++;
+
+            if ((CombatPhase)currentPhase == CombatPhase.Ally && refAllyManager.allies.Count == 0)
+            {
+                currentPhase++;
+            }
         }
         // if we're at the end of the phase list, return to the start
         else
@@ -207,6 +216,15 @@ public class PhaseManager : MonoBehaviour
                 refPlayerManager.PlayerActions();
                 break;
             }
+            case CombatPhase.Ally:
+            {
+                uiEffectPhaseAlly.Apply("Ally Phase", refAudioManager);
+
+                yield return new WaitForSeconds(timeBetweenPhases);
+
+                refAllyManager.AllyActions();
+                break;
+            }
             case CombatPhase.Enemy:
             {
                 uiEffectPhaseEnemy.Apply("Enemy Phase", refAudioManager);
@@ -263,8 +281,26 @@ public class PhaseManager : MonoBehaviour
 
     public void DestroyCharacters()
     {
-        refPlayerManager.DestroyCharacters();
-        refEnemyManager.DestroyCharacters();
+        refPlayerManager.DestroyCharacters(refPlayerManager.players);
+        refEnemyManager.DestroyCharacters(refEnemyManager.enemies);
+    }
+
+    public void SpawnSummon(CharacterDefinition def, GridSpace gridSpace, Character_Affiliation affiliation)
+    {
+        switch(affiliation)
+        {
+            case Character_Affiliation.player:
+            case Character_Affiliation.ally:
+            {
+                refAllyManager.AddCharacter(def, gridSpace);
+                break;
+            }
+            case Character_Affiliation.enemy:
+            {
+                refEnemyManager.AddCharacter(def, gridSpace);
+                break;
+            }
+        }
     }
 }
 
@@ -275,4 +311,4 @@ public class PhaseManager : MonoBehaviour
  * - an enemy phase for AI to act
  * - any more that we may want to add if there is need for an additional AI controlled party on the field
  */
-public enum CombatPhase { Null = -1, Player, Enemy };
+public enum CombatPhase { Null = -1, Player, Ally, Enemy };

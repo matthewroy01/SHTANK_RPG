@@ -355,9 +355,26 @@ public class CharacterSelector : MonoBehaviour
         stateMachine.TryUpdateConnection((int)SelectorState.doingNothing);
     }
 
+    private void ContinueTurnFunctionality()
+    {
+        refAbilityProcessor.UpdateAbilityForecast();
+
+        // return to the previous state (either state where the player is selected but an ability has not been)
+        if (stateMachine.previousState == (int)SelectorState.playerSelected)
+        {
+            stateMachine.TryUpdateConnection((int)SelectorState.playerSelected);
+        }
+        else if (stateMachine.previousState == (int)SelectorState.playerSelectedWithMovement)
+        {
+            stateMachine.TryUpdateConnection((int)SelectorState.playerSelectedWithMovement);
+        }
+
+        refAbilityProcessor.CancelAbility();
+    }
+
     public void AbilitySelect(int abilNum)
     {
-        if (stateMachine.TryUpdateConnection((int)SelectorState.playerSelectedWithAbility))
+        if (currentPlayer.movesetData.GetAvailability(abilNum) && stateMachine.TryUpdateConnection((int)SelectorState.playerSelectedWithAbility))
         {
             // this public function is called using delegates from UI buttons in the scene
             selectedAbilityNum = abilNum;
@@ -540,12 +557,16 @@ public class CharacterSelector : MonoBehaviour
             // if there is a valid ability to apply
             if (refAbilityProcessor.ApplyAbilityCheck())
             {
-                currentPlayer.SaveMyGridSpace();
+                if (refAbilityProcessor.turnEnding)
+                {
+                    currentPlayer.SaveMyGridSpace();
+                }
 
                 // apply the currently saved ability
                 refAbilityProcessor.ApplyAbility();
 
-                switch(selectedAbilityNum)
+                currentPlayer.movesetData.Use(selectedAbilityNum);
+                switch (selectedAbilityNum)
                 {
                     case 1:
                     {
@@ -569,16 +590,25 @@ public class CharacterSelector : MonoBehaviour
                     }
                 }
 
-                // end the selected player's turn
-                EndTurnFunctionality();
+                if (refAbilityProcessor.turnEnding == true)
+                {
+                    // end the selected player's turn
+                    EndTurnFunctionality();
+
+                    dirty = true;
+                }
+                else
+                {
+                    ContinueTurnFunctionality();
+
+                    dirty = true;
+                }
 
                 // reset our previously inputted ability
                 selectedAbilityNum = 0;
 
                 // update the ability UI's colors
                 refCharacterUI.SetSelectedAbilityColor(selectedAbilityNum);
-
-                dirty = true;
             }
         }
     }
@@ -604,7 +634,7 @@ public class CharacterSelector : MonoBehaviour
 
             if (hit.transform != null && hit.transform.TryGetComponent(out tmpEnemy))
             {
-                tmpEnemy.Selected();
+                tmpEnemy.Selected(refCombatGrid);
 
                 // save the enemy as a special overlayed character
                 overlayCharacter = tmpEnemy;

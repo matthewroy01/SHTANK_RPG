@@ -7,7 +7,6 @@ using DG.Tweening;
 
 public class PlayerBase : Character
 {
-    private bool idle = true;
     private GridSpace originalGridSpace;
 
     private enum PathDirections { up, down, left, right };
@@ -40,8 +39,10 @@ public class PlayerBase : Character
         }
     }
 
-    public void StartTurn(CombatGrid grid)
+    public override void StartTurn(CombatGrid grid)
     {
+        movesetData.Reset(moveset);
+
         idle = false;
         originalGridSpace = myGridSpace;
 
@@ -89,7 +90,7 @@ public class PlayerBase : Character
         return false;
     }
 
-    public void Selected(CombatGrid grid)
+    public override void Selected(CombatGrid grid)
     {
         selected = true;
 
@@ -179,14 +180,9 @@ public class PlayerBase : Character
         SendEvent(PassiveEventID.turnEnd);
     }
 
-    public bool GetIdle()
-    {
-        return idle;
-    }
-
     public void ResetToDefaultPosition(GridSpace toReturnTo)
     {
-        transform.position = originalGridSpace.obj.transform.position;
+        transform.position = toReturnTo.obj.transform.position;
         myGridSpace = toReturnTo;
     }
 }

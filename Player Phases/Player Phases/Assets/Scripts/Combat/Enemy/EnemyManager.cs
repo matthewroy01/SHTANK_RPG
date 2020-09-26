@@ -2,29 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyManager : MonoBehaviour
+public class EnemyManager : CharacterManager
 {
-    private PhaseManager refPhaseManager;
-    private PlayerManager refPlayerManager;
-    private CombatManager refCombatInitiator;
-
-    [Header("Base Enemy Prefab")]
-    public GameObject enemyPrefab;
-
     [Header("List of characters in combat after spawning")]
     public List<EnemyBase> enemies = new List<EnemyBase>();
-
-    private CombatGrid refCombatGrid;
 
     private List<string> names = new List<string>();
 
     private void Start()
     {
         refPhaseManager = FindObjectOfType<PhaseManager>();
-        refPlayerManager = FindObjectOfType<PlayerManager>();
-        refCombatInitiator = FindObjectOfType<CombatManager>();
-
         refCombatGrid = FindObjectOfType<CombatGrid>();
+
+        refPlayerManager = FindObjectOfType<PlayerManager>();
+        refAllyManager = FindObjectOfType<AllyManager>();
     }
 
     public void MyUpdate()
@@ -59,18 +50,18 @@ public class EnemyManager : MonoBehaviour
             EnemyBase tmp;
 
             // spawn enemies and add them to the list
-            tmp = Instantiate(enemyPrefab, transform).GetComponent<EnemyBase>();
+            tmp = Instantiate(characterPrefab, transform).GetComponent<EnemyBase>();
             enemies.Add(tmp);
 
             // get a valid spawning space for this character
-            GridSpace spawnSpace = GetSpawnSpace(targetX, targetY, group.characterDefinitions[i].terrainTypes);
+            GridSpace spawnSpace = GetSpawnSpace(targetX, targetY, group.characterDefinitions[i].terrainTypes, Character_Affiliation.enemy);
 
             // set enemy position and grid space
             tmp.transform.position = spawnSpace.obj.transform.position;
             spawnSpace.character = tmp;
             tmp.myGridSpace = spawnSpace;
 
-            AssignEnemyValues(tmp.gameObject, group.characterDefinitions[i]);
+            AssignCharacterValues(tmp.gameObject, group.characterDefinitions[i], Character_Affiliation.enemy);
             AssignPassive(tmp, group.characterDefinitions[i]);
 
             // if the enemy name is blank, set it to something random
@@ -89,119 +80,11 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    private GridSpace GetSpawnSpace(int targetX, int targetY, List<GridSpace_TerrainType> validTerrainTypes)
-    {
-        List<GridSpace> search = refCombatGrid.GetBreadthFirst(refCombatGrid.grid[targetX, targetY], refCombatGrid.gridWidth * refCombatGrid.gridHeight, TerrainTypePresets.all, Character_Affiliation.enemy);
-
-        for (int i = 0; i < search.Count; ++i)
-        {
-            if (validTerrainTypes.Contains(search[i].GetTerrainType()) && search[i].character == null && IsOnCheckerboard(search[i].coordinate))
-            {
-                return search[i];
-            }
-        }
-
-        return refCombatGrid.grid[targetX, targetY];
-    }
-
-    private bool IsOnCheckerboard(Vector2Int coordinate)
-    {
-        if (coordinate.x % 2 == 0)
-        {
-            if (coordinate.y % 2 == 1)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        else if (coordinate.x % 2 == 1)
-        {
-            if (coordinate.y % 2 == 0)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        return false;
-    }
-
-    private void AssignEnemyValues(GameObject obj, CharacterDefinition def)
-    {
-        EnemyBase refEnemyBase = obj.GetComponent<EnemyBase>();
-        MovementDialogueProcessor refMovementDialogueProcessor = obj.GetComponent<MovementDialogueProcessor>();
-        SpriteRenderer refSpriteRenderer = obj.GetComponentInChildren<SpriteRenderer>();
-
-        obj.name = def.characterName;
-
-        if (refEnemyBase != null)
-        {
-            // max health and current health
-            refEnemyBase.healthMax = def.healthMax;
-            refEnemyBase.healthCurrent = refEnemyBase.healthMax;
-
-            // attack and defense modifiers
-            refEnemyBase.attackMod = def.attackMod;
-            refEnemyBase.defenseMod = def.defenseMod;
-
-            // nashbalm
-            refEnemyBase.nashbalm = def.nashbalm;
-
-            // movement range
-            refEnemyBase.movementRangeDefault = def.movementRange;
-
-            // moveset
-            refEnemyBase.moveset = def.moveset;
-
-            // affiliation (always enemy, since this is the Enemy Manager)
-            refEnemyBase.affiliation = Character_Affiliation.enemy;
-
-            // navigable terrain types
-            refEnemyBase.terrainTypes = def.terrainTypes;
-
-            // character portrait for UI
-            refEnemyBase.portrait = def.portrait;
-
-            // ability definitions for UI
-            refEnemyBase.abilityUIDefinition = FindObjectOfType<CharacterUI>().InitializeAbilityUI(refEnemyBase);
-        }
-
-        if (refMovementDialogueProcessor != null)
-        {
-            // movement dialogue text
-            refMovementDialogueProcessor.dialogue = def.movementDialogue;
-
-            // movement dialogue sound
-            refMovementDialogueProcessor.speechBlip = def.movementDialogueSound;
-        }
-
-        if (refSpriteRenderer != null)
-        {
-            // temporary sprite
-            refSpriteRenderer.sprite = def.sprite;
-        }
-    }
-
-    private void AssignPassive(Character parent, CharacterDefinition def)
-    {
-        if (def.passiveFunctionality != null)
-        {
-            parent.passive = Instantiate(def.passiveFunctionality, parent.transform);
-            parent.passive.myCharacter = parent;
-        }
-    }
-
     public void EnemyActions()
     {
         for (int i = 0; i < enemies.Count; ++i)
         {
-            enemies[i].StartTurn();
+            enemies[i].StartTurn(refCombatGrid);
         }
 
         // enable enemy actions
@@ -261,6 +144,14 @@ public class EnemyManager : MonoBehaviour
         enemies.Clear();
     }
 
+    public void AddToAggroTargets(Character character)
+    {
+        for (int i = 0; i < enemies.Count; ++i)
+        {
+            enemies[i].aggroData.Add(new AggroData(character, 1));
+        }
+    }
+
     public void RemoveFromAggroTargets(Character character)
     {
         for (int i = 0; i < enemies.Count; ++i)
@@ -298,5 +189,10 @@ public class EnemyManager : MonoBehaviour
             "Michael Aberdeen"
         };
         names = new List<string>(tmp);
+    }
+
+    public override void AddCharacter(CharacterDefinition def, GridSpace gridSpace)
+    {
+
     }
 }
