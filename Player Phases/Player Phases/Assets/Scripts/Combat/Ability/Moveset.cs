@@ -18,12 +18,16 @@ public class MovesetData
     public AbilityData data3;
     public AbilityData data4;
 
-    public MovesetData(Moveset moveset)
+    public float unlocked;
+
+    public MovesetData(Moveset moveset, float unlock)
     {
         data1 = new AbilityData();
         data2 = new AbilityData();
         data3 = new AbilityData();
         data4 = new AbilityData();
+
+        unlocked = unlock;
 
         Reset(moveset);
     }

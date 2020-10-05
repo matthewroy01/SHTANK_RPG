@@ -112,11 +112,11 @@ public class EffectUI : MonoBehaviour
             {
                 if (effect.value > 0)
                 {
-                    ApplyEffect("Aggro+", aggro.color, audio ? aggro.audio : null, uiEffectPop);
+                    ApplyEffect("Aggro + " + effect.value.ToString(), aggro.color, audio ? aggro.audio : null, uiEffectPop);
                 }
                 else
                 {
-                    ApplyEffect("Aggro-", aggro.color, audio ? aggro.audio : null, uiEffectPop);
+                    ApplyEffect("Aggro - " + effect.value.ToString(), aggro.color, audio ? aggro.audio : null, uiEffectPop);
                 }
                 break;
             }

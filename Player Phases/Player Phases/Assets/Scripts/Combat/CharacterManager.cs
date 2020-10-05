@@ -47,7 +47,7 @@ public abstract class CharacterManager : MonoBehaviour
 
             // moveset
             refCharacter.moveset = def.moveset;
-            refCharacter.movesetData = new MovesetData(refCharacter.moveset);
+            refCharacter.movesetData = new MovesetData(refCharacter.moveset, 2);
 
             // affiliation
             refCharacter.affiliation = affiliation;

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87dbd0ae4f19c614aa30d32c30e58e3f, type: 3}
   m_Name: Moveset Sparrow
   m_EditorClassIdentifier: 
-  ability1: {fileID: 11400000, guid: 32a0d0426748dda4cab8b5889df09340, type: 2}
+  ability1: {fileID: 11400000, guid: 820f6422fb30e294a83190b12baf4e92, type: 2}
   ability2: {fileID: 11400000, guid: 85368e4dedc76974d94de52e71456e09, type: 2}
-  ability3: {fileID: 11400000, guid: 820f6422fb30e294a83190b12baf4e92, type: 2}
+  ability3: {fileID: 11400000, guid: 32a0d0426748dda4cab8b5889df09340, type: 2}
   ability4: {fileID: 0}

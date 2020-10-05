@@ -151,17 +151,45 @@ public class CharacterUI : MonoBehaviour
         textMeshNashbalm.text = "NB " + character.nashbalm + "%";
 
         // ability text
-        abilityUI1.SetActive(character.abilityUIDefinition.strings1.name != "");
-        UpdateAbilityUI(abilityUI1, character.abilityUIDefinition.strings1);
+        if (character.movesetData.unlocked > 0)
+        {
+            abilityUI1.SetActive(character.abilityUIDefinition.strings1.name != "");
+            UpdateAbilityUI(abilityUI1, character.abilityUIDefinition.strings1);
+        }
+        else
+        {
+            abilityUI1.SetActive(false);
+        }
 
-        abilityUI2.SetActive(character.abilityUIDefinition.strings2.name != "");
-        UpdateAbilityUI(abilityUI2, character.abilityUIDefinition.strings2);
+        if (character.movesetData.unlocked > 1)
+        {
+            abilityUI2.SetActive(character.abilityUIDefinition.strings2.name != "");
+            UpdateAbilityUI(abilityUI2, character.abilityUIDefinition.strings2);
+        }
+        else
+        {
+            abilityUI2.SetActive(false);
+        }
 
-        abilityUI3.SetActive(character.abilityUIDefinition.strings3.name != "");
-        UpdateAbilityUI(abilityUI3, character.abilityUIDefinition.strings3);
+        if (character.movesetData.unlocked > 2)
+        {
+            abilityUI3.SetActive(character.abilityUIDefinition.strings3.name != "");
+            UpdateAbilityUI(abilityUI3, character.abilityUIDefinition.strings3);
+        }
+        else
+        {
+            abilityUI3.SetActive(false);
+        }
 
-        abilityUI4.SetActive(character.abilityUIDefinition.strings4.name != "");
-        UpdateAbilityUI(abilityUI4, character.abilityUIDefinition.strings4);
+        if (character.movesetData.unlocked > 3)
+        {
+            abilityUI4.SetActive(character.abilityUIDefinition.strings4.name != "");
+            UpdateAbilityUI(abilityUI4, character.abilityUIDefinition.strings4);
+        }
+        else
+        {
+            abilityUI4.SetActive(false);
+        }
 
         // statuses
         UpdateStatusUI(character);
@@ -307,6 +335,7 @@ public class CharacterUI : MonoBehaviour
     {
         int damageNum = 0;
         int healingNum = 0;
+        int aggroNum = 0;
         List<string> effectNames = new List<string>();
         string effects = "";
 
@@ -319,6 +348,10 @@ public class CharacterUI : MonoBehaviour
             else if (abil.effects[i].id == Effect_ID.healing)
             {
                 healingNum += abil.effects[i].value;
+            }
+            else if (abil.effects[i].id == Effect_ID.aggro)
+            {
+                aggroNum += abil.effects[i].value;
             }
             else
             {
@@ -338,7 +371,22 @@ public class CharacterUI : MonoBehaviour
 
         if (healingNum > 0)
         {
+            if (effects != "")
+            {
+                effects += ", ";
+            }
+
             effects += healingNum.ToString() + " Healing";
+        }
+
+        if (aggroNum > 0)
+        {
+            if (effects != "")
+            {
+                effects += ", ";
+            }
+
+            effects += aggroNum.ToString() + " Aggro";
         }
 
         for (int i = 0; i < effectNames.Count; ++i)

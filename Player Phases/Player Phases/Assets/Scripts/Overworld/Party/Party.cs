@@ -125,6 +125,9 @@ public class PartyMember
     [HideInInspector]
     public int currentHealth;
 
+    [HideInInspector]
+    public int abilitiesUnlocked;
+
     // equipment piece "clothing"?
     // equipment piece "accessory"?
 }
