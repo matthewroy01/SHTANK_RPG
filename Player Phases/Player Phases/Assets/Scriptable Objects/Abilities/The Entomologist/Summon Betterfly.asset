@@ -21,5 +21,12 @@ MonoBehaviour:
   range: 3
   uses: 1
   endTurn: 0
-  effects: []
+  effects:
+  - id: 0
+    value: 0
+    probability: 0
+    source: {fileID: 0}
+    trueDamage: 0
+    pierceDefense: 0
+    summon: {fileID: 0}
   summon: {fileID: 11400000, guid: 89a3dfab0f54f6c45bac40f4fde8234f, type: 2}

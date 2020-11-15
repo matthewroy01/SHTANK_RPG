@@ -5,7 +5,7 @@ using UnityEngine;
 public class EnemyManager : CharacterManager
 {
     [Header("List of characters in combat after spawning")]
-    public List<EnemyBase> enemies = new List<EnemyBase>();
+    public List<Character> enemies = new List<Character>();
 
     private List<string> names = new List<string>();
 
@@ -47,10 +47,10 @@ public class EnemyManager : CharacterManager
 
         for (int i = 0; i < group.characterDefinitions.Count; ++i)
         {
-            EnemyBase tmp;
+            Character tmp;
 
             // spawn enemies and add them to the list
-            tmp = Instantiate(characterPrefab, transform).GetComponent<EnemyBase>();
+            tmp = Instantiate(characterPrefab, transform).GetComponent<Character>();
             enemies.Add(tmp);
 
             // get a valid spawning space for this character
@@ -110,7 +110,7 @@ public class EnemyManager : CharacterManager
         refPhaseManager.NextPhase();
     }
 
-    public void AlertAllEnemies(Character target, EnemyBase source)
+    public void AlertAllEnemies(Character target, Character source)
     {
         for (int i = 0; i < enemies.Count; ++i)
         {

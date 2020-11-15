@@ -5,7 +5,7 @@ using System.Reflection;
 
 using DG.Tweening;
 
-public class PlayerBase : Character
+/*public class PlayerBase : Character
 {
     private GridSpace originalGridSpace;
 
@@ -185,4 +185,4 @@ public class PlayerBase : Character
         transform.position = toReturnTo.obj.transform.position;
         myGridSpace = toReturnTo;
     }
-}
+}*/

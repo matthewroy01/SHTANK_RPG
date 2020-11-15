@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class PlayerSelector : MonoBehaviour
+/*public class PlayerSelector : MonoBehaviour
 {
-    public PlayerBase currentPlayer = null;
+    public Character currentPlayer = null;
     private GridSpace defaultGridSpace;
     private bool atDefPos = true;
     private bool inputtedAbility = false;
@@ -102,7 +102,7 @@ public class PlayerSelector : MonoBehaviour
                 if (hit.transform)
                 {
                     // try to set currentPlayer if the hit object has a player component
-                    currentPlayer = hit.transform.GetComponent<PlayerBase>();
+                    currentPlayer = hit.transform.GetComponent<Character>();
 
                     if (currentPlayer != null)
                     {
@@ -288,7 +288,7 @@ public class PlayerSelector : MonoBehaviour
             if (atDefPos)
             {
                 // let the player know they have been deselected for things like VFX
-                currentPlayer.Deselected();
+                currentPlayer.Deselected(refCombatGrid);
 
                 currentPlayer = null;
             }
@@ -330,7 +330,7 @@ public class PlayerSelector : MonoBehaviour
     {
         //uiStats.text = CharacterUI.GetStatsUI(currentPlayer);
 
-        /*if (currentPlayer.abilityUIDefinition != null)
+        if (currentPlayer.abilityUIDefinition != null)
         {
             string spacing = "\n\n";
             uiAbilities.text = currentPlayer.abilityUIDefinition.abil1 + spacing +
@@ -339,7 +339,7 @@ public class PlayerSelector : MonoBehaviour
                 currentPlayer.abilityUIDefinition.abil4 + spacing;
         }
 
-        uiBackgrounds.SetActive(true);*/
+        uiBackgrounds.SetActive(true);
     }
 
     private void ClearUI()
@@ -351,4 +351,4 @@ public class PlayerSelector : MonoBehaviour
     }
 }
 
-public enum CombatDirection { up = 0, down, left, right };
+public enum CombatDirection { up = 0, down, left, right };*/

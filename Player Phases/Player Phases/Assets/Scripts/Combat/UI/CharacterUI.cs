@@ -195,7 +195,7 @@ public class CharacterUI : MonoBehaviour
         UpdateStatusUI(character);
 
         // aggro target
-        EnemyBase enemy = null;
+        Character enemy = null;
         character.TryGetComponent(out enemy);
 
         if (enemy != null)

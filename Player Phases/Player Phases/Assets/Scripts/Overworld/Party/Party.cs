@@ -61,7 +61,7 @@ public class Party : MonoBehaviour
         }
     }
 
-    public void SaveHealth(List<PlayerBase> characters)
+    public void SaveHealth(List<Character> characters)
     {
         for (int i = 0; i < partyActive.Count; ++i)
         {

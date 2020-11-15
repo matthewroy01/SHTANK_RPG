@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyBase : Character
+/*public class EnemyBase : Character
 {
     private CombatGrid refCombatGrid;
 
@@ -311,16 +311,16 @@ public class EnemyBase : Character
             // clean the grid to actually perform the attack
             refCombatGrid.CleanGrid();
         }
-    }
+    }*/
 
-    public override void Selected(CombatGrid combatGrid)
+    /*public override void Selected(CombatGrid combatGrid)
     {
         FindMovementSpaces(refCombatGrid);
 
         HandleStatuses();
-    }
+    }*/
 
-    public void DispelAggroFromTarget(Character target, int amount)
+    /*public void DispelAggroFromTarget(Character target, int amount)
     {
         for (int i = 0; i < aggroData.Count; ++i)
         {
@@ -336,26 +336,4 @@ public class EnemyBase : Character
             }
         }
     }
-}
-
-[System.Serializable]
-public class AggroData
-{
-    public Character character;
-    public int aggro;
-
-    public AggroData(Character newCharacter, int value)
-    {
-        character = newCharacter;
-        aggro = value;
-    }
-
-    public bool Contains(Character c)
-    {
-        if (character == c)
-        {
-            return true;
-        }
-        return false;
-    }
-}
+}*/

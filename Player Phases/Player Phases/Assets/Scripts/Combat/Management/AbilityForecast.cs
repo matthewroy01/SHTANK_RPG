@@ -116,7 +116,7 @@ public class AbilityForecast : MonoBehaviour
             }
             case Effect_ID.aggro:
             {
-                if (character.GetType().Name == "PlayerBase")
+                if (character.affiliation == Character_Affiliation.player)
                 {
                     return false;
                 }
@@ -128,7 +128,7 @@ public class AbilityForecast : MonoBehaviour
             }
             case Effect_ID.aggroDispel:
             {
-                if (character.GetType().Name == "EnemyBase")
+                if (character.affiliation == Character_Affiliation.enemy)
                 {
                     return false;
                 }

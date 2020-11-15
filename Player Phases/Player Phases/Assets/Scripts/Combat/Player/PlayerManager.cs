@@ -10,7 +10,7 @@ public class PlayerManager : CharacterManager
     public List<CharacterDefinition> characterDefinitions;
 
     [Header("List of players in combat after spawning")]
-    public List<PlayerBase> players = new List<PlayerBase>();
+    public List<Character> players = new List<Character>();
 
     private List<string> names = new List<string>();
 
@@ -64,7 +64,7 @@ public class PlayerManager : CharacterManager
         for (int i = 0; i < refParty.partyActive.Count; ++i)
         {
             // spawn players and add them to the list
-            PlayerBase tmp = Instantiate(characterPrefab, transform).GetComponent<PlayerBase>();
+            Character tmp = Instantiate(characterPrefab, transform).GetComponent<Character>();
             players.Add(tmp);
 
             // get a valid spawning space for this character

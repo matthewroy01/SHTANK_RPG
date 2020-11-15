@@ -44,6 +44,7 @@ public abstract class CharacterManager : MonoBehaviour
 
             // movement range
             refCharacter.movementRangeDefault = def.movementRange;
+            refCharacter.movementRangeCurrent = refCharacter.movementRangeDefault;
 
             // moveset
             refCharacter.moveset = def.moveset;
@@ -63,6 +64,12 @@ public abstract class CharacterManager : MonoBehaviour
 
             // character description for tooltips
             refCharacter.characterDescription = def.characterDescription;
+
+            // for player characters, add the movement dialogue
+            refCharacter.refMovementDialogueProcessor = refCharacter.GetComponent<MovementDialogueProcessor>();
+
+            // character effect UI (for previewing and displaying damage)
+            refCharacter.refCharacterEffectUI = refCharacter.GetComponent<EffectUI>();
         }
 
         if (refMovementDialogueProcessor != null)

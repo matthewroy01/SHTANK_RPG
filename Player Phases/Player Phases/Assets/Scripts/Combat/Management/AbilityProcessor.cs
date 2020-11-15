@@ -12,7 +12,7 @@ public class AbilityProcessor : MonoBehaviour
     private GridSpace endingSpace;
 
     private Ability savedAbility;
-    private PlayerBase savedPlayer;
+    private Character savedCharacter;
 
     public bool turnEnding = true;
 
@@ -25,7 +25,7 @@ public class AbilityProcessor : MonoBehaviour
         refMovementAbilityForecast = FindObjectOfType<MovementAbilityForecast>();
     }
 
-    public List<GridSpace> ProcessAbility(PlayerBase player, GridSpace startingSpace, int abilNum, CombatDirection facing, bool flipped, bool setDirty = true)
+    public List<GridSpace> ProcessAbility(Character character, GridSpace startingSpace, int abilNum, CombatDirection facing, bool flipped, bool setDirty = true)
     {
         CancelAbility();
 
@@ -36,7 +36,7 @@ public class AbilityProcessor : MonoBehaviour
 
         if (startingSpace == null)
         {
-            startingSpace = player.myGridSpace;
+            startingSpace = character.myGridSpace;
         }
 
         // save the supplied ability
@@ -44,43 +44,43 @@ public class AbilityProcessor : MonoBehaviour
         {
             case 1:
             {
-                savedAbility = player.moveset.ability1;
+                savedAbility = character.moveset.ability1;
                 break;
             }
             case 2:
             {
-                savedAbility = player.moveset.ability2;
+                savedAbility = character.moveset.ability2;
                 break;
             }
             case 3:
             {
-                savedAbility = player.moveset.ability3;
+                savedAbility = character.moveset.ability3;
                 break;
             }
             case 4:
             {
-                savedAbility = player.moveset.ability4;
+                savedAbility = character.moveset.ability4;
                 break;
             }
         }
 
         // save the supplied player
-        savedPlayer = player;
+        savedCharacter = character;
 
         // apply source data from the saved player to the saved ability
-        savedAbility.ApplySourceInfo(player);
+        savedAbility.ApplySourceInfo(character);
 
         if (savedAbility != null)
         {
             string abilType = savedAbility.GetType().Name;
 
             // get possible starting grid spaces
-            startingSpaces.AddRange(refCombatGrid.GetBreadthFirst(player.myGridSpace, savedAbility.range, GetValidTerrainTypes(), Character_Affiliation.none));
+            startingSpaces.AddRange(refCombatGrid.GetBreadthFirst(character.myGridSpace, savedAbility.range, GetValidTerrainTypes(), Character_Affiliation.none));
 
             // if the ability causes the character to move, remove spaces with characters so the character can't occupy the same space as another character
             if (savedAbility.moveCharacter)
             {
-                RemoveCharactersFromStartingSpaces(player);
+                RemoveCharactersFromStartingSpaces(character);
             }
 
             // make sure the specified starting grid space is a valid starting space contained within startingSpaces
@@ -88,7 +88,7 @@ public class AbilityProcessor : MonoBehaviour
             {
                 if (!savedAbility.moveCharacter)
                 {
-                    endingSpace = player.myGridSpace;
+                    endingSpace = character.myGridSpace;
                 }
 
                 // process ability
@@ -180,7 +180,7 @@ public class AbilityProcessor : MonoBehaviour
         gridSpaces.Clear();
         startingSpaces.Clear();
         savedAbility = null;
-        savedPlayer = null;
+        savedCharacter = null;
         toSummon = null;
     }
 
@@ -201,11 +201,11 @@ public class AbilityProcessor : MonoBehaviour
             {
                 if (savedAbility.moveCharacter)
                 {
-                    savedPlayer.MoveToGridSpace(endingSpace);
+                    savedCharacter.MoveToGridSpace(endingSpace);
                 }
                 else
                 {
-                    savedPlayer.MoveToGridSpace(endingSpace);
+                    savedCharacter.MoveToGridSpace(endingSpace);
                 }
                 break;
             }
@@ -213,11 +213,11 @@ public class AbilityProcessor : MonoBehaviour
             {
                 if (savedAbility.moveCharacter)
                 {
-                    savedPlayer.MoveToGridSpacePath(gridSpaces, endingSpace);
+                    savedCharacter.MoveToGridSpacePath(gridSpaces, endingSpace);
                 }
                 else
                 {
-                    savedPlayer.MoveToGridSpace(endingSpace);
+                    savedCharacter.MoveToGridSpace(endingSpace);
                 }
                 break;
             }
@@ -225,11 +225,11 @@ public class AbilityProcessor : MonoBehaviour
             {
                 if (savedAbility.moveCharacter)
                 {
-                    savedPlayer.MoveToGridSpace(endingSpace);
+                    savedCharacter.MoveToGridSpace(endingSpace);
                 }
                 else
                 {
-                    savedPlayer.MoveToGridSpace(endingSpace);
+                    savedCharacter.MoveToGridSpace(endingSpace);
                 }
                 break;
             }
@@ -243,11 +243,11 @@ public class AbilityProcessor : MonoBehaviour
                 {
                     Character_Affiliation tmp = Character_Affiliation.none;
 
-                    if (savedPlayer.affiliation == Character_Affiliation.player)
+                    if (savedCharacter.affiliation == Character_Affiliation.player)
                     {
                         tmp = Character_Affiliation.ally;
                     }
-                    else if (savedPlayer.affiliation == Character_Affiliation.enemy)
+                    else if (savedCharacter.affiliation == Character_Affiliation.enemy)
                     {
                         tmp = Character_Affiliation.enemy;
                     }
@@ -279,7 +279,7 @@ public class AbilityProcessor : MonoBehaviour
     {
         if (endingSpace != null)
         {
-            refMovementAbilityForecast.DisplayForecast(endingSpace.obj.transform.position, savedPlayer, savedAbility != null ? savedAbility.moveCharacter : false);
+            refMovementAbilityForecast.DisplayForecast(endingSpace.obj.transform.position, savedCharacter, savedAbility != null ? savedAbility.moveCharacter : false);
         }
     }
 
@@ -583,14 +583,14 @@ public class AbilityProcessor : MonoBehaviour
 
     private List<GridSpace_TerrainType> GetValidTerrainTypes()
     {
-        if (savedAbility != null && savedPlayer != null)
+        if (savedAbility != null && savedCharacter != null)
         {
             List<GridSpace_TerrainType> validTerrainTypes = new List<GridSpace_TerrainType>();
-            validTerrainTypes.AddRange(savedPlayer.terrainTypes);
+            validTerrainTypes.AddRange(savedCharacter.terrainTypes);
 
             if (savedAbility.moveCharacter)
             {
-                validTerrainTypes = new List<GridSpace_TerrainType>(savedPlayer.terrainTypes);
+                validTerrainTypes = new List<GridSpace_TerrainType>(savedCharacter.terrainTypes);
             }
             else if (savedAbility.ignoreWalls)
             {
@@ -631,3 +631,11 @@ public class AbilityProcessor : MonoBehaviour
         return startingSpaces;
     }
 }
+
+public enum CombatDirection
+{
+    up = 0,
+    down,
+    left,
+    right
+};

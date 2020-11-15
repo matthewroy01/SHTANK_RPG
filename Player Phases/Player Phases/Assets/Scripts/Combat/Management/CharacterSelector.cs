@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 public class CharacterSelector : MonoBehaviour
 {
     [Header("Selected Characters (for display only)")]
-    public PlayerBase currentPlayer;
+    public Character currentPlayer;
     private GridSpace defaultGridSpace;
     private GridSpace tmpGridSpace;
     public Character overlayCharacter;
@@ -212,14 +212,14 @@ public class CharacterSelector : MonoBehaviour
         {
             if (hit.transform)
             {
-                PlayerBase tmp = null;
+                Character tmp = null;
 
                 if (hit.transform.TryGetComponent(out tmp) && tmp != null && tmp != currentPlayer && !tmp.GetIdle())
                 {
                     // deselect the previously selected player
                     if (currentPlayer != null)
                     {
-                        currentPlayer.Deselected();
+                        currentPlayer.Deselected(refCombatGrid);
                     }
 
                     // assign the new current player
@@ -249,7 +249,7 @@ public class CharacterSelector : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
-            currentPlayer.Deselected();
+            currentPlayer.Deselected(refCombatGrid);
             currentPlayer = null;
 
             refCharacterUI.ToggleUI(false);
@@ -630,9 +630,9 @@ public class CharacterSelector : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, layerMaskGrid) && !Input.GetMouseButton(0) && refCharacterUI.GetMouseIsntOverButton())
         {
-            EnemyBase tmpEnemy;
+            Character tmpEnemy;
 
-            if (hit.transform != null && hit.transform.TryGetComponent(out tmpEnemy))
+            if (hit.transform != null && hit.transform.TryGetComponent(out tmpEnemy) && tmpEnemy.affiliation == Character_Affiliation.enemy)
             {
                 tmpEnemy.Selected(refCombatGrid);
 
@@ -725,11 +725,11 @@ public class CharacterSelector : MonoBehaviour
 
                 if (gridSpace != null && gridSpace.character != null)
                 {
-                    if (gridSpace.character.GetComponent<PlayerBase>() != null)
+                    if (gridSpace.character.affiliation == Character_Affiliation.player)
                     {
                         cursor.color = Color.Lerp(Color.blue, Color.white, 0.25f);
                     }
-                    else if (gridSpace.character.GetComponent<EnemyBase>() != null)
+                    else if (gridSpace.character.affiliation == Character_Affiliation.enemy)
                     {
                         cursor.color = Color.Lerp(Color.red, Color.white, 0.25f);
                     }

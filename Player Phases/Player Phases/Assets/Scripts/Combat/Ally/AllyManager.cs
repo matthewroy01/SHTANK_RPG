@@ -5,7 +5,7 @@ using UnityEngine;
 public class AllyManager : CharacterManager
 {
     [Header("List of characters in combat after spawning")]
-    public List<EnemyBase> allies = new List<EnemyBase>();
+    public List<Character> allies = new List<Character>();
 
     private void Start()
     {
@@ -34,7 +34,7 @@ public class AllyManager : CharacterManager
     public override void AddCharacter(CharacterDefinition def, GridSpace gridSpace)
     {
         // spawn ally and add it to the list
-        EnemyBase tmp = Instantiate(characterPrefab, transform).GetComponent<EnemyBase>();
+        Character tmp = Instantiate(characterPrefab, transform).GetComponent<Character>();
         allies.Add(tmp);
 
         // get a valid spawning space for this character

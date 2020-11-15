@@ -4,9 +4,11 @@ using UnityEngine;
 
 using DG.Tweening;
 
-public abstract class Character : MonoBehaviour
+public class Character : MonoBehaviour
 {
     public SpriteRenderer placeholderRenderer;
+
+    private CombatGrid refCombatGrid;
 
     // stats
     /* ----------------------------------------------------------*/
@@ -50,6 +52,13 @@ public abstract class Character : MonoBehaviour
     public bool statusHoneyed = false;
     public bool statusAttackUp = false;
 
+    // aggro information for AI controlled characters
+    /* ----------------------------------------------------------*/
+
+    [HideInInspector]
+    public List<AggroData> aggroData = new List<AggroData>();
+    private GridSpace aggroTarget;
+
     /* ----------------------------------------------------------*/
 
     [Header("Affiliation")]
@@ -65,15 +74,25 @@ public abstract class Character : MonoBehaviour
     public string characterDescription;
 
     public GridSpace myGridSpace;
+    [HideInInspector]
+    public GridSpace originalGridSpace;
 
     [HideInInspector]
     public EffectUI refCharacterEffectUI;
 
     [HideInInspector]
     public AbilityUIDefinition abilityUIDefinition;
-    protected MovementDialogueProcessor refMovementDialogueProcessor;
+    [HideInInspector]
+    public MovementDialogueProcessor refMovementDialogueProcessor;
 
     protected bool idle = true;
+    [HideInInspector]
+    public bool selected;
+
+    private void Awake()
+    {
+        refCombatGrid = FindObjectOfType<CombatGrid>();
+    }
 
     public void StartApplyEffect(Effect effect, bool counterable)
     {
@@ -95,38 +114,6 @@ public abstract class Character : MonoBehaviour
                         int modValue = effect.value;
 
                         modValue = GetTrueDamage(effect.value, effect);
-                        /*// calculate attack modifiers
-                        if (!effect.trueDamage)
-                        {
-                            // apply attack mod
-                            modValue += effect.source.attackMod;
-
-                            // apply passive attack modifiers if any are present
-                            if (effect.source.passive != null)
-                            {
-                                modValue = effect.source.passive.GetAttackBoost(modValue);
-                            }
-                        }
-
-                        // calculate defense modifiers
-                        if (!effect.pierceDefense)
-                        {
-                            // apply defense mod
-                            if (modValue - defenseMod > 0)
-                            {
-                                modValue -= defenseMod;
-                            }
-                            else
-                            {
-                                modValue = 0;
-                            }
-
-                            // apply passive defense modifiers if any are present
-                            if (passive != null)
-                            {
-                                modValue = passive.GetDefenseBoost(modValue);
-                            }
-                        }*/
 
                         // check nashblam for counterattacks
                         if (counterable && Random.Range(0.0f, 100.0f) <= nashbalm)
@@ -189,10 +176,10 @@ public abstract class Character : MonoBehaviour
                         }
 
                         // for enemies, also apply some aggro and alert the other enemies
-                        if (GetType().Name == "EnemyBase")
+                        if (affiliation == Character_Affiliation.enemy)
                         {
-                            ((EnemyBase)this).ApplyAggro(effect.source, 1);
-                            FindObjectOfType<EnemyManager>().AlertAllEnemies(effect.source, (EnemyBase)this);
+                            ApplyAggro(effect.source, 1);
+                            FindObjectOfType<EnemyManager>().AlertAllEnemies(effect.source, this);
                         }
 
                         if (healthCurrent == 0)
@@ -231,14 +218,14 @@ public abstract class Character : MonoBehaviour
             {
                 if (Random.Range(0.0f, 1.0f) <= effect.probability)
                 {
-                    if (GetType().Name == "EnemyBase")
+                    if (affiliation == Character_Affiliation.enemy)
                     {
                         Debug.Log(gameObject.name + " receives effect of type " + effect.id + "!");
 
                         refCharacterEffectUI.AddEffect(effect);
 
-                        ((EnemyBase)this).ApplyAggro(effect.source, effect.value);
-                        FindObjectOfType<EnemyManager>().AlertAllEnemies(effect.source, (EnemyBase)this);
+                        ApplyAggro(effect.source, effect.value);
+                        FindObjectOfType<EnemyManager>().AlertAllEnemies(effect.source, this);
                     }
                 }
                 break;
@@ -292,15 +279,37 @@ public abstract class Character : MonoBehaviour
 
     public virtual void StartTurn(CombatGrid grid)
     {
-        movesetData.Reset(moveset);
+        switch(affiliation)
+        {
+            case Character_Affiliation.player:
+            {
+                movesetData.Reset(moveset);
 
-        idle = false;
+                idle = false;
+                originalGridSpace = myGridSpace;
 
-        HandleStatuses();
-        FindMovementSpaces(grid);
+                HandleStatuses();
+                FindMovementSpaces(grid);
 
-        // PASSIVE EVENT: BEGIN TURN
-        SendEvent(PassiveEventID.turnStart);
+                // PASSIVE EVENT: BEGIN TURN
+                SendEvent(PassiveEventID.turnStart);
+                break;
+            }
+            case Character_Affiliation.enemy:
+            {
+                movesetData.Reset(moveset);
+
+                idle = false;
+
+                HandleStatuses();
+                FindMovementSpaces(grid);
+
+                // PASSIVE EVENT: BEGIN TURN
+                SendEvent(PassiveEventID.turnStart);
+
+                break;
+            }
+        }
     }
 
     public void HandleStatuses()
@@ -316,7 +325,199 @@ public abstract class Character : MonoBehaviour
         }
     }
 
-    public abstract void Selected(CombatGrid combatGrid);
+    public void Selected(CombatGrid combatGrid)
+    {
+        switch(affiliation)
+        {
+            case Character_Affiliation.player:
+            {
+                selected = true;
+
+                // apply any statuses again in case they have been cured
+                // STATUSES LIKE POISON, THAT APPLY DAMAGE WILL NEED A SPECIAL CASE SO THEY DON'T GET APPLIED EVERY TIME THE PLAYER IS SELECTED
+                HandleStatuses();
+
+                // refind the potential movement spaces in case another character has moved since the turn began
+                FindMovementSpaces(combatGrid);
+
+                if (refMovementDialogueProcessor != null)
+                {
+                    refMovementDialogueProcessor.Display();
+                }
+                break;
+            }
+            case Character_Affiliation.enemy:
+            {
+                // apply any statuses again in case they have been cured
+                // STATUSES LIKE POISON, THAT APPLY DAMAGE WILL NEED A SPECIAL CASE SO THEY DON'T GET APPLIED EVERY TIME THE PLAYER IS SELECTED
+                HandleStatuses();
+
+                // refind the potential movement spaces in case another character has moved since the turn began
+                FindMovementSpaces(refCombatGrid);
+
+                break;
+            }
+        }
+    }
+
+    public void Deselected(CombatGrid combatGrid)
+    {
+        switch(affiliation)
+        {
+            case Character_Affiliation.player:
+            {
+                selected = false;
+
+                if (refMovementDialogueProcessor != null)
+                {
+                    refMovementDialogueProcessor.Clear();
+                }
+                break;
+            }
+        }
+    }
+
+    public void MoveToGridSpace(GridSpace toMoveTo)
+    {
+        if (toMoveTo != null)
+        {
+            transform.DOMove(toMoveTo.obj.transform.position, 0.25f);
+            myGridSpace = toMoveTo;
+        }
+    }
+
+    public void MoveToGridSpacePath(List<GridSpace> spaces, GridSpace end)
+    {
+        if (spaces != null && spaces.Count > 1)
+        {
+            List<Vector3> positions = new List<Vector3>();
+
+            for (int i = 0; i < spaces.Count; ++i)
+            {
+                positions.Add(spaces[i].obj.transform.position);
+
+                if (spaces[i] == end)
+                {
+                    break;
+                }
+            }
+
+            transform.DOPath(positions.ToArray(), 0.25f);
+            myGridSpace = end;
+        }
+    }
+
+    public void MoveToGridSpaceJump(GridSpace toMoveTo)
+    {
+        if (toMoveTo != null)
+        {
+            transform.DOJump(toMoveTo.obj.transform.position, 2.0f, 1, 0.25f);
+            myGridSpace = toMoveTo;
+        }
+    }
+
+    IEnumerator MoveAlongPath(List<GridSpace> path)
+    {
+        if (path.Count > 0)
+        {
+            GridSpace currentAlongPath = null;
+
+            // move along the path
+            for (int i = 0; i < path.Count; ++i)
+            {
+                // keep a current grid space updated so we can update the grid properly
+                currentAlongPath = path[i];
+                // update position for visuals
+                transform.position = currentAlongPath.obj.transform.position;
+
+                yield return new WaitForSeconds(0.1f);
+
+                // if the current space along the path reached the end and we are in range, attack!
+                if (i == path.Count - 1 && refCombatGrid.GetDistance(path[i], aggroTarget) == 1)
+                {
+                    Attack();
+                    break;
+                }
+            }
+
+            // properly reassign grid spaces
+            if (currentAlongPath != null)
+            {
+                myGridSpace.character = null;
+                myGridSpace = currentAlongPath;
+                myGridSpace.character = this;
+            }
+        }
+
+        idle = true;
+    }
+
+    public bool TryMove(CombatDirection dir, CombatGrid grid)
+    {
+        bool result = false;
+
+        GridSpace tmp = grid.TryMove(dir, myGridSpace, movementSpaces);
+
+        if (tmp != myGridSpace)
+        {
+            result = true;
+        }
+
+        myGridSpace = tmp;
+        transform.position = myGridSpace.obj.transform.position;
+
+        return result;
+    }
+
+    public bool TryMoveAStar(CombatGrid grid, GridSpace target)
+    {
+        if (target != null && movementSpaces.Contains(target))
+        {
+            // try to path to the target GridSpace
+            List<GridSpace> spaces;
+            spaces = grid.GetAStar(grid, myGridSpace, target, this, true);
+
+            // if a path was found and we are not already at the target, move there
+            if (spaces.Count > 0 && myGridSpace != spaces[spaces.Count - 1])
+            {
+                myGridSpace = spaces[spaces.Count - 1];
+                transform.position = myGridSpace.obj.transform.position;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void SaveMyGridSpace()
+    {
+        // update combat grid with new position
+        originalGridSpace.character = null;
+        myGridSpace.character = this;
+        originalGridSpace = myGridSpace;
+    }
+
+    public void EndTurn()
+    {
+        SaveMyGridSpace();
+
+        selected = false;
+        idle = true;
+
+        if (refMovementDialogueProcessor != null)
+        {
+            //refMovementDialogueProcessor.Clear();
+        }
+
+        // PASSIVE EVENT: END TURN
+        SendEvent(PassiveEventID.turnEnd);
+    }
+
+    public void ResetToDefaultPosition(GridSpace toReturnTo)
+    {
+        transform.position = toReturnTo.obj.transform.position;
+        myGridSpace = toReturnTo;
+    }
 
     public bool GetDead()
     {
@@ -425,5 +626,288 @@ public abstract class Character : MonoBehaviour
         }
 
         return trueDamage;
+    }
+
+    public void DoAI()
+    {
+        HandleStatuses();
+
+        FindMovementSpaces(refCombatGrid);
+
+        // select aggro target
+        aggroTarget = ProcessAggro();
+
+        GridSpace closestValidSpace = null; // a grid space within the list of valid movement spaces that is closest to the aggro target adjacent space
+        List<GridSpace> path = new List<GridSpace>(); // the list to store our final movement path
+
+        if (aggroTarget != myGridSpace)
+        {
+            Debug.Log(gameObject.name + "'s target was " + aggroTarget.character.name + "!");
+
+            closestValidSpace = CheckClosestValidSpace(aggroTarget);
+
+            // find the path to the found valid movement space
+            if (closestValidSpace != null)
+            {
+                path = refCombatGrid.GetAStar(refCombatGrid, myGridSpace, closestValidSpace, this, true);
+            }
+
+            StartCoroutine(MoveAlongPath(path));
+        }
+        else
+        {
+            idle = true;
+        }
+    }
+
+    private void CheckAdjacentSpace(GridSpace center, ref GridSpace currentClosest, params string[] directions)
+    {
+        int currentDistance = int.MaxValue;
+
+        for (int i = 0; i < directions.Length; ++i)
+        {
+            GridSpace adjacent = (GridSpace)center.GetType().GetField(directions[i]).GetValue(center);
+            int distance = refCombatGrid.GetAStar(refCombatGrid, adjacent, myGridSpace, this, true).Count;
+
+            if (adjacent.character == null && terrainTypes.Contains(adjacent.GetTerrainType()))
+            {
+                if (distance < currentDistance)
+                {
+                    currentDistance = distance;
+
+                    currentClosest = adjacent;
+                }
+                else if (distance == currentDistance)
+                {
+                    if (Random.Range(0, 2) == 1)
+                    {
+                        currentDistance = distance;
+
+                        currentClosest = adjacent;
+                    }
+                }
+            }
+        }
+
+        if (currentClosest == center)
+        {
+            currentClosest = center;
+        }
+    }
+
+    private GridSpace CheckClosestValidSpace(GridSpace toCheckWith)
+    {
+        int lowest = int.MaxValue;
+        GridSpace closest = null;
+
+        if (toCheckWith != myGridSpace)
+        {
+            for (int i = 0; i < movementSpaces.Count; ++i)
+            {
+                int pathCount = refCombatGrid.GetAStar(refCombatGrid, toCheckWith, movementSpaces[i], this, true).Count;
+                if (pathCount < lowest)
+                {
+                    lowest = pathCount;
+                    closest = movementSpaces[i];
+                }
+            }
+        }
+
+        return closest;
+    }
+
+    public GridSpace ProcessAggro()
+    {
+        GridSpace result = null;
+
+        while (result == null)
+        {
+            List<AggroData> aggroCandidatesHighest = new List<AggroData>();
+            int highestAggro = int.MinValue;
+
+            // first find the characters with the highest aggro values
+            for (int i = 0; i < aggroData.Count; ++i)
+            {
+                if (aggroData[i].aggro > highestAggro)
+                {
+                    aggroCandidatesHighest.Clear();
+                    aggroCandidatesHighest.Add(aggroData[i]);
+                    highestAggro = aggroData[i].aggro;
+                }
+                else if (aggroData[i].aggro == highestAggro)
+                {
+                    aggroCandidatesHighest.Add(aggroData[i]);
+                }
+            }
+
+            // if only one character has the highest aggro, this is our target
+            if (aggroCandidatesHighest.Count == 1)
+            {
+                result = aggroCandidatesHighest[0].character.myGridSpace;
+                return result;
+            }
+
+            // next, look for characters in range
+            List<AggroData> aggroCandidatesInRange = new List<AggroData>();
+            List<GridSpace> attackSpaces = refCombatGrid.GetBreadthFirst(myGridSpace, movementRangeCurrent, terrainTypes, Character_Affiliation.none);
+            // add one extra range regardless of terrain type to cover player characters inside of impassable tiles
+            attackSpaces.AddRange(refCombatGrid.GetBorder(attackSpaces));
+            for (int i = 0; i < aggroCandidatesHighest.Count; ++i)
+            {
+                for (int j = 0; j < attackSpaces.Count; ++j)
+                {
+                    if (aggroCandidatesHighest[i].character == attackSpaces[j].character && (movementSpaces.Contains(attackSpaces[j]) || refCombatGrid.GetBorder(movementSpaces).Contains(attackSpaces[j])))
+                    {
+                        aggroCandidatesInRange.Add(aggroCandidatesHighest[i]);
+                    }
+                }
+            }
+
+            // if only one character is in range, this is our target
+            if (aggroCandidatesInRange.Count == 1)
+            {
+                result = aggroCandidatesInRange[0].character.myGridSpace;
+                return result;
+            }
+            // if no characters were in range, look for the character with the lowest bulk and we'll move towards them
+            else if (aggroCandidatesInRange.Count == 0)
+            {
+                result = GetTargetWithLowestBulk(aggroData);
+                return result;
+            }
+            // if multiple characters were in range, the one with the lowest bulk is our target
+            else
+            {
+                result = GetTargetWithLowestBulk(aggroCandidatesInRange);
+                return result;
+            }
+        }
+
+        return result;
+    }
+
+    private GridSpace GetTargetWithLowestBulk(List<AggroData> list)
+    {
+        List<AggroData> aggroCandidatesLowestBulk = new List<AggroData>();
+        int lowestBulk = int.MaxValue;
+
+        // find the characters with the lowest bulk
+        for (int i = 0; i < list.Count; ++i)
+        {
+            if (list[i].character.healthCurrent + list[i].character.defenseMod < lowestBulk)
+            {
+                aggroCandidatesLowestBulk.Clear();
+                aggroCandidatesLowestBulk.Add(list[i]);
+                lowestBulk = list[i].character.healthCurrent + list[i].character.defenseMod;
+            }
+            else if (list[i].character.healthCurrent + list[i].character.defenseMod == lowestBulk)
+            {
+                aggroCandidatesLowestBulk.Add(list[i]);
+            }
+        }
+
+        // if only one character had the lowest bulk, this is our target
+        if (aggroCandidatesLowestBulk.Count == 1)
+        {
+            return aggroCandidatesLowestBulk[0].character.myGridSpace;
+        }
+        // otherwise randomly select one
+        else if (aggroCandidatesLowestBulk.Count > 1)
+        {
+            return aggroCandidatesLowestBulk[Random.Range(0, aggroCandidatesLowestBulk.Count)].character.myGridSpace;
+        }
+        else
+        {
+            return myGridSpace;
+        }
+    }
+
+    public void ApplyAggro(Character source, int amount)
+    {
+        for (int i = 0; i < aggroData.Count; ++i)
+        {
+            if (aggroData[i].character == source)
+            {
+                if (aggroData[i].aggro + amount > 10)
+                {
+                    aggroData[i].aggro = 10;
+                }
+                else if (aggroData[i].aggro + amount < 0)
+                {
+                    aggroData[i].aggro = 0;
+                }
+                else
+                {
+                    aggroData[i].aggro += amount;
+                }
+            }
+        }
+    }
+
+    private AggroData GetAggroCandidateFromList(Character c)
+    {
+        for (int i = 0; i < aggroData.Count; ++i)
+        {
+            if (aggroData[i].character == c)
+            {
+                return aggroData[i];
+            }
+        }
+
+        return null;
+    }
+
+    public void DispelAggroFromTarget(Character target, int amount)
+    {
+        for (int i = 0; i < aggroData.Count; ++i)
+        {
+            // also check if aggro was already 0, since we shouldn't reset aggro to 1 if it was 0
+            if (aggroData[i].character == target && aggroData[i].aggro > 0)
+            {
+                aggroData[i].aggro -= amount;
+
+                if (aggroData[i].aggro < 1)
+                {
+                    aggroData[i].aggro = 1;
+                }
+            }
+        }
+    }
+
+    private void Attack()
+    {
+        if (moveset != null)
+        {
+            // apply source to basic attack for things like aggro and friendly fire
+            moveset.ability1.ApplySourceInfo(this);
+
+            // make the grid space dirty
+            refCombatGrid.MakeDirty(aggroTarget, moveset.ability1);
+
+            // clean the grid to actually perform the attack
+            refCombatGrid.CleanGrid();
+        }
+    }
+}
+
+[System.Serializable]
+public class AggroData
+{
+    public Character character;
+    public int aggro;
+
+    public AggroData(Character newCharacter, int value)
+    {
+        character = newCharacter;
+        aggro = value;
+    }
+
+    public bool Contains(Character c)
+    {
+        if (character == c)
+        {
+            return true;
+        }
+        return false;
     }
 }
