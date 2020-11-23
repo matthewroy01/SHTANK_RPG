@@ -16,19 +16,17 @@ public class AIProcessor : MonoBehaviour
     private GridSpace savedAggroTarget;
     private List<Effect> savedEffects = new List<Effect>();
 
-    private AbilityProcessor refAbilityProcessor;
-
     private CombatGrid refCombatGrid;
     private AbilityForecast refAbilityForecast;
     private MovementAbilityForecast refMovementAbilityForecast;
+    private PhaseManager refPhaseManager;
 
     private void Start()
     {
-        refAbilityProcessor = FindObjectOfType<CombatManager>().GetAbilityProcessor();
-
         refCombatGrid = FindObjectOfType<CombatGrid>();
         refAbilityForecast = FindObjectOfType<AbilityForecast>();
         refMovementAbilityForecast = FindObjectOfType<MovementAbilityForecast>();
+        refPhaseManager = FindObjectOfType<PhaseManager>();
 
         result = new AIResult(int.MinValue, null, CombatDirection.up, false, null, false);
     }
@@ -36,6 +34,7 @@ public class AIProcessor : MonoBehaviour
     public void ProcessAbility(Character character, Ability abil, List<GridSpace> movementSpaces, GridSpace aggroTarget)
     {
         result.Reset();
+        threadedGridSpaces.Clear();
 
         List<Thread> threads = new List<Thread>();
 
@@ -54,33 +53,52 @@ public class AIProcessor : MonoBehaviour
 
         for (int i = 0; i < threadedGridSpaces.Count; ++i)
         {
-            ProcessAbilityStart(i);
+            threads.Add(new Thread(ProcessAbilityStart));
+            threads[threads.Count - 1].Start();
         }
 
-        savedCharacter.AIFinished(result);
+        StartCoroutine(CheckThreadCompletion());
     }
 
-    private void ProcessAbilityStart(int index)
+    private void ProcessAbilityStart()
     {
-        ProcessAbilityWithDirection(index, CombatDirection.up, false);
-        ProcessAbilityWithDirection(index, CombatDirection.down, false);
-        ProcessAbilityWithDirection(index, CombatDirection.left, false);
-        ProcessAbilityWithDirection(index, CombatDirection.right, false);
+        int index = -1;
+
+        for (int i = 0; i < threadedGridSpaces.Count; ++i)
+        {
+            if (threadedGridSpaces[i].processing == false)
+            {
+                threadedGridSpaces[i].processing = true;
+                index = i;
+
+                break;
+            }
+        }
+
+        AbilityProcessor tmp = new AbilityProcessor(refCombatGrid, refAbilityForecast, refMovementAbilityForecast, refPhaseManager);
+
+        ProcessAbilityWithDirection(tmp, index, CombatDirection.up, false);
+        ProcessAbilityWithDirection(tmp, index, CombatDirection.down, false);
+        ProcessAbilityWithDirection(tmp, index, CombatDirection.left, false);
+        ProcessAbilityWithDirection(tmp, index, CombatDirection.right, false);
 
         if (savedAbility.GetType().Name == "PathAbility")
         {
-            ProcessAbilityWithDirection(index, CombatDirection.up, true);
-            ProcessAbilityWithDirection(index, CombatDirection.down, true);
-            ProcessAbilityWithDirection(index, CombatDirection.left, true);
-            ProcessAbilityWithDirection(index, CombatDirection.right, true);
+            ProcessAbilityWithDirection(tmp, index, CombatDirection.up, true);
+            ProcessAbilityWithDirection(tmp, index, CombatDirection.down, true);
+            ProcessAbilityWithDirection(tmp, index, CombatDirection.left, true);
+            ProcessAbilityWithDirection(tmp, index, CombatDirection.right, true);
         }
+
+        threadComplete--;
+        Thread.CurrentThread.Join();
     }
 
-    private void ProcessAbilityWithDirection(int index, CombatDirection direction, bool flipped)
+    private void ProcessAbilityWithDirection(AbilityProcessor ap, int index, CombatDirection direction, bool flipped)
     {
         // use the ability processor to process the saved ability given the direction and whether or not it was flipped
         List<GridSpace> gridSpaces = new List<GridSpace>();
-        gridSpaces = refAbilityProcessor.ProcessAbility(savedCharacter, threadedGridSpaces[index].gridSpace, 1, direction, flipped, false);
+        gridSpaces = ap.ProcessAbility(savedCharacter, threadedGridSpaces[index].gridSpace, 1, direction, flipped, false);
 
         int score = CalculateScore(gridSpaces, savedAbility.GetTotalDamage());
         CompareScore(score, threadedGridSpaces[index].gridSpace, direction, flipped);
@@ -144,6 +162,23 @@ public class AIProcessor : MonoBehaviour
                 result = new AIResult(score, toMoveTo, direction, true, savedAbility, true);
             }
         }
+    }
+
+    private IEnumerator CheckThreadCompletion()
+    {
+        float timer = 0.0f;
+
+        while (threadComplete > 0)
+        {
+            timer += Time.deltaTime;
+
+            yield return null;
+        }
+
+        Debug.Log("AI processing took " + timer + " seconds");
+
+        // let the character that was processing AI that it has finished
+        savedCharacter.AIFinished(result);
     }
 }
 

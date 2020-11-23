@@ -197,7 +197,7 @@ public class AbilityProcessor
     public void ApplyAbility()
     {
         string abilType = savedAbility.GetType().Name;
-        Debug.Log(abilType + " applied.");
+        //Debug.Log(abilType + " applied.");
 
         // move the player to the saved ending space
         switch(savedAbility.GetType().Name)

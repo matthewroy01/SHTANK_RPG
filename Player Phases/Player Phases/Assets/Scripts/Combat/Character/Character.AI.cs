@@ -19,8 +19,6 @@ public partial class Character : MonoBehaviour
 
     public void AIFinished(AIResult result)
     {
-        Debug.Log(result.score);
-
         List<GridSpace> path = new List<GridSpace>(); // the list to store our final movement path
 
         if (result.foundAggroTarget)
@@ -270,10 +268,10 @@ public partial class Character : MonoBehaviour
 
         if (moveset != null && result.foundAggroTarget == true)
         {
+            tmp.ProcessAbility(this, myGridSpace, 1, result.direction, result.flipped, true, false);
+
             if (tmp.ApplyAbilityCheck())
             {
-                tmp.ProcessAbility(this, myGridSpace, 1, result.direction, result.flipped, true, false);
-
                 yield return new WaitForSecondsRealtime(0.5f);
 
                 tmp.ApplyAbility();
