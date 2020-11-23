@@ -13,6 +13,8 @@ public class CombatManager : MonoBehaviour
     public CanvasGroup combatSpecificUI;
     public ManagedAudio enterCombatAudio;
 
+    private AbilityProcessor refAbilityProcessor;
+
     void Start()
     {
         refCombatGrid = GetComponent<CombatGrid>();
@@ -56,5 +58,15 @@ public class CombatManager : MonoBehaviour
         }
 
         combatSpecificUI.transform.DOLocalMoveY(-200, 0.25f);
+    }
+
+    public AbilityProcessor GetAbilityProcessor()
+    {
+        if (refAbilityProcessor == null)
+        {
+            refAbilityProcessor = new AbilityProcessor(FindObjectOfType<CombatGrid>(), FindObjectOfType<AbilityForecast>(), FindObjectOfType<MovementAbilityForecast>(), FindObjectOfType<PhaseManager>());
+        }
+
+        return refAbilityProcessor;
     }
 }

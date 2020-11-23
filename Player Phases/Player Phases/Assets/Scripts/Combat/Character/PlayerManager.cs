@@ -113,7 +113,7 @@ public class PlayerManager : CharacterManager
         }
 
         // this current phase is done, let the Phase Manager know it's time to move to the next phase
-        refPhaseManager.NextPhase();
+        StartCoroutine(refPhaseManager.NextPhase());
     }
 
     public void EndPhase()

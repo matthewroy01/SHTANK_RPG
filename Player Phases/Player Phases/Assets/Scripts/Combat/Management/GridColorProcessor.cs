@@ -22,7 +22,7 @@ public class GridColorProcessor : MonoBehaviour
     void Start()
     {
         refCombatGrid = FindObjectOfType<CombatGrid>();
-        refAbilityProcessor = FindObjectOfType<AbilityProcessor>();
+        refAbilityProcessor = FindObjectOfType<CombatManager>().GetAbilityProcessor();
         refCharacterSelector = FindObjectOfType<CharacterSelector>();
     }
 

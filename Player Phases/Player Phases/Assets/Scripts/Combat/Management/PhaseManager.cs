@@ -63,8 +63,10 @@ public class PhaseManager : MonoBehaviour
     }
 
     // change the current phase to the next phase, in order that they appear in the enum
-    public void NextPhase()
+    public IEnumerator NextPhase()
     {
+        yield return new WaitForSecondsRealtime(1.0f);
+
         // increment the current phase
         if ((int)currentPhase + 1 < totalPhases)
         {

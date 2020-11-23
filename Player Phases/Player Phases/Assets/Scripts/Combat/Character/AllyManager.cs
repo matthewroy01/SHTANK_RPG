@@ -59,10 +59,10 @@ public class AllyManager : CharacterManager
         }
 
         // enable enemy actions
-        StartCoroutine(EnemyActionsCoroutine());
+        StartCoroutine(AllyActionsCoroutine());
     }
 
-    private IEnumerator EnemyActionsCoroutine()
+    private IEnumerator AllyActionsCoroutine()
     {
         // loop through all enemies and have them do their actions
         for (int i = 0; i < allies.Count; ++i)
@@ -78,6 +78,6 @@ public class AllyManager : CharacterManager
         }
 
         // this current phase is done, let the Phase Manager know it's time to move to the next phase
-        refPhaseManager.NextPhase();
+        StartCoroutine(refPhaseManager.NextPhase());
     }
 }

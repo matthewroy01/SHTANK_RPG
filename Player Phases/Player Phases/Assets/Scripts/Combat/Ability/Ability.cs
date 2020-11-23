@@ -36,6 +36,36 @@ public class Ability : ScriptableObject
             }
         }
     }
+
+    public int GetTotalDamage()
+    {
+        int result = 0;
+
+        for (int i = 0; i < effects.Count; ++i)
+        {
+            if (effects[i].id == Effect_ID.damage)
+            {
+                result += effects[i].value;
+            }
+        }
+
+        return result;
+    }
+
+    public int GetTotalHealing()
+    {
+        int result = 0;
+
+        for (int i = 0; i < effects.Count; ++i)
+        {
+            if (effects[i].id == Effect_ID.healing)
+            {
+                result += effects[i].value;
+            }
+        }
+
+        return result;
+    }
 }
 
 public class AbilityData

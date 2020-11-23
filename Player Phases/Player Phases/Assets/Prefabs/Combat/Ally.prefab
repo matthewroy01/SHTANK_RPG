@@ -60,16 +60,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 555027624386460172}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f2edd58fe101e134f8f8126bb10e8af6, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e72db7488690cb438d344ebd6acba72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   placeholderRenderer: {fileID: 4056021349772157315}
-  healthMax: 6
+  healthMax: 0
   healthCurrent: 0
   defenseMod: 0
   attackMod: 0
   nashbalm: 0
-  movementRangeDefault: 5
+  movementRangeDefault: 0
   movementRangeCurrent: 0
   moveset: {fileID: 0}
   passive: {fileID: 0}
@@ -77,12 +77,14 @@ MonoBehaviour:
   statusToasty: 0
   statusHoneyed: 0
   statusAttackUp: 0
-  affiliation: 2
-  terrainTypes: 00000000
+  aggroData: []
+  affiliation: 3
+  terrainTypes: 
   portrait: {fileID: 0}
   characterDescription: 
   refCharacterEffectUI: {fileID: 0}
-  aggroData: []
+  refMovementDialogueProcessor: {fileID: 0}
+  selected: 0
 --- !u!114 &3562530829772462661
 MonoBehaviour:
   m_ObjectHideFlags: 0

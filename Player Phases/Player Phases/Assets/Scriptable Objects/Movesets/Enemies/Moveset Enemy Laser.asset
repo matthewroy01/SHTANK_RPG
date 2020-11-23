@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cb883b518631d343a4ab4c5e57f42d7, type: 3}
-  m_Name: basic group 1
+  m_Script: {fileID: 11500000, guid: 87dbd0ae4f19c614aa30d32c30e58e3f, type: 3}
+  m_Name: Moveset Enemy Laser
   m_EditorClassIdentifier: 
-  spawnPercentage: 1
-  characterDefinitions:
-  - {fileID: 11400000, guid: f8acb17108c22304b9de5f79d76a938c, type: 2}
+  ability1: {fileID: 11400000, guid: 43668df19de8724408f393a0e23fde26, type: 2}
+  ability2: {fileID: 0}
+  ability3: {fileID: 0}
+  ability4: {fileID: 0}

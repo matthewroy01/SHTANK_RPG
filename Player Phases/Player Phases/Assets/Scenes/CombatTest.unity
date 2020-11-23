@@ -4789,7 +4789,6 @@ MonoBehaviour:
   characterDefinitions:
   - {fileID: 11400000, guid: 214fe91ac26bfee4aa6bb8ba2dd3af69, type: 2}
   - {fileID: 11400000, guid: 32dc1e68dec9183438dcca2003435559, type: 2}
-  - {fileID: 11400000, guid: 56960bc0eecdb6244b620d4d3f733a4a, type: 2}
   - {fileID: 11400000, guid: 3b9066181532dc5458bd7a370bd08749, type: 2}
   players: []
 --- !u!114 &715271748
@@ -12169,11 +12168,11 @@ GameObject:
   - component: {fileID: 1733401387}
   - component: {fileID: 1733401388}
   - component: {fileID: 1733401389}
-  - component: {fileID: 1733401390}
   - component: {fileID: 1733401391}
   - component: {fileID: 1733401392}
   - component: {fileID: 1733401393}
   - component: {fileID: 1733401394}
+  - component: {fileID: 1733401396}
   - component: {fileID: 1733401395}
   m_Layer: 0
   m_Name: Combat Manager
@@ -12239,20 +12238,6 @@ MonoBehaviour:
   shadowWallPrefab: {fileID: 5008950449975179329, guid: a516c6e6d03db7e40821f18a5024e732,
     type: 3}
   yUp: 1
---- !u!114 &1733401390
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1733401386}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: faf0c8f4e8009e7479df0a40905d05a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  turnEnding: 1
-  toSummon: {fileID: 0}
 --- !u!114 &1733401391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12420,6 +12405,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &1733401396
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733401386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24e66f5107b7620468fc14e98a033bc4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  threadComplete: 0
 --- !u!1 &1757646402
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class AbilityProcessor : MonoBehaviour
+public class AbilityProcessor
 {
     private CombatGrid refCombatGrid;
     private AbilityForecast refAbilityForecast;
     private MovementAbilityForecast refMovementAbilityForecast;
+    private PhaseManager refPhaseManager;
 
     private List<GridSpace> gridSpaces = new List<GridSpace>();
     private List<GridSpace> startingSpaces = new List<GridSpace>();
@@ -18,14 +19,15 @@ public class AbilityProcessor : MonoBehaviour
 
     public CharacterDefinition toSummon;
 
-    void Start()
+    public AbilityProcessor(CombatGrid cg, AbilityForecast af, MovementAbilityForecast maf, PhaseManager pm)
     {
-        refCombatGrid = FindObjectOfType<CombatGrid>();
-        refAbilityForecast = FindObjectOfType<AbilityForecast>();
-        refMovementAbilityForecast = FindObjectOfType<MovementAbilityForecast>();
+        refCombatGrid = cg;
+        refAbilityForecast = af;
+        refMovementAbilityForecast = maf;
+        refPhaseManager = pm;
     }
 
-    public List<GridSpace> ProcessAbility(Character character, GridSpace startingSpace, int abilNum, CombatDirection facing, bool flipped, bool setDirty = true)
+    public List<GridSpace> ProcessAbility(Character character, GridSpace startingSpace, int abilNum, CombatDirection facing, bool flipped, bool setDirty = true, bool displayAbilityForecast = true)
     {
         CancelAbility();
 
@@ -140,8 +142,11 @@ public class AbilityProcessor : MonoBehaviour
                 refCombatGrid.MakeDirty(gridSpaces[i], savedAbility);
             }
 
-            // let the ability forecaster know it should try to display something
-            UpdateAbilityForecast();
+            if (displayAbilityForecast)
+            {
+                // let the ability forecaster know it should try to display something
+                UpdateAbilityForecast();
+            }
         }
 
         return gridSpaces;
@@ -252,7 +257,7 @@ public class AbilityProcessor : MonoBehaviour
                         tmp = Character_Affiliation.enemy;
                     }
 
-                    FindObjectOfType<PhaseManager>().SpawnSummon(toSummon, gridSpaces[0], tmp);
+                    refPhaseManager.SpawnSummon(toSummon, gridSpaces[0], tmp);
                 }
                 break;
             }

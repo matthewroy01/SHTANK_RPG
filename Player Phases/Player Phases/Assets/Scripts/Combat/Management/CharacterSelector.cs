@@ -88,7 +88,7 @@ public class CharacterSelector : MonoBehaviour
     private void Start()
     {
         refCombatGrid = FindObjectOfType<CombatGrid>();
-        refAbilityProcessor = FindObjectOfType<AbilityProcessor>();
+        refAbilityProcessor = FindObjectOfType<CombatManager>().GetAbilityProcessor();
         refCharacterUI = FindObjectOfType<CharacterUI>();
         refContextSensitiveUI = FindObjectOfType<ContextSensitiveUI>();
         refPhaseManager = FindObjectOfType<PhaseManager>();
@@ -632,7 +632,7 @@ public class CharacterSelector : MonoBehaviour
         {
             Character tmpEnemy;
 
-            if (hit.transform != null && hit.transform.TryGetComponent(out tmpEnemy) && tmpEnemy.affiliation == Character_Affiliation.enemy)
+            if (hit.transform != null && hit.transform.TryGetComponent(out tmpEnemy) && (tmpEnemy.affiliation == Character_Affiliation.enemy || tmpEnemy.affiliation == Character_Affiliation.ally))
             {
                 tmpEnemy.Selected(refCombatGrid);
 
