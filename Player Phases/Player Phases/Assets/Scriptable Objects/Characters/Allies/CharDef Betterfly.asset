@@ -16,7 +16,7 @@ MonoBehaviour:
   characterDescription: A healing butterfly that is likely to make you and your friends
     relax.
   portrait: {fileID: 21300000, guid: 05beb16ea7d070948b1c6dcc346e1afe, type: 3}
-  healthMax: 2
+  healthMax: 20
   attackMod: 0
   defenseMod: 0
   nashbalm: 0

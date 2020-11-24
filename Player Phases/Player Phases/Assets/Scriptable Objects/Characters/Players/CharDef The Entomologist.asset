@@ -17,7 +17,7 @@ MonoBehaviour:
     putting her love of insects to use with witch themed "potions" to summon her
     bug friends into battle.
   portrait: {fileID: 21300000, guid: 182a2ad2858ad024d8666bddbc82d461, type: 3}
-  healthMax: 10
+  healthMax: 100
   attackMod: 0
   defenseMod: 0
   nashbalm: 1

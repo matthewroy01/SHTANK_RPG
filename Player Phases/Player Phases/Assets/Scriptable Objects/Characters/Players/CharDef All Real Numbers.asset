@@ -16,7 +16,7 @@ MonoBehaviour:
   characterDescription: An arrogant, former math teacher, All Real Numbers harnesses
     the power of real numbers and hurls them at his foes.
   portrait: {fileID: 21300000, guid: 2fab64b9860c0064abf9beb2d9d59e39, type: 3}
-  healthMax: 8
+  healthMax: 80
   attackMod: 0
   defenseMod: 0
   nashbalm: 2

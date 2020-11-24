@@ -15,7 +15,7 @@ MonoBehaviour:
   characterName: 
   characterDescription: 
   portrait: {fileID: 21300000, guid: 710fb091bccc39e42bd8508daa33276f, type: 3}
-  healthMax: 6
+  healthMax: 60
   attackMod: 0
   defenseMod: 0
   nashbalm: 0

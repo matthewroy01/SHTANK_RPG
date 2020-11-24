@@ -16,7 +16,7 @@ MonoBehaviour:
   characterDescription: No Clue assists his teammates with ice cream from his freezer
     backpack... assuming he's paying attention.
   portrait: {fileID: 21300000, guid: c7ea641639c3fa64b8e63ac0d7e8cff9, type: 3}
-  healthMax: 8
+  healthMax: 80
   attackMod: 0
   defenseMod: 0
   nashbalm: 6

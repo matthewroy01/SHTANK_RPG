@@ -15,13 +15,20 @@ MonoBehaviour:
   description: A strong melee attack... be careful!
   moveCharacter: 0
   ignoreWalls: 0
+  ignoreAttackMod: 0
+  ignoreDefenseMod: 0
   ranged: 0
   range: 0
+  uses: 1
+  endTurn: 1
   effects:
   - id: 0
-    value: 4
+    value: 40
     probability: 1
     source: {fileID: 0}
+    trueDamage: 0
+    pierceDefense: 0
+    summon: {fileID: 0}
   path:
   - directions: 0
     amount: 1

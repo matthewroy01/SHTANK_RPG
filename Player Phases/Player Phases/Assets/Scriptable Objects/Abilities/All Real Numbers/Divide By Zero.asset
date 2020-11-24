@@ -20,9 +20,14 @@ MonoBehaviour:
   ignoreDefenseMod: 1
   ranged: 0
   range: 0
+  uses: 1
+  endTurn: 1
   effects:
   - id: 0
-    value: 4
+    value: 40
     probability: 1
     source: {fileID: 0}
+    trueDamage: 0
+    pierceDefense: 0
+    summon: {fileID: 0}
   radius: 4

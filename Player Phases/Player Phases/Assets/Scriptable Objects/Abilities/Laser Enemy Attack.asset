@@ -23,7 +23,7 @@ MonoBehaviour:
   endTurn: 1
   effects:
   - id: 0
-    value: 2
+    value: 20
     probability: 1
     source: {fileID: 0}
     trueDamage: 0

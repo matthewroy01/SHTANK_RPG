@@ -16,7 +16,7 @@ MonoBehaviour:
   characterDescription: A mysterious hero with the power to attack with darkness
     by extending her own shadow. Likely to say "whatever".
   portrait: {fileID: 21300000, guid: 18a9d0943f0fe3c49b01d16825f1dba1, type: 3}
-  healthMax: 10
+  healthMax: 100
   attackMod: 0
   defenseMod: 0
   nashbalm: 2

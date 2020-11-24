@@ -15,11 +15,18 @@ MonoBehaviour:
   description: Dive into the shadows and reappear in a burst of darkness.
   moveCharacter: 1
   ignoreWalls: 1
+  ignoreAttackMod: 0
+  ignoreDefenseMod: 0
   ranged: 1
   range: 4
+  uses: 1
+  endTurn: 1
   effects:
   - id: 0
-    value: 3
+    value: 30
     probability: 1
     source: {fileID: 0}
+    trueDamage: 0
+    pierceDefense: 0
+    summon: {fileID: 0}
   radius: 1

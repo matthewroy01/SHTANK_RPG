@@ -15,11 +15,18 @@ MonoBehaviour:
   description: An ice cream cone with several scoops, heal a single ally a lot!
   moveCharacter: 0
   ignoreWalls: 0
+  ignoreAttackMod: 0
+  ignoreDefenseMod: 0
   ranged: 1
   range: 2
+  uses: 1
+  endTurn: 1
   effects:
   - id: 1
-    value: 4
+    value: 40
     probability: 1
     source: {fileID: 0}
+    trueDamage: 0
+    pierceDefense: 0
+    summon: {fileID: 0}
   radius: 0
