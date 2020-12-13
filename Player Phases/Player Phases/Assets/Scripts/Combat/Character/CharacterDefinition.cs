@@ -12,8 +12,10 @@ public class CharacterDefinition : ScriptableObject
 
     [Header("Stats")]
     public int healthMax;
-    public int attackMod;
-    public int defenseMod;
+    public int attack;
+    public int defense;
+    [Range(0, 100)]
+    public int stagger;
     [Range(0, 100)]
     public int nashbalm;
     public uint movementRange;

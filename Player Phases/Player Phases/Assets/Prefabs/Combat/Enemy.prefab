@@ -66,8 +66,9 @@ MonoBehaviour:
   placeholderRenderer: {fileID: 4056021349772157315}
   healthMax: 0
   healthCurrent: 0
-  defenseMod: 0
-  attackMod: 0
+  defense: 0
+  attack: 0
+  stagger: 0
   nashbalm: 0
   movementRangeDefault: 0
   movementRangeCurrent: 0
@@ -77,6 +78,9 @@ MonoBehaviour:
   statusToasty: 0
   statusHoneyed: 0
   statusAttackUp: 0
+  statusStunned: 0
+  statusStagger: 0
+  stunnedParts: {fileID: 0}
   aggroData: []
   affiliation: 3
   terrainTypes: 
@@ -176,6 +180,13 @@ MonoBehaviour:
     audio:
       clip: {fileID: 8300000, guid: 164dd1a3a3ad5cb43a690df4dc22adf1, type: 3}
       volume: 0.5
+      pitch: 0
+      randomPitchMinMax: {x: 0.9, y: 1.1}
+  stunned:
+    color: {r: 1, g: 1, b: 0, a: 1}
+    audio:
+      clip: {fileID: 8300000, guid: c2d17415239dca64f828a4ce0c6b7284, type: 3}
+      volume: 0.7
       pitch: 0
       randomPitchMinMax: {x: 0.9, y: 1.1}
   timeBetweenEffects: 0.35

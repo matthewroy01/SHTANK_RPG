@@ -11,10 +11,17 @@ public partial class Character : MonoBehaviour
 
         FindMovementSpaces(refCombatGrid);
 
-        // select aggro target
-        aggroTarget = ProcessAggro();
+        if (!statusStunned)
+        {
+            // select aggro target
+            aggroTarget = ProcessAggro();
 
-        FindObjectOfType<AIProcessor>().ProcessAbility(this, moveset.ability1, movementSpaces, aggroTarget);
+            FindObjectOfType<AIProcessor>().ProcessAbility(this, moveset.ability1, movementSpaces, aggroTarget);
+        }
+        else
+        {
+            idle = true;
+        }
     }
 
     public void AIFinished(AIResult result)
@@ -80,13 +87,13 @@ public partial class Character : MonoBehaviour
         // find the characters with the lowest bulk
         for (int i = 0; i < list.Count; ++i)
         {
-            if (list[i].character.healthCurrent + list[i].character.defenseMod < lowestBulk)
+            if (list[i].character.healthCurrent + list[i].character.defense < lowestBulk)
             {
                 aggroCandidatesLowestBulk.Clear();
                 aggroCandidatesLowestBulk.Add(list[i]);
-                lowestBulk = list[i].character.healthCurrent + list[i].character.defenseMod;
+                lowestBulk = list[i].character.healthCurrent + list[i].character.defense;
             }
-            else if (list[i].character.healthCurrent + list[i].character.defenseMod == lowestBulk)
+            else if (list[i].character.healthCurrent + list[i].character.defense == lowestBulk)
             {
                 aggroCandidatesLowestBulk.Add(list[i]);
             }

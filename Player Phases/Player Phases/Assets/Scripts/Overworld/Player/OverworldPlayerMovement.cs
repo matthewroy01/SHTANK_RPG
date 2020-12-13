@@ -146,27 +146,59 @@ public class OverworldPlayerMovement : MonoBehaviour
 
     private void MoveShadow()
     {
-        RaycastHit hit;
-        Physics.Raycast(transform.position, Vector3.down, out hit, groundLayerMask);
-
-        if (hit.transform)
+        switch(controller.refCreateWalls.castingShadow)
         {
-            shadow.SetActive(true);
-
-            shadow.transform.position = new Vector3(hit.point.x, hit.point.y, hit.point.z);
-
-            float distance = Vector3.Distance(transform.position, hit.point);
-            if (distance != 0)
+            case OverworldPlayerCreateWalls.ShadowState.moving:
             {
-                float dividedDistance = 1.0f / distance;
-                Mathf.Clamp(dividedDistance, 0.001f, 1.0f);
-                shadow.transform.localScale = Vector3.ClampMagnitude(Vector3.one * dividedDistance, 3.464f);
+                RaycastHit hit;
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+                if (Physics.Raycast(ray, out hit))
+                {
+                    if (hit.transform)
+                    {
+                        shadow.SetActive(true);
+
+                        shadow.transform.position = Vector3.Lerp(shadow.transform.position, hit.point, 0.01f);
+                        shadow.transform.localScale = Vector3.one * 2.0f;
+                    }
+                }
+
+                break;
             }
-        }
-        else
-        {
-            // don't display a shadow
-            shadow.SetActive(false);
+            case OverworldPlayerCreateWalls.ShadowState.inactive:
+            {
+                RaycastHit hit;
+                Physics.Raycast(transform.position, Vector3.down, out hit, groundLayerMask);
+
+                if (hit.transform)
+                {
+                    shadow.SetActive(true);
+
+                    shadow.transform.position = new Vector3(hit.point.x, hit.point.y, hit.point.z);
+
+                    float distance = Vector3.Distance(transform.position, hit.point);
+                    if (distance != 0)
+                    {
+                        float dividedDistance = 1.0f / distance;
+                        Mathf.Clamp(dividedDistance, 0.001f, 1.0f);
+                        shadow.transform.localScale = Vector3.ClampMagnitude(Vector3.one * dividedDistance, 3.464f);
+                    }
+                }
+                else
+                {
+                    // don't display a shadow
+                    shadow.SetActive(false);
+                }
+
+                break;
+            }
+            case OverworldPlayerCreateWalls.ShadowState.created:
+            {
+                shadow.SetActive(false);
+
+                break;
+            }
         }
     }
 }

@@ -36,8 +36,11 @@ public abstract class CharacterManager : MonoBehaviour
             }
 
             // attack and defense modifiers
-            refCharacter.attackMod = def.attackMod;
-            refCharacter.defenseMod = def.defenseMod;
+            refCharacter.attack = def.attack;
+            refCharacter.defense = def.defense;
+
+            // stagger
+            refCharacter.stagger = def.stagger;
 
             // nashbalm
             refCharacter.nashbalm = def.nashbalm;

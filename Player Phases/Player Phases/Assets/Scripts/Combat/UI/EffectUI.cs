@@ -24,6 +24,7 @@ public class EffectUI : MonoBehaviour
     public EffectUIColorAndSound aggro;
     public EffectUIColorAndSound dispelAggro;
     public EffectUIColorAndSound attackUp;
+    public EffectUIColorAndSound stunned;
 
     [Header("Text for other custom effects")]
     private Color customEffectColor;
@@ -133,6 +134,11 @@ public class EffectUI : MonoBehaviour
             case Effect_ID.attackUp:
             {
                 ApplyEffect("Attack Up!", attackUp.color, audio ? attackUp.audio : null, uiEffectPop);
+                break;
+            }
+            case Effect_ID.stunned:
+            {
+                ApplyEffect("Stunned!", stunned.color, audio ? stunned.audio : null, uiEffectShake);
                 break;
             }
             default:

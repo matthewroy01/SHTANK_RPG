@@ -374,7 +374,7 @@ public class CharacterSelector : MonoBehaviour
 
     public void AbilitySelect(int abilNum)
     {
-        if (currentPlayer.movesetData.GetAvailability(abilNum) && stateMachine.TryUpdateConnection((int)SelectorState.playerSelectedWithAbility))
+        if (currentPlayer.movesetData.GetAvailability(abilNum) && stateMachine.TryUpdateConnection((int)SelectorState.playerSelectedWithAbility) && !currentPlayer.statusStunned)
         {
             // this public function is called using delegates from UI buttons in the scene
             selectedAbilityNum = abilNum;

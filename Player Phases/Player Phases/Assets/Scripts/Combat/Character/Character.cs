@@ -21,9 +21,13 @@ public partial class Character : MonoBehaviour
     private bool dead = false;
 
     // defensive modifier, reduces damage taken
-    public int defenseMod;
+    public int defense;
     // offenseive modifier, increases damage dealt
-    public int attackMod;
+    public int attack;
+
+    // stagger stat, increases chance of staggering a foe when attacking
+    [Range(0.0f, 100.0f)]
+    public int stagger;
 
     // nashbalm stat, increases chance of counter attack
     [Range(0.0f, 100.0f)]
@@ -51,6 +55,12 @@ public partial class Character : MonoBehaviour
     public bool statusToasty = false;
     public bool statusHoneyed = false;
     public bool statusAttackUp = false;
+    public bool statusStunned = false;
+
+    [Header("Stagger Status")]
+    public int statusStagger = 0;
+    private const int STAGGER_MAX = 2;
+    public ParticleSystem stunnedParts;
 
     // aggro information for AI controlled characters
     /* ----------------------------------------------------------*/
@@ -89,9 +99,23 @@ public partial class Character : MonoBehaviour
     [HideInInspector]
     public bool selected;
 
+    private Tweener damageTween;
+
     private void Awake()
     {
         refCombatGrid = FindObjectOfType<CombatGrid>();
+    }
+
+    private void Update()
+    {
+        if (idle)
+        {
+            placeholderRenderer.color = Color.Lerp(placeholderRenderer.color, Color.Lerp(Color.white, Color.black, 0.8f), 0.1f);
+        }
+        else
+        {
+            placeholderRenderer.color = Color.Lerp(placeholderRenderer.color, Color.white, 0.1f);
+        }
     }
 
     public void StartApplyEffect(Effect effect, bool counterable)
@@ -161,7 +185,8 @@ public partial class Character : MonoBehaviour
                         // don't tween against a counterattack since we're probably already in the middle of a tween
                         if (counterable)
                         {
-                            transform.DOPunchPosition((transform.position - effect.source.transform.position).normalized * 0.5f, 0.25f, 0, 0);
+                            damageTween.Kill();
+                            damageTween = transform.DOPunchPosition((transform.position - effect.source.transform.position).normalized * 0.5f, 0.25f, 0, 0);
                         }
 
                         // if 0 damage was dealt, apply a special "no damage" effect, otherwise use the given effect
@@ -169,6 +194,22 @@ public partial class Character : MonoBehaviour
                         {
                             // we pass in the effect's value instead of the modifed value since the EffectUI script recalculates the true damage (because true damage also has to be calculated for the Ability Forecast)
                             refCharacterEffectUI.AddEffect(new Effect(Effect_ID.damage, effect.value, effect.source));
+
+                            // apply stagger if the odds work out
+                            if (Random.Range(0.0f, 100.0f) <= effect.source.stagger)
+                            {
+                                statusStagger++;
+                            }
+
+                            // if the amount of stagger is greater than the max, apply the stunned status
+                            if (statusStagger >= STAGGER_MAX)
+                            {
+                                statusStunned = true;
+                                statusStagger = 0;
+
+                                refCharacterEffectUI.AddEffect(new Effect(Effect_ID.stunned, 0));
+                                stunnedParts.Play();
+                            }
                         }
                         else
                         {
@@ -320,9 +361,14 @@ public partial class Character : MonoBehaviour
             movementRangeCurrent = movementRangeDefault - 1;
         }
 
+        if (statusStunned)
+        {
+            movementRangeCurrent = 0;
+        }
+
         if (statusAttackUp)
         {
-            attackMod = 1;
+            attack = 1;
         }
     }
 
@@ -469,6 +515,8 @@ public partial class Character : MonoBehaviour
         selected = false;
         idle = true;
 
+        statusStunned = false;
+
         if (refMovementDialogueProcessor != null)
         {
             //refMovementDialogueProcessor.Clear();
@@ -571,7 +619,7 @@ public partial class Character : MonoBehaviour
         // add damage modifiers from the source of the damage
         if (!effect.trueDamage)
         {
-            trueDamage += effect.source.attackMod;
+            trueDamage += effect.source.attack;
 
             if (effect.source.passive != null)
             {
@@ -582,12 +630,17 @@ public partial class Character : MonoBehaviour
         // add our defense modifiers
         if (!effect.pierceDefense)
         {
-            trueDamage -= defenseMod;
+            trueDamage -= defense;
 
             if (passive != null)
             {
                 trueDamage = passive.GetDefenseBoost(trueDamage);
             }
+        }
+
+        if (trueDamage < 0)
+        {
+            trueDamage = 0;
         }
 
         return trueDamage;

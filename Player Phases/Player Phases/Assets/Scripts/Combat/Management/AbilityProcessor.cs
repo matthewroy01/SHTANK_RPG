@@ -114,6 +114,12 @@ public class AbilityProcessor
                         ProcessConeAbility((ConeAbility)savedAbility, startingSpace, facing);
                         break;
                     }
+                    case "TriangleAbility":
+                    {
+                        Debug.Log(abilType + " processed.");
+                        ProcessTriangleAbility((TriangleAbility)savedAbility, startingSpace, facing);
+                        break;
+                    }
                     case "RectangleAbility":
                     {
                         Debug.Log(abilType + " processed.");
@@ -227,6 +233,18 @@ public class AbilityProcessor
                 break;
             }
             case "ConeAbility":
+            {
+                if (savedAbility.moveCharacter)
+                {
+                    savedCharacter.MoveToGridSpace(endingSpace);
+                }
+                else
+                {
+                    savedCharacter.MoveToGridSpace(endingSpace);
+                }
+                break;
+            }
+            case "TriangleAbility":
             {
                 if (savedAbility.moveCharacter)
                 {
@@ -536,13 +554,111 @@ public class AbilityProcessor
                 }
                 else
                 {
-                    Debug.LogError("PlayerBase, SaveCone, abil.angle cannot be 0. All Real Numbers can divide by zero, but you shouldn't.");
+                    Debug.LogError("AbilityProcessor, SaveCone, abil.angle cannot be 0. All Real Numbers can divide by zero, but you shouldn't.");
                 }
 
                 // update the current grid space
                 currentGridSpace = (GridSpace)currentGridSpace.GetType().GetField(forwards).GetValue(currentGridSpace);
             }
         }
+    }
+
+    private void ProcessTriangleAbility(TriangleAbility abil, GridSpace startingGridSpace, CombatDirection direction)
+    {
+        GridSpace currentGridSpace = startingGridSpace;
+
+        // depending on the direction the character is facing, the meaning of "forward", etc changes, so do something different for each case
+        // PLACEHOLDER SWITCH STATEMENT, REPLACE WITH DIRECTION THE CHARACTER IS FACING
+        switch (direction)
+        {
+            // facing upwards
+            case CombatDirection.up:
+            {
+                SaveTriangle(abil, currentGridSpace, "up", "left", "right", "down");
+                break;
+            }
+            // facing downwards
+            case CombatDirection.down:
+            {
+                SaveTriangle(abil, currentGridSpace, "down", "right", "left", "up");
+                break;
+            }
+            // facing left
+            case CombatDirection.left:
+            {
+                SaveTriangle(abil, currentGridSpace, "left", "down", "up", "right");
+                break;
+            }
+            // facing right
+            case CombatDirection.right:
+            {
+                SaveTriangle(abil, currentGridSpace, "right", "up", "down", "left");
+                break;
+            }
+        }
+    }
+
+    private void SaveTriangle(TriangleAbility abil, GridSpace startingGridSpace, string forwards, string sideways, string sidewaysOpposite, string backwards)
+    {
+        GridSpace currentGridSpace = (GridSpace)startingGridSpace.GetType().GetField(forwards).GetValue(startingGridSpace);
+        List<GridSpace> centerLine = new List<GridSpace>();
+
+        TryAddGridSpace(currentGridSpace, abil.ignoreWalls);
+
+        int length = 0;
+
+        int i = abil.baseWidth % 2 != 0 ? (int)abil.baseWidth / 2 : (int)abil.baseWidth / 2;
+        do
+        {
+            // if a length was specified, don't exceed the length
+            if (abil.length != -1 && length >= abil.length)
+            {
+                return;
+            }
+
+            if (currentGridSpace != null)
+            {
+                // row trackers to help spread out from the center line
+                GridSpace rowTrackerSideways = currentGridSpace, rowTrackerSidewaysOpposite = currentGridSpace;
+
+                // slowly expand as we move outwards
+                for (int j = 0; j < i; ++j)
+                {
+                    if (rowTrackerSideways != null)
+                    {
+                        // each step here broken into separate lines for ease of debugging
+                        // full line would be: rowTrackerSideways = (GridSpace)rowTrackerSideways.GetType().GetField(sideways).GetValue(rowTrackerSideways);
+                        System.Type type = rowTrackerSideways.GetType();
+                        System.Reflection.FieldInfo fieldInfo = type.GetField(sideways);
+                        object value = fieldInfo.GetValue(rowTrackerSideways);
+                        rowTrackerSideways = (GridSpace)value;
+                    }
+
+                    if (rowTrackerSidewaysOpposite != null)
+                    {
+                        // each step here broken into separate lines for ease of debugging
+                        // full line would be: rowTrackerSidewaysOpposite = (GridSpace)rowTrackerSidewaysOpposite.GetType().GetField(sidewaysOpposite).GetValue(rowTrackerSidewaysOpposite);
+                        System.Type typeO = rowTrackerSidewaysOpposite.GetType();
+                        System.Reflection.FieldInfo fieldInfoO = typeO.GetField(sidewaysOpposite);
+                        object valueO = fieldInfoO.GetValue(rowTrackerSidewaysOpposite);
+                        rowTrackerSidewaysOpposite = (GridSpace)valueO;
+                    }
+
+                    // save grid spaces in both directions from the center line
+                    TryAddGridSpace(rowTrackerSideways, abil.ignoreWalls);
+                    TryAddGridSpace(rowTrackerSidewaysOpposite, abil.ignoreWalls);
+                }
+
+                // update the current grid space
+                currentGridSpace = (GridSpace)currentGridSpace.GetType().GetField(forwards).GetValue(currentGridSpace);
+                TryAddGridSpace(currentGridSpace, abil.ignoreWalls);
+
+                length++;
+            }
+
+            i -= (int)abil.angle;
+        }
+        while (i > 0);
     }
 
     private void ProcessSummonAbility(SummonAbility abil, GridSpace startingGridSpace)

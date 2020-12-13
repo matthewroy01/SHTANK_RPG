@@ -19,7 +19,7 @@ MonoBehaviour:
   ignoreAttackMod: 0
   ignoreDefenseMod: 0
   ranged: 1
-  range: 5
+  range: 50
   uses: 1
   endTurn: 1
   effects:

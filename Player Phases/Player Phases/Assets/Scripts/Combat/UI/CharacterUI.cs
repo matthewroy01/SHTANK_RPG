@@ -20,10 +20,11 @@ public class CharacterUI : MonoBehaviour
     public Image imagePortrait;
     public TextMeshProUGUI textMeshCharacterName;
     public TextMeshProUGUI textMeshHP;
-    public TextMeshProUGUI textMeshAttackModifier;
-    public TextMeshProUGUI textMeshDefenseModifier;
-    public TextMeshProUGUI textMeshMovement;
+    public TextMeshProUGUI textMeshAttack;
+    public TextMeshProUGUI textMeshDefense;
+    public TextMeshProUGUI textMeshStagger;
     public TextMeshProUGUI textMeshNashbalm;
+    public TextMeshProUGUI textMeshMovement;
 
     [Header("Abilities")]
     public AbilityUI abilityUI1;
@@ -44,6 +45,7 @@ public class CharacterUI : MonoBehaviour
     public Image aggroTargetPortrait;
 
     [Header("Status Definitions")]
+    public StatusUIDefinition statusDefStunned;
     public StatusUIDefinition statusDefFrosty;
     public StatusUIDefinition statusDefToasty;
     public StatusUIDefinition statusDefHoneyed;
@@ -123,31 +125,11 @@ public class CharacterUI : MonoBehaviour
         }
         textMeshHP.text = "HP " + character.healthCurrent + "/" + character.healthMax;
 
-        // decide whether or not to use '+' or '-' when describing attack and defense modifiers
-        string plusOrMinusAtk = "", plusOrMinusDef = "";
-
-        if (character.attackMod >= 0)
-        {
-            plusOrMinusAtk = "+";
-        }
-        else
-        {
-            plusOrMinusAtk = "-";
-        }
-
-        if (character.defenseMod >= 0)
-        {
-            plusOrMinusDef = "+";
-        }
-        else
-        {
-            plusOrMinusDef = "-";
-        }
-
         // attack and defense modifiers, movement, and nashbalm
-        textMeshAttackModifier.text = "Atk " + plusOrMinusAtk + character.attackMod;
-        textMeshDefenseModifier.text = "Def " + plusOrMinusDef + character.defenseMod;
+        textMeshAttack.text = "Atk " + character.attack;
+        textMeshDefense.text = "Def " + character.defense;
         textMeshMovement.text = "Mov " + character.movementRangeCurrent;
+        textMeshStagger.text = "St " + character.stagger + "%";
         textMeshNashbalm.text = "NB " + character.nashbalm + "%";
 
         // ability text
@@ -474,6 +456,10 @@ public class CharacterUI : MonoBehaviour
         if (character.statusHoneyed)
         {
             definitions.Add(statusDefHoneyed);
+        }
+        if (character.statusStunned)
+        {
+            definitions.Add(statusDefStunned);
         }
 
         // assign status sprites
