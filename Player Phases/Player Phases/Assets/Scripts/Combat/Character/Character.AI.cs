@@ -204,9 +204,9 @@ public partial class Character : MonoBehaviour
         {
             if (aggroData[i].character == source)
             {
-                if (aggroData[i].aggro + amount > 10)
+                if (aggroData[i].aggro + amount > 100)
                 {
-                    aggroData[i].aggro = 10;
+                    aggroData[i].aggro = 100;
                 }
                 else if (aggroData[i].aggro + amount < 0)
                 {

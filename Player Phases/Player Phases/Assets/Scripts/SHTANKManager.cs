@@ -25,6 +25,8 @@ public class SHTANKManager : MonoBehaviour
 
     private void Awake()
     {
+        Screen.SetResolution(1920, 1080, true);
+
         InitializeStateMachine();
     }
 

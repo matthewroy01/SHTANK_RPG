@@ -649,11 +649,14 @@ public class AbilityProcessor
                     TryAddGridSpace(rowTrackerSidewaysOpposite, abil.ignoreWalls);
                 }
 
-                // update the current grid space
-                currentGridSpace = (GridSpace)currentGridSpace.GetType().GetField(forwards).GetValue(currentGridSpace);
-                TryAddGridSpace(currentGridSpace, abil.ignoreWalls);
-
                 length++;
+
+                if (length < abil.length)
+                {
+                    // update the current grid space
+                    currentGridSpace = (GridSpace)currentGridSpace.GetType().GetField(forwards).GetValue(currentGridSpace);
+                    TryAddGridSpace(currentGridSpace, abil.ignoreWalls);
+                }
             }
 
             i -= (int)abil.angle;

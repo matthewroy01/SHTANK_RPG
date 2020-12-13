@@ -45,5 +45,5 @@ MonoBehaviour:
     pierceDefense: 0
     summon: {fileID: 0}
   length: 2
-  baseWidth: 5
-  angle: 1
+  baseWidth: 3
+  angle: 0.5
