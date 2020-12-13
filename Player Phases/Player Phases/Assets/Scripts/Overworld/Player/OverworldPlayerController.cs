@@ -40,4 +40,9 @@ public class OverworldPlayerController : MonoBehaviour
         refAnimation.MyUpdate();
         //refCreateWalls.MyUpdate();
     }
+
+    public void MyFixedUpdate()
+    {
+        refMovement.MyFixedUpdate();
+    }
 }

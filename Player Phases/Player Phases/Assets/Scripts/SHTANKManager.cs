@@ -114,6 +114,9 @@ public class SHTANKManager : MonoBehaviour
         {
             case (int)GameState.overworld:
             {
+                // run overworld behaviour
+                refOverworldManager.MyFixedUpdate();
+
                 // use overworld camera functionality
                 refSHTANKCamera.CameraFunctionalityOverworld();
 

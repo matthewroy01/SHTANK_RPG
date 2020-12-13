@@ -63,12 +63,16 @@ public class OverworldPlayerMovement : MonoBehaviour
     {
         // movement
         GetAxes();
-        MovementWASD();
 
         // jumping
         CheckGround();
         Jump();
         WallJump();
+    }
+
+    public void MyFixedUpdate()
+    {
+        MovementWASD();
     }
 
     private void GetAxes()

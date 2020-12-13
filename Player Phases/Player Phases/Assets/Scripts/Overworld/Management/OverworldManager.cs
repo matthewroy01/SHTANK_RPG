@@ -49,6 +49,11 @@ public class OverworldManager : MonoBehaviour
         }
     }
 
+    public void MyFixedUpdate()
+    {
+        refPlayerController.MyFixedUpdate();
+    }
+
     public void DisableOverworldObjects()
     {
         // disable player

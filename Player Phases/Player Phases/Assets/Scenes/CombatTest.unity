@@ -19092,7 +19092,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedMovement: 6
   speedAirHindrance: 0.5
-  jumpForce: 15
+  jumpForce: 16
   grounded: 0
   groundCheck: {fileID: 2030904868}
   groundLayerMask:
