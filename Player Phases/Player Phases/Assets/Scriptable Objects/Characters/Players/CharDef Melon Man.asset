@@ -17,8 +17,9 @@ MonoBehaviour:
     on his head.
   portrait: {fileID: 21300000, guid: cfc7587d87b73544289e354bc0d0b7fb, type: 3}
   healthMax: 120
-  attackMod: 0
-  defenseMod: 10
+  attack: 0
+  defense: 10
+  stagger: 0
   nashbalm: 1
   movementRange: 5
   moveset: {fileID: 11400000, guid: 641a4033d53756a43afe39f3b4b47225, type: 2}

@@ -658,8 +658,16 @@ public class AbilityProcessor
                     TryAddGridSpace(currentGridSpace, abil.ignoreWalls);
                 }
             }
+            else
+            {
+                length = abil.length;
+            }
 
             i -= (int)abil.angle;
+            if (i <= 0)
+            {
+                i = 0;
+            }
         }
         while (i > 0);
     }

@@ -265,8 +265,6 @@ public partial class Character : MonoBehaviour
             // attack!
             StartCoroutine(Attack(result));
         }
-
-        idle = true;
     }
 
     private IEnumerator Attack(AIResult result)
@@ -286,6 +284,8 @@ public partial class Character : MonoBehaviour
         }
 
         tmp.UpdateAbilityForecast();
+
+        EndTurn();
     }
 
 }

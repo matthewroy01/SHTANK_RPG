@@ -342,6 +342,7 @@ public partial class Character : MonoBehaviour
                 movesetData.Reset(moveset);
 
                 idle = false;
+                originalGridSpace = myGridSpace;
 
                 HandleStatuses();
                 FindMovementSpaces(grid);

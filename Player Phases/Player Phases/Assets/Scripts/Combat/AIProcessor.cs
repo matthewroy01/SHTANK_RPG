@@ -159,7 +159,7 @@ public class AIProcessor : MonoBehaviour
             // if the score is higher than the previous best, overwrite it
             if (score > result.score)
             {
-                result = new AIResult(score, toMoveTo, direction, true, savedAbility, true);
+                result = new AIResult(score, toMoveTo, direction, flipped, savedAbility, true);
             }
         }
     }

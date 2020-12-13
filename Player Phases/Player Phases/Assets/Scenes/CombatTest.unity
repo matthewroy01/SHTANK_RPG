@@ -17282,7 +17282,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42417f0818faf9043b4748c4dff6434d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlightOccupiedSpaces: 0
+  highlightOccupiedSpaces: 1
   colorMovement: {r: 0, g: 0, b: 1, a: 0.5882353}
   colorAbilityPreview: {r: 0, g: 1, b: 0, a: 0.5882353}
   colorRangedStartingSpaces: {r: 0, g: 1, b: 1, a: 0.5882353}
