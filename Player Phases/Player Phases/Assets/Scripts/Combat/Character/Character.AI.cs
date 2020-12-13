@@ -20,7 +20,7 @@ public partial class Character : MonoBehaviour
         }
         else
         {
-            idle = true;
+            EndTurn();
         }
     }
 

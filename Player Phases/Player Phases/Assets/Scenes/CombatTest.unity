@@ -7989,20 +7989,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   partyActive:
-  - loader: {fileID: 11400000, guid: 20d2b7abf1aa4ef42b70c5c766cd55ca, type: 2}
+  - loader: {fileID: 11400000, guid: 3b9066181532dc5458bd7a370bd08749, type: 2}
     currentHealth: 0
     abilitiesUnlocked: 0
-  - loader: {fileID: 11400000, guid: 214fe91ac26bfee4aa6bb8ba2dd3af69, type: 2}
-    currentHealth: 0
-    abilitiesUnlocked: 0
-  partyReserve:
   - loader: {fileID: 11400000, guid: 32dc1e68dec9183438dcca2003435559, type: 2}
     currentHealth: 0
     abilitiesUnlocked: 0
+  partyReserve:
   - loader: {fileID: 11400000, guid: 3b9066181532dc5458bd7a370bd08749, type: 2}
     currentHealth: 0
     abilitiesUnlocked: 0
   - loader: {fileID: 11400000, guid: 56960bc0eecdb6244b620d4d3f733a4a, type: 2}
+    currentHealth: 0
+    abilitiesUnlocked: 0
+  - loader: {fileID: 11400000, guid: 20d2b7abf1aa4ef42b70c5c766cd55ca, type: 2}
     currentHealth: 0
     abilitiesUnlocked: 0
   - loader: {fileID: 11400000, guid: 0cc83615162389f4c9b0fa8118e6e752, type: 2}
@@ -10980,7 +10980,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1495870367
 Transform:
   m_ObjectHideFlags: 0

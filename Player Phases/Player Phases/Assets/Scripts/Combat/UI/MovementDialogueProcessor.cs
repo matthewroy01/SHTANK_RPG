@@ -55,8 +55,11 @@ public class MovementDialogueProcessor : MonoBehaviour
             }
             else
             {
-                rand = Random.Range(0, dialogue.quotes.Length);
-                StartCoroutine(WriteText(dialogue.quotes[rand]));
+                if (dialogue.quotes.Length > 0)
+                {
+                    rand = Random.Range(0, dialogue.quotes.Length);
+                    StartCoroutine(WriteText(dialogue.quotes[rand]));
+                }
             }
         }
     }

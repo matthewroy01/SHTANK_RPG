@@ -18,7 +18,7 @@ MonoBehaviour:
   healthMax: 80
   attack: 0
   defense: 0
-  stagger: 15
+  stagger: 100
   nashbalm: 0
   movementRange: 5
   moveset: {fileID: 11400000, guid: 5bdf1d5089f23d94ab6d3f22b226df17, type: 2}

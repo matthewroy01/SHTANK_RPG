@@ -357,14 +357,18 @@ public partial class Character : MonoBehaviour
 
     public void HandleStatuses()
     {
-        if (statusFrosty)
-        {
-            movementRangeCurrent = movementRangeDefault - 1;
-        }
-
         if (statusStunned)
         {
             movementRangeCurrent = 0;
+        }
+        else
+        {
+            movementRangeCurrent = movementRangeDefault;
+        }
+
+        if (statusFrosty)
+        {
+            movementRangeCurrent = movementRangeDefault - 1;
         }
 
         if (statusAttackUp)

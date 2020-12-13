@@ -14,5 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnPercentage: 1
   characterDefinitions:
-  - {fileID: 11400000, guid: e2bbf764f02a20a47bff986849682f8c, type: 2}
-  - {fileID: 11400000, guid: e2bbf764f02a20a47bff986849682f8c, type: 2}
+  - {fileID: 11400000, guid: e0d1e29f771292a41889e34a67ad2e61, type: 2}
