@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Events;
 
 public class EffectUI : MonoBehaviour
 {
@@ -34,10 +35,12 @@ public class EffectUI : MonoBehaviour
     [Header("Timing")]
     public float timeBetweenEffects;
 
-    private Queue<Effect> toDisplay = new Queue<Effect>();
+    private Queue<EffectEvent> toDisplay = new Queue<EffectEvent>();
 
     private UtilityAudioManager refAudioManager;
     private Character owner;
+
+    private List<EffectEvent> events = new List<EffectEvent>();
 
     private void Start()
     {
@@ -55,7 +58,12 @@ public class EffectUI : MonoBehaviour
 
     public void AddEffect(Effect effect)
     {
-        toDisplay.Enqueue(effect);
+        toDisplay.Enqueue(new EffectEvent(effect));
+    }
+
+    public void AddEffect(Effect effect, UnityEvent evt)
+    {
+        toDisplay.Enqueue(new EffectEvent(effect, evt));
     }
 
     public void AddEffectCustom(string customText, ManagedAudio customSound, Color customColor)
@@ -65,17 +73,23 @@ public class EffectUI : MonoBehaviour
         customEffectAudio = customSound;
         customEffectColor = customColor;
 
-        toDisplay.Enqueue(new Effect(Effect_ID.custom, 1));
+        toDisplay.Enqueue(new EffectEvent(new Effect(Effect_ID.custom, 1)));
     }
 
     private IEnumerator IterateThroughEffects()
     {
-        while(true)
+        while (true)
         {
             // keep checking if there are any effects to display, and then call them to be displayed
             while (toDisplay.Count > 0)
             {
-                DisplayEffect(toDisplay.Dequeue(), true, timeBetweenEffects);
+                EffectEvent tmp = toDisplay.Peek();
+                DisplayEffect(toDisplay.Dequeue().effect, true, timeBetweenEffects);
+
+                if (tmp.evt != null)
+                {
+                    tmp.evt.Invoke();
+                }
 
                 // wait in between effects so they don't overlap
                 yield return new WaitForSeconds(timeBetweenEffects);
@@ -87,7 +101,7 @@ public class EffectUI : MonoBehaviour
 
     private void DisplayEffect(Effect effect, bool audio, float timeBetween)
     {
-        switch(effect.id)
+        switch (effect.id)
         {
             case Effect_ID.damage:
             {
@@ -239,6 +253,24 @@ public class EffectUI : MonoBehaviour
     private void Reset()
     {
         effectText.text = "";
+    }
+
+    protected class EffectEvent
+    {
+        public EffectEvent(Effect e, UnityEvent ue)
+        {
+            effect = e;
+            evt = ue;
+        }
+
+        public EffectEvent(Effect e)
+        {
+            effect = e;
+            evt = null;
+        }
+
+        public Effect effect;
+        public UnityEvent evt;
     }
 }
 

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 using DG.Tweening;
 
@@ -166,28 +167,6 @@ public partial class Character : MonoBehaviour
                             }
                         }
 
-                        // actually deal the damage
-                        // if the character's health was going to go below 0, set it to 0 instead
-                        if (healthCurrent - modValue < 0)
-                        {
-                            healthCurrent = 0;
-                        }
-                        else
-                        {
-                            healthCurrent -= modValue;
-
-                            SendEvent(PassiveEventID.receiveDamage);
-                            if (affiliation != effect.source.affiliation)
-                            {
-                                effect.source.SendEvent(PassiveEventID.dealDamageNotFriendly);
-                            }
-                            else
-                            {
-                                effect.source.SendEvent(PassiveEventID.dealDamageFriendly);
-                            }
-                            effect.source.SendEvent(PassiveEventID.dealDamage);
-                        }
-
                         // don't tween against a counterattack since we're probably already in the middle of a tween
                         if (counterable)
                         {
@@ -198,36 +177,12 @@ public partial class Character : MonoBehaviour
                         // if 0 damage was dealt, apply a special "no damage" effect, otherwise use the given effect
                         if (modValue > 0)
                         {
+                            // create an event to pass in to have the player take damage at the correct timing
+                            UnityEvent evt = new UnityEvent();
+                            evt.AddListener(delegate { TakeDamage(modValue, effect); });
+
                             // we pass in the effect's value instead of the modifed value since the EffectUI script recalculates the true damage (because true damage also has to be calculated for the Ability Forecast)
-                            refCharacterEffectUI.AddEffect(new Effect(Effect_ID.damage, effect.value, effect.source));
-
-                            // apply stagger if the odds work out
-                            if (Random.Range(0.0f, 100.0f) <= effect.source.stagger)
-                            {
-                                statusStagger++;
-
-                                if (staggeredFX != null && statusStagger < STAGGER_MAX)
-                                {
-                                    staggeredFX.Play();
-                                }
-                            }
-
-                            // if the amount of stagger is greater than the max, apply the stunned status
-                            if (!statusStunned && statusStagger >= STAGGER_MAX)
-                            {
-                                statusStunned = true;
-                                statusStagger = 0;
-
-                                refCharacterEffectUI.AddEffect(new Effect(Effect_ID.stunned, 0));
-                                if (staggeredFX != null)
-                                {
-                                    staggeredFX.Stop();
-                                }
-                                if (stunnedFX != null)
-                                {
-                                    stunnedFX.DOFade(1.0f, 0.1f);
-                                }
-                            }
+                            refCharacterEffectUI.AddEffect(new Effect(Effect_ID.damage, effect.value, effect.source), evt);
                         }
                         else
                         {
@@ -332,6 +287,59 @@ public partial class Character : MonoBehaviour
                     refCharacterEffectUI.AddEffect(effect);
                 }
                 break;
+            }
+        }
+    }
+
+    private void TakeDamage(int modValue, Effect effect)
+    {
+        // actually deal the damage
+        // if the character's health was going to go below 0, set it to 0 instead
+        if (healthCurrent - modValue < 0)
+        {
+            healthCurrent = 0;
+        }
+        else
+        {
+            healthCurrent -= modValue;
+
+            SendEvent(PassiveEventID.receiveDamage);
+            if (affiliation != effect.source.affiliation)
+            {
+                effect.source.SendEvent(PassiveEventID.dealDamageNotFriendly);
+            }
+            else
+            {
+                effect.source.SendEvent(PassiveEventID.dealDamageFriendly);
+            }
+            effect.source.SendEvent(PassiveEventID.dealDamage);
+        }
+
+        // apply stagger if the odds work out
+        if (Random.Range(0.0f, 100.0f) <= effect.source.stagger)
+        {
+            statusStagger++;
+
+            if (staggeredFX != null && statusStagger < STAGGER_MAX)
+            {
+                staggeredFX.Play();
+            }
+        }
+
+        // if the amount of stagger is greater than the max, apply the stunned status
+        if (!statusStunned && statusStagger >= STAGGER_MAX)
+        {
+            statusStunned = true;
+            statusStagger = 0;
+
+            refCharacterEffectUI.AddEffect(new Effect(Effect_ID.stunned, 0));
+            if (staggeredFX != null)
+            {
+                staggeredFX.Stop();
+            }
+            if (stunnedFX != null)
+            {
+                stunnedFX.DOFade(1.0f, 0.1f);
             }
         }
     }
