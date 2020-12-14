@@ -15,11 +15,18 @@ MonoBehaviour:
   description: Yell incoherently, angering nearby enemies and drawing their attention.
   moveCharacter: 0
   ignoreWalls: 1
+  ignoreAttackMod: 0
+  ignoreDefenseMod: 0
   ranged: 0
   range: 0
+  uses: 1
+  endTurn: 1
   effects:
   - id: 2
-    value: 5
+    value: 50
     probability: 1
     source: {fileID: 0}
+    trueDamage: 0
+    pierceDefense: 0
+    summon: {fileID: 0}
   radius: 4

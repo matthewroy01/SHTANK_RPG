@@ -157,21 +157,63 @@ public class EffectUI : MonoBehaviour
     {
         int counter = 0;
 
-        while (true)
+        List<Effect> consolidatedEffects = new List<Effect>();
+
+        int damageTotal = 0, healingTotal = 0;
+        bool damage = false, healing = false;
+        if (effects.Count > 0)
         {
-            if (effects.Count > 0)
+            Character tempSource = effects[0].source;
+
+            // loop through effects and consolidate the amount of damage and healing dealt to make the display clearer
+            for (int i = 0; i < effects.Count; ++i)
             {
-                if (counter >= effects.Count)
+                if (effects[i].id == Effect_ID.damage)
                 {
-                    counter = 0;
+                    damageTotal += effects[i].value;
+                    damage = true;
                 }
-
-                DisplayEffect(effects[counter], audio, timeBetween);
-
-                counter++;
+                else if (effects[i].id == Effect_ID.healing)
+                {
+                    healingTotal += effects[i].value;
+                    healing = true;
+                }
+                else
+                {
+                    consolidatedEffects.Add(effects[i]);
+                }
             }
 
-            yield return new WaitForSecondsRealtime(timeBetween);
+            // if damage is being dealt (even if defenses and such would result in 0 damage), add damage to the list
+            if (damage)
+            {
+                consolidatedEffects.Add(new Effect(Effect_ID.damage, damageTotal, tempSource));
+            }
+
+            // if healing is being dealt, add healing to the list
+            if (healing)
+            {
+                consolidatedEffects.Add(new Effect(Effect_ID.healing, healingTotal, tempSource));
+            }
+
+            consolidatedEffects.Reverse();
+
+            while (true)
+            {
+                if (consolidatedEffects.Count > 0)
+                {
+                    if (counter >= consolidatedEffects.Count)
+                    {
+                        counter = 0;
+                    }
+
+                    DisplayEffect(consolidatedEffects[counter], audio, timeBetween);
+
+                    counter++;
+                }
+
+                yield return new WaitForSecondsRealtime(timeBetween);
+            }
         }
     }
 

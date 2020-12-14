@@ -14,6 +14,8 @@ public class Party : MonoBehaviour
 
     [Header("Placeholder UI")]
     public PartyButton button;
+    public UnityEngine.UI.Image image;
+    private List<UnityEngine.UI.Image> images = new List<UnityEngine.UI.Image>();
 
     private void Start()
     {
@@ -28,6 +30,7 @@ public class Party : MonoBehaviour
         }
 
         float xPos = button.transform.position.x;
+        float xPosImage = image.transform.position.x;
         int counter = 0;
         for (int i = 0; i < partyActive.Count; ++i)
         {
@@ -36,6 +39,10 @@ public class Party : MonoBehaviour
                 button.SetDelegate(partyActive[i], this, button.transform.position.y);
 
                 button.gameObject.name = "Party Button " + (counter + 1);
+
+                image.gameObject.name = "Party Portrait " + (counter + 1);
+
+                images.Add(image);
             }
             else
             {
@@ -43,9 +50,16 @@ public class Party : MonoBehaviour
                 tmp.SetDelegate(partyActive[i], this, button.transform.position.y);
 
                 tmp.gameObject.name = "Party Button " + (counter + 1);
+
+                UnityEngine.UI.Image tmpImage = Instantiate(image, new Vector2(xPosImage, image.transform.position.y), Quaternion.identity, image.transform.parent);
+
+                tmpImage.gameObject.name = "Party Portrait " + (counter + 1);
+
+                images.Add(tmpImage);
             }
 
             xPos += 200;
+            xPosImage += 100;
             counter++;
         }
 
@@ -56,8 +70,31 @@ public class Party : MonoBehaviour
 
             tmp.gameObject.name = "Party Button " + (counter + 1);
 
+            UnityEngine.UI.Image tmpImage = Instantiate(image, new Vector2(xPosImage, image.transform.position.y), Quaternion.identity, image.transform.parent);
+
+            tmpImage.gameObject.name = "Party Portrait " + (counter + 1);
+
+            images.Add(tmpImage);
+
             xPos += 200;
+            xPosImage += 100;
             counter++;
+        }
+    }
+
+    private void Update()
+    {
+        for (int i = 0; i < images.Count; ++i)
+        {
+            if (partyActive.Count > i && partyActive[i] != null)
+            {
+                images[i].sprite = partyActive[i].loader.portrait;
+                images[i].CrossFadeAlpha(1.0f, 0.1f, true);
+            }
+            else
+            {
+                images[i].CrossFadeAlpha(0.0f, 0.1f, true);
+            }
         }
     }
 
@@ -80,29 +117,33 @@ public class Party : MonoBehaviour
 
             if (!found)
             {
-                partyReserve.Add(partyActive[i]);
-                partyActive.RemoveAt(i);
-                --i;
+                partyActive[i].currentHealth = 1;
+                //partyReserve.Add(partyActive[i]);
+                //partyActive.RemoveAt(i);
+                //--i;
             }
         }
     }
 
     public void TogglePartyMemberActivity(PartyMember partyMember)
     {
-        if (partyActive.Contains(partyMember))
+        if (partyMember != null)
         {
-            partyReserve.Add(partyMember);
-            partyActive.Remove(partyMember);
+            if (partyActive.Contains(partyMember) && partyActive.Count > 1)
+            {
+                partyReserve.Add(partyMember);
+                partyActive.Remove(partyMember);
 
-            return;
-        }
+                return;
+            }
 
-        if (partyReserve.Contains(partyMember))
-        {
-            partyActive.Add(partyMember);
-            partyReserve.Remove(partyMember);
+            if (partyReserve.Contains(partyMember) && partyActive.Count < 3)
+            {
+                partyActive.Add(partyMember);
+                partyReserve.Remove(partyMember);
 
-            return;
+                return;
+            }
         }
     }
 
@@ -113,6 +154,19 @@ public class Party : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    public PartyMember GetPartyMember(string name)
+    {
+        for (int i = 0; i < partyReserve.Count; ++i)
+        {
+            if (partyReserve[i].loader.characterName == name)
+            {
+                return partyReserve[i];
+            }
+        }
+
+        return null;
     }
 }
 

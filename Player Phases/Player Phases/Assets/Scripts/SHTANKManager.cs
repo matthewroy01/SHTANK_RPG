@@ -21,12 +21,14 @@ public class SHTANKManager : MonoBehaviour
     private Coroutine ignoreCollisionCoroutine;
 
     public DialogueDefinition debugDialogueStart;
+    public DialogueDefinition debugDialogueOneBattle;
+    public DialogueDefinition debugDialogueTwoBattles;
     public DialogueDefinition debugDialogueEnd;
+
+    public OverworldEnemyController debugFinalBoss;
 
     private void Awake()
     {
-        Screen.SetResolution(1920, 1080, true);
-
         InitializeStateMachine();
     }
 
@@ -80,14 +82,40 @@ public class SHTANKManager : MonoBehaviour
                 // run overworld behaviour
                 refOverworldManager.MyUpdate();
 
+                OverworldEnemyController[] tmp = FindObjectsOfType<OverworldEnemyController>();
+                if (refDialogueProcessor != null && debugDialogueOneBattle != null)
+                {
+                    if (tmp.Length == 4)
+                    {
+                        stateMachine.TryUpdateConnection((int)GameState.dialogue);
+                        refDialogueProcessor.Display(debugDialogueOneBattle);
+                        debugDialogueOneBattle = null;
+
+                        refParty.TogglePartyMemberActivity(refParty.GetPartyMember("No Clue"));
+                    }
+                }
+
+                if (refDialogueProcessor != null && debugDialogueTwoBattles != null)
+                {
+                    if (tmp.Length == 2)
+                    {
+                        stateMachine.TryUpdateConnection((int)GameState.dialogue);
+                        refDialogueProcessor.Display(debugDialogueTwoBattles);
+                        debugDialogueTwoBattles = null;
+
+                        refParty.TogglePartyMemberActivity(refParty.GetPartyMember("Sparrow"));
+                    }
+                }
+
                 if (refDialogueProcessor != null && debugDialogueEnd != null)
                 {
-                    OverworldEnemyController[] tmp = FindObjectsOfType<OverworldEnemyController>();
                     if (tmp.Length == 0)
                     {
                         stateMachine.TryUpdateConnection((int)GameState.dialogue);
                         refDialogueProcessor.Display(debugDialogueEnd);
                         debugDialogueEnd = null;
+
+                        debugFinalBoss.gameObject.SetActive(true);
                     }
                 }
 

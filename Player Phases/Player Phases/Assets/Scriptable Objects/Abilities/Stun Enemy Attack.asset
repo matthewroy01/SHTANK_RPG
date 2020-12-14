@@ -23,28 +23,21 @@ MonoBehaviour:
   endTurn: 1
   effects:
   - id: 0
-    value: 2
+    value: 5
     probability: 1
     source: {fileID: 0}
     trueDamage: 0
     pierceDefense: 0
     summon: {fileID: 0}
   - id: 0
-    value: 2
+    value: 5
     probability: 1
     source: {fileID: 0}
     trueDamage: 0
     pierceDefense: 0
     summon: {fileID: 0}
   - id: 0
-    value: 2
-    probability: 1
-    source: {fileID: 0}
-    trueDamage: 0
-    pierceDefense: 0
-    summon: {fileID: 0}
-  - id: 0
-    value: 4
+    value: 5
     probability: 1
     source: {fileID: 0}
     trueDamage: 0

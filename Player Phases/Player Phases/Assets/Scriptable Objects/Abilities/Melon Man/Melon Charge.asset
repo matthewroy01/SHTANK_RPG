@@ -30,7 +30,7 @@ MonoBehaviour:
     pierceDefense: 0
     summon: {fileID: 0}
   - id: 2
-    value: 1
+    value: 10
     probability: 1
     source: {fileID: 0}
     trueDamage: 0

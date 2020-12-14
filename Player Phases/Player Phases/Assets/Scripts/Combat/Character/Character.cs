@@ -60,7 +60,8 @@ public partial class Character : MonoBehaviour
     [Header("Stagger Status")]
     public int statusStagger = 0;
     private const int STAGGER_MAX = 2;
-    public ParticleSystem stunnedParts;
+    public SpriteRenderer stunnedFX;
+    public ParticleSystem staggeredFX;
 
     // aggro information for AI controlled characters
     /* ----------------------------------------------------------*/
@@ -104,6 +105,11 @@ public partial class Character : MonoBehaviour
     private void Awake()
     {
         refCombatGrid = FindObjectOfType<CombatGrid>();
+
+        if (stunnedFX != null)
+        {
+            stunnedFX.DOFade(0.0f, 0.0f);
+        }
     }
 
     private void Update()
@@ -199,16 +205,28 @@ public partial class Character : MonoBehaviour
                             if (Random.Range(0.0f, 100.0f) <= effect.source.stagger)
                             {
                                 statusStagger++;
+
+                                if (staggeredFX != null && statusStagger < STAGGER_MAX)
+                                {
+                                    staggeredFX.Play();
+                                }
                             }
 
                             // if the amount of stagger is greater than the max, apply the stunned status
-                            if (statusStagger >= STAGGER_MAX)
+                            if (!statusStunned && statusStagger >= STAGGER_MAX)
                             {
                                 statusStunned = true;
                                 statusStagger = 0;
 
                                 refCharacterEffectUI.AddEffect(new Effect(Effect_ID.stunned, 0));
-                                stunnedParts.Play();
+                                if (staggeredFX != null)
+                                {
+                                    staggeredFX.Stop();
+                                }
+                                if (stunnedFX != null)
+                                {
+                                    stunnedFX.DOFade(1.0f, 0.1f);
+                                }
                             }
                         }
                         else
@@ -521,6 +539,10 @@ public partial class Character : MonoBehaviour
         idle = true;
 
         statusStunned = false;
+        if (stunnedFX != null)
+        {
+            stunnedFX.DOFade(0.0f, 0.1f);
+        }
 
         if (refMovementDialogueProcessor != null)
         {

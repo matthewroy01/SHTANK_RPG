@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sprite: {fileID: 21300000, guid: bf5b999582c1d5d468b5e1d4e0ace3d7, type: 3}
   tooltip: Melon Man draws additional aggro equal to the amount of damage he deals
-    (I.E. a 2 damage attack draws 4 aggro).
+    (I.E. a 20 damage attack draws 40 aggro).
