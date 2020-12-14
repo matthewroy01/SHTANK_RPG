@@ -195,11 +195,6 @@ public partial class Character : MonoBehaviour
                             ApplyAggro(effect.source, 1);
                             FindObjectOfType<EnemyManager>().AlertAllEnemies(effect.source, this);
                         }
-
-                        if (healthCurrent == 0)
-                        {
-                            dead = true;
-                        }
                     }
                     else
                     {
@@ -315,31 +310,38 @@ public partial class Character : MonoBehaviour
             effect.source.SendEvent(PassiveEventID.dealDamage);
         }
 
-        // apply stagger if the odds work out
-        if (Random.Range(0.0f, 100.0f) <= effect.source.stagger)
+        if (healthCurrent == 0)
         {
-            statusStagger++;
-
-            if (staggeredFX != null && statusStagger < STAGGER_MAX)
-            {
-                staggeredFX.Play();
-            }
+            dead = true;
         }
-
-        // if the amount of stagger is greater than the max, apply the stunned status
-        if (!statusStunned && statusStagger >= STAGGER_MAX)
+        else
         {
-            statusStunned = true;
-            statusStagger = 0;
+            // apply stagger if the odds work out
+            if (Random.Range(0.0f, 100.0f) <= effect.source.stagger)
+            {
+                statusStagger++;
 
-            refCharacterEffectUI.AddEffect(new Effect(Effect_ID.stunned, 0));
-            if (staggeredFX != null)
-            {
-                staggeredFX.Stop();
+                if (staggeredFX != null && statusStagger < STAGGER_MAX)
+                {
+                    staggeredFX.Play();
+                }
             }
-            if (stunnedFX != null)
+
+            // if the amount of stagger is greater than the max, apply the stunned status
+            if (!statusStunned && statusStagger >= STAGGER_MAX)
             {
-                stunnedFX.DOFade(1.0f, 0.1f);
+                statusStunned = true;
+                statusStagger = 0;
+
+                refCharacterEffectUI.AddEffect(new Effect(Effect_ID.stunned, 0));
+                if (staggeredFX != null)
+                {
+                    staggeredFX.Stop();
+                }
+                if (stunnedFX != null)
+                {
+                    stunnedFX.DOFade(1.0f, 0.1f);
+                }
             }
         }
     }

@@ -51,7 +51,7 @@ public class Party : MonoBehaviour
 
                 tmp.gameObject.name = "Party Button " + (counter + 1);
 
-                UnityEngine.UI.Image tmpImage = Instantiate(image, new Vector2(xPosImage, image.transform.position.y), Quaternion.identity, image.transform.parent);
+                UnityEngine.UI.Image tmpImage = Instantiate(image, image.transform.position, Quaternion.identity, image.transform.parent);
 
                 tmpImage.gameObject.name = "Party Portrait " + (counter + 1);
 
@@ -59,7 +59,6 @@ public class Party : MonoBehaviour
             }
 
             xPos += 200;
-            xPosImage += 100;
             counter++;
         }
 
@@ -117,7 +116,7 @@ public class Party : MonoBehaviour
 
             if (!found)
             {
-                partyActive[i].currentHealth = 1;
+                partyActive[i].currentHealth = partyActive[i].loader.healthMax / 3;
                 //partyReserve.Add(partyActive[i]);
                 //partyActive.RemoveAt(i);
                 //--i;
