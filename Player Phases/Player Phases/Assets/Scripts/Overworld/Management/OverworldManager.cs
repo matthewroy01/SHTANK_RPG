@@ -79,6 +79,9 @@ public class OverworldManager : MonoBehaviour
         // enable player
         refPlayerController.gameObject.SetActive(true);
 
+        // reset velocity or the player will slide if dialogue starts
+        refPlayerController.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
         // enable enemies
         for (int i = 0; i < refEnemyControllers.Count; ++i)
         {
@@ -94,5 +97,10 @@ public class OverworldManager : MonoBehaviour
         }
 
         overworldUI.ToggleUI();
+    }
+
+    public void TMP_ONLY_REMOVE_LATER_AddOverworldEnemy(OverworldEnemyController oec)
+    {
+        refEnemyControllers.Add(oec);
     }
 }

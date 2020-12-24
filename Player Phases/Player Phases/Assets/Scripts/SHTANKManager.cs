@@ -116,6 +116,7 @@ public class SHTANKManager : MonoBehaviour
                         debugDialogueEnd = null;
 
                         debugFinalBoss.gameObject.SetActive(true);
+                        refOverworldManager.TMP_ONLY_REMOVE_LATER_AddOverworldEnemy(debugFinalBoss);
                     }
                 }
 
