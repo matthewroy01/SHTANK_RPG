@@ -40,6 +40,8 @@ public class CharacterSelector : MonoBehaviour
     private PhaseManager refPhaseManager;
     private UtilityAudioManager refAudioManager;
 
+    public RadialMenu refRadialMenu;
+
     System.Tuple<KeyCode, CombatDirection>[] keysAndDirections = {
             new System.Tuple<KeyCode, CombatDirection>(KeyCode.W, CombatDirection.up),
             new System.Tuple<KeyCode, CombatDirection>(KeyCode.S, CombatDirection.down),
@@ -232,6 +234,8 @@ public class CharacterSelector : MonoBehaviour
                     currentPlayer.Selected(refCombatGrid);
 
                     // update UI
+                    
+
                     refCharacterUI.ToggleUI(true);
                     refCharacterUI.UpdateCharacterUI(currentPlayer);
 
