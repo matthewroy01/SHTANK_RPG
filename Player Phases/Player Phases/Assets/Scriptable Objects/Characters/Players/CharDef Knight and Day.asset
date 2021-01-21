@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 869e1db15c6348246bbd3cef8c92dda0, type: 3}
+  m_Name: CharDef Knight and Day
+  m_EditorClassIdentifier: 
+  characterName: Knight and Day
+  characterDescription: Dame Holly von Kards IV was the first in family's line of
+    knights to be able to hear their patron god, Lumen. Now she wanders the countryside
+    dealing out justice while trying to keep Lumen happy.
+  portrait: {fileID: 21300000, guid: 710fb091bccc39e42bd8508daa33276f, type: 3}
+  healthMax: 100
+  attack: 0
+  defense: 0
+  stagger: 0
+  nashbalm: 5
+  movementRange: 5
+  moveset: {fileID: 11400000, guid: f7b753535578cd6468c0145e2607230d, type: 2}
+  movementDialogue: {fileID: 11400000, guid: fa9b3130332148249bec8cce00ac0146, type: 2}
+  movementDialogueSound: {fileID: 8300000, guid: e6f77160aeb443448a99f62876f94179,
+    type: 3}
+  terrainTypes: 00000000
+  passiveFunctionality: {fileID: 5965451999924946748, guid: d2885a14e70d0824888c106708603dfa,
+    type: 3}
+  sprite: {fileID: 21300000, guid: fa858f0bdc0f5f44db9595905c4b35bc, type: 3}

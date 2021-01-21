@@ -63,7 +63,7 @@ public enum PassiveEventID
     receiveDamage, receiveHealing, receiveStatus,
     dealDamage, dealHealing, dealStatus,
     dealDamageNotFriendly, dealDamageFriendly,
-    storeGridSpace
+    storeGridSpace, doNothing
 }
 
 public enum PassiveStatOperator

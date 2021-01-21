@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 895451904fc59484a804181f76e3f2fa, type: 3}
+  m_Name: Fusion
+  m_EditorClassIdentifier: 
+  description: Ignore Lumen's orders this turn and maintain the current power level
+    while releasing a burst of energy.
+  moveCharacter: 0
+  ignoreWalls: 0
+  ignoreAttackMod: 0
+  ignoreDefenseMod: 0
+  ranged: 0
+  range: 0
+  uses: 1
+  endTurn: 1
+  effects:
+  - id: 0
+    value: 10
+    probability: 1
+    source: {fileID: 0}
+    trueDamage: 0
+    pierceDefense: 0
+    summon: {fileID: 0}
+  radius: 2

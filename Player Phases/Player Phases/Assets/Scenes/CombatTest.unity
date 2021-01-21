@@ -8170,6 +8170,9 @@ MonoBehaviour:
   - loader: {fileID: 11400000, guid: 20d2b7abf1aa4ef42b70c5c766cd55ca, type: 2}
     currentHealth: 0
     abilitiesUnlocked: 0
+  - loader: {fileID: 11400000, guid: 67069c27249c8874e8bc02b460e7db46, type: 2}
+    currentHealth: 0
+    abilitiesUnlocked: 0
   partyReserve:
   - loader: {fileID: 11400000, guid: 3b9066181532dc5458bd7a370bd08749, type: 2}
     currentHealth: 0
@@ -17523,6 +17526,7 @@ MonoBehaviour:
     volume: 0.25
     pitch: 0
     randomPitchMinMax: {x: 0.9, y: 1.1}
+  refRadialMenu: {fileID: 0}
 --- !u!114 &1733401393
 MonoBehaviour:
   m_ObjectHideFlags: 0

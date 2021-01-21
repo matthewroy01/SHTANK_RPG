@@ -25,7 +25,12 @@ public class MovementDialogueProcessor : MonoBehaviour
 
     private void Start()
     {
-        refAudioSource = gameObject.AddComponent<AudioSource>();
+        TryGetComponent(out refAudioSource);
+
+        if (refAudioSource == null)
+        {
+            refAudioSource = gameObject.AddComponent<AudioSource>();
+        }
     }
 
     public void Display()
@@ -61,6 +66,17 @@ public class MovementDialogueProcessor : MonoBehaviour
                     StartCoroutine(WriteText(dialogue.quotes[rand]));
                 }
             }
+        }
+    }
+
+    public void Display(string toDisplay)
+    {
+        if (movementDialogueText != null)
+        {
+            Clear();
+
+            // display a specific message
+            StartCoroutine(WriteText(toDisplay));
         }
     }
 
