@@ -607,7 +607,86 @@ public class AbilityProcessor
 
         int length = 0;
 
-        int i = abil.baseWidth % 2 != 0 ? (int)abil.baseWidth / 2 : (int)abil.baseWidth / 2;
+        // move out in a straight line similar to the cone ability, but becoming smaller as we go
+        while (length < abil.length)
+        {
+            if (currentGridSpace != null)
+            {
+                centerLine.Add(currentGridSpace);
+
+                // row trackers to help spread out from the center line
+                GridSpace rowTrackerSideways = currentGridSpace, rowTrackerSidewaysOpposite = currentGridSpace;
+
+                // slowly expand as we move outwards
+                for (int j = 0; j < abil.halfWidth - (length * abil.angle); ++j)
+                {
+                    if (rowTrackerSideways != null)
+                    {
+                        // each step here broken into separate lines for ease of debugging
+                        // full line would be: rowTrackerSideways = (GridSpace)rowTrackerSideways.GetType().GetField(sideways).GetValue(rowTrackerSideways);
+                        System.Type type = rowTrackerSideways.GetType();
+                        System.Reflection.FieldInfo fieldInfo = type.GetField(sideways);
+                        object value = fieldInfo.GetValue(rowTrackerSideways);
+                        rowTrackerSideways = (GridSpace)value;
+                    }
+
+                    if (rowTrackerSidewaysOpposite != null)
+                    {
+                        // each step here broken into separate lines for ease of debugging
+                        // full line would be: rowTrackerSidewaysOpposite = (GridSpace)rowTrackerSidewaysOpposite.GetType().GetField(sidewaysOpposite).GetValue(rowTrackerSidewaysOpposite);
+                        System.Type typeO = rowTrackerSidewaysOpposite.GetType();
+                        System.Reflection.FieldInfo fieldInfoO = typeO.GetField(sidewaysOpposite);
+                        object valueO = fieldInfoO.GetValue(rowTrackerSidewaysOpposite);
+                        rowTrackerSidewaysOpposite = (GridSpace)valueO;
+                    }
+
+                    // save grid spaces in both directions from the center line
+                    TryAddGridSpace(rowTrackerSideways, abil.ignoreWalls);
+                    TryAddGridSpace(rowTrackerSidewaysOpposite, abil.ignoreWalls);
+                }
+            }
+
+            length++;
+
+            if (currentGridSpace != null && length < abil.length)
+            {
+                // update the current grid space
+                currentGridSpace = (GridSpace)currentGridSpace.GetType().GetField(forwards).GetValue(currentGridSpace);
+                TryAddGridSpace(currentGridSpace, abil.ignoreWalls);
+            }
+        }
+
+        // after the ability has been processed, determine a movement space if the ability moves the character
+        if (abil.moveCharacter)
+        {
+            if (centerLine.Count > 0)
+            {
+                endingSpace = centerLine[0];
+            }
+            else
+            {
+                // if there was no space, just set the ending space to the character's current grid space
+                endingSpace = savedCharacter.myGridSpace;
+            }
+
+            for (int i = 0; i < centerLine.Count; ++i)
+            {
+                if (centerLine[i].character == null && savedCharacter.terrainTypes.Contains(centerLine[i].GetTerrainType()))
+                {
+                    endingSpace = centerLine[i];
+                }
+            }
+        }
+
+        /*// if the specified length was -1, set the target length to complete the triangle
+        if (abil.length == -1 && abil.angle != 0)
+        {
+            targetLength = (int)(abil.baseWidth / abil.angle) + 1;
+        }
+
+        Debug.Log("target length is " + targetLength);
+
+        float i = abil.baseWidth % 2 != 0 ? (int)abil.baseWidth / 2 : (int)abil.baseWidth / 2;
         do
         {
             // if a length was specified, don't exceed the length
@@ -651,7 +730,7 @@ public class AbilityProcessor
 
                 length++;
 
-                if (length < abil.length)
+                if (length < targetLength)
                 {
                     // update the current grid space
                     currentGridSpace = (GridSpace)currentGridSpace.GetType().GetField(forwards).GetValue(currentGridSpace);
@@ -660,16 +739,18 @@ public class AbilityProcessor
             }
             else
             {
-                length = abil.length;
+                length = targetLength;
             }
 
-            i -= (int)abil.angle;
+            i -= abil.angle;
             if (i <= 0)
             {
                 i = 0;
             }
         }
         while (i > 0);
+
+        Debug.Log("triangle ability ended with length of " + length);*/
     }
 
     private void ProcessSummonAbility(SummonAbility abil, GridSpace startingGridSpace)

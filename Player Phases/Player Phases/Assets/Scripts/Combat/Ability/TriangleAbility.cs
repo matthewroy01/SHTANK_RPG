@@ -8,8 +8,8 @@ public class TriangleAbility : Ability
     [Header("Length of this triangle (-1 is default and will complete the triangle)")]
     public int length = -1;
 
-    [Header("The width of the base of the triangle")]
-    public uint baseWidth;
+    [Header("Half of the width of the base of the triangle")]
+    public uint halfWidth;
 
     [Header("The angle at which this triangle expands out to its point")]
     public float angle;
