@@ -29,14 +29,16 @@ public class Party : MonoBehaviour
             partyReserve[i].currentHealth = partyReserve[i].loader.healthMax;
         }
 
-        float xPos = button.transform.position.x;
-        float xPosImage = image.transform.position.x;
+        float xPos = button.GetRectTransform().anchoredPosition.x;
+        float yPos = button.GetRectTransform().anchoredPosition.y - 50.0f;
+        float buttonScale = button.transform.localScale.x;
+        float xPosImage = image.rectTransform.position.x;
         int counter = 0;
         for (int i = 0; i < partyActive.Count; ++i)
         {
             if (i == 0)
             {
-                button.SetDelegate(partyActive[i], this, button.transform.position.y);
+                button.SetDelegate(partyActive[i], this, yPos, buttonScale);
 
                 button.gameObject.name = "Party Button " + (counter + 1);
 
@@ -46,12 +48,12 @@ public class Party : MonoBehaviour
             }
             else
             {
-                PartyButton tmp = Instantiate(button, new Vector2(xPos, button.transform.position.y), Quaternion.identity, button.transform.parent);
-                tmp.SetDelegate(partyActive[i], this, button.transform.position.y);
+                PartyButton tmp = Instantiate(button, new Vector2(button.GetRectTransform().anchoredPosition.x, 0), Quaternion.identity, button.transform.parent);
+                tmp.SetDelegate(partyActive[i], this, yPos, buttonScale);
 
                 tmp.gameObject.name = "Party Button " + (counter + 1);
 
-                UnityEngine.UI.Image tmpImage = Instantiate(image, image.transform.position, Quaternion.identity, image.transform.parent);
+                UnityEngine.UI.Image tmpImage = Instantiate(image, image.rectTransform.transform.position, Quaternion.identity, image.transform.parent);
 
                 tmpImage.gameObject.name = "Party Portrait " + (counter + 1);
 
@@ -64,8 +66,8 @@ public class Party : MonoBehaviour
 
         for (int i = 0; i < partyReserve.Count; ++i)
         {
-            PartyButton tmp = Instantiate(button, new Vector2(xPos, button.transform.position.y), Quaternion.identity, button.transform.parent);
-            tmp.SetDelegate(partyReserve[i], this, button.transform.position.y);
+            PartyButton tmp = Instantiate(button, new Vector2(button.GetRectTransform().anchoredPosition.x, 0), Quaternion.identity, button.transform.parent);
+            tmp.SetDelegate(partyReserve[i], this, yPos, buttonScale);
 
             tmp.gameObject.name = "Party Button " + (counter + 1);
 
@@ -136,7 +138,7 @@ public class Party : MonoBehaviour
                 return;
             }
 
-            if (partyReserve.Contains(partyMember) && partyActive.Count < 3)
+            if (partyReserve.Contains(partyMember) && partyActive.Count < 100)
             {
                 partyActive.Add(partyMember);
                 partyReserve.Remove(partyMember);

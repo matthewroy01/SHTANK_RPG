@@ -16,7 +16,7 @@ MonoBehaviour:
   characterDescription: Dame Holly von Kards IV was the first in family's line of
     knights to be able to hear their patron god, Lumen. Now she wanders the countryside
     dealing out justice while trying to keep Lumen happy.
-  portrait: {fileID: 21300000, guid: 710fb091bccc39e42bd8508daa33276f, type: 3}
+  portrait: {fileID: 21300000, guid: 7478410d8f9ad3540b51109e93e1d53f, type: 3}
   healthMax: 100
   attack: 0
   defense: 0

@@ -23,13 +23,13 @@ public class ToggleUIPosition : MonoBehaviour
 
     void Start()
     {
-        posRevealed = toMove.localPosition;
-        posHidden = toMove.localPosition + moveBy;
+        posRevealed = toMove.anchoredPosition;
+        posHidden = toMove.anchoredPosition + (Vector2)moveBy;
 
         if (hiddenByDefault)
         {
             hidden = true;
-            toMove.localPosition = posHidden;
+            toMove.anchoredPosition = posHidden;
             image.rectTransform.localScale = new Vector3(image.rectTransform.localScale.x, -1.0f, image.rectTransform.localScale.z);
         }
     }

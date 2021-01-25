@@ -15,12 +15,14 @@ public class PartyButton : MonoBehaviour
     public TextMeshProUGUI text;
 
     private float defaultY;
+    private float defaultScale;
 
-    public void SetDelegate(PartyMember partyMember, Party party, float yPos)
+    public void SetDelegate(PartyMember partyMember, Party party, float yPos, float scale)
     {
         myPartyMember = partyMember;
         text.text = myPartyMember.loader.characterName;
         defaultY = yPos;
+        defaultScale = scale;
 
         DoTween(party.GetPartyMemberActive(myPartyMember));
 
@@ -33,15 +35,20 @@ public class PartyButton : MonoBehaviour
 
         if (active)
         {
-            myButton.transform.DOMoveY(defaultY - 25, duration);
-            myButton.transform.DOScale(1.1f, duration);
+            mySprite.rectTransform.DOAnchorPosY(defaultY - 25, duration);
+            myButton.transform.DOScale(defaultScale * 1.1f, duration);
             mySprite.CrossFadeAlpha(1.0f, duration, true);
         }
         else
         {
-            myButton.transform.DOMoveY(defaultY, duration);
-            myButton.transform.DOScale(1.0f, duration);
+            mySprite.rectTransform.DOAnchorPosY(defaultY, duration);
+            myButton.transform.DOScale(defaultScale, duration);
             mySprite.CrossFadeAlpha(0.5f, duration, true);
         }
+    }
+
+    public RectTransform GetRectTransform()
+    {
+        return mySprite.rectTransform;
     }
 }

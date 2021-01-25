@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 869e1db15c6348246bbd3cef8c92dda0, type: 3}
+  m_Name: CharDef Danny Doppelganger
+  m_EditorClassIdentifier: 
+  characterName: "Danny Doppelg\xE4nger"
+  characterDescription: Danny Doppelganger hails from the Superhero Agency and is
+    the weilder of the Doppel Device, an experimental invention that allows him to
+    copy the powers of other heroes.
+  portrait: {fileID: 21300000, guid: 710fb091bccc39e42bd8508daa33276f, type: 3}
+  healthMax: 100
+  attack: 0
+  defense: 0
+  stagger: 0
+  nashbalm: 0
+  movementRange: 5
+  moveset: {fileID: 11400000, guid: 8f5d9cbd750748640abbac2d91c9e979, type: 2}
+  movementDialogue: {fileID: 11400000, guid: 6c0c0e5060c5e3544b69737442de6570, type: 2}
+  movementDialogueSound: {fileID: 8300000, guid: b2f96172af6ff0844bb5d4c07fa477fe,
+    type: 3}
+  terrainTypes: 00000000
+  passiveFunctionality: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 7d21bacd925635e40b64f1470f399db5, type: 3}
