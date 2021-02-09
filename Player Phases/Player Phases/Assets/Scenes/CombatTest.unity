@@ -7936,13 +7936,10 @@ MonoBehaviour:
   - loader: {fileID: 11400000, guid: 20d2b7abf1aa4ef42b70c5c766cd55ca, type: 2}
     currentHealth: 0
     abilitiesUnlocked: 0
-  - loader: {fileID: 11400000, guid: 67069c27249c8874e8bc02b460e7db46, type: 2}
+  - loader: {fileID: 11400000, guid: 214fe91ac26bfee4aa6bb8ba2dd3af69, type: 2}
     currentHealth: 0
     abilitiesUnlocked: 0
-  - loader: {fileID: 11400000, guid: 0724ce3bae042cd44a8a8916e4620de8, type: 2}
-    currentHealth: 0
-    abilitiesUnlocked: 0
-  - loader: {fileID: 11400000, guid: 9ef30a20a05280043a124170fd62b7e3, type: 2}
+  - loader: {fileID: 11400000, guid: 32dc1e68dec9183438dcca2003435559, type: 2}
     currentHealth: 0
     abilitiesUnlocked: 0
   partyReserve:
@@ -7950,12 +7947,6 @@ MonoBehaviour:
     currentHealth: 0
     abilitiesUnlocked: 0
   - loader: {fileID: 11400000, guid: 56960bc0eecdb6244b620d4d3f733a4a, type: 2}
-    currentHealth: 0
-    abilitiesUnlocked: 0
-  - loader: {fileID: 11400000, guid: 32dc1e68dec9183438dcca2003435559, type: 2}
-    currentHealth: 0
-    abilitiesUnlocked: 0
-  - loader: {fileID: 11400000, guid: 214fe91ac26bfee4aa6bb8ba2dd3af69, type: 2}
     currentHealth: 0
     abilitiesUnlocked: 0
   - loader: {fileID: 11400000, guid: 0cc83615162389f4c9b0fa8118e6e752, type: 2}
