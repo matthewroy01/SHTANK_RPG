@@ -20,6 +20,11 @@ public class PassiveKnightAndDay : Passive
                 LumenMakeRequest();
                 break;
             }
+            case PassiveEventID.abilityUse1:
+            {
+                // used ability 1
+                break;
+            }
         }
     }
 
