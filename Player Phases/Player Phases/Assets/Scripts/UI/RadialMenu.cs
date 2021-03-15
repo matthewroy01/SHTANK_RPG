@@ -6,232 +6,179 @@ using UnityEngine.UI;
 
 public class RadialMenu : MonoBehaviour
 {
-    public RectTransform center;
+    [Header("Parent Transforms")]
+    public RectTransform parentMain;
+    public RectTransform parentFill;
+    public RectTransform parentSeparator;
+    public RectTransform parentText;
+
+    [Header("Radii")]
     public float distanceFromCenterSeparator;
     public float distanceFromCenterText;
 
-    private int currentAbilityNum;
-
-    public Image baseSeparator;
-    private List<Image> separators = new List<Image>();
-
-    public TextMeshProUGUI baseTextMesh;
-    private List<TextMeshProUGUI> textMeshes = new List<TextMeshProUGUI>();
-    private List<string> abilityNames = new List<string>();
-
+    [Header("Base Objects")]
     public Image baseFill;
-    private List<Image> fills = new List<Image>();
+    public Image baseSeparator;
+    public TextMeshProUGUI baseText;
+
+    // lists of objects
+    private List<Image> listFill = new List<Image>();
+    private List<Image> listSeparator = new List<Image>();
+    private List<TextMeshProUGUI> listText = new List<TextMeshProUGUI>();
+
+    private int currentAbilityNum;
 
     private List<RadialButton> radialButtons = new List<RadialButton>();
     private RadialButton currentButton;
 
+    [Space]
     public Moveset debugMoveset;
+
+    private Vector2 FROM = new Vector2(0.5f, 1.0f);
+    private Vector2 CENTER = new Vector2(0.5f, 0.5f);
+
+    private float angle = 0.0f;
 
     private void Start()
     {
-        separators.Add(baseSeparator);
-        textMeshes.Add(baseTextMesh);
-        fills.Add(baseFill);
+        int numOfButtons = 4;
 
-        Enable(debugMoveset);
+        float angleBetween = (360 / numOfButtons);
+        float fillAmount = 1.0f / (float)numOfButtons;
+
+        for (int i = 0; i < numOfButtons; ++i)
+        {
+            // calculate angles of this button
+            float startingAngle = i * angleBetween;
+            float endingAngle = startingAngle + angleBetween;
+
+            List<Vector2> angleRanges = new List<Vector2>();
+            angleRanges.Add(new Vector2(startingAngle, endingAngle));
+
+            Image fill, separator;
+            TextMeshProUGUI text;
+
+            if (i == 0)
+            {
+                // reuse the base objects
+                fill = baseFill;
+                separator = baseSeparator;
+                text = baseText;
+            }
+            else
+            {
+                // duplicate the base objects 
+                fill = Instantiate(baseFill, parentFill);
+                separator = Instantiate(baseSeparator, parentSeparator);
+                text = Instantiate(baseText, parentText);
+            }
+
+            // add new buttons
+            radialButtons.Add(new RadialButton(angleRanges, fill, separator, text));
+            radialButtons[radialButtons.Count - 1].Select(false);
+
+            fill.rectTransform.eulerAngles = new Vector3(0.0f, 0.0f, angleBetween * i * -1.0f);
+            fill.fillAmount = fillAmount;
+            fill.CrossFadeAlpha(0.25f, 0.0f, true);
+        }
+    }
+
+    public void Enable()
+    {
+
     }
 
     private void Update()
     {
-        TestSelect();
-    }
+        CalculateAngle();
 
-    public void Enable(Moveset moveset)
-    {
-        // reset ability number to display correctly
-        ResetAbilityNum(moveset);
+        RadialButton newButton = GetCurrentButton();
 
-        MoveSeparators();
-    }
-
-    private void ResetAbilityNum(Moveset moveset)
-    {
-        // reset ability num to 0
-        currentAbilityNum = 0;
-
-        // reset list of ability names
-        abilityNames.Clear();
-
-        // reset list of buttons
-        radialButtons.Clear();
-
-        // count the number of abilities
-        if (moveset.ability1 != null)
-        {
-            currentAbilityNum++;
-
-            abilityNames.Add(moveset.ability1.name);
-        }
-        if (moveset.ability2 != null)
-        {
-            currentAbilityNum++;
-
-            abilityNames.Add(moveset.ability2.name);
-        }
-        if (moveset.ability3 != null)
-        {
-            currentAbilityNum++;
-
-            abilityNames.Add(moveset.ability3.name);
-        }
-        if (moveset.ability4 != null)
-        {
-            currentAbilityNum++;
-
-            abilityNames.Add(moveset.ability4.name);
-        }
-    }
-
-    private void MoveSeparators()
-    {
-        float separationAngle = 360.0f / currentAbilityNum;
-        float startingAngle = 0.0f;
-
-        // create additional separators and text if needed
-        for (int i = 0; i < currentAbilityNum; ++i)
-        {
-            if (separators.Count <= i)
-            {
-                separators.Add(Instantiate(baseSeparator, baseSeparator.rectTransform.parent));
-            }
-
-            if (textMeshes.Count <= i)
-            {
-                textMeshes.Add(Instantiate(baseTextMesh, baseTextMesh.rectTransform.parent));
-            }
-
-            if (fills.Count <= i)
-            {
-                fills.Add(Instantiate(baseFill, baseFill.rectTransform.parent));
-            }
-        }
-
-        // move and rotate separators to fit the different sections
-        for (int i = 0; i < currentAbilityNum; ++i)
-        {
-            float currentAngle = separationAngle * i;
-
-            separators[i].rectTransform.eulerAngles = new Vector3(0.0f, 0.0f, currentAngle);
-            separators[i].rectTransform.anchoredPosition = Vector2.zero;
-            separators[i].rectTransform.anchoredPosition += (Vector2)separators[i].rectTransform.up * distanceFromCenterSeparator;
-
-            textMeshes[i].rectTransform.anchoredPosition += new Vector2(Mathf.Sin(Mathf.Deg2Rad * (currentAngle + (separationAngle / 2.0f))), Mathf.Cos(Mathf.Deg2Rad * (currentAngle + (separationAngle / 2.0f)))).normalized * distanceFromCenterText;
-            if (abilityNames.Count <= currentAbilityNum)
-            {
-                textMeshes[i].text = abilityNames[i];
-            }
-
-            fills[i].rectTransform.eulerAngles = new Vector3(0.0f, 0.0f, currentAngle * -1);
-            fills[i].fillAmount = separationAngle / 360.0f;
-
-            radialButtons.Add(new RadialButton(currentAngle, currentAngle + separationAngle, fills[i], separators[i], textMeshes[i]));
-        }
-    }
-
-    public void TestSelect()
-    {
-        float separationAngle = 360.0f / currentAbilityNum;
-        float startingAngle = separationAngle / 2.0f;
-
-        Vector2 mousePosition = new Vector2((Input.mousePosition.x / Screen.width) - 0.5f, (Input.mousePosition.y / Screen.height) - 0.5f).normalized;
-
-        float angle = Mathf.Atan2(mousePosition.y, mousePosition.x) * Mathf.Rad2Deg;
-
-        // top right quadrant
-        if (angle < 90.0f && angle >= 0.0f)
-        {
-            angle = 90.0f - angle;
-        }
-        // bottom right quadrant
-        else if (angle < 0.0f && angle >= -90.0f)
-        {
-            angle = (-90.0f - angle) + 180.0f;
-        }
-        // bottom left quadrant
-        else if (angle < -90.0f && angle >= -180.0f)
-        {
-            angle = (-90 - angle) + 180;
-        }
-        // top left qudrant
-        else if (angle >= 90.0f && angle <= 180.0f)
-        {
-            angle = (90 - angle) + 360;
-        }
-
-        RadialButton newButton = GetSelectedButton(angle, separationAngle, startingAngle);
+        // if the selected button has changed, update all the buttons
         if (newButton != currentButton)
         {
-            currentButton = newButton;
-            UpdateButtons();
-        }
-    }
-
-    private void UpdateButtons()
-    {
-        // enable selected button
-        currentButton.fill.CrossFadeAlpha(1.0f, 0.1f, true);
-
-        // disable other buttons
-        for (int i = 0; i < radialButtons.Count; ++i)
-        {
-            if (currentButton != radialButtons[i])
+            // deselect the current button
+            if (currentButton != null)
             {
-                radialButtons[i].fill.CrossFadeAlpha(0.0f, 0.1f, true);
+                currentButton.Select(false);
             }
+
+            currentButton = newButton;
+
+            // select the new current button
+            currentButton.Select(true);
         }
     }
 
-    private RadialButton GetSelectedButton(float angle, float separationAngle, float startingAngle)
+    public void CalculateAngle()
     {
+        Vector2 mousePos = Input.mousePosition;
+        Vector2 to = new Vector2(mousePos.x / Screen.width, mousePos.y / Screen.height);
+
+        // math here provided by Gamad on YouTube: https://www.youtube.com/watch?v=qBsLezkjJck
+        angle = (Mathf.Atan2(FROM.y - CENTER.y, FROM.x - CENTER.x) - Mathf.Atan2(to.y - CENTER.y , to.x - CENTER.x)) * Mathf.Rad2Deg;
+
+        if (angle < 0)
+        {
+            angle += 360;
+        }
+    }
+
+    private RadialButton GetCurrentButton()
+    {
+        // loop through the current buttons and find which one has the current angle within it
         for (int i = 0; i < radialButtons.Count; ++i)
         {
-            if (CheckIfAngleIsWithin(angle, radialButtons[i].angleStart, radialButtons[i].angleEnd))
+            if (radialButtons[i].CheckIfAngleIsWithinRanges(angle))
             {
                 return radialButtons[i];
             }
         }
 
-        return null;
-    }
-
-    private bool CheckIfAngleIsWithin(float angle, float a, float b)
-    {
-        if (angle > a && angle < b)
-        {
-            return true;
-        }
-        return false;
-    }
-
-    public void Disable()
-    {
-
+        // if for some reason, the current angle isn't within any of the radial buttons' specified ranges, just return the current button
+        return currentButton;
     }
 
     private class RadialButton
     {
-        public RadialButton(float start, float end, Image f, Image s, TextMeshProUGUI t)
+        public RadialButton(List<Vector2> angles, Image f, Image s, TextMeshProUGUI t)
         {
-            angleStart = start;
-            angleEnd = end;
-
-            if (angleEnd > 360)
-            {
-                angleEnd -= 360;
-            }
+            angleRanges = angles;
 
             fill = f;
             separator = s;
             text = t;
         }
 
-        public float angleStart;
-        public float angleEnd;
+        public bool CheckIfAngleIsWithinRanges(float angle)
+        {
+            // loop through angle ranges to find out if the provided angle is within any of them
+            for (int i = 0; i < angleRanges.Count; ++i)
+            {
+                if (angle > angleRanges[i].x && angle < angleRanges[i].y)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        public void Select(bool select)
+        {
+            // animate the button if it has been selected
+            if (select)
+            {
+                fill.CrossFadeAlpha(0.75f, 0.1f, true);
+            }
+            // otherwise animate the button if it has been deselected
+            else
+            {
+                fill.CrossFadeAlpha(0.25f, 0.1f, true);
+            }
+        }
+
+        private List<Vector2> angleRanges; // we keep a list of possible angle ranges in case there angle crosses the 360/0 degree threshold
         public Image fill;
         public Image separator;
         public TextMeshProUGUI text;

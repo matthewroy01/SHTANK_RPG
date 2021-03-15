@@ -7393,12 +7393,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bbf0143bbc274a4e94961198421320d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  center: {fileID: 2088768935}
+  parentMain: {fileID: 952387514}
+  parentFill: {fileID: 1195346559}
+  parentSeparator: {fileID: 2031333881}
+  parentText: {fileID: 1594877143}
   distanceFromCenterSeparator: 150
   distanceFromCenterText: 300
-  baseSeparator: {fileID: 1549712965}
-  baseTextMesh: {fileID: 808157659}
   baseFill: {fileID: 1778237291}
+  baseSeparator: {fileID: 1549712965}
+  baseText: {fileID: 808157659}
   debugMoveset: {fileID: 11400000, guid: a2572d166b63add429fd712fbaa7a2be, type: 2}
 --- !u!114 &952387516
 MonoBehaviour:
@@ -17984,7 +17987,7 @@ RectTransform:
   m_GameObject: {fileID: 1778237289}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 9, y: 9, z: 1}
+  m_LocalScale: {x: 9, y: 9, z: -1}
   m_Children: []
   m_Father: {fileID: 1195346559}
   m_RootOrder: 0
@@ -18019,7 +18022,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 1
+  m_FillAmount: 0.25
   m_FillClockwise: 1
   m_FillOrigin: 2
   m_UseSpriteMesh: 0
