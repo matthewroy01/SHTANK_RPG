@@ -95,6 +95,7 @@ public class CharacterSelector : MonoBehaviour
         refContextSensitiveUI = FindObjectOfType<ContextSensitiveUI>();
         refPhaseManager = FindObjectOfType<PhaseManager>();
         refAudioManager = FindObjectOfType<UtilityAudioManager>();
+        refRadialMenu = FindObjectOfType<RadialMenu>();
 
         refCharacterUI.ToggleUI(false);
     }
@@ -234,7 +235,7 @@ public class CharacterSelector : MonoBehaviour
                     currentPlayer.Selected(refCombatGrid);
 
                     // update UI
-                    
+                    refRadialMenu.Enable(currentPlayer.moveset);
 
                     refCharacterUI.ToggleUI(true);
                     refCharacterUI.UpdateCharacterUI(currentPlayer);
@@ -255,6 +256,8 @@ public class CharacterSelector : MonoBehaviour
         {
             currentPlayer.Deselected(refCombatGrid);
             currentPlayer = null;
+
+            refRadialMenu.Disable();
 
             refCharacterUI.ToggleUI(false);
 
