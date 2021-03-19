@@ -93,7 +93,7 @@ public class RadialMenu : MonoBehaviour
             menuActive = true;
 
             // update the contents of the radial menu
-            UpdateRadialMenu(numOfButtons);
+            UpdateRadialMenu(numOfButtons, moveset);
 
             justEnabled = true;
         }
@@ -112,7 +112,7 @@ public class RadialMenu : MonoBehaviour
         menuActive = false;
     }
 
-    public void UpdateRadialMenu(int numOfButtons)
+    public void UpdateRadialMenu(int numOfButtons, Moveset moveset)
     {
         float angleBetween = (360 / numOfButtons);
         float fillAmount = 1.0f / (float)numOfButtons;
@@ -122,6 +122,7 @@ public class RadialMenu : MonoBehaviour
             // calculate angles of this button
             float startingAngle = i * angleBetween;
             float endingAngle = startingAngle + angleBetween;
+            float midAngle = startingAngle + (angleBetween * 0.5f);
 
             List<Vector2> angleRanges = new List<Vector2>();
             angleRanges.Add(new Vector2(startingAngle, endingAngle));
@@ -155,9 +156,22 @@ public class RadialMenu : MonoBehaviour
                 radialButtons[radialButtons.Count - 1].Select(false);
             }
 
+            // adjust fill
             fill.rectTransform.eulerAngles = new Vector3(0.0f, 0.0f, angleBetween * i * -1.0f);
             fill.fillAmount = fillAmount;
             fill.CrossFadeAlpha(0.25f, 0.0f, true);
+
+            // adjust separator
+            separator.rectTransform.anchoredPosition = parentSeparator.anchoredPosition + (
+                new Vector2(Mathf.Sin(Mathf.Deg2Rad * startingAngle), Mathf.Cos(Mathf.Deg2Rad * startingAngle)).normalized * distanceFromCenterSeparator
+            );
+            separator.rectTransform.eulerAngles = new Vector3(0.0f, 0.0f, angleBetween * i * -1.0f);
+
+            // adjust text
+            text.rectTransform.anchoredPosition = parentText.anchoredPosition + (
+                new Vector2(Mathf.Sin(Mathf.Deg2Rad * midAngle), Mathf.Cos(Mathf.Deg2Rad * midAngle)).normalized * distanceFromCenterText
+                );
+            text.text = GetAbilityName(moveset, i);
         }
 
         // fade out buttons that aren't currently being used
@@ -220,6 +234,48 @@ public class RadialMenu : MonoBehaviour
         return numOfAbilities;
     }
 
+    private string GetAbilityName(Moveset moveset, int index)
+    {
+        Ability tmp = null;
+
+        switch(index)
+        {
+            case 0:
+            {
+                tmp = moveset.ability1;
+                break;
+            }
+            case 1:
+            {
+                tmp = moveset.ability2;
+                break;
+            }
+            case 2:
+            {
+                tmp = moveset.ability3;
+                break;
+            }
+            case 3:
+            {
+                tmp = moveset.ability4;
+                break;
+            }
+            default:
+            {
+                break;
+            }
+        }
+
+        if (tmp != null)
+        {
+            return tmp.name;
+        }
+        else
+        {
+            return "Ability Name";
+        }
+    }
+
     private IEnumerator CanvasGroupCrossFadeAlpha(CanvasGroup group, float alpha, float duration)
     {
         float passedTime = 0.0f;
@@ -272,20 +328,20 @@ public class RadialMenu : MonoBehaviour
             // animate the button if it has been selected
             if (select)
             {
-                fill.CrossFadeAlpha(0.85f, 0.1f, true);
+                fill.CrossFadeAlpha(0.9f, 0.1f, true);
             }
             // otherwise animate the button if it has been deselected
             else
             {
-                fill.CrossFadeAlpha(0.25f, 0.1f, true);
+                fill.CrossFadeAlpha(0.0f, 0.1f, true);
             }
         }
 
         public void MyCrossFadeAlpha(float alpha)
         {
-            fill.CrossFadeAlpha(0.0f, 0.0f, true);
-            separator.CrossFadeAlpha(0.0f, 0.0f, true);
-            text.CrossFadeAlpha(0.0f, 0.0f, true);
+            fill.CrossFadeAlpha(alpha, 0.0f, true);
+            separator.CrossFadeAlpha(alpha, 0.0f, true);
+            text.CrossFadeAlpha(alpha, 0.0f, true);
         }
 
         private List<Vector2> angleRanges; // we keep a list of possible angle ranges in case there angle crosses the 360/0 degree threshold

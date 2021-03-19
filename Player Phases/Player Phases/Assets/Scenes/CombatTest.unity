@@ -5954,7 +5954,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 250, y: 100}
+  m_SizeDelta: {x: 300, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &808157659
 MonoBehaviour:
@@ -6003,8 +6003,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 36
-  m_fontSizeBase: 36
+  m_fontSize: 48
+  m_fontSizeBase: 48
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -6019,7 +6019,7 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_enableWordWrapping: 0
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
@@ -8190,13 +8190,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   partyActive:
+  - loader: {fileID: 11400000, guid: 0724ce3bae042cd44a8a8916e4620de8, type: 2}
+    currentHealth: 0
+    abilitiesUnlocked: 0
+  - loader: {fileID: 11400000, guid: 3b9066181532dc5458bd7a370bd08749, type: 2}
+    currentHealth: 0
+    abilitiesUnlocked: 0
   - loader: {fileID: 11400000, guid: 20d2b7abf1aa4ef42b70c5c766cd55ca, type: 2}
-    currentHealth: 0
-    abilitiesUnlocked: 0
-  - loader: {fileID: 11400000, guid: 214fe91ac26bfee4aa6bb8ba2dd3af69, type: 2}
-    currentHealth: 0
-    abilitiesUnlocked: 0
-  - loader: {fileID: 11400000, guid: 32dc1e68dec9183438dcca2003435559, type: 2}
     currentHealth: 0
     abilitiesUnlocked: 0
   partyReserve:
@@ -18059,7 +18059,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.6862745}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
