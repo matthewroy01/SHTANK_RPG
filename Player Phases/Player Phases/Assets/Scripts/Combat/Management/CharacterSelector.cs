@@ -235,7 +235,7 @@ public class CharacterSelector : MonoBehaviour
                     currentPlayer.Selected(refCombatGrid);
 
                     // update UI
-                    refRadialMenu.Enable(currentPlayer.moveset);
+                    refRadialMenu.Enable(currentPlayer);
 
                     refCharacterUI.ToggleUI(true);
                     refCharacterUI.UpdateCharacterUI(currentPlayer);

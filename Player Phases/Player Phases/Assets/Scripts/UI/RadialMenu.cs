@@ -7,15 +7,24 @@ using UnityEngine.UI;
 public class RadialMenu : MonoBehaviour
 {
     private bool menuActive = false;
+    private Character currentTarget;
     private bool justEnabled = false;
 
     [Header("Parent Transforms")]
-    public CanvasGroup parentMain;
+    public RectTransform parentMain;
+    private CanvasGroup parentMainCanvasGroup;
     public RectTransform parentFill;
     public RectTransform parentSeparator;
     public RectTransform parentText;
 
+    [Header("My Canvas")]
+    public Canvas myCanvas;
+
     [Header("Radii")]
+    [Range(0.0f, 1.0f)]
+    public float distanceInnerEdge; // this variable is between 0 and 1 because it was easier to convert all of the distance checking vectors to be between 0 and 1 than otherwise
+    [Range(0.0f, 1.0f)]
+    public float distanceOuterEdge; // this variable is between 0 and 1 because it was easier to convert all of the distance checking vectors to be between 0 and 1 than otherwise
     public float distanceFromCenterSeparator;
     public float distanceFromCenterText;
 
@@ -36,9 +45,10 @@ public class RadialMenu : MonoBehaviour
 
     [Space]
     public Moveset debugMoveset;
+    public Image debugImage;
 
-    private Vector2 FROM = new Vector2(0.5f, 1.0f);
-    private Vector2 CENTER = new Vector2(0.5f, 0.5f);
+    public Vector2 FROM = new Vector2(0.5f, 1.0f);
+    public Vector2 CENTER = new Vector2(0.5f, 0.5f);
 
     private float angle = 0.0f;
 
@@ -49,36 +59,80 @@ public class RadialMenu : MonoBehaviour
         List<Vector2> tmp = new List<Vector2>();
         radialButtons.Add(new RadialButton(tmp, baseFill, baseSeparator, baseText));
 
-        parentMain.alpha = 0.0f;
+        parentMain.TryGetComponent(out parentMainCanvasGroup);
+        parentMainCanvasGroup.alpha = 0.0f;
     }
 
     private void Update()
     {
-        CalculateAngle();
-
-        RadialButton newButton = GetCurrentButton();
-
-        // if the selected button has changed, update all the buttons
-        if (newButton != currentButton || justEnabled)
+        if (menuActive)
         {
-            justEnabled = false;
+            CalculateAngle();
 
-            // deselect the current button
-            if (currentButton != null)
+            RadialButton newButton = GetCurrentButton();
+
+            if (newButton == null)
             {
-                currentButton.Select(false);
+                if (currentButton != null)
+                {
+                    // deselect the current button
+                    currentButton.Select(false);
+                }
+
+                // update the current button
+                currentButton = newButton;
+            }
+            // if the selected button has changed, update all the buttons
+            else if (newButton != currentButton || justEnabled)
+            {
+                justEnabled = false;
+
+                if (currentButton != null)
+                {
+                    // deselect the current button
+                    currentButton.Select(false);
+                }
+
+                // update the current button
+                currentButton = newButton;
+
+                // select the new current button
+                currentButton.Select(true);
             }
 
-            currentButton = newButton;
+            // also move the menu if there's a current target
+            if (currentTarget != null)
+            {
+                float lerpSpeed = 0.25f;
 
-            // select the new current button
-            currentButton.Select(true);
+                // move menu to target position
+                Vector3 screenPos = Camera.main.WorldToScreenPoint(currentTarget.transform.position);
+                screenPos -= new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.0f);
+                screenPos /= myCanvas.transform.localScale.x;
+                parentMain.anchoredPosition = Vector3.Lerp(parentMain.anchoredPosition, screenPos, lerpSpeed);
+
+                // move menu center to target position
+                screenPos = RectTransformUtility.PixelAdjustPoint(parentMain.position, parentMain, myCanvas);
+                screenPos = new Vector2(screenPos.x / Screen.width, screenPos.y / Screen.height);
+                CENTER = Vector3.Lerp(CENTER, screenPos, lerpSpeed);
+                FROM = new Vector2(CENTER.x, CENTER.y + 0.5f);
+            }
         }
     }
 
-    public void Enable(Moveset moveset)
+    private Vector2 GetScreenPositionOfRectTransform(RectTransform rectTransform)
     {
-        int numOfButtons = GetNumOfButtons(moveset);
+        Vector2 screenCenter = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
+        Vector2 output = (Vector2)Camera.main.WorldToScreenPoint(rectTransform.position) - screenCenter;
+
+        return output;
+    }
+
+    public void Enable(Character target)
+    {
+        int numOfButtons = GetNumOfButtons(target.moveset);
+
+        currentTarget = target;
 
         if (numOfButtons > 0)
         {
@@ -87,13 +141,13 @@ public class RadialMenu : MonoBehaviour
             {
                 StopCoroutine(crossFadeAlphaCoroutine);
             }
-            crossFadeAlphaCoroutine = StartCoroutine(CanvasGroupCrossFadeAlpha(parentMain, 1.0f, 0.25f));
+            crossFadeAlphaCoroutine = StartCoroutine(CanvasGroupCrossFadeAlpha(parentMainCanvasGroup, 1.0f, 0.25f));
 
             // enable the menu
             menuActive = true;
 
             // update the contents of the radial menu
-            UpdateRadialMenu(numOfButtons, moveset);
+            UpdateRadialMenu(numOfButtons, target.moveset);
 
             justEnabled = true;
         }
@@ -101,12 +155,14 @@ public class RadialMenu : MonoBehaviour
 
     public void Disable()
     {
+        currentTarget = null;
+        
         // start cross fading the canvas group
         if (crossFadeAlphaCoroutine != null)
         {
             StopCoroutine(crossFadeAlphaCoroutine);
         }
-        crossFadeAlphaCoroutine = StartCoroutine(CanvasGroupCrossFadeAlpha(parentMain, 0.0f, 0.25f));
+        crossFadeAlphaCoroutine = StartCoroutine(CanvasGroupCrossFadeAlpha(parentMainCanvasGroup, 0.0f, 0.25f));
 
         // disable the menu
         menuActive = false;
@@ -197,6 +253,20 @@ public class RadialMenu : MonoBehaviour
 
     private RadialButton GetCurrentButton()
     {
+        // check if the mouse is even within the range of the buttons themselves
+        Vector2 mousePos = Input.mousePosition;
+        mousePos = new Vector2(mousePos.x / Screen.width, mousePos.y / Screen.width); // dividing the mouse position's Y by the width here so that the distance is consistent on the X and Y axes
+        Vector2 screenPos = RectTransformUtility.PixelAdjustPoint(parentMain.position, parentMain, myCanvas);
+        screenPos = new Vector2(screenPos.x / Screen.width, screenPos.y / Screen.width); // dividing the screen position's Y by the width here so that the distance is consistent on the X and Y axes
+
+        float distance = Vector2.Distance(mousePos, screenPos);
+        Debug.Log(distance);
+        if (distance > distanceOuterEdge || distance < distanceInnerEdge)
+        {
+            // if it's not, return null as no button is currently being moused over
+            return null;
+        }
+
         // loop through the current buttons and find which one has the current angle within it
         for (int i = 0; i < radialButtons.Count; ++i)
         {
@@ -206,8 +276,8 @@ public class RadialMenu : MonoBehaviour
             }
         }
 
-        // if for some reason, the current angle isn't within any of the radial buttons' specified ranges, just return the current button
-        return currentButton;
+        // if for some reason, the current angle isn't within any of the radial buttons' specified ranges, just return null
+        return null;
     }
 
     private int GetNumOfButtons(Moveset moveset)

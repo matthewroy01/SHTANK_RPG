@@ -7390,16 +7390,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6bbf0143bbc274a4e94961198421320d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentMain: {fileID: 1222134857}
+  parentMain: {fileID: 1222134856}
   parentFill: {fileID: 1195346559}
   parentSeparator: {fileID: 2031333881}
   parentText: {fileID: 1594877143}
+  myCanvas: {fileID: 952387518}
+  distanceInnerEdge: 0.075
+  distanceOuterEdge: 0.25
   distanceFromCenterSeparator: 150
   distanceFromCenterText: 300
   baseFill: {fileID: 1778237291}
   baseSeparator: {fileID: 1549712965}
   baseText: {fileID: 808157659}
   debugMoveset: {fileID: 11400000, guid: a2572d166b63add429fd712fbaa7a2be, type: 2}
+  debugImage: {fileID: 0}
+  FROM: {x: 0.5, y: 1}
+  CENTER: {x: 0.5, y: 0.5}
 --- !u!114 &952387516
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8190,13 +8196,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   partyActive:
-  - loader: {fileID: 11400000, guid: 0724ce3bae042cd44a8a8916e4620de8, type: 2}
+  - loader: {fileID: 11400000, guid: 67069c27249c8874e8bc02b460e7db46, type: 2}
     currentHealth: 0
     abilitiesUnlocked: 0
-  - loader: {fileID: 11400000, guid: 3b9066181532dc5458bd7a370bd08749, type: 2}
+  - loader: {fileID: 11400000, guid: 0cc83615162389f4c9b0fa8118e6e752, type: 2}
     currentHealth: 0
     abilitiesUnlocked: 0
-  - loader: {fileID: 11400000, guid: 20d2b7abf1aa4ef42b70c5c766cd55ca, type: 2}
+  - loader: {fileID: 11400000, guid: 56960bc0eecdb6244b620d4d3f733a4a, type: 2}
     currentHealth: 0
     abilitiesUnlocked: 0
   partyReserve:
