@@ -310,9 +310,7 @@ public class AbilityProcessor
     {
         GridSpace currentGridSpace = startingGridSpace;
 
-        // depending on the direction the character is facing, the meaning of "forward", etc changes, so do something different for each case
-        // PLACEHOLDER SWITCH STATEMENT, REPLACE WITH DIRECTION THE CHARACTER IS FACING
-
+        // depending on the direction the character is facing, the meaning of "forward", etc changes, so use a different set of directions for each case
         if (flipped)
         {
             switch (direction)

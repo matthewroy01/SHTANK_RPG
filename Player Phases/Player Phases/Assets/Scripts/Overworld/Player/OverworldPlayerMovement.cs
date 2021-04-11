@@ -164,7 +164,7 @@ public class OverworldPlayerMovement : MonoBehaviour
                         shadow.SetActive(true);
 
                         shadow.transform.position = Vector3.Lerp(shadow.transform.position, hit.point, 0.01f);
-                        shadow.transform.localScale = Vector3.one * 2.0f;
+                        shadow.transform.localScale = Vector3.one * 1.5f;
                     }
                 }
 
