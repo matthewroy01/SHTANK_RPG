@@ -140,7 +140,7 @@ public class CharacterSelector : MonoBehaviour
             case (int)SelectorState.playerSelected:
             {
                 // input abilities
-                // THIS IS HANDLED BY BUTTONS IN THE UI
+                AbilitySelect();
 
                 // input movement
                 MovementMouse();
@@ -163,7 +163,7 @@ public class CharacterSelector : MonoBehaviour
             case (int)SelectorState.playerSelectedWithMovement:
             {
                 // input abilities
-                // THIS IS HANDLED BY BUTTONS IN THE UI
+                AbilitySelect();
 
                 // input movement
                 MovementMouse();
@@ -274,7 +274,7 @@ public class CharacterSelector : MonoBehaviour
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Input.GetMouseButton(0) && Physics.Raycast(ray, out hit, layerMaskGrid) && refCharacterUI.GetMouseIsntOverButton())
+        if (Input.GetMouseButton(0) && Physics.Raycast(ray, out hit, layerMaskGrid) && refRadialMenu.GetCurrentAbility() == -1)
         {
             if (hit.transform != null)
             {
@@ -379,8 +379,11 @@ public class CharacterSelector : MonoBehaviour
         refAbilityProcessor.CancelAbility();
     }
 
-    public void AbilitySelect(int abilNum)
+    public void AbilitySelect()
     {
+        // check if we're inputting within the radial menu
+        int abilNum = refRadialMenu.GetSelectedAbility() + 1;
+
         if (!currentPlayer.statusStunned && currentPlayer.movesetData.GetAvailability(abilNum) && stateMachine.TryUpdateConnection((int)SelectorState.playerSelectedWithAbility))
         {
             // this public function is called using delegates from UI buttons in the scene
@@ -390,7 +393,8 @@ public class CharacterSelector : MonoBehaviour
             abilityGridSpace = currentPlayer.myGridSpace;
 
             // update the Ability UI's colors
-            refCharacterUI.SetSelectedAbilityColor(selectedAbilityNum);
+            refRadialMenu.Disable();
+            // NEED TO PUT A FUNCTION HERE FOR THE RADIAL MENU
 
             dirty = true;
 
@@ -432,7 +436,8 @@ public class CharacterSelector : MonoBehaviour
             refAbilityProcessor.CancelAbility();
 
             // update the ability UI's colors
-            refCharacterUI.SetSelectedAbilityColor(selectedAbilityNum);
+            refRadialMenu.Enable(currentPlayer);
+            // NEED TO PUT A FUNCTION HERE FOR THE RADIAL MENU
 
             refAbilityProcessor.UpdateAbilityForecast();
 

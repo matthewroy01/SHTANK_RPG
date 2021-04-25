@@ -55,7 +55,7 @@ public class CharacterUI : MonoBehaviour
         CharacterSelector refCharacterSelector = FindObjectOfType<CharacterSelector>();
 
         // set up Ability 1's UI
-        abilityUI1.buttonSelectAbility.onClick.AddListener(delegate { refCharacterSelector.AbilitySelect(1); });
+        /*abilityUI1.buttonSelectAbility.onClick.AddListener(delegate { refCharacterSelector.AbilitySelect(1); });
 
         // set up Ability 2's UI
         abilityUI2 = Instantiate(abilityUI1.gameObject, abilityUI1.transform.parent).GetComponent<AbilityUI>();
@@ -73,7 +73,7 @@ public class CharacterUI : MonoBehaviour
         abilityUI4 = Instantiate(abilityUI3.gameObject, abilityUI2.transform.parent).GetComponent<AbilityUI>();
         abilityUI4.name = "Ability 4";
 
-        abilityUI4.buttonSelectAbility.onClick.AddListener(delegate { refCharacterSelector.AbilitySelect(4); });
+        abilityUI4.buttonSelectAbility.onClick.AddListener(delegate { refCharacterSelector.AbilitySelect(4); });*/
 
         // set up status icons
         imageListStatus.Add(defaultStatus);
@@ -133,7 +133,7 @@ public class CharacterUI : MonoBehaviour
         textMeshNashbalm.text = "NB " + character.nashbalm + "%";
 
         // ability text
-        if (character.movesetData.unlocked > 0)
+        /*if (character.movesetData.unlocked > 0)
         {
             abilityUI1.SetActive(character.abilityUIDefinition.strings1.name != "");
             UpdateAbilityUI(abilityUI1, character.abilityUIDefinition.strings1);
@@ -171,7 +171,7 @@ public class CharacterUI : MonoBehaviour
         else
         {
             abilityUI4.SetActive(false);
-        }
+        }*/
 
         // statuses
         UpdateStatusUI(character);
@@ -514,7 +514,7 @@ public class CharacterUI : MonoBehaviour
 
     private bool CheckMouseOver(Vector2 mousePos, AbilityUI abilityUI)
     {
-        if (abilityUI.gameObject.activeInHierarchy)
+        if (abilityUI != null && abilityUI.gameObject.activeInHierarchy)
         {
             if (RectTransformUtility.RectangleContainsScreenPoint(abilityUI.imageOverlay.rectTransform, mousePos))
             {

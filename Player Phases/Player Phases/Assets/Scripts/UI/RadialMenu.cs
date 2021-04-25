@@ -120,6 +120,21 @@ public class RadialMenu : MonoBehaviour
         }
     }
 
+    public int GetSelectedAbility()
+    {
+        if (Input.GetMouseButtonDown(0) && currentButton != null)
+        {
+            return radialButtons.IndexOf(currentButton);
+        }
+
+        return -1;
+    }
+
+    public int GetCurrentAbility()
+    {
+        return radialButtons.IndexOf(currentButton);
+    }
+
     private Vector2 GetScreenPositionOfRectTransform(RectTransform rectTransform)
     {
         Vector2 screenCenter = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
@@ -260,7 +275,7 @@ public class RadialMenu : MonoBehaviour
         screenPos = new Vector2(screenPos.x / Screen.width, screenPos.y / Screen.width); // dividing the screen position's Y by the width here so that the distance is consistent on the X and Y axes
 
         float distance = Vector2.Distance(mousePos, screenPos);
-        Debug.Log(distance);
+        //Debug.Log(distance);
         if (distance > distanceOuterEdge || distance < distanceInnerEdge)
         {
             // if it's not, return null as no button is currently being moused over
