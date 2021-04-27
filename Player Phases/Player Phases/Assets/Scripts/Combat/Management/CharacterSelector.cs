@@ -245,6 +245,8 @@ public class CharacterSelector : MonoBehaviour
 
                     // play sound
                     refAudioManager.QueueSound(audioSelect);
+
+                    FindObjectOfType<SHTANKCamera>().AutoMove(currentPlayer.transform.position);
                 }
             }
         }

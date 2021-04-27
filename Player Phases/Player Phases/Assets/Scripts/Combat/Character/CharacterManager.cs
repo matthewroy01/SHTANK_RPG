@@ -106,7 +106,7 @@ public abstract class CharacterManager : MonoBehaviour
 
         for (int i = 0; i < search.Count; ++i)
         {
-            if (validTerrainTypes.Contains(search[i].GetTerrainType()) && search[i].character == null && IsOnCheckerboard(search[i].coordinate))
+            if (validTerrainTypes.Contains(search[i].GetTerrainType()) && search[i].character == null && !IsOnCheckerboard(search[i].coordinate))
             {
                 return search[i];
             }

@@ -211,7 +211,7 @@ public class CharacterUI : MonoBehaviour
 
     public void SetSelectedAbilityColor(int selected)
     {
-        switch(selected)
+        /*switch(selected)
         {
             case 1:
             {
@@ -267,7 +267,7 @@ public class CharacterUI : MonoBehaviour
 
                 break;
             }
-        }
+        }*/
     }
 
     public AbilityUIDefinition InitializeAbilityUI(Character character)

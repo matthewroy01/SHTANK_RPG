@@ -43,7 +43,7 @@ public class EnemyManager : CharacterManager
     {
         AddRandomNames();
 
-        int targetX = (int)refCombatGrid.gridWidth - 1, targetY = (int)refCombatGrid.gridHeight - 1;
+        int targetX = (int)refCombatGrid.gridWidth - 1 - 1, targetY = (int)refCombatGrid.gridHeight - 1 - 1;
 
         for (int i = 0; i < group.characterDefinitions.Count; ++i)
         {
@@ -186,7 +186,8 @@ public class EnemyManager : CharacterManager
             "No Clue's Grandma",
             "A Unity Primitive",
             "John Quoiby",
-            "Michael Aberdeen"
+            "Michael Aberdeen",
+            "The Gremlin Box"
         };
         names = new List<string>(tmp);
     }

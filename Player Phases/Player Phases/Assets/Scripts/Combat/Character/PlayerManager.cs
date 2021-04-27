@@ -59,7 +59,7 @@ public class PlayerManager : CharacterManager
 
     public void SpawnPlayers()
     {
-        int targetX = 0, targetY = 0;
+        int targetX = 0 + 1, targetY = 0 + 1;
 
         for (int i = 0; i < refParty.partyActive.Count; ++i)
         {

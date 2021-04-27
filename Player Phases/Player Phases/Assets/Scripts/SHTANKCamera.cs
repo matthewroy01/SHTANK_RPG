@@ -42,6 +42,8 @@ public class SHTANKCamera : MonoBehaviour
     private CombatGrid refCombatGrid;
     private Vector3 defaultPosition;
 
+    private Coroutine autoMoveCoroutine;
+
     void Start()
     {
         refEnemyManager = FindObjectOfType<EnemyManager>();
@@ -85,8 +87,11 @@ public class SHTANKCamera : MonoBehaviour
 
     private void MoveCamera(Transform target, float lerpPos, float lerpRot)
     {
-        transform.position = Vector3.Lerp(transform.position, target.position, lerpPos);
-        transform.rotation = Quaternion.Lerp(transform.rotation, target.rotation, lerpRot);
+        if (autoMoveCoroutine == null)
+        {
+            transform.position = Vector3.Lerp(transform.position, target.position, lerpPos);
+            transform.rotation = Quaternion.Lerp(transform.rotation, target.rotation, lerpRot);
+        }
     }
 
     private void Shake()
@@ -109,6 +114,23 @@ public class SHTANKCamera : MonoBehaviour
 
         cameraTargetCombat.position = defaultPosition;
         maxBounds = new Bounds(defaultPosition, new Vector3(movementAreaSize.x, 1.0f, movementAreaSize.y));
+    }
+
+    public void AutoMove(Vector3 position)
+    {
+        //autoMoveCoroutine = StartCoroutine(AutoMoveCoroutine(position));
+    }
+
+    private IEnumerator AutoMoveCoroutine(Vector3 position)
+    {
+        Vector3 midpoint = (position - transform.position) * 0.5f;
+        midpoint.y = transform.position.y;
+
+        while (Vector3.Distance(transform.position, midpoint) > 0.1f)
+        {
+            transform.position = Vector3.Lerp(transform.position, midpoint, 0.05f);
+            yield return null;
+        }
     }
 
     private void MouseMovement()
@@ -170,12 +192,30 @@ public class SHTANKCamera : MonoBehaviour
                 {
                     // move the camera
                     cameraTargetCombat.position = newVector;
+
+                    if (velocity != Vector3.zero)
+                    {
+                        if (autoMoveCoroutine != null)
+                        {
+                            StopCoroutine(autoMoveCoroutine);
+                            autoMoveCoroutine = null;
+                        }
+                    }
                 }
             }
             else
             {
                 // move the camera
                 cameraTargetCombat.position = newVector;
+
+                if (velocity != Vector3.zero)
+                {
+                    if (autoMoveCoroutine != null)
+                    {
+                        StopCoroutine(autoMoveCoroutine);
+                        autoMoveCoroutine = null;
+                    }
+                }
             }
         }
     }
