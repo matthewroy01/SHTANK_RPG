@@ -62,9 +62,6 @@ public abstract class CharacterManager : MonoBehaviour
             // character portrait for UI
             refCharacter.portrait = def.portrait;
 
-            // ability definitions for UI
-            refCharacter.abilityUIDefinition = FindObjectOfType<CharacterUI>().InitializeAbilityUI(refCharacter);
-
             // character description for tooltips
             refCharacter.characterDescription = def.characterDescription;
 

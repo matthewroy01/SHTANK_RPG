@@ -28,6 +28,13 @@ public class RadialMenu : MonoBehaviour
     public float distanceFromCenterSeparator;
     public float distanceFromCenterText;
 
+    [Header("Ability Box UI")]
+    public RectTransform abilityBoxRectTransform;
+    public CanvasGroup abilityBoxCanvasGroup;
+    public TextMeshProUGUI abilityBoxText;
+    private AbilityUIDefinition abilityBoxUIDefinition;
+    private Coroutine crossFadeAlphaAbilityBoxCoroutine;
+
     [Header("Base Objects")]
     public Image baseFill;
     public Image baseSeparator;
@@ -61,6 +68,9 @@ public class RadialMenu : MonoBehaviour
 
         parentMain.TryGetComponent(out parentMainCanvasGroup);
         parentMainCanvasGroup.alpha = 0.0f;
+
+        abilityBoxUIDefinition = new AbilityUIDefinition();
+        abilityBoxCanvasGroup.alpha = 0.0f;
     }
 
     private void Update()
@@ -77,6 +87,13 @@ public class RadialMenu : MonoBehaviour
                 {
                     // deselect the current button
                     currentButton.Select(false);
+
+                    // disable the ability box
+                    if (crossFadeAlphaAbilityBoxCoroutine != null)
+                    {
+                        StopCoroutine(crossFadeAlphaAbilityBoxCoroutine);
+                    }
+                    crossFadeAlphaAbilityBoxCoroutine = StartCoroutine(CanvasGroupCrossFadeAlpha(abilityBoxCanvasGroup, 0.0f, 0.25f));
                 }
 
                 // update the current button
@@ -98,6 +115,14 @@ public class RadialMenu : MonoBehaviour
 
                 // select the new current button
                 currentButton.Select(true);
+
+                // update ability box
+                if (crossFadeAlphaAbilityBoxCoroutine != null)
+                {
+                    StopCoroutine(crossFadeAlphaAbilityBoxCoroutine);
+                }
+                crossFadeAlphaAbilityBoxCoroutine = StartCoroutine(CanvasGroupCrossFadeAlpha(abilityBoxCanvasGroup, 1.0f, 0.25f));
+                abilityBoxText.text = GetSelectedAbilityDefinition();
             }
 
             // also move the menu if there's a current target
@@ -117,6 +142,16 @@ public class RadialMenu : MonoBehaviour
                 CENTER = Vector3.Lerp(CENTER, screenPos, lerpSpeed);
                 FROM = new Vector2(CENTER.x, CENTER.y + 0.5f);
             }
+
+            // move the ability box based on the position of the radial menu
+            if (CENTER.y < 0.5f)
+            {
+                abilityBoxRectTransform.anchoredPosition = new Vector2(abilityBoxRectTransform.anchoredPosition.x, 300);
+            }
+            else
+            {
+                abilityBoxRectTransform.anchoredPosition = new Vector2(abilityBoxRectTransform.anchoredPosition.x, -350);
+            }
         }
     }
 
@@ -133,6 +168,43 @@ public class RadialMenu : MonoBehaviour
     public int GetCurrentAbility()
     {
         return radialButtons.IndexOf(currentButton);
+    }
+
+    private string GetSelectedAbilityDefinition()
+    {
+        int tmp = -1;
+
+        if (currentButton != null)
+        {
+            tmp = radialButtons.IndexOf(currentButton);
+        }
+
+        if (tmp != -1)
+        {
+            tmp++;
+
+            switch(tmp)
+            {
+                case 1:
+                {
+                    return abilityBoxUIDefinition.strings1.details + " • " + abilityBoxUIDefinition.strings1.description;
+                }
+                case 2:
+                {
+                    return abilityBoxUIDefinition.strings2.details + " • " + abilityBoxUIDefinition.strings2.description;
+                }
+                case 3:
+                {
+                    return abilityBoxUIDefinition.strings3.details + " • " + abilityBoxUIDefinition.strings3.description;
+                }
+                case 4:
+                {
+                    return abilityBoxUIDefinition.strings4.details + " • " + abilityBoxUIDefinition.strings4.description;
+                }
+            }
+        }
+
+        return "Empty Ability Description, whoops";
     }
 
     private Vector2 GetScreenPositionOfRectTransform(RectTransform rectTransform)
@@ -165,6 +237,9 @@ public class RadialMenu : MonoBehaviour
             UpdateRadialMenu(numOfButtons, target.moveset);
 
             justEnabled = true;
+
+            // set the ability definitions
+            abilityBoxUIDefinition.SetDefinitions(target.moveset);
         }
     }
 
@@ -181,6 +256,13 @@ public class RadialMenu : MonoBehaviour
 
         // disable the menu
         menuActive = false;
+
+        // disable the ability box if it was enabled
+        if (crossFadeAlphaAbilityBoxCoroutine != null)
+        {
+            StopCoroutine(crossFadeAlphaAbilityBoxCoroutine);
+        }
+        crossFadeAlphaAbilityBoxCoroutine = StartCoroutine(CanvasGroupCrossFadeAlpha(abilityBoxCanvasGroup, 0.0f, 0.25f));
     }
 
     public void UpdateRadialMenu(int numOfButtons, Moveset moveset)

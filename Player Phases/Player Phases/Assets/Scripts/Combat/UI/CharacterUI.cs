@@ -26,14 +26,6 @@ public class CharacterUI : MonoBehaviour
     public TextMeshProUGUI textMeshNashbalm;
     public TextMeshProUGUI textMeshMovement;
 
-    [Header("Abilities")]
-    public AbilityUI abilityUI1;
-    public Color overlaySelectedColor;
-    public Color overlayUnselectedColor;
-    private AbilityUI abilityUI2;
-    private AbilityUI abilityUI3;
-    private AbilityUI abilityUI4;
-
     [Header("Statuses")]
     public Image defaultStatus;
     public int maxStatuses;
@@ -53,27 +45,6 @@ public class CharacterUI : MonoBehaviour
     private void Start()
     {
         CharacterSelector refCharacterSelector = FindObjectOfType<CharacterSelector>();
-
-        // set up Ability 1's UI
-        /*abilityUI1.buttonSelectAbility.onClick.AddListener(delegate { refCharacterSelector.AbilitySelect(1); });
-
-        // set up Ability 2's UI
-        abilityUI2 = Instantiate(abilityUI1.gameObject, abilityUI1.transform.parent).GetComponent<AbilityUI>();
-        abilityUI2.name = "Ability 2";
-
-        abilityUI2.buttonSelectAbility.onClick.AddListener(delegate { refCharacterSelector.AbilitySelect(2); });
-
-        // set up Ability 3's UI
-        abilityUI3 = Instantiate(abilityUI2.gameObject, abilityUI2.transform.parent).GetComponent<AbilityUI>();
-        abilityUI3.name = "Ability 3";
-
-        abilityUI3.buttonSelectAbility.onClick.AddListener(delegate { refCharacterSelector.AbilitySelect(3); });
-
-        // set up Ability 4's UI
-        abilityUI4 = Instantiate(abilityUI3.gameObject, abilityUI2.transform.parent).GetComponent<AbilityUI>();
-        abilityUI4.name = "Ability 4";
-
-        abilityUI4.buttonSelectAbility.onClick.AddListener(delegate { refCharacterSelector.AbilitySelect(4); });*/
 
         // set up status icons
         imageListStatus.Add(defaultStatus);
@@ -132,47 +103,6 @@ public class CharacterUI : MonoBehaviour
         textMeshStagger.text = "St " + character.stagger + "%";
         textMeshNashbalm.text = "NB " + character.nashbalm + "%";
 
-        // ability text
-        /*if (character.movesetData.unlocked > 0)
-        {
-            abilityUI1.SetActive(character.abilityUIDefinition.strings1.name != "");
-            UpdateAbilityUI(abilityUI1, character.abilityUIDefinition.strings1);
-        }
-        else
-        {
-            abilityUI1.SetActive(false);
-        }
-
-        if (character.movesetData.unlocked > 1)
-        {
-            abilityUI2.SetActive(character.abilityUIDefinition.strings2.name != "");
-            UpdateAbilityUI(abilityUI2, character.abilityUIDefinition.strings2);
-        }
-        else
-        {
-            abilityUI2.SetActive(false);
-        }
-
-        if (character.movesetData.unlocked > 2)
-        {
-            abilityUI3.SetActive(character.abilityUIDefinition.strings3.name != "");
-            UpdateAbilityUI(abilityUI3, character.abilityUIDefinition.strings3);
-        }
-        else
-        {
-            abilityUI3.SetActive(false);
-        }
-
-        if (character.movesetData.unlocked > 3)
-        {
-            abilityUI4.SetActive(character.abilityUIDefinition.strings4.name != "");
-            UpdateAbilityUI(abilityUI4, character.abilityUIDefinition.strings4);
-        }
-        else
-        {
-            abilityUI4.SetActive(false);
-        }*/
-
         // statuses
         UpdateStatusUI(character);
 
@@ -207,231 +137,6 @@ public class CharacterUI : MonoBehaviour
         ui.textMeshAbilityName.text = strings.name;
         ui.textMeshDetails.text = strings.details;
         ui.textMeshDescription.text = strings.description;
-    }
-
-    public void SetSelectedAbilityColor(int selected)
-    {
-        /*switch(selected)
-        {
-            case 1:
-            {
-                // ability 1 selected
-                abilityUI1.imageOverlay.color = overlaySelectedColor;// CrossFadeColor(overlaySelectedColor, 0.25f, true, true);
-
-                abilityUI2.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
-                abilityUI3.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
-                abilityUI4.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
-
-                break;
-            }
-            case 2:
-            {
-                // ability 2 selected
-                abilityUI2.imageOverlay.color = overlaySelectedColor;// CrossFadeColor(overlaySelectedColor, 0.25f, true, true);
-
-                abilityUI1.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
-                abilityUI3.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
-                abilityUI4.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
-
-                break;
-            }
-            case 3:
-            {
-                // ability 3 selected
-                abilityUI3.imageOverlay.color = overlaySelectedColor;// CrossFadeColor(overlaySelectedColor, 0.25f, true, true);
-
-                abilityUI1.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
-                abilityUI2.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
-                abilityUI4.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
-
-                break;
-            }
-            case 4:
-            {
-                // ability 4 selected
-                abilityUI4.imageOverlay.color = overlaySelectedColor;// CrossFadeColor(overlaySelectedColor, 0.25f, true, true);
-
-                abilityUI1.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
-                abilityUI2.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
-                abilityUI3.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
-
-                break;
-            }
-            default:
-            {
-                // no ability selected
-                abilityUI1.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
-                abilityUI2.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
-                abilityUI3.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
-                abilityUI4.imageOverlay.color = overlayUnselectedColor;// CrossFadeColor(overlayUnselectedColor, 0.25f, true, true);
-
-                break;
-            }
-        }*/
-    }
-
-    public AbilityUIDefinition InitializeAbilityUI(Character character)
-    {
-        AbilityUIDefinition result = new AbilityUIDefinition();
-
-        if (character != null)
-        {
-            Moveset moveset = character.moveset;
-
-            if (moveset != null)
-            {
-                if (moveset.ability1 != null)
-                {
-                    result.strings1.name = moveset.ability1.name;
-                    result.strings1.details = CreateAbilityUI(moveset.ability1);
-                    result.strings1.description = moveset.ability1.description;
-                }
-
-                if (moveset.ability2 != null)
-                {
-                    result.strings2.name = moveset.ability2.name;
-                    result.strings2.details = CreateAbilityUI(moveset.ability2);
-                    result.strings2.description = moveset.ability2.description;
-                }
-
-                if (moveset.ability3 != null)
-                {
-                    result.strings3.name = moveset.ability3.name;
-                    result.strings3.details = CreateAbilityUI(moveset.ability3);
-                    result.strings3.description = moveset.ability3.description;
-                }
-
-                if (moveset.ability4 != null)
-                {
-                    result.strings4.name = moveset.ability4.name;
-                    result.strings4.details = CreateAbilityUI(moveset.ability4);
-                    result.strings4.description = moveset.ability4.description;
-                }
-            }
-        }
-
-        return result;
-    }
-
-    private string CreateAbilityUI(Ability abil)
-    {
-        int damageNum = 0;
-        int healingNum = 0;
-        int aggroNum = 0;
-        List<string> effectNames = new List<string>();
-        string effects = "";
-
-        for (int i = 0; i < abil.effects.Count; ++i)
-        {
-            if (abil.effects[i].id == Effect_ID.damage)
-            {
-                damageNum += abil.effects[i].value;
-            }
-            else if (abil.effects[i].id == Effect_ID.healing)
-            {
-                healingNum += abil.effects[i].value;
-            }
-            else if (abil.effects[i].id == Effect_ID.aggro)
-            {
-                aggroNum += abil.effects[i].value;
-            }
-            else
-            {
-                string tmp = Enum.GetName(typeof(Effect_ID), abil.effects[i].id);
-
-                if (!effectNames.Contains(tmp))
-                {
-                    effectNames.Add(tmp);
-                }
-            }
-        }
-
-        if (damageNum > 0)
-        {
-            effects += damageNum.ToString() + " Damage";
-        }
-
-        if (healingNum > 0)
-        {
-            if (effects != "")
-            {
-                effects += ", ";
-            }
-
-            effects += healingNum.ToString() + " Healing";
-        }
-
-        if (aggroNum > 0)
-        {
-            if (effects != "")
-            {
-                effects += ", ";
-            }
-
-            effects += aggroNum.ToString() + " Aggro";
-        }
-
-        for (int i = 0; i < effectNames.Count; ++i)
-        {
-            if (effects != "")
-            {
-                effects += ", ";
-            }
-
-            effects += "applies " + effectNames[i];
-        }
-
-        if (abil.moveCharacter)
-        {
-            if (effects != "")
-            {
-                effects += ", ";
-            }
-
-            effects += "moves character";
-        }
-
-        if (abil.ranged)
-        {
-            if (effects != "")
-            {
-                effects += ", ";
-            }
-
-            effects += "ranged";
-        }
-
-        if (abil.ignoreAttackMod)
-        {
-            if (effects != "")
-            {
-                effects += ", ";
-            }
-
-            effects += "ignores Atk Mod";
-        }
-
-        if (abil.ignoreDefenseMod)
-        {
-            if (effects != "")
-            {
-                effects += ", ";
-            }
-
-            effects += "ignores Def Mod";
-        }
-
-        if (abil.effects.Count > 0 && abil.effects[0].probability < 1.0f)
-        {
-            if (effects != "")
-            {
-                effects += ", ";
-            }
-
-            effects += "can miss";
-        }
-
-        return effects;
     }
 
     private void UpdateStatusUI(Character character)
@@ -489,25 +194,7 @@ public class CharacterUI : MonoBehaviour
     {
         Vector2 mousePos = Input.mousePosition;
 
-        if (CheckMouseOver(mousePos, abilityUI1))
-        {
-            return false;
-        }
-
-        if (CheckMouseOver(mousePos, abilityUI2))
-        {
-            return false;
-        }
-
-        if (CheckMouseOver(mousePos, abilityUI3))
-        {
-            return false;
-        }
-
-        if (CheckMouseOver(mousePos, abilityUI4))
-        {
-            return false;
-        }
+        // use "CheckMouseOver" function here
 
         return true;
     }

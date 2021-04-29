@@ -123,12 +123,11 @@ public class SHTANKCamera : MonoBehaviour
 
     private IEnumerator AutoMoveCoroutine(Vector3 position)
     {
-        Vector3 midpoint = (position - transform.position) * 0.5f;
-        midpoint.y = transform.position.y;
+        Vector3 midpoint = new Vector3((position.x + cameraTargetCombat.position.x) * 0.5f, cameraTargetCombat.position.y, (position.z + cameraTargetCombat.position.z) * 0.5f);
 
-        while (Vector3.Distance(transform.position, midpoint) > 0.1f)
+        while (Vector3.Distance(cameraTargetCombat.position, midpoint) > 0.1f)
         {
-            transform.position = Vector3.Lerp(transform.position, midpoint, 0.05f);
+            cameraTargetCombat.position = Vector3.Lerp(cameraTargetCombat.position, midpoint, 0.05f);
             yield return null;
         }
     }

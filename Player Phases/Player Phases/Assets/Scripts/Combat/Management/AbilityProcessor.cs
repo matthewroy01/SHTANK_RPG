@@ -300,7 +300,7 @@ public class AbilityProcessor
 
     public void UpdateMovementAbilityForecast()
     {
-        if (endingSpace != null)
+        if (endingSpace != null && endingSpace.obj != null)
         {
             refMovementAbilityForecast.DisplayForecast(endingSpace.obj.transform.position, savedCharacter, savedAbility != null ? savedAbility.moveCharacter : false);
         }

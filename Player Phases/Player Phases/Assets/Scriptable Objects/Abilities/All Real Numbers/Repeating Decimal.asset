@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc9cfe8475e9cf148b3715d8f0b1fd3e, type: 3}
   m_Name: Repeating Decimal
   m_EditorClassIdentifier: 
-  description: Divide one by three and create a spray of threes. Each hit landed
-    on an enemy increases Curriculum.
+  description: Divide one by three and create a spray of threes. Landed hits increase
+    Curriculum.
   moveCharacter: 0
   ignoreWalls: 0
   ignoreAttackMod: 1

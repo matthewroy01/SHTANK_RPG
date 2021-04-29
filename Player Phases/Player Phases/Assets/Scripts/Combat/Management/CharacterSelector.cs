@@ -362,6 +362,8 @@ public class CharacterSelector : MonoBehaviour
         refAbilityProcessor.UpdateAbilityForecast();
 
         stateMachine.TryUpdateConnection((int)SelectorState.doingNothing);
+
+        refRadialMenu.Disable();
     }
 
     private void ContinueTurnFunctionality()
@@ -620,9 +622,6 @@ public class CharacterSelector : MonoBehaviour
 
                 // reset our previously inputted ability
                 selectedAbilityNum = 0;
-
-                // update the ability UI's colors
-                refCharacterUI.SetSelectedAbilityColor(selectedAbilityNum);
             }
         }
     }
@@ -700,9 +699,9 @@ public class CharacterSelector : MonoBehaviour
             // cancel selected abilities
             selectedAbilityNum = 0;
             refAbilityProcessor.CancelAbility();
-            refCharacterUI.SetSelectedAbilityColor(selectedAbilityNum);
             refAbilityProcessor.UpdateAbilityForecast();
             refAbilityProcessor.UpdateMovementAbilityForecast();
+            refRadialMenu.Disable();
 
             stateMachine.TryUpdateConnection((int)SelectorState.doingNothing);
 
