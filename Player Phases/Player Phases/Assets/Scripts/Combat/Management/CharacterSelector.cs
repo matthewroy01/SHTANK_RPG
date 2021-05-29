@@ -28,6 +28,7 @@ public class CharacterSelector : MonoBehaviour
     private bool dirty = false;
     private int selectedAbilityNum = 0;
     private bool flipped = false;
+    private bool moving = false;
     private CombatDirection facing = CombatDirection.up;
     private GridSpace abilityGridSpace;
 
@@ -276,12 +277,25 @@ public class CharacterSelector : MonoBehaviour
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if (Input.GetMouseButton(0) && Physics.Raycast(ray, out hit, layerMaskGrid) && refRadialMenu.GetCurrentAbility() == -1)
+        // if the mouse was clicked on top of a character, we can move them
+        if (Input.GetMouseButtonDown(0) && Physics.Raycast(ray, out hit, Mathf.Infinity, layerMaskGrid) && refRadialMenu.GetCurrentAbility() == -1)
         {
+            GridSpace newGridSpace = refCombatGrid.GetGridSpace(hit.transform.gameObject);
+
+            if (hit.transform != null && newGridSpace.character == currentPlayer)
+            {
+                moving = true;
+            }
+        }
+
+        // if the mouse is continuing to being held, move the character
+        if (Input.GetMouseButton(0) && moving == true && Physics.Raycast(ray, out hit, Mathf.Infinity, layerMaskGrid) && refRadialMenu.GetCurrentAbility() == -1)
+        {
+            GridSpace newGridSpace = refCombatGrid.GetGridSpace(hit.transform.gameObject);
+
             if (hit.transform != null)
             {
                 // if the A* movement was succesful (the character actually moved)
-                GridSpace newGridSpace = refCombatGrid.GetGridSpace(hit.transform.gameObject);
                 if (currentPlayer.TryMoveAStar(refCombatGrid, newGridSpace))
                 {
                     if (tmpGridSpace != null)
@@ -309,6 +323,12 @@ public class CharacterSelector : MonoBehaviour
                     }
                 }
             }
+        }
+
+        // when the mouse is let go, stop moving the character
+        if (Input.GetMouseButtonUp(0))
+        {
+            moving = false;
         }
     }
 
