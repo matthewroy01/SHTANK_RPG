@@ -7858,7 +7858,7 @@ MonoBehaviour:
   edgeSensitivity: 0.05
   smoothing: 0.5
   edgeMode: 1
-  requireTab: 0
+  requireTab: 1
   movementAreaSize: {x: 15, y: 10}
   cameraMode: 0
   shouldShake: 0

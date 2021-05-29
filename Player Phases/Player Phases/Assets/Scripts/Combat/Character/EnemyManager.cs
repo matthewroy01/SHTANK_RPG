@@ -187,7 +187,8 @@ public class EnemyManager : CharacterManager
             "A Unity Primitive",
             "John Quoiby",
             "Michael Aberdeen",
-            "The Gremlin Box"
+            "The Gremlin Box",
+			"Not a Great Deal Man"
         };
         names = new List<string>(tmp);
     }
