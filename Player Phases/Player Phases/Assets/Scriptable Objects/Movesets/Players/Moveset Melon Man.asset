@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ability1: {fileID: 11400000, guid: 9107939e54451f341acab64ff2767107, type: 2}
   ability2: {fileID: 11400000, guid: b1c6aae3f0bf4f843b148d4636f02eb4, type: 2}
-  ability3: {fileID: 11400000, guid: 179fb2d3363ba564991932aea66923d4, type: 2}
+  ability3: {fileID: 0}
   ability4: {fileID: 0}

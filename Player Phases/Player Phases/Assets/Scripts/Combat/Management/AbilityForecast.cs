@@ -27,14 +27,16 @@ public class AbilityForecast : MonoBehaviour
                         StopCoroutine(running[i]);
                     }
                 }
+                running.Clear();
 
+                // reset the previous characters selected so its clear which effects are going to be applied at any given time
                 foreach(Character character in runningCharacters)
                 {
                     character.refCharacterEffectUI.Reset();
                 }
-
-                running.Clear();
                 runningCharacters.Clear();
+
+                // add new characters to the list of characters
                 runningCharacters.AddRange(newCharacters);
 
                 // check if the dirty grid spaces have characters and or need things displayed on them
