@@ -248,6 +248,9 @@ public class CharacterSelector : MonoBehaviour
                     refAudioManager.QueueSound(audioSelect);
 
                     FindObjectOfType<SHTANKCamera>().AutoMove(currentPlayer.transform.position);
+
+                    // also, start allowing movement in case the player keeps holding left click
+                    moving = true;
                 }
             }
         }
@@ -282,7 +285,7 @@ public class CharacterSelector : MonoBehaviour
         {
             GridSpace newGridSpace = refCombatGrid.GetGridSpace(hit.transform.gameObject);
 
-            if (hit.transform != null && newGridSpace.character == currentPlayer)
+            if (hit.transform != null && refRadialMenu.GetMouseInCenter())
             {
                 moving = true;
             }

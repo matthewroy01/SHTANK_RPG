@@ -9,6 +9,7 @@ public class RadialMenu : MonoBehaviour
     private bool menuActive = false;
     private Character currentTarget;
     private bool justEnabled = false;
+    private bool mouseInCenter = false;
 
     [Header("Parent Transforms")]
     public RectTransform parentMain;
@@ -170,6 +171,11 @@ public class RadialMenu : MonoBehaviour
         return radialButtons.IndexOf(currentButton);
     }
 
+    public bool GetMouseInCenter()
+    {
+        return mouseInCenter;
+    }
+
     private string GetSelectedAbilityDefinition()
     {
         int tmp = -1;
@@ -256,6 +262,7 @@ public class RadialMenu : MonoBehaviour
 
         // disable the menu
         menuActive = false;
+        mouseInCenter = false;
 
         // disable the ability box if it was enabled
         if (crossFadeAlphaAbilityBoxCoroutine != null)
@@ -360,6 +367,16 @@ public class RadialMenu : MonoBehaviour
         //Debug.Log(distance);
         if (distance > distanceOuterEdge || distance < distanceInnerEdge)
         {
+            // check if the mouse is in the center
+            if (distance < distanceInnerEdge)
+            {
+                mouseInCenter = true;
+            }
+            else
+            {
+                mouseInCenter = false;
+            }
+
             // if it's not, return null as no button is currently being moused over
             return null;
         }
