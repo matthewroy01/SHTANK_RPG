@@ -11,6 +11,9 @@
         },
         {
             "m_Id": "0ab0da77ddc54646ab0a44c5af0bd4b6"
+        },
+        {
+            "m_Id": "e54be50687f64d2e8c0b9a571eb9338f"
         }
     ],
     "m_Keywords": [],
@@ -223,9 +226,9 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -908.0,
+            "x": -1327.0001220703125,
             "y": 268.0,
-            "width": 95.0,
+            "width": 95.00000762939453,
             "height": 34.0
         }
     },
@@ -444,10 +447,10 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -811.0,
-            "y": 124.0,
+            "x": -1230.0,
+            "y": 124.00003051757813,
             "width": 208.0,
-            "height": 434.0
+            "height": 434.0000305175781
         }
     },
     "m_Slots": [
@@ -567,8 +570,8 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -450.0,
-            "y": 62.0,
+            "x": -869.0000610351563,
+            "y": 61.99997329711914,
             "width": 208.0,
             "height": 302.0
         }
@@ -629,9 +632,9 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -661.0,
-            "y": 28.0,
-            "width": 98.0,
+            "x": -1080.0,
+            "y": 28.0000057220459,
+            "width": 98.00000762939453,
             "height": 34.0
         }
     },
@@ -819,8 +822,8 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -118.0,
-            "y": 76.0,
+            "x": -37.000038146972659,
+            "y": 61.99997329711914,
             "width": 208.0,
             "height": 278.0
         }
@@ -1093,7 +1096,7 @@
         "m_Expanded": true,
         "m_Position": {
             "serializedVersion": "2",
-            "x": -965.0,
+            "x": -1384.0001220703125,
             "y": 160.0,
             "width": 152.0,
             "height": 34.0
@@ -1171,6 +1174,29 @@
         "m_SerializableColors": []
     },
     "m_SerializedDescriptor": "SurfaceDescription.Metallic"
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Internal.Texture2DShaderProperty",
+    "m_ObjectId": "e54be50687f64d2e8c0b9a571eb9338f",
+    "m_Guid": {
+        "m_GuidSerialized": "acb80cde-5c0f-444f-ad64-f374453ed250"
+    },
+    "m_Name": "Extra Texture 1",
+    "m_DefaultReferenceName": "Texture2D_e54be50687f64d2e8c0b9a571eb9338f",
+    "m_OverrideReferenceName": "",
+    "m_GeneratePropertyBlock": true,
+    "m_Precision": 0,
+    "overrideHLSLDeclaration": false,
+    "hlslDeclarationOverride": 0,
+    "m_Hidden": false,
+    "m_Value": {
+        "m_SerializedTexture": "{\"texture\":{\"instanceID\":0}}",
+        "m_Guid": ""
+    },
+    "m_Modifiable": true,
+    "m_DefaultType": 0
 }
 
 {

@@ -250,7 +250,7 @@ public class EffectUI : MonoBehaviour
         }
     }
 
-    private void Reset()
+    public void Reset()
     {
         effectText.text = "";
     }

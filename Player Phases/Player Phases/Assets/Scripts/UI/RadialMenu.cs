@@ -29,6 +29,10 @@ public class RadialMenu : MonoBehaviour
     public float distanceFromCenterSeparator;
     public float distanceFromCenterText;
 
+    [Header("Movement")]
+    [Range(0.0f, 1.0f)]
+    public float movementLerpSpeed;
+
     [Header("Ability Box UI")]
     public RectTransform abilityBoxRectTransform;
     public CanvasGroup abilityBoxCanvasGroup;
@@ -129,19 +133,7 @@ public class RadialMenu : MonoBehaviour
             // also move the menu if there's a current target
             if (currentTarget != null)
             {
-                float lerpSpeed = 0.25f;
-
-                // move menu to target position
-                Vector3 screenPos = Camera.main.WorldToScreenPoint(currentTarget.transform.position);
-                screenPos -= new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.0f);
-                screenPos /= myCanvas.transform.localScale.x;
-                parentMain.anchoredPosition = Vector3.Lerp(parentMain.anchoredPosition, screenPos, lerpSpeed);
-
-                // move menu center to target position
-                screenPos = RectTransformUtility.PixelAdjustPoint(parentMain.position, parentMain, myCanvas);
-                screenPos = new Vector2(screenPos.x / Screen.width, screenPos.y / Screen.height);
-                CENTER = Vector3.Lerp(CENTER, screenPos, lerpSpeed);
-                FROM = new Vector2(CENTER.x, CENTER.y + 0.5f);
+                UpdatePosition(movementLerpSpeed);
             }
 
             // move the ability box based on the position of the radial menu
@@ -174,6 +166,21 @@ public class RadialMenu : MonoBehaviour
     public bool GetMouseInCenter()
     {
         return mouseInCenter;
+    }
+
+    private void UpdatePosition(float lerpSpeed)
+    {
+        // move menu to target position
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(currentTarget.transform.position);
+        screenPos -= new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.0f);
+        screenPos /= myCanvas.transform.localScale.x;
+        parentMain.anchoredPosition = Vector3.Lerp(parentMain.anchoredPosition, screenPos, lerpSpeed);
+
+        // move menu center to target position
+        screenPos = RectTransformUtility.PixelAdjustPoint(parentMain.position, parentMain, myCanvas);
+        screenPos = new Vector2(screenPos.x / Screen.width, screenPos.y / Screen.height);
+        CENTER = Vector3.Lerp(CENTER, screenPos, lerpSpeed);
+        FROM = new Vector2(CENTER.x, CENTER.y + 0.5f);
     }
 
     private string GetSelectedAbilityDefinition()
@@ -226,6 +233,9 @@ public class RadialMenu : MonoBehaviour
         int numOfButtons = GetNumOfButtons(target.moveset);
 
         currentTarget = target;
+
+        // update the position so the player doesn't see the lerp from the radial menu moving to its new target
+        UpdatePosition(1.0f);
 
         if (numOfButtons > 0)
         {

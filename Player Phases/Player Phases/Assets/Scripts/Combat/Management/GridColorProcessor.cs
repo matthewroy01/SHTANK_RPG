@@ -83,7 +83,7 @@ public class GridColorProcessor : MonoBehaviour
     {
         if (checkAgainst.Contains(toCheck))
         {
-            toCheck.obj.GetComponent<GridSpaceRendering>().SetColor(Color.Lerp(Color.Lerp(color, Color.white, 0.5f), color, Mathf.Sin(Time.time * 10.0f + (0.5f * (i - j)))));
+            toCheck.obj.GetComponent<GridSpaceRendering>().SetColor(Color.Lerp(Color.Lerp(color, Color.white, 0.4f), color, Mathf.Sin(Time.time * 5.0f + (0.5f * (i - j)))));
         }
     }
 }
