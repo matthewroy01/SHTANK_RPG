@@ -24,8 +24,7 @@ MonoBehaviour:
   movementRange: 5
   moveset: {fileID: 11400000, guid: 641a4033d53756a43afe39f3b4b47225, type: 2}
   movementDialogue: {fileID: 11400000, guid: f8afd97d981b1c94c8763fc7da4fcf0f, type: 2}
-  movementDialogueSound: {fileID: 8300000, guid: b2f96172af6ff0844bb5d4c07fa477fe,
-    type: 3}
+  movementDialogueSound: {fileID: 0}
   terrainTypes: 00000000
   passiveFunctionality: {fileID: 3993939897500573580, guid: 32e2a6a950fc2f244ba08d127e68e26f,
     type: 3}

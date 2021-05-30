@@ -3173,3 +3173,144 @@ System memory in use after: 127.8 MB.
 Unloading 49 unused Assets to reduce memory usage. Loaded Objects now: 3777.
 Total: 7.166900 ms (FindLiveObjects: 0.550300 ms CreateObjectMapping: 0.220000 ms MarkObjects: 3.957600 ms  DeleteObjects: 2.437400 ms)
 
+========================================================================
+Received Import Request.
+  Time since last request: 717.729279 seconds.
+  path: Assets/Fonts/Big Bottom Cartoon SDF.asset
+  artifactKey: Guid(9552e71ca3b5bcb48bffa876bd5e215e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Fonts/Big Bottom Cartoon SDF.asset using Guid(9552e71ca3b5bcb48bffa876bd5e215e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '9e51f1c0c007c631e89c167145f4f031') in 0.251302 seconds
+  Import took 0.259402 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 27.015262 seconds.
+  path: Assets/Fonts/Big Bottom Cartoon SDF.asset
+  artifactKey: Guid(9552e71ca3b5bcb48bffa876bd5e215e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Fonts/Big Bottom Cartoon SDF.asset using Guid(9552e71ca3b5bcb48bffa876bd5e215e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a1feb0efdcd3ce6585a2c05f85212775') in 0.051694 seconds
+  Import took 0.057558 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.009312 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.56 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.268 seconds
+Platform modules already initialized, skipping
+Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
+Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
+Refreshing native plugins compatible for Editor in 0.69 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2775 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 130.3 MB.
+System memory in use after: 127.9 MB.
+
+Unloading 49 unused Assets to reduce memory usage. Loaded Objects now: 3817.
+Total: 4.734800 ms (FindLiveObjects: 0.332700 ms CreateObjectMapping: 0.137500 ms MarkObjects: 2.443000 ms  DeleteObjects: 1.820400 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 173.388123 seconds.
+  path: Assets/Fonts/Big Bottom Cartoon SDF.asset
+  artifactKey: Guid(9552e71ca3b5bcb48bffa876bd5e215e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Fonts/Big Bottom Cartoon SDF.asset using Guid(9552e71ca3b5bcb48bffa876bd5e215e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b303c1712e0161976317da986d49cf21') in 0.283997 seconds
+  Import took 0.291959 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 10.883101 seconds.
+  path: Assets/Scriptable Objects/Characters/Players/CharDef All Real Numbers.asset
+  artifactKey: Guid(56960bc0eecdb6244b620d4d3f733a4a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scriptable Objects/Characters/Players/CharDef All Real Numbers.asset using Guid(56960bc0eecdb6244b620d4d3f733a4a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'fa2acf5e17645e5ae20c1c0eca5edbd5') in 0.027101 seconds
+  Import took 0.033995 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000283 seconds.
+  path: Assets/Scriptable Objects/Characters/Players/CharDef Danny Doppelganger.asset
+  artifactKey: Guid(9ef30a20a05280043a124170fd62b7e3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scriptable Objects/Characters/Players/CharDef Danny Doppelganger.asset using Guid(9ef30a20a05280043a124170fd62b7e3) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b8fbdae52a7015209bbcb6d924e247bd') in 0.010272 seconds
+  Import took 0.016075 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000232 seconds.
+  path: Assets/Scriptable Objects/Characters/Players/CharDef Melon Man.asset
+  artifactKey: Guid(3b9066181532dc5458bd7a370bd08749) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scriptable Objects/Characters/Players/CharDef Melon Man.asset using Guid(3b9066181532dc5458bd7a370bd08749) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '26baef54e2d5cf242a23b3120081394f') in 0.016370 seconds
+  Import took 0.022371 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000240 seconds.
+  path: Assets/Scriptable Objects/Characters/Players/CharDef Tuna Boy.asset
+  artifactKey: Guid(0724ce3bae042cd44a8a8916e4620de8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scriptable Objects/Characters/Players/CharDef Tuna Boy.asset using Guid(0724ce3bae042cd44a8a8916e4620de8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '18ead074ce0707058502ac4af42c0959') in 0.008029 seconds
+  Import took 0.013032 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000277 seconds.
+  path: Assets/Scriptable Objects/Characters/Players/CharDef Sparrow.asset
+  artifactKey: Guid(32dc1e68dec9183438dcca2003435559) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scriptable Objects/Characters/Players/CharDef Sparrow.asset using Guid(32dc1e68dec9183438dcca2003435559) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ef3c379e5d7cf1a60f58a17dc7601fc1') in 0.008366 seconds
+  Import took 0.015020 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000293 seconds.
+  path: Assets/Scriptable Objects/Characters/Players/CharDef Knight and Day.asset
+  artifactKey: Guid(67069c27249c8874e8bc02b460e7db46) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scriptable Objects/Characters/Players/CharDef Knight and Day.asset using Guid(67069c27249c8874e8bc02b460e7db46) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'bcec0b8a24d08585138655eef21cc150') in 0.051820 seconds
+  Import took 0.058113 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000242 seconds.
+  path: Assets/Scriptable Objects/Characters/Players/CharDef Ava.asset
+  artifactKey: Guid(20d2b7abf1aa4ef42b70c5c766cd55ca) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scriptable Objects/Characters/Players/CharDef Ava.asset using Guid(20d2b7abf1aa4ef42b70c5c766cd55ca) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '974293568277dc7388e4cef5303801c0') in 0.008956 seconds
+  Import took 0.014494 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000896 seconds.
+  path: Assets/Scriptable Objects/Characters/Players/CharDef No Clue.asset
+  artifactKey: Guid(214fe91ac26bfee4aa6bb8ba2dd3af69) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scriptable Objects/Characters/Players/CharDef No Clue.asset using Guid(214fe91ac26bfee4aa6bb8ba2dd3af69) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1762da8bfda107aa36201bf0f8bd1209') in 0.008419 seconds
+  Import took 0.016851 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000224 seconds.
+  path: Assets/Scriptable Objects/Characters/Players/CharDef The Entomologist.asset
+  artifactKey: Guid(0cc83615162389f4c9b0fa8118e6e752) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scriptable Objects/Characters/Players/CharDef The Entomologist.asset using Guid(0cc83615162389f4c9b0fa8118e6e752) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6be53827120353524cdeff3983abf1f3') in 0.080289 seconds
+  Import took 0.085741 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.008179 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.59 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.293 seconds
+Platform modules already initialized, skipping
+Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
+Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
+Refreshing native plugins compatible for Editor in 0.70 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2775 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 130.5 MB.
+System memory in use after: 128.0 MB.
+
+Unloading 49 unused Assets to reduce memory usage. Loaded Objects now: 3857.
+Total: 4.637900 ms (FindLiveObjects: 0.326400 ms CreateObjectMapping: 0.127400 ms MarkObjects: 2.496300 ms  DeleteObjects: 1.686900 ms)
+
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file
