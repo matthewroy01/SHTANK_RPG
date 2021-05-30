@@ -18,8 +18,9 @@ MonoBehaviour:
     but can be overbearing.
   portrait: {fileID: 21300000, guid: 1aa546fe98fe75e41a5c0a3f7232d921, type: 3}
   healthMax: 80
-  attackMod: 0
-  defenseMod: 0
+  attack: 0
+  defense: 0
+  stagger: 0
   nashbalm: 8
   movementRange: 5
   moveset: {fileID: 11400000, guid: 2313e919442f18a4f909d3bca8925f77, type: 2}
@@ -28,4 +29,4 @@ MonoBehaviour:
     type: 3}
   terrainTypes: 00000000
   passiveFunctionality: {fileID: 0}
-  sprite: {fileID: 21300000, guid: 9b418d79141d746479aa916ffc9d78ae, type: 3}
+  sprite: {fileID: 21300000, guid: e57eb4da3e0015a4e9cc6aa9c4564dbd, type: 3}

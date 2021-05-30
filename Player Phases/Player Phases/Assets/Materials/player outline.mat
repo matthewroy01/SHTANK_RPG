@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: player outline
   m_Shader: {fileID: 4800000, guid: 62505ee61d20098489c6f861ed25cce1, type: 3}
-  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA _OUTLINEENABLED_ON _OUTLINEMODE_SOLID _OUTLINEPOSITION_INSIDE_UNDER_SPRITE
+  m_ShaderKeywords: ETC1_EXTERNAL_ALPHA _OUTLINEENABLED_ON _OUTLINEMODE_SOLID _OUTLINEPOSITION_INSIDE_OVER_SPRITE
     _OUTLINESHAPE_CONTOUR _TILEMODE_STRETCH
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -76,13 +76,13 @@ Material:
     - _OcclusionStrength: 1
     - _OutlineEnabled: 1
     - _OutlineMode: 0
-    - _OutlinePosition: 0
+    - _OutlinePosition: 1
     - _OutlineShape: 0
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _Thickness: 10
+    - _Thickness: 50
     - _TileMode: 0
     - _UVSec: 0
     - _Weight: 0.5
@@ -94,3 +94,4 @@ Material:
     - _GradientOutline2: {r: 1, g: 1, b: 1, a: 1}
     - _ImageOutline: {r: 1, g: 1, b: 1, a: 1}
     - _SolidOutline: {r: 0, g: 0, b: 1, a: 0.78431374}
+  m_BuildTextureStacks: []

@@ -28,4 +28,4 @@ MonoBehaviour:
     type: 3}
   terrainTypes: 00000000
   passiveFunctionality: {fileID: 0}
-  sprite: {fileID: 21300000, guid: 5014b55e6a908d2489ba44c2dc998b0f, type: 3}
+  sprite: {fileID: 21300000, guid: f42c930b3e79b7c4783cab77da5a46fc, type: 3}
