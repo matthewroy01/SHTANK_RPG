@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87dbd0ae4f19c614aa30d32c30e58e3f, type: 3}
   m_Name: Moveset All Real Numbers
   m_EditorClassIdentifier: 
-  ability1: {fileID: 11400000, guid: 532efbd3c383caf4594bd858ee20ce39, type: 2}
-  ability2: {fileID: 11400000, guid: 3d4c853f132aeac43a945414a485166d, type: 2}
+  ability1: {fileID: 11400000, guid: 3d4c853f132aeac43a945414a485166d, type: 2}
+  ability2: {fileID: 11400000, guid: 532efbd3c383caf4594bd858ee20ce39, type: 2}
   ability3: {fileID: 0}
   ability4: {fileID: 0}

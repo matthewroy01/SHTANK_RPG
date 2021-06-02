@@ -58,8 +58,8 @@ public class SHTANKManager : MonoBehaviour
 
         if (refDialogueProcessor != null)
         {
-            stateMachine.TryUpdateConnection((int)GameState.dialogue);
-            refDialogueProcessor.Display(debugDialogueStart);
+            //stateMachine.TryUpdateConnection((int)GameState.dialogue);
+            //refDialogueProcessor.Display(debugDialogueStart);
         }
     }
 
@@ -87,9 +87,9 @@ public class SHTANKManager : MonoBehaviour
                 {
                     if (tmp.Length == 4)
                     {
-                        stateMachine.TryUpdateConnection((int)GameState.dialogue);
-                        refDialogueProcessor.Display(debugDialogueOneBattle);
-                        debugDialogueOneBattle = null;
+                        //stateMachine.TryUpdateConnection((int)GameState.dialogue);
+                        //refDialogueProcessor.Display(debugDialogueOneBattle);
+                        //debugDialogueOneBattle = null;
 
                         refParty.TogglePartyMemberActivity(refParty.GetPartyMember("No Clue"));
                     }
@@ -99,9 +99,9 @@ public class SHTANKManager : MonoBehaviour
                 {
                     if (tmp.Length == 2)
                     {
-                        stateMachine.TryUpdateConnection((int)GameState.dialogue);
-                        refDialogueProcessor.Display(debugDialogueTwoBattles);
-                        debugDialogueTwoBattles = null;
+                        //stateMachine.TryUpdateConnection((int)GameState.dialogue);
+                        //refDialogueProcessor.Display(debugDialogueTwoBattles);
+                        //debugDialogueTwoBattles = null;
 
                         refParty.TogglePartyMemberActivity(refParty.GetPartyMember("Sparrow"));
                     }
@@ -111,9 +111,9 @@ public class SHTANKManager : MonoBehaviour
                 {
                     if (tmp.Length == 0)
                     {
-                        stateMachine.TryUpdateConnection((int)GameState.dialogue);
-                        refDialogueProcessor.Display(debugDialogueEnd);
-                        debugDialogueEnd = null;
+                        //stateMachine.TryUpdateConnection((int)GameState.dialogue);
+                        //refDialogueProcessor.Display(debugDialogueEnd);
+                        //debugDialogueEnd = null;
 
                         debugFinalBoss.gameObject.SetActive(true);
                         refOverworldManager.TMP_ONLY_REMOVE_LATER_AddOverworldEnemy(debugFinalBoss);

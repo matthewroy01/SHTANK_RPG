@@ -147,7 +147,7 @@ public class CharacterSelector : MonoBehaviour
                 MovementMouse();
 
                 // select a different character
-                Select();
+                //Select();
 
                 // confirm/end movement
                 EndTurn();
