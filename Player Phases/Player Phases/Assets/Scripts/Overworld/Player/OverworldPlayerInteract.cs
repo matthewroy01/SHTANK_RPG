@@ -10,6 +10,8 @@ public class OverworldPlayerInteract : MonoBehaviour
     public Sprite iconTalk;
     public Sprite iconExclamationPoint;
 
+    private SHTANKCutscenes.Interactable currentInteractable;
+
     private Coroutine iconVisualCoroutine;
     private Tweener iconVisualTweener;
     private bool iconActive = false;
@@ -26,10 +28,12 @@ public class OverworldPlayerInteract : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // show interaction object
-        if (other.CompareTag("Overworld_NPC"))
+        if (other.CompareTag("Overworld_NPC") && other.TryGetComponent(out currentInteractable) == true)
         {
+            SetIcon();
             iconActive = true;
 
+            // reset and reactivate icon animation
             if (iconVisualTweener != null)
             {
                 iconVisualTweener.Kill();
@@ -40,9 +44,10 @@ public class OverworldPlayerInteract : MonoBehaviour
             }
             iconVisualCoroutine = StartCoroutine(IconVisualCoroutine());
 
+            // input for the player actually interacting with the Interactable
             if (Input.GetKeyDown(KeyCode.E))
             {
-
+                
             }
         }
     }
@@ -59,10 +64,10 @@ public class OverworldPlayerInteract : MonoBehaviour
 
     private IEnumerator IconVisualCoroutine()
     {
-        icon.DOFade(1.0f, 0.15f);
+        icon.DOFade(1.0f, 0.0f);
 
-        float targetYHigh = iconDefaultY + 0.5f;
-        float targetYLow = iconDefaultY - 0.5f;
+        float targetYHigh = iconDefaultY + 0.25f;
+        float targetYLow = iconDefaultY - 0.25f;
 
         icon.transform.localPosition = new Vector3(icon.transform.localPosition.x, targetYLow, icon.transform.localPosition.z);
 
@@ -77,6 +82,26 @@ public class OverworldPlayerInteract : MonoBehaviour
             iconVisualTweener = icon.transform.DOLocalMoveY(targetYLow, 0.5f, false).SetEase(Ease.InOutQuad);
 
             yield return new WaitForSecondsRealtime(0.5f);
+        }
+    }
+
+    private void SetIcon()
+    {
+        if (currentInteractable != null)
+        {
+            switch (currentInteractable.type)
+            {
+                case SHTANKCutscenes.Interactable_Type.NPC:
+                {
+                    icon.sprite = iconTalk;
+                    break;
+                }
+                case SHTANKCutscenes.Interactable_Type.inanimate:
+                {
+                    icon.sprite = iconExclamationPoint;
+                    break;
+                }
+            }
         }
     }
 }

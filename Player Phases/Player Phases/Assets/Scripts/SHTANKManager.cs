@@ -161,6 +161,11 @@ public class SHTANKManager : MonoBehaviour
         }
     }
 
+    public void TryBeginDialogue()
+    {
+        stateMachine.TryUpdateConnection((int)GameState.dialogue);
+    }
+
     public void TryEndDialogue()
     {
         stateMachine.TryUpdateConnection((int)GameState.overworld);

@@ -8,10 +8,21 @@ namespace SHTANKCutscenes
     public class CutsceneDefinition : ScriptableObject
     {
         private List<Speaker> participants = new List<Speaker>();
+
+        public List<Step> steps = new List<Step>();
     }
 
     public class Participant
     {
 
+    }
+
+    [System.Serializable]
+    public class Step
+    {
+        public string speaker;
+        
+        [TextArea(3, 10)]
+        public string text;
     }
 }
