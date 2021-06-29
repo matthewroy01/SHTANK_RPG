@@ -7,7 +7,7 @@ using DG.Tweening;
 
 public class DialogueProcessor : MonoBehaviour
 {
-    public DialogueDefinition debugDefinition;
+    //public DialogueDefinition debugDefinition;
 
     [Header("Dialogue Parent")]
     public RectTransform parentRectTransform;
@@ -41,11 +41,6 @@ public class DialogueProcessor : MonoBehaviour
         refAudioManager = FindObjectOfType<UtilityAudioManager>();
 
         parentRectTransform.localPosition = new Vector2(0.0f, -1200.0f);
-
-        if (debugDefinition != null)
-        {
-            Display(debugDefinition);
-        }
     }
 
     private void Update()
@@ -56,18 +51,16 @@ public class DialogueProcessor : MonoBehaviour
         }
     }
 
-    public void Display(DialogueDefinition newDialogue)
+    public void Display()
     {
-        StopAllCoroutines();
-
-        StartCoroutine(WriteText(newDialogue));
+        
     }
 
-    private IEnumerator WriteText(DialogueDefinition dialogue)
+    private IEnumerator WriteText()
     {
         yield return new WaitForSeconds(1);
 
-        for (int i = 0; i < dialogue.sentences.Count; ++i)
+        /*for (int i = 0; i < dialogue.sentences.Count; ++i)
         {
             Clear();
 
@@ -151,7 +144,7 @@ public class DialogueProcessor : MonoBehaviour
             }
         }
 
-        FindObjectOfType<SHTANKManager>().TryEndDialogue();
+        FindObjectOfType<SHTANKManager>().TryEndDialogue();*/
     }
 
     public void Clear()

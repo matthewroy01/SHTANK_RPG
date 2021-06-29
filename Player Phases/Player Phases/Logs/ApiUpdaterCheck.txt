@@ -118,3 +118,77 @@ C# parse time         : 216ms
 candidates check time : 64ms
 console write time    : 0ms
 
+[api-updater (non-obsolete-error-filter)] 6/16/2021 5:52:48 PM : Starting C:/Program Files/Unity/Hub/Editor/2020.3.10f1/Editor/Data/Tools/ScriptUpdater/APIUpdater.NonObsoleteApiUpdaterDetector.exe
+[api-updater (non-obsolete-error-filter)] 
+----------------------------------
+jit/startup time      : 870.0167ms
+moved types parse time: 60ms
+candidates parse time : 1ms
+C# parse time         : 569ms
+candidates check time : 45ms
+console write time    : 0ms
+
+[api-updater (non-obsolete-error-filter)] 6/16/2021 5:52:56 PM : Starting C:/Program Files/Unity/Hub/Editor/2020.3.10f1/Editor/Data/Tools/ScriptUpdater/APIUpdater.NonObsoleteApiUpdaterDetector.exe
+[api-updater (non-obsolete-error-filter)] 
+----------------------------------
+jit/startup time      : 85.7697ms
+moved types parse time: 59ms
+candidates parse time : 1ms
+C# parse time         : 205ms
+candidates check time : 45ms
+console write time    : 0ms
+
+[api-updater (non-obsolete-error-filter)] 6/16/2021 5:54:02 PM : Starting C:/Program Files/Unity/Hub/Editor/2020.3.10f1/Editor/Data/Tools/ScriptUpdater/APIUpdater.NonObsoleteApiUpdaterDetector.exe
+[api-updater (non-obsolete-error-filter)] 
+----------------------------------
+jit/startup time      : 92.7832ms
+moved types parse time: 96ms
+candidates parse time : 1ms
+C# parse time         : 212ms
+candidates check time : 66ms
+console write time    : 0ms
+
+[api-updater (non-obsolete-error-filter)] 6/16/2021 9:08:12 PM : Starting C:/Program Files/Unity/Hub/Editor/2020.3.10f1/Editor/Data/Tools/ScriptUpdater/APIUpdater.NonObsoleteApiUpdaterDetector.exe
+[api-updater (non-obsolete-error-filter)] 
+----------------------------------
+jit/startup time      : 94.7453ms
+moved types parse time: 66ms
+candidates parse time : 1ms
+C# parse time         : 282ms
+candidates check time : 56ms
+console write time    : 0ms
+
+[api-updater (non-obsolete-error-filter)] 6/25/2021 11:04:35 PM : Starting C:/Program Files/Unity/Hub/Editor/2020.3.10f1/Editor/Data/Tools/ScriptUpdater/APIUpdater.NonObsoleteApiUpdaterDetector.exe
+[api-updater (non-obsolete-error-filter)] Exception caught while loading types from C:\Users\Admin\Desktop\SHTANK RPG Repo\Player Phases\Player Phases\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll (some types may not be loaded)
+	Exception of type 'System.Reflection.ReflectionTypeLoadException' was thrown.
+	  at (wrapper managed-to-native) System.Reflection.Assembly.GetTypes(System.Reflection.Assembly,bool)
+  at System.Reflection.Assembly.GetTypes () [0x00000] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at APIUpdater.NonObsoleteApiUpdaterDetector.ExtraInfoParser+<LoadTypesWithMovedFromAttributeAsync>d__3.MoveNext () [0x000c8] in <68bff7873e0e4aa69a14dfc30bebbe3e>:0 
+	Could not load file or assembly 'UnityEditor.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies.
+
+[api-updater (non-obsolete-error-filter)] 
+----------------------------------
+jit/startup time      : 722.2339ms
+moved types parse time: 73ms
+candidates parse time : 1ms
+C# parse time         : 387ms
+candidates check time : 55ms
+console write time    : 0ms
+
+[api-updater (non-obsolete-error-filter)] 6/25/2021 11:06:00 PM : Starting C:/Program Files/Unity/Hub/Editor/2020.3.10f1/Editor/Data/Tools/ScriptUpdater/APIUpdater.NonObsoleteApiUpdaterDetector.exe
+[api-updater (non-obsolete-error-filter)] Exception caught while loading types from C:\Users\Admin\Desktop\SHTANK RPG Repo\Player Phases\Player Phases\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll (some types may not be loaded)
+	Exception of type 'System.Reflection.ReflectionTypeLoadException' was thrown.
+	  at (wrapper managed-to-native) System.Reflection.Assembly.GetTypes(System.Reflection.Assembly,bool)
+  at System.Reflection.Assembly.GetTypes () [0x00000] in <695d1cc93cca45069c528c15c9fdd749>:0 
+  at APIUpdater.NonObsoleteApiUpdaterDetector.ExtraInfoParser+<LoadTypesWithMovedFromAttributeAsync>d__3.MoveNext () [0x000c8] in <68bff7873e0e4aa69a14dfc30bebbe3e>:0 
+	Could not load file or assembly 'UnityEditor.CoreModule, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies.
+
+[api-updater (non-obsolete-error-filter)] 
+----------------------------------
+jit/startup time      : 100.7659ms
+moved types parse time: 62ms
+candidates parse time : 1ms
+C# parse time         : 349ms
+candidates check time : 63ms
+console write time    : 0ms
+

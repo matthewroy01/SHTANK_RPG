@@ -30,7 +30,7 @@ public class OverworldPlayerCreateWalls : MonoBehaviour
 
     public void MyUpdate()
     {
-        passiveParts.transform.position = controller.refMovement.shadow.transform.position;
+        //passiveParts.transform.position = controller.refMovement.shadow.transform.position;
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -59,10 +59,10 @@ public class OverworldPlayerCreateWalls : MonoBehaviour
     private void CreateWall()
     {
         wall.SetActive(true);
-        wall.transform.position = controller.refMovement.shadow.transform.position + (Vector3.up * -1.0f);
+        //wall.transform.position = controller.refMovement.shadow.transform.position + (Vector3.up * -1.0f);
         wall.transform.position = new Vector3(Mathf.RoundToInt(wall.transform.position.x), wall.transform.position.y, Mathf.RoundToInt(wall.transform.position.z));
         Instantiate(createWallParts, wall.transform.position + (Vector3.up * 0.5f), createWallParts.transform.rotation);
-        wall.transform.DOMoveY(controller.refMovement.shadow.transform.position.y + 0.5f, 0.5f);
+        //wall.transform.DOMoveY(controller.refMovement.shadow.transform.position.y + 0.5f, 0.5f);
     }
 
     private void DestroyWall()

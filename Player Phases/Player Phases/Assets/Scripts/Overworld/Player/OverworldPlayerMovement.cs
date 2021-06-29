@@ -26,8 +26,8 @@ public class OverworldPlayerMovement : MonoBehaviour
     [Header("Artificial Gravity")]
     public float gravityMultiplier;
 
-    [Header("Cartoon Shadow")]
-    public GameObject shadow;
+    /*[Header("Cartoon Shadow")]
+    public GameObject shadow;*/
 
     [HideInInspector]
     public Rigidbody refRigidbody;
@@ -50,7 +50,7 @@ public class OverworldPlayerMovement : MonoBehaviour
     private void Update()
     {
         // move cartoon shadow
-        MoveShadow();
+        //MoveShadow();
     }
 
     private void FixedUpdate()
@@ -148,7 +148,7 @@ public class OverworldPlayerMovement : MonoBehaviour
         refRigidbody.AddForce(Vector3.down * gravityMultiplier);
     }
 
-    private void MoveShadow()
+    /*private void MoveShadow()
     {
         switch(controller.refCreateWalls.castingShadow)
         {
@@ -204,5 +204,5 @@ public class OverworldPlayerMovement : MonoBehaviour
                 break;
             }
         }
-    }
+    }*/
 }
