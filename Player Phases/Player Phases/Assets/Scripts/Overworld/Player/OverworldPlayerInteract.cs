@@ -18,8 +18,15 @@ public class OverworldPlayerInteract : MonoBehaviour
     
     private float iconDefaultY;
 
+    private OverworldPlayerController controller;
+
     private void Awake()
     {
+        if (!TryGetComponent(out controller))
+        {
+            Debug.LogError("OverworldPlayerInteract could not find component OverworldPlayerController.");
+        }
+
         iconDefaultY = icon.transform.localPosition.y;
 
         icon.DOFade(0.0f, 0.0f);
@@ -43,12 +50,6 @@ public class OverworldPlayerInteract : MonoBehaviour
                 StopCoroutine(iconVisualCoroutine);
             }
             iconVisualCoroutine = StartCoroutine(IconVisualCoroutine());
-
-            // input for the player actually interacting with the Interactable
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                
-            }
         }
     }
 
@@ -59,6 +60,15 @@ public class OverworldPlayerInteract : MonoBehaviour
             iconActive = false;
 
             icon.DOFade(0.0f, 0.5f);
+        }
+    }
+
+    public void MyUpdate()
+    {
+        // input for the player actually interacting with the Interactable
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            controller.refSHTANKManager.TryBeginDialogue();
         }
     }
 

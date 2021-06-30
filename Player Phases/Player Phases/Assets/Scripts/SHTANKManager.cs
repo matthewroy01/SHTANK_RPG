@@ -163,7 +163,10 @@ public class SHTANKManager : MonoBehaviour
 
     public void TryBeginDialogue()
     {
-        stateMachine.TryUpdateConnection((int)GameState.dialogue);
+        if (stateMachine.TryUpdateConnection((int)GameState.dialogue))
+        {
+            refDialogueProcessor.Display();
+        }
     }
 
     public void TryEndDialogue()

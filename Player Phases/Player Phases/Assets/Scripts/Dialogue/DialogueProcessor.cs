@@ -53,7 +53,7 @@ public class DialogueProcessor : MonoBehaviour
 
     public void Display()
     {
-        
+        Debug.Log("Trying to display dialogue!");
     }
 
     private IEnumerator WriteText()
