@@ -11,13 +11,13 @@ namespace SHTANKCutscenes
 
         public ManagedAudio voiceBlip;
 
-        [Header("Emotion Sprites")]
+        /*[Header("Emotion Sprites")]
         public Sprite normal;
         public Sprite happy;
         public Sprite sad;
         public Sprite angry;
-        public Sprite sigh;
+        public Sprite sigh;*/
     }
 
-    public enum Speaker_Emotion { normal, happy, sad, angry, sigh };
+    //public enum Speaker_Emotion { normal, happy, sad, angry, sigh };
 }

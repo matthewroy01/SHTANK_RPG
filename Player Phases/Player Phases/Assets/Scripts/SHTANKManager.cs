@@ -8,7 +8,7 @@ public class SHTANKManager : MonoBehaviour
 
     private OverworldManager refOverworldManager;
     private CombatManager refCombatManager;
-    private DialogueProcessor refDialogueProcessor;
+    private CutsceneProcessor refCutsceneProcessor;
     private Party refParty;
 
     private SHTANKCamera refSHTANKCamera;
@@ -47,14 +47,14 @@ public class SHTANKManager : MonoBehaviour
         
         refSHTANKCamera = FindObjectOfType<SHTANKCamera>();
 
-        refDialogueProcessor = FindObjectOfType<DialogueProcessor>();
+        refCutsceneProcessor = FindObjectOfType<CutsceneProcessor>();
 
         refParty = FindObjectOfType<Party>();
 
-        if (refDialogueProcessor != null)
+        if (refCutsceneProcessor != null)
         {
             //stateMachine.TryUpdateConnection((int)GameState.dialogue);
-            //refDialogueProcessor.Display(debugDialogueStart);
+            //refCutsceneProcessor.Display(debugDialogueStart);
         }
     }
 
@@ -161,11 +161,11 @@ public class SHTANKManager : MonoBehaviour
         }
     }
 
-    public void TryBeginDialogue()
+    public void TryBeginDialogue(OverworldPlayerController player, SHTANKCutscenes.Interactable interactable)
     {
         if (stateMachine.TryUpdateConnection((int)GameState.dialogue))
         {
-            refDialogueProcessor.Display();
+            refCutsceneProcessor.Display(interactable.definition);
         }
     }
 

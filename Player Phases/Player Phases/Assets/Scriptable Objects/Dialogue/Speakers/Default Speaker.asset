@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5288e9681433f784084fb417f3d67f75, type: 3}
-  m_Name: Melon Man Speaker
+  m_Name: Default Speaker
   m_EditorClassIdentifier: 
-  name: Melon Man
+  name: 
   voiceBlip:
     clip: {fileID: 8300000, guid: b2f96172af6ff0844bb5d4c07fa477fe, type: 3}
     volume: 0.5

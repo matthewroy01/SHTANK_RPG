@@ -12,14 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5288e9681433f784084fb417f3d67f75, type: 3}
   m_Name: Ava Speaker
   m_EditorClassIdentifier: 
-  speakerName: Shade
+  name: Shade
   voiceBlip:
     clip: {fileID: 8300000, guid: e6f77160aeb443448a99f62876f94179, type: 3}
     volume: 0.5
     pitch: 1
     randomPitchMinMax: {x: 1, y: 1}
-  normal: {fileID: 21300000, guid: 3249c265c2f7f6142b079fe68c46d54f, type: 3}
-  happy: {fileID: 0}
-  sad: {fileID: 0}
-  angry: {fileID: 0}
-  sigh: {fileID: 0}

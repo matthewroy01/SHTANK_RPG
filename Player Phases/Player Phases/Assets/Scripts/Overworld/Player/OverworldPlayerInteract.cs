@@ -66,9 +66,9 @@ public class OverworldPlayerInteract : MonoBehaviour
     public void MyUpdate()
     {
         // input for the player actually interacting with the Interactable
-        if (Input.GetKeyDown(KeyCode.E))
+        if (iconActive && Input.GetKeyDown(KeyCode.E))
         {
-            controller.refSHTANKManager.TryBeginDialogue();
+            controller.refSHTANKManager.TryBeginDialogue(controller, currentInteractable);
         }
     }
 
