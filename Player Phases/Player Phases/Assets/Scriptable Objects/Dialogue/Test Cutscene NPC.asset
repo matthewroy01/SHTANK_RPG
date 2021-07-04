@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43b9b15c37eba5b4993013459188d54b, type: 3}
   m_Name: Test Cutscene NPC
   m_EditorClassIdentifier: 
+  actors: []
   steps:
   - speaker: No Clue
     text: Woah, it's me, No Clue, from SHTANK.

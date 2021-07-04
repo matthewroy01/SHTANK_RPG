@@ -12129,9 +12129,11 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e3acda60f11847f4bbe7a31a6dd2d5bd, type: 2}
   - {fileID: 11400000, guid: b148fb0691b4ccc4f8e6b1cf851b01ea, type: 2}
   - {fileID: 11400000, guid: 233067af1a30b4a4384896decd4c902e, type: 2}
+  - {fileID: 11400000, guid: b34e4c311b81acf4eb3cc86b6e54ffeb, type: 2}
   defaultSpeaker: {fileID: 11400000, guid: 154626d83495480498a81587c46c1546, type: 2}
   secondsBetweenLetters: 0.03
   blipEvery: 3
+  actorDistance: 1
   targetRotation: {x: 30, y: 0, z: 0}
 --- !u!1 &1506530632
 GameObject:

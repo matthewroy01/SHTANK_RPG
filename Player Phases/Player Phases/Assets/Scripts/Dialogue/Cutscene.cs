@@ -7,18 +7,21 @@ namespace SHTANKCutscenes
     public class Cutscene
     {
         // will probably need to replace the data type here to whatever object controls the animation of a character
-        public List<Participant> participants = new List<Participant>();
+        
+        public List<string> actorNames = new List<string>();
         public List<Step> steps = new List<Step>();
 
-        public Cutscene(List<Step> newSteps, params GameObject[] newParticipants)
+        public Cutscene(CutsceneDefinition cutsceneDefinition)
         {
-            // save steps
-            steps = newSteps;
+            steps = cutsceneDefinition.steps;
 
-            // save participants
-            for (int i = 0; i < newParticipants.Length; ++i)
+            // look through the steps and compile all of the actor names
+            foreach (Step step in steps)
             {
-                participants.Add(new Participant(newParticipants[i]));
+                if (!actorNames.Contains(step.speaker))
+                {
+                    actorNames.Add(step.speaker);
+                }
             }
         }
     }

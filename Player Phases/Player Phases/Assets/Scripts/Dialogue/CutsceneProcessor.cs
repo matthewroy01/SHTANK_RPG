@@ -26,11 +26,22 @@ public class CutsceneProcessor : MonoBehaviour
     public float secondsBetweenLetters;
     public uint blipEvery = 1;
 
-    private bool moveOn = false;
-    private bool running = false;
+    [Header("Actor Positioning")]
+    public float actorDistance;
+    private Vector3 actorPosition;
 
-    private Vector3 targetPosition;
+    [Header("Camera")]
     public Vector3 targetRotation;
+    private Vector3 targetPosition;
+    private const float CAMERA_OFFSET_Y = 1.4f;
+    private const float CAMERA_OFFSET_Z = 0.4f;
+
+    private bool moveOn = false;
+    private bool running = false; // this boolean keeps track of whether or not the dialogue display is running so that the player interaction input doesn't get detected immediately
+    private bool writing = false; // this boolean keeps track of whether or not the dialogue display is still writing text to the screen to see if we should still be animating actors
+
+    private List<Actor> actors = new List<Actor>();
+    private Coroutine actorAnimationCoroutine;
 
     private UtilityAudioManager refAudioManager;
 
@@ -49,20 +60,41 @@ public class CutsceneProcessor : MonoBehaviour
         }
     }
 
-    public void Display(CutsceneDefinition cutsceneDefinition, params GameObject[] participants)
+    public void Display(CutsceneDefinition cutsceneDefinition, params GameObject[] newActors)
     {
         Debug.Log("Trying to display dialogue!");
 
-        // create a new cutscene and adjust the camera's position
-        Cutscene cutscene = new Cutscene(cutsceneDefinition.steps, participants);
-        CalculateCameraTransform(cutscene);
+        Cutscene cutscene = new Cutscene(cutsceneDefinition);
 
-        StartCoroutine(WriteText(cutscene));
+        actors.Clear();
+        for (int i = 0; i < newActors.Length; ++i)
+        {
+            actors.Add(new Actor(newActors[i], i == 0 ? "Shade" : "No Clue"));
+        }
+
+        if (actors[0].obj.transform.position.x <= actors[1].obj.transform.position.x)
+        {
+            actorPosition = actors[1].obj.transform.position + (Vector3.left * actorDistance);
+        }
+        else
+        {
+            actorPosition = actors[1].obj.transform.position + (Vector3.right * actorDistance);
+        }
+
+        Debug.Log(actorPosition);
+
+        // create a new cutscene and adjust the camera's position
+        CalculateCameraTransform();
+
+        StartCoroutine(WriteText(cutsceneDefinition));
     }
 
-    private IEnumerator WriteText(Cutscene cutscene)
+    private IEnumerator WriteText(CutsceneDefinition cutscene)
     {
-        yield return new WaitForSeconds(1);
+        // move the starting actor before beginning
+        StartCoroutine(UtilityStaticFunctions.MoveGameObjectOverTime(actors[0].obj, actorPosition, 1.0f));
+
+        yield return new WaitForSeconds(1.0f);
 
         for (int i = 0; i < cutscene.steps.Count; ++i)
         {
@@ -84,6 +116,14 @@ public class CutsceneProcessor : MonoBehaviour
             }
 
             running = true;
+            writing = true;
+
+            // start animating the current actor
+            if (actorAnimationCoroutine != null)
+            {
+                StopCoroutine(actorAnimationCoroutine);
+            }
+            actorAnimationCoroutine = StartCoroutine(ActorAnimation(GetActor(cutscene.steps[i].speaker)));
 
             // loop through the content of the dialogue and display it
             for (int j = 0; j < cutscene.steps[i].text.Length; ++j)
@@ -94,6 +134,7 @@ public class CutsceneProcessor : MonoBehaviour
                     dialogueText.text = cutscene.steps[i].text;
 
                     moveOn = false;
+                    writing = false;
 
                     break;
                 }
@@ -111,6 +152,8 @@ public class CutsceneProcessor : MonoBehaviour
 
                 yield return new WaitForSeconds(secondsBetweenLetters);
             }
+
+            writing = false;
 
             // wait to move on until the player inputs something
             while(moveOn == false)
@@ -130,7 +173,6 @@ public class CutsceneProcessor : MonoBehaviour
         }
 
         StartCoroutine(UtilityStaticFunctions.CanvasGroupCrossFadeAlpha(parentCanvasGroup, 0.0f, fadeDelay));
-        running = false;
         FindObjectOfType<SHTANKManager>().TryEndDialogue();
     }
 
@@ -147,27 +189,56 @@ public class CutsceneProcessor : MonoBehaviour
         return defaultSpeaker;
     }
 
+
+    public IEnumerator ActorAnimation(Actor actor)
+    {
+        // if no actor was provided, don't bother animating
+        if (actor == null)
+        {
+            yield break;
+        }
+
+        Vector3 defaultScale = actor.obj.transform.localScale;
+
+        // keep animating as long as the Cutscene Processor is writing text on the screen still
+        while (writing == true)
+        {
+            actor.obj.transform.DOPunchScale(new Vector3(0.0f, 0.5f, 0.5f) * 0.15f, 0.2f, 0, 0);
+
+            yield return new WaitForSecondsRealtime(0.2f);
+
+            actor.obj.transform.localScale = defaultScale;
+        }
+
+        // reset to default scale, just in case
+        actor.obj.transform.localScale = defaultScale;
+    }
+
     public void Clear()
     {
         dialogueText.text = "";
     }
 
-    private void CalculateCameraTransform(Cutscene cutscene)
+    private void CalculateCameraTransform()
     {
-        if (cutscene.participants.Count > 0)
+        if (actors.Count > 1)
         {
-            Vector3 average = Vector3.zero;
+            Vector3 average = actorPosition;
 
-            for (int i = 0; i < cutscene.participants.Count; ++i)
+            for (int i = 1; i < actors.Count; ++i)
             {
-                average += cutscene.participants[i].obj.transform.position;
+                // accumulate an average position or the midpoint
+                average += actors[i].obj.transform.position;
             }
 
-            average /= cutscene.participants.Count;
+            // create the average
+            average /= actors.Count;
 
-            average -= Vector3.forward * 1.5f;
-            average += Vector3.up * 2.25f;
+            // adjust the camera's position
+            average -= Vector3.forward * CAMERA_OFFSET_Z;
+            average += Vector3.up * CAMERA_OFFSET_Y;
 
+            // set the target position
             targetPosition = average;
         }
     }
@@ -180,5 +251,18 @@ public class CutsceneProcessor : MonoBehaviour
     public Quaternion GetCameraTargetRotation()
     {
         return Quaternion.Euler(targetRotation);
+    }
+
+    private Actor GetActor(string name)
+    {
+        foreach (Actor actor in actors)
+        {
+            if (actor.name == name)
+            {
+                return actor;
+            }
+        }
+
+        return null;
     }
 }

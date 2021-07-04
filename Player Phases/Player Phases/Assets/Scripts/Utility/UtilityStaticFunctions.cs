@@ -21,4 +21,20 @@ public static class UtilityStaticFunctions
 
         group.alpha = alpha;
     }
+
+    // lerp a GameObject's position to a specified position over a specified duration
+    public static IEnumerator MoveGameObjectOverTime(GameObject toMove, Vector3 toMoveTo, float duration)
+    {
+        float timer = 0.0f;
+
+        while (timer < duration)
+        {
+            toMove.transform.position = Vector3.Lerp(toMove.transform.position, toMoveTo, timer / duration);
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        toMove.transform.position = toMoveTo;
+    }
 }

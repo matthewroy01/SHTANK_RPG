@@ -12,7 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5288e9681433f784084fb417f3d67f75, type: 3}
   m_Name: The Entomologist Speaker
   m_EditorClassIdentifier: 
-  name: The Entomologist
+  names:
+  - The Entomologist
+  - Bea
+  - Bea Fahn
+  - Beatrice
+  - Beatrice Fahn
+  - Doc
   voiceBlip:
     clip: {fileID: 8300000, guid: e6f77160aeb443448a99f62876f94179, type: 3}
     volume: 0.5

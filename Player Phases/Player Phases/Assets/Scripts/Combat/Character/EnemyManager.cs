@@ -188,7 +188,8 @@ public class EnemyManager : CharacterManager
             "John Quoiby",
             "Michael Aberdeen",
             "The Gremlin Box",
-			"Not a Great Deal Man"
+			"Not a Great Deal Man",
+            "Seatless Toilet"
         };
         names = new List<string>(tmp);
     }

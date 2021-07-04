@@ -7,7 +7,7 @@ namespace SHTANKCutscenes
     [CreateAssetMenu(fileName = "New Speaker", menuName = "Dialogue/Speaker", order = 1)]
     public class Speaker : ScriptableObject
     {
-        public new string name;
+        public List<string> names = new List<string>();
 
         public ManagedAudio voiceBlip;
 
