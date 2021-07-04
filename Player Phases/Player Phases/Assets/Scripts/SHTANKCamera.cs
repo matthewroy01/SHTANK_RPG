@@ -85,12 +85,26 @@ public class SHTANKCamera : MonoBehaviour
         }
     }
 
+    public void CameraFunctionalityDialogue(CutsceneProcessor cutsceneProcessor)
+    {
+        MoveCamera(cutsceneProcessor.GetCameraTargetPosition(), cutsceneProcessor.GetCameraTargetRotation(), followSpeed, turnSpeed);
+    }
+
     private void MoveCamera(Transform target, float lerpPos, float lerpRot)
     {
         if (autoMoveCoroutine == null)
         {
             transform.position = Vector3.Lerp(transform.position, target.position, lerpPos);
             transform.rotation = Quaternion.Lerp(transform.rotation, target.rotation, lerpRot);
+        }
+    }
+
+    private void MoveCamera(Vector3 position, Quaternion rotation, float lerpPos, float lerpRot)
+    {
+        if (autoMoveCoroutine == null)
+        {
+            transform.position = Vector3.Lerp(transform.position, position, lerpPos);
+            transform.rotation = Quaternion.Lerp(transform.rotation, rotation, lerpRot);
         }
     }
 

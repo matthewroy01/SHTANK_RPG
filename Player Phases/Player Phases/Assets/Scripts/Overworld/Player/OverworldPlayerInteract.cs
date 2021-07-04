@@ -57,9 +57,7 @@ public class OverworldPlayerInteract : MonoBehaviour
     {
         if(other.CompareTag("Overworld_NPC"))
         {
-            iconActive = false;
-
-            icon.DOFade(0.0f, 0.5f);
+            IconFadeOut();
         }
     }
 
@@ -69,6 +67,10 @@ public class OverworldPlayerInteract : MonoBehaviour
         if (iconActive && Input.GetKeyDown(KeyCode.E))
         {
             controller.refSHTANKManager.TryBeginDialogue(controller, currentInteractable);
+
+            controller.refMovement.refRigidbody.velocity = Vector3.zero;
+
+            IconFadeOut();
         }
     }
 
@@ -93,6 +95,13 @@ public class OverworldPlayerInteract : MonoBehaviour
 
             yield return new WaitForSecondsRealtime(0.5f);
         }
+    }
+
+    private void IconFadeOut()
+    {
+        iconActive = false;
+
+        icon.DOFade(0.0f, 0.5f);
     }
 
     private void SetIcon()

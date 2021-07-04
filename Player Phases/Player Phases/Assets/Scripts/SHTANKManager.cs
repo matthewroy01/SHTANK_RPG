@@ -118,7 +118,7 @@ public class SHTANKManager : MonoBehaviour
             case (int)GameState.dialogue:
             {
                 // use overworld camera functionality
-                refSHTANKCamera.CameraFunctionalityOverworld();
+                refSHTANKCamera.CameraFunctionalityDialogue(refCutsceneProcessor);
                 break;
             }
         }
@@ -165,7 +165,8 @@ public class SHTANKManager : MonoBehaviour
     {
         if (stateMachine.TryUpdateConnection((int)GameState.dialogue))
         {
-            refCutsceneProcessor.Display(interactable.definition);
+            GameObject[] tmp = { player.gameObject, interactable.gameObject };
+            refCutsceneProcessor.Display(interactable.definition, tmp);
         }
     }
 

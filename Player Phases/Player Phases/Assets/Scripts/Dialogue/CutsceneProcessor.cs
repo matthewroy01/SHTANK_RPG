@@ -5,10 +5,12 @@ using TMPro;
 using UnityEngine.UI;
 using DG.Tweening;
 
+using SHTANKCutscenes;
+
 public class CutsceneProcessor : MonoBehaviour
 {
     [Header("Dialogue Parent")]
-    public RectTransform parentRectTransform;
+    public CanvasGroup parentCanvasGroup;
     public float fadeDelay;
 
     [Header("Resources")]
@@ -17,8 +19,8 @@ public class CutsceneProcessor : MonoBehaviour
     public Image dialogueArrow;
 
     [Header("Speakers")]
-    public List<SHTANKCutscenes.Speaker> speakers = new List<SHTANKCutscenes.Speaker>();
-    public SHTANKCutscenes.Speaker defaultSpeaker;
+    public List<Speaker> speakers = new List<Speaker>();
+    public Speaker defaultSpeaker;
 
     [Header("Timing")]
     public float secondsBetweenLetters;
@@ -27,13 +29,16 @@ public class CutsceneProcessor : MonoBehaviour
     private bool moveOn = false;
     private bool running = false;
 
+    private Vector3 targetPosition;
+    public Vector3 targetRotation;
+
     private UtilityAudioManager refAudioManager;
 
     private void Start()
     {
         refAudioManager = FindObjectOfType<UtilityAudioManager>();
 
-        //parentRectTransform.localPosition = new Vector2(0.0f, -1200.0f);
+        StartCoroutine(UtilityStaticFunctions.CanvasGroupCrossFadeAlpha(parentCanvasGroup, 0.0f, 0.0f));
     }
 
     private void LateUpdate()
@@ -44,14 +49,18 @@ public class CutsceneProcessor : MonoBehaviour
         }
     }
 
-    public void Display(SHTANKCutscenes.CutsceneDefinition cutscene)
+    public void Display(CutsceneDefinition cutsceneDefinition, params GameObject[] participants)
     {
         Debug.Log("Trying to display dialogue!");
+
+        // create a new cutscene and adjust the camera's position
+        Cutscene cutscene = new Cutscene(cutsceneDefinition.steps, participants);
+        CalculateCameraTransform(cutscene);
 
         StartCoroutine(WriteText(cutscene));
     }
 
-    private IEnumerator WriteText(SHTANKCutscenes.CutsceneDefinition cutscene)
+    private IEnumerator WriteText(Cutscene cutscene)
     {
         yield return new WaitForSeconds(1);
 
@@ -60,7 +69,7 @@ public class CutsceneProcessor : MonoBehaviour
             Clear();
 
             // assign who is speaking
-            SHTANKCutscenes.Speaker speaker = GetSpeaker(cutscene.steps[i].speaker);
+            Speaker speaker = GetSpeaker(cutscene.steps[i].speaker);
 
             // enable the background and arrow
             dialogueBackground.gameObject.SetActive(true);
@@ -69,7 +78,9 @@ public class CutsceneProcessor : MonoBehaviour
             // animation for when dialogue starts
             if (i == 0)
             {
-                //yield return new WaitForSeconds(fadeDelay);
+                StartCoroutine(UtilityStaticFunctions.CanvasGroupCrossFadeAlpha(parentCanvasGroup, 1.0f, fadeDelay));
+
+                yield return new WaitForSeconds(fadeDelay);
             }
 
             running = true;
@@ -118,11 +129,12 @@ public class CutsceneProcessor : MonoBehaviour
             }
         }
 
+        StartCoroutine(UtilityStaticFunctions.CanvasGroupCrossFadeAlpha(parentCanvasGroup, 0.0f, fadeDelay));
         running = false;
         FindObjectOfType<SHTANKManager>().TryEndDialogue();
     }
 
-    private SHTANKCutscenes.Speaker GetSpeaker(string speakerName)
+    private Speaker GetSpeaker(string speakerName)
     {
         for (int i = 0; i < speakers.Count; ++i)
         {
@@ -138,5 +150,35 @@ public class CutsceneProcessor : MonoBehaviour
     public void Clear()
     {
         dialogueText.text = "";
+    }
+
+    private void CalculateCameraTransform(Cutscene cutscene)
+    {
+        if (cutscene.participants.Count > 0)
+        {
+            Vector3 average = Vector3.zero;
+
+            for (int i = 0; i < cutscene.participants.Count; ++i)
+            {
+                average += cutscene.participants[i].obj.transform.position;
+            }
+
+            average /= cutscene.participants.Count;
+
+            average -= Vector3.forward * 1.5f;
+            average += Vector3.up * 2.25f;
+
+            targetPosition = average;
+        }
+    }
+
+    public Vector3 GetCameraTargetPosition()
+    {
+        return targetPosition;
+    }
+
+    public Quaternion GetCameraTargetRotation()
+    {
+        return Quaternion.Euler(targetRotation);
     }
 }

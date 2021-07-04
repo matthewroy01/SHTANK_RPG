@@ -4801,7 +4801,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 51b686cf472e41f43bff8ab70be22328, type: 3}
-  m_Color: {r: 0.754717, g: 0.754717, b: 0.754717, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -12118,8 +12118,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e825779899352bb41882cdda1247c80c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentRectTransform: {fileID: 891045006}
-  fadeDelay: 0.25
+  parentCanvasGroup: {fileID: 891045008}
+  fadeDelay: 0.5
   dialogueText: {fileID: 1768036511}
   dialogueBackground: {fileID: 1482720375}
   dialogueArrow: {fileID: 266281977}
@@ -12132,6 +12132,7 @@ MonoBehaviour:
   defaultSpeaker: {fileID: 11400000, guid: 154626d83495480498a81587c46c1546, type: 2}
   secondsBetweenLetters: 0.03
   blipEvery: 3
+  targetRotation: {x: 30, y: 0, z: 0}
 --- !u!1 &1506530632
 GameObject:
   m_ObjectHideFlags: 0
