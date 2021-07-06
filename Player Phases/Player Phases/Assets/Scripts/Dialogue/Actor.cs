@@ -20,7 +20,7 @@ namespace SHTANKCutscenes
 
         public Vector3 GetScreenSpacePosition()
         {
-            Vector3 result = Camera.main.WorldToScreenPoint(obj.transform.position + (Vector3.up * 0.5f));
+            Vector3 result = Camera.main.WorldToScreenPoint(obj.transform.position + (Vector3.up * 0.75f));
 
             result -= new Vector3(Screen.width * 0.5f, Screen.height * 0.5f, 0.0f);
             result.z = 0.0f;

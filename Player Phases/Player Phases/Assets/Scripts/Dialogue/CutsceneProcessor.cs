@@ -125,9 +125,11 @@ public class CutsceneProcessor : MonoBehaviour
                     parentRectTransform.DOScale(Vector2.zero, fadeDelay);
                     parentRectTransform.DOAnchorPos(prevActor.GetScreenSpacePosition(), fadeDelay, false);
 
-                    StartCoroutine(UtilityStaticFunctions.CanvasGroupCrossFadeAlpha(parentCanvasGroup, 0.0f, fadeDelay));
+                    yield return new WaitForSecondsRealtime(fadeDelay * 0.25f);
 
-                    yield return new WaitForSecondsRealtime(fadeDelay);
+                    StartCoroutine(UtilityStaticFunctions.CanvasGroupCrossFadeAlpha(parentCanvasGroup, 0.0f, fadeDelay * 0.75f));
+
+                    yield return new WaitForSecondsRealtime(fadeDelay * 0.75f);
                 }
 
                 // fade in
@@ -144,7 +146,7 @@ public class CutsceneProcessor : MonoBehaviour
                 parentRectTransform.DOScale(Vector2.one, fadeDelay);
                 parentRectTransform.DOAnchorPos(parentDefaultPosition, fadeDelay, false);
 
-                StartCoroutine(UtilityStaticFunctions.CanvasGroupCrossFadeAlpha(parentCanvasGroup, 1.0f, fadeDelay));
+                StartCoroutine(UtilityStaticFunctions.CanvasGroupCrossFadeAlpha(parentCanvasGroup, 1.0f, fadeDelay * 0.5f));
             }
 
             // animation for when dialogue starts

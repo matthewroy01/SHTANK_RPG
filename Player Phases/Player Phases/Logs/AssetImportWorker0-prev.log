@@ -15,11 +15,11 @@ C:/Users/Admin/Desktop/SHTANK RPG Repo/Player Phases/Player Phases
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-65090
+53989
 Successfully changed project path to: C:/Users/Admin/Desktop/SHTANK RPG Repo/Player Phases/Player Phases
 C:/Users/Admin/Desktop/SHTANK RPG Repo/Player Phases/Player Phases
 Using Asset Import Pipeline V2.
-Refreshing native plugins compatible for Editor in 70.40 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 68.23 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2020.3.10f1 (297d780c91bc)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2020.3.10f1/Editor/Data/Resources/UnitySubsystems
@@ -36,76 +36,110 @@ Initialize mono
 Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2020.3.10f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2020.3.10f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/2020.3.10f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56416
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56840
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2020.3.10f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.001833 seconds.
+Registered in 0.002117 seconds.
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 59.08 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 260.40 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.174 seconds
+- Completed reload, in  2.934 seconds
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
-Registered in 0.007473 seconds.
+Registered in 0.009601 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 59.53 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 67.84 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.284 seconds
+- Completed reload, in  1.610 seconds
 Platform modules already initialized, skipping
 ========================================================================
 Worker process is ready to serve import requests
 Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.06 seconds
-Refreshing native plugins compatible for Editor in 0.57 ms, found 2 plugins.
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.08 seconds
+Refreshing native plugins compatible for Editor in 0.63 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Unloading 2876 Unused Serialized files (Serialized files now loaded: 0)
 System memory in use before: 133.8 MB.
 System memory in use after: 134.0 MB.
 
 Unloading 27 unused Assets to reduce memory usage. Loaded Objects now: 3318.
-Total: 2.484300 ms (FindLiveObjects: 0.289600 ms CreateObjectMapping: 0.154700 ms MarkObjects: 1.990900 ms  DeleteObjects: 0.048000 ms)
+Total: 2.967800 ms (FindLiveObjects: 0.443400 ms CreateObjectMapping: 0.243600 ms MarkObjects: 2.249500 ms  DeleteObjects: 0.030000 ms)
 
 ========================================================================
 Received Import Request.
-  path: Assets/Sprites/Temp Overworld Sheets/icon exclamation point.png
-  artifactKey: Guid(03dc47e2ff4e9fd4191c4045c2616bc6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Temp Overworld Sheets/icon exclamation point.png using Guid(03dc47e2ff4e9fd4191c4045c2616bc6) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '12c38a7caf16d1e3d1e17e33c471743c') in 0.166474 seconds
-  Import took 0.171958 seconds .
+  path: Assets/Scripts/Dialogue/CutsceneProcessor.cs
+  artifactKey: Guid(e825779899352bb41882cdda1247c80c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/Dialogue/CutsceneProcessor.cs using Guid(e825779899352bb41882cdda1247c80c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c6fad4cfe13dece0280c3c13452a28b1') in 0.051616 seconds
+  Import took 0.057409 seconds .
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.010866 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.71 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.513 seconds
+Platform modules already initialized, skipping
+Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
+Refreshing native plugins compatible for Editor in 0.76 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2752 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 125.5 MB.
+System memory in use after: 125.7 MB.
+
+Unloading 20 unused Assets to reduce memory usage. Loaded Objects now: 3321.
+Total: 3.216400 ms (FindLiveObjects: 0.300800 ms CreateObjectMapping: 0.200100 ms MarkObjects: 2.690700 ms  DeleteObjects: 0.023000 ms)
+
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.008570 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Refreshing native plugins compatible for Editor in 0.72 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.373 seconds
+Platform modules already initialized, skipping
+Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
+Refreshing native plugins compatible for Editor in 0.62 ms, found 2 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2753 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 125.6 MB.
+System memory in use after: 125.8 MB.
+
+Unloading 20 unused Assets to reduce memory usage. Loaded Objects now: 3324.
+Total: 4.025400 ms (FindLiveObjects: 0.292700 ms CreateObjectMapping: 0.156800 ms MarkObjects: 3.549300 ms  DeleteObjects: 0.025200 ms)
 
 ========================================================================
 Received Import Request.
-  Time since last request: 0.000382 seconds.
-  path: Assets/Sprites/Temp Overworld Sheets/shade_overworld_test.png
-  artifactKey: Guid(51b686cf472e41f43bff8ab70be22328) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Temp Overworld Sheets/shade_overworld_test.png using Guid(51b686cf472e41f43bff8ab70be22328) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cee2d60436293bda24386a2e1031cd89') in 0.040681 seconds
-  Import took 0.045823 seconds .
+  Time since last request: 57.669007 seconds.
+  path: Assets/Scriptable Objects/Dialogue/August 2020 Demo
+  artifactKey: Guid(aa21f6f158ba7204d9d087117e349221) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scriptable Objects/Dialogue/August 2020 Demo using Guid(aa21f6f158ba7204d9d087117e349221) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8a29978b1af58893755cc6a2cb81f879') in 0.016063 seconds
+  Import took 0.044710 seconds .
 
 ========================================================================
 Received Import Request.
-  Time since last request: 0.000296 seconds.
-  path: Assets/Sprites/Temp Overworld Sheets/icon talk.png
-  artifactKey: Guid(ed0f96e5b02839e4093cfcfb18e9bbdd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Temp Overworld Sheets/icon talk.png using Guid(ed0f96e5b02839e4093cfcfb18e9bbdd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f75d2b09690a513126ccdc3b30f21fbc') in 0.018416 seconds
-  Import took 0.023590 seconds .
+  Time since last request: 0.000315 seconds.
+  path: Assets/Scriptable Objects/Dialogue/August 2020 Demo/August Demo Conversation Start.asset
+  artifactKey: Guid(a3971e50096f704498b54d6b044892ae) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scriptable Objects/Dialogue/August 2020 Demo/August Demo Conversation Start.asset using Guid(a3971e50096f704498b54d6b044892ae) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e2f07811a1e00b8d00b80284bdae8233') in 0.080156 seconds
+  Import took 0.094155 seconds .
 
 ========================================================================
 Received Import Request.
-  Time since last request: 0.001460 seconds.
-  path: Assets/Sprites/Temp Overworld Sheets/icon talk.png
-  artifactKey: Guid(ed0f96e5b02839e4093cfcfb18e9bbdd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Sprites/Temp Overworld Sheets/icon talk.png using Guid(ed0f96e5b02839e4093cfcfb18e9bbdd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'f75d2b09690a513126ccdc3b30f21fbc') in 0.011008 seconds
-  Import took 0.017216 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 1041.145718 seconds.
-  path: Assets/Fonts/Big Bottom Cartoon SDF.asset
-  artifactKey: Guid(9552e71ca3b5bcb48bffa876bd5e215e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Fonts/Big Bottom Cartoon SDF.asset using Guid(9552e71ca3b5bcb48bffa876bd5e215e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '6d20995f9f8abba1d0f3f622f39be92e') in 0.280289 seconds
-  Import took 0.286808 seconds .
+  Time since last request: 0.000238 seconds.
+  path: Assets/Scriptable Objects/Dialogue/August 2020 Demo/August Demo Conversation End.asset
+  artifactKey: Guid(aab4e20d0d7a51544a0d5ac0c80b2c28) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scriptable Objects/Dialogue/August 2020 Demo/August Demo Conversation End.asset using Guid(aab4e20d0d7a51544a0d5ac0c80b2c28) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0ea738ea614bb3ad2edc5704ca42d3f8') in 0.016282 seconds
+  Import took 0.026628 seconds .
 
 AssetImportWorkerClient::OnTransportError - code=2 error=End of file
