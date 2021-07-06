@@ -12119,7 +12119,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvasGroup: {fileID: 891045008}
-  fadeDelay: 0.5
+  parentRectTransform: {fileID: 891045006}
+  fadeDelay: 0.35
   dialogueText: {fileID: 1768036511}
   dialogueBackground: {fileID: 1482720375}
   dialogueArrow: {fileID: 266281977}

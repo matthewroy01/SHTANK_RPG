@@ -15,7 +15,9 @@ MonoBehaviour:
   actors: []
   steps:
   - speaker: No Clue
-    text: Woah, it's me, No Clue, from SHTANK.
+    text: Woah, it's me, the whacky and zany character from SHTANK...
+  - speaker: No Clue
+    text: No Clue!
   - speaker: Shade
     text: Wow No Clue from SHTANK, is it really you?
   - speaker: No Clue

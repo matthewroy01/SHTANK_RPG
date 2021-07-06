@@ -11,7 +11,9 @@ public class CutsceneProcessor : MonoBehaviour
 {
     [Header("Dialogue Parent")]
     public CanvasGroup parentCanvasGroup;
+    public RectTransform parentRectTransform;
     public float fadeDelay;
+    private Vector2 parentDefaultPosition;
 
     [Header("Resources")]
     public TextMeshProUGUI dialogueText;
@@ -48,6 +50,9 @@ public class CutsceneProcessor : MonoBehaviour
     private void Start()
     {
         refAudioManager = FindObjectOfType<UtilityAudioManager>();
+
+        parentDefaultPosition = parentRectTransform.anchoredPosition;
+        Debug.Log(parentDefaultPosition);
 
         StartCoroutine(UtilityStaticFunctions.CanvasGroupCrossFadeAlpha(parentCanvasGroup, 0.0f, 0.0f));
     }
@@ -91,6 +96,8 @@ public class CutsceneProcessor : MonoBehaviour
 
     private IEnumerator WriteText(CutsceneDefinition cutscene)
     {
+        Actor prevActor = null;
+
         // move the starting actor before beginning
         StartCoroutine(UtilityStaticFunctions.MoveGameObjectOverTime(actors[0].obj, actorPosition, 1.0f));
 
@@ -102,10 +109,43 @@ public class CutsceneProcessor : MonoBehaviour
 
             // assign who is speaking
             Speaker speaker = GetSpeaker(cutscene.steps[i].speaker);
+            Actor actor = GetActor(cutscene.steps[i].speaker);
 
             // enable the background and arrow
             dialogueBackground.gameObject.SetActive(true);
             dialogueArrow.gameObject.SetActive(true);
+
+            // if the actor has changed, do an animation
+            if (prevActor == null || prevActor.name != actor.name)
+            {
+                // fade out first if we're not on the first dialogue
+                if (i != 0)
+                {
+                    // animate
+                    parentRectTransform.DOScale(Vector2.zero, fadeDelay);
+                    parentRectTransform.DOAnchorPos(prevActor.GetScreenSpacePosition(), fadeDelay, false);
+
+                    StartCoroutine(UtilityStaticFunctions.CanvasGroupCrossFadeAlpha(parentCanvasGroup, 0.0f, fadeDelay));
+
+                    yield return new WaitForSecondsRealtime(fadeDelay);
+                }
+
+                // fade in
+                Vector3 actorScreenSpacePosition = actor.GetScreenSpacePosition();
+                
+                // move the arrow
+                dialogueArrow.rectTransform.anchoredPosition = new Vector3(actorScreenSpacePosition.x, dialogueArrow.rectTransform.anchoredPosition.y, 0.0f);
+
+                // set initial values
+                parentRectTransform.anchoredPosition = actorScreenSpacePosition;
+                parentCanvasGroup.transform.localScale = Vector2.zero;
+
+                // animate
+                parentRectTransform.DOScale(Vector2.one, fadeDelay);
+                parentRectTransform.DOAnchorPos(parentDefaultPosition, fadeDelay, false);
+
+                StartCoroutine(UtilityStaticFunctions.CanvasGroupCrossFadeAlpha(parentCanvasGroup, 1.0f, fadeDelay));
+            }
 
             // animation for when dialogue starts
             if (i == 0)
@@ -115,6 +155,7 @@ public class CutsceneProcessor : MonoBehaviour
                 yield return new WaitForSeconds(fadeDelay);
             }
 
+            moveOn = false;
             running = true;
             writing = true;
 
@@ -123,7 +164,10 @@ public class CutsceneProcessor : MonoBehaviour
             {
                 StopCoroutine(actorAnimationCoroutine);
             }
-            actorAnimationCoroutine = StartCoroutine(ActorAnimation(GetActor(cutscene.steps[i].speaker)));
+            actorAnimationCoroutine = StartCoroutine(ActorAnimation(actor));
+
+            // update the saved "previous" actor
+            prevActor = actor;
 
             // loop through the content of the dialogue and display it
             for (int j = 0; j < cutscene.steps[i].text.Length; ++j)
