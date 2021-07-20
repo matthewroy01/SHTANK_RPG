@@ -11,4 +11,7 @@ public class EnemyGroup : ScriptableObject
 
     [Header("List of Enemies")]
     public List<CharacterDefinition> characterDefinitions;
+
+    [Header("Music for this group")]
+    public ManagedAudio music;
 }

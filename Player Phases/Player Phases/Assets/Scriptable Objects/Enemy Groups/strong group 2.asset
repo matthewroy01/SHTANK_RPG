@@ -19,3 +19,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d13ce0adb8c0dd740a26338e3768ca02, type: 2}
   - {fileID: 11400000, guid: d13ce0adb8c0dd740a26338e3768ca02, type: 2}
   - {fileID: 11400000, guid: 34b941251869b4e4fbfdce10058354de, type: 2}
+  music:
+    clip: {fileID: 8300000, guid: e4baa55dee80ea140bbe97af825ccef8, type: 3}
+    volume: 0.5
+    pitch: 0
+    randomPitchMinMax: {x: 0, y: 0}

@@ -132,6 +132,11 @@ public class SHTANKManager : MonoBehaviour
             refOverworldManager.DisableOverworldObjects();
 
             musicOverworld.Pause();
+            if (targetEnemy.toSpawn.music != null)
+            {
+                musicBattle.clip = targetEnemy.toSpawn.music.clip;
+                musicBattle.volume = targetEnemy.toSpawn.music.volume;
+            }
             musicBattle.Play();
 
             combatDirection = (targetEnemy.transform.position - position).normalized;

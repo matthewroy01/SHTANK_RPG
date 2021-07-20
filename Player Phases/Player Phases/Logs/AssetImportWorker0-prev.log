@@ -1,6 +1,6 @@
 Using pre-set license
 Built from '2020.3/staging' branch; Version is '2020.3.10f1 (297d780c91bc) revision 2719096'; Using compiler version '192528614'; Build Type 'Release'
-OS: 'Windows 10 Home; OS build 19041.1052; Version 2004; 64bit' Language: 'en' Physical Memory: 20423 MB
+OS: 'Windows 10 Home; OS build 19041.1110; Version 2004; 64bit' Language: 'en' Physical Memory: 20423 MB
 BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1, IsPro: 0
 
  COMMAND LINE ARGUMENTS:
@@ -15,11 +15,11 @@ C:/Users/Admin/Desktop/SHTANK RPG Repo/Player Phases/Player Phases
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-53989
+61626
 Successfully changed project path to: C:/Users/Admin/Desktop/SHTANK RPG Repo/Player Phases/Player Phases
 C:/Users/Admin/Desktop/SHTANK RPG Repo/Player Phases/Player Phases
 Using Asset Import Pipeline V2.
-Refreshing native plugins compatible for Editor in 68.23 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 68.55 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2020.3.10f1 (297d780c91bc)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2020.3.10f1/Editor/Data/Resources/UnitySubsystems
@@ -36,110 +36,137 @@ Initialize mono
 Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2020.3.10f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2020.3.10f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/2020.3.10f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56840
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56740
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2020.3.10f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
-Registered in 0.002117 seconds.
+Registered in 0.001906 seconds.
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 260.40 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 62.54 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  2.934 seconds
+- Completed reload, in  1.137 seconds
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
-Registered in 0.009601 seconds.
+Registered in 0.009490 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 67.84 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 62.27 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.610 seconds
+- Completed reload, in  1.328 seconds
 Platform modules already initialized, skipping
 ========================================================================
 Worker process is ready to serve import requests
 Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
-Launched and connected shader compiler UnityShaderCompiler.exe after 0.08 seconds
-Refreshing native plugins compatible for Editor in 0.63 ms, found 2 plugins.
+Launched and connected shader compiler UnityShaderCompiler.exe after 0.06 seconds
+Refreshing native plugins compatible for Editor in 0.56 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 2876 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 133.8 MB.
-System memory in use after: 134.0 MB.
+Unloading 2877 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 134.1 MB.
+System memory in use after: 134.4 MB.
 
-Unloading 27 unused Assets to reduce memory usage. Loaded Objects now: 3318.
-Total: 2.967800 ms (FindLiveObjects: 0.443400 ms CreateObjectMapping: 0.243600 ms MarkObjects: 2.249500 ms  DeleteObjects: 0.030000 ms)
+Unloading 27 unused Assets to reduce memory usage. Loaded Objects now: 3319.
+Total: 2.687000 ms (FindLiveObjects: 0.284700 ms CreateObjectMapping: 0.160900 ms MarkObjects: 2.182400 ms  DeleteObjects: 0.057900 ms)
 
 ========================================================================
 Received Import Request.
-  path: Assets/Scripts/Dialogue/CutsceneProcessor.cs
-  artifactKey: Guid(e825779899352bb41882cdda1247c80c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scripts/Dialogue/CutsceneProcessor.cs using Guid(e825779899352bb41882cdda1247c80c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c6fad4cfe13dece0280c3c13452a28b1') in 0.051616 seconds
-  Import took 0.057409 seconds .
+  path: Assets/Scenes/DungeonTest.unity
+  artifactKey: Guid(3f2379953fd35f540869d77fb23097fb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/DungeonTest.unity using Guid(3f2379953fd35f540869d77fb23097fb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1555dbc3bf0d93710c274c981dae9aa3') in 0.022095 seconds
+  Import took 0.027342 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 1207.852582 seconds.
+  path: Assets/Sound/Music
+  artifactKey: Guid(c33b7d4fc4ff3a547a7346011a737baf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sound/Music using Guid(c33b7d4fc4ff3a547a7346011a737baf) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '1837dccc2732aaf5da85f27adee7d66c') in 0.011596 seconds
+  Import took 0.018223 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.042899 seconds.
+  path: Assets/Sound/Music/k_jose_-_buildup.it
+  artifactKey: Guid(cd5f05beac664b64683c96252d2fa32e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sound/Music/k_jose_-_buildup.it using Guid(cd5f05beac664b64683c96252d2fa32e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cd8584780083e72f5151f524225d72ed') in 0.123621 seconds
+  Import took 0.130136 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000356 seconds.
+  path: Assets/Sound/Music/k_jose_-_fight_for_it.it
+  artifactKey: Guid(2121496fc8676c14ca957fda33f4b5de) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sound/Music/k_jose_-_fight_for_it.it using Guid(2121496fc8676c14ca957fda33f4b5de) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a17be77d4baabafbd503d4c9112511fe') in 0.032551 seconds
+  Import took 0.037417 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000322 seconds.
+  path: Assets/Sound/Music/Karate Person.mp3
+  artifactKey: Guid(a91c321440922424bb6896be8d02f202) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sound/Music/Karate Person.mp3 using Guid(a91c321440922424bb6896be8d02f202) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'ac99477119f74fe9a1f0076dd95002cd') in 0.036351 seconds
+  Import took 0.041847 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000322 seconds.
+  path: Assets/Sound/Music/k_jose_-_pixelated_affection.it
+  artifactKey: Guid(9acdfc59a14b2d74f8e38f72b47a9ddd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sound/Music/k_jose_-_pixelated_affection.it using Guid(9acdfc59a14b2d74f8e38f72b47a9ddd) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4c2ed8bb4a6f5315251ae3a9bd23ef6b') in 0.032861 seconds
+  Import took 0.037603 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000206 seconds.
+  path: Assets/Sound/Music/piklopedia.mp3
+  artifactKey: Guid(892c5995f1546ef4a9ff9f62ea050fbc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sound/Music/piklopedia.mp3 using Guid(892c5995f1546ef4a9ff9f62ea050fbc) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '097ad8159e31f5748a2b6a924b5bb96a') in 0.027287 seconds
+  Import took 0.032082 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000222 seconds.
+  path: Assets/Sound/Music/k_jose_-_enemy_forces.it
+  artifactKey: Guid(3a929057491a07d4da79e9aefc691e93) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sound/Music/k_jose_-_enemy_forces.it using Guid(3a929057491a07d4da79e9aefc691e93) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '260c84dd4d15f602df0cbb2687cd98a1') in 0.028501 seconds
+  Import took 0.033577 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000193 seconds.
+  path: Assets/Sound/Music/SHTANK - Overworld.wav
+  artifactKey: Guid(d8ed686abcf3db943aae3b95056bec76) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sound/Music/SHTANK - Overworld.wav using Guid(d8ed686abcf3db943aae3b95056bec76) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '972ba3fec47cc1e0d42112a833068f5f') in 0.029735 seconds
+  Import took 0.034723 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 4.415006 seconds.
+  path: Assets/Sound/Music/The Attic's a Dungeon! - MOTHER 3.mp3
+  artifactKey: Guid(1fcf8fc331d69f14b8bea8c7ec46dc56) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sound/Music/The Attic's a Dungeon! - MOTHER 3.mp3 using Guid(1fcf8fc331d69f14b8bea8c7ec46dc56) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8f27386014501a9cde2e965445a917d2') in 0.026014 seconds
+  Import took 0.032539 seconds .
 
 ========================================================================
 Received Prepare
 Registering precompiled user dll's ...
-Registered in 0.010866 seconds.
+Registered in 0.017323 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.71 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 0.86 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.513 seconds
+- Completed reload, in  1.986 seconds
 Platform modules already initialized, skipping
 Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
-Refreshing native plugins compatible for Editor in 0.76 ms, found 2 plugins.
+Refreshing native plugins compatible for Editor in 0.78 ms, found 2 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 2752 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 125.5 MB.
-System memory in use after: 125.7 MB.
+Unloading 2754 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 128.9 MB.
+System memory in use after: 129.1 MB.
 
-Unloading 20 unused Assets to reduce memory usage. Loaded Objects now: 3321.
-Total: 3.216400 ms (FindLiveObjects: 0.300800 ms CreateObjectMapping: 0.200100 ms MarkObjects: 2.690700 ms  DeleteObjects: 0.023000 ms)
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.008570 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for WindowsStandalone target not found
-Refreshing native plugins compatible for Editor in 0.72 ms, found 2 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Mono: successfully reloaded assembly
-- Completed reload, in  1.373 seconds
-Platform modules already initialized, skipping
-Shader 'Universal Render Pipeline/Particles/Lit': fallback shader 'Universal Render Pipeline/Particles/SimpleLit' not found
-Refreshing native plugins compatible for Editor in 0.62 ms, found 2 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 2753 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 125.6 MB.
-System memory in use after: 125.8 MB.
-
-Unloading 20 unused Assets to reduce memory usage. Loaded Objects now: 3324.
-Total: 4.025400 ms (FindLiveObjects: 0.292700 ms CreateObjectMapping: 0.156800 ms MarkObjects: 3.549300 ms  DeleteObjects: 0.025200 ms)
-
-========================================================================
-Received Import Request.
-  Time since last request: 57.669007 seconds.
-  path: Assets/Scriptable Objects/Dialogue/August 2020 Demo
-  artifactKey: Guid(aa21f6f158ba7204d9d087117e349221) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scriptable Objects/Dialogue/August 2020 Demo using Guid(aa21f6f158ba7204d9d087117e349221) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8a29978b1af58893755cc6a2cb81f879') in 0.016063 seconds
-  Import took 0.044710 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 0.000315 seconds.
-  path: Assets/Scriptable Objects/Dialogue/August 2020 Demo/August Demo Conversation Start.asset
-  artifactKey: Guid(a3971e50096f704498b54d6b044892ae) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scriptable Objects/Dialogue/August 2020 Demo/August Demo Conversation Start.asset using Guid(a3971e50096f704498b54d6b044892ae) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e2f07811a1e00b8d00b80284bdae8233') in 0.080156 seconds
-  Import took 0.094155 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 0.000238 seconds.
-  path: Assets/Scriptable Objects/Dialogue/August 2020 Demo/August Demo Conversation End.asset
-  artifactKey: Guid(aab4e20d0d7a51544a0d5ac0c80b2c28) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/Scriptable Objects/Dialogue/August 2020 Demo/August Demo Conversation End.asset using Guid(aab4e20d0d7a51544a0d5ac0c80b2c28) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '0ea738ea614bb3ad2edc5704ca42d3f8') in 0.016282 seconds
-  Import took 0.026628 seconds .
+Unloading 20 unused Assets to reduce memory usage. Loaded Objects now: 3331.
+Total: 5.896700 ms (FindLiveObjects: 0.315400 ms CreateObjectMapping: 0.197700 ms MarkObjects: 5.349600 ms  DeleteObjects: 0.032500 ms)
 
 AssetImportWorkerClient::OnTransportError - code=2 error=End of file
