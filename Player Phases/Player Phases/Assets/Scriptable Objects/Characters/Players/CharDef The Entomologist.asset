@@ -16,7 +16,7 @@ MonoBehaviour:
   characterDescription: The Entomologist is an accomplished biologist and chemist
     putting her love of insects to use with witch themed "potions" to summon her
     bug friends into battle.
-  portrait: {fileID: 21300000, guid: 182a2ad2858ad024d8666bddbc82d461, type: 3}
+  portrait: {fileID: 21300000, guid: 9ed0eca7fe2b42d49b9187b32ef593e2, type: 3}
   healthMax: 100
   attack: 0
   defense: 0
@@ -28,4 +28,4 @@ MonoBehaviour:
   movementDialogueSound: {fileID: 0}
   terrainTypes: 0000000003000000
   passiveFunctionality: {fileID: 0}
-  sprite: {fileID: 21300000, guid: f89d6f7b90a9dff4983a5e43b96bda1c, type: 3}
+  sprite: {fileID: 21300000, guid: fdc90bbf9d193df46ac4cc5f97a8927e, type: 3}

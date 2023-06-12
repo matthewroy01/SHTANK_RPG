@@ -37,12 +37,31 @@ namespace SHTANKDungeon
             Generate();
         }
 
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.P))
+            {
+                foreach (Transform child in transform)
+                {
+                    Destroy(child.gameObject);
+                }
+
+                walls.Clear();
+                roomPositions.Clear();
+
+                Generate();
+            }
+        }
+
         public void Generate()
         {
             grid = new GameObject[floorSize, floorSize];
 
             // create rooms
             CreateRooms();
+
+            // create extras in rooms
+            CreateExtras();
 
             // create connecting paths
             CreatePaths();
@@ -185,7 +204,7 @@ namespace SHTANKDungeon
                     {
                         if (CheckShouldBeWall(i, j) == true)
                         {
-                            TryCreateObject(i, j, 0, 0.5f, prefabWall, walls, 0);
+                            TryCreateObject(i, j, 0, 0.5f, prefabWall, walls, 0, true);
                         }
                     }
                 }
@@ -230,7 +249,7 @@ namespace SHTANKDungeon
             return false;
         }
 
-        private void TryCreateObject(int x, int y, int bound, float yOffset, GameObject prefab, List<GameObject> toAddTo = null, int extras = 0)
+        private void TryCreateObject(int x, int y, int bound, float yOffset, GameObject prefab, List<GameObject> toAddTo = null, int extras = 0, bool mustReplace = false)
         {
             GameObject tmp = null;
 
@@ -246,15 +265,27 @@ namespace SHTANKDungeon
 
                     grid[x, y] = tmp;
                 }
+                else if (mustReplace)
+                {
+                    Destroy(grid[x, y]);
+
+                    tmp = Instantiate(prefab, new Vector3(x, yOffset, y), Quaternion.identity, transform);
+                    if (toAddTo != null)
+                    {
+                        toAddTo.Add(tmp);
+                    }
+
+                    grid[x, y] = tmp;
+                }
             }
 
             if (extras > 0)
             {
                 extras--;
-                TryCreateObject(x + 1, y, bound, yOffset, prefab, toAddTo, extras);
-                TryCreateObject(x - 1, y, bound, yOffset, prefab, toAddTo, extras);
-                TryCreateObject(x, y - 1, bound, yOffset, prefab, toAddTo, extras);
-                TryCreateObject(x, y + 1, bound, yOffset, prefab, toAddTo, extras);
+                TryCreateObject(x + 1, y, bound, yOffset, prefab, toAddTo, extras, mustReplace);
+                TryCreateObject(x - 1, y, bound, yOffset, prefab, toAddTo, extras, mustReplace);
+                TryCreateObject(x, y - 1, bound, yOffset, prefab, toAddTo, extras, mustReplace);
+                TryCreateObject(x, y + 1, bound, yOffset, prefab, toAddTo, extras, mustReplace);
             }
         }
 
@@ -269,8 +300,26 @@ namespace SHTANKDungeon
             {
                 for (int i = 1; i < roomPositions.Count; ++i)
                 {
-                    OverworldEnemyController tmp = Instantiate(overworldEnemyPrefab, new Vector3(roomPositions[i].x, 1.0f, roomPositions[i].y), overworldEnemyPrefab.transform.rotation, overworldEnemyParent);
+                    OverworldEnemyController tmp = Instantiate(overworldEnemyPrefab, new Vector3(roomPositions[i].x, 1.0f, roomPositions[i].y), overworldEnemyPrefab.transform.rotation, transform);
                     tmp.toSpawn = enemyGroups[Random.Range(0, enemyGroups.Count)];
+                }
+            }
+        }
+
+        private void CreateExtras()
+        {
+            for (int i = 0; i < roomPositions.Count; ++i)
+            {
+                int numExtras = Random.Range(3, 7);
+
+                int roomSizeAverage = roomSizeMin/*(int)((roomSizeMin + roomSizeMax) * 0.5f)*/;
+
+                for (int j = 0; j < numExtras; ++j)
+                {
+                    int x = Random.Range(0, roomSizeAverage) - (int)(roomSizeAverage * 0.5f);
+                    int y = Random.Range(0, roomSizeAverage) - (int)(roomSizeAverage * 0.5f);
+
+                    TryCreateObject(roomPositions[i].x + x, roomPositions[i].y + y, 1, 0.5f, prefabWall, walls, 0, true);
                 }
             }
         }

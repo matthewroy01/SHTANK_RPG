@@ -19,5 +19,7 @@ namespace SHTANKCutscenes
         
         [TextArea(3, 10)]
         public string text;
+
+        /* ADDITIONAL VARIABLES HERE FOR ANIMATION, ETC */
     }
 }

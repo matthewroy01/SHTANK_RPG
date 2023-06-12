@@ -72,7 +72,7 @@ public class SHTANKCamera : MonoBehaviour
     {
         MouseMovement();
 
-        MoveCamera(cameraTargetCombat, smoothing, turnSpeed);
+        MoveCamera(defaultPosition, cameraTargetCombat.rotation, smoothing, turnSpeed);
     }
 
     public void CameraFunctionalityOverworld()
@@ -126,7 +126,6 @@ public class SHTANKCamera : MonoBehaviour
         // this function must be called after the Combat Grid has already initialized itself, otherwise a null reference will occur when trying to get the position of the [0, 0] grid space from it
         CenterCamera();
 
-        cameraTargetCombat.position = defaultPosition;
         maxBounds = new Bounds(defaultPosition, new Vector3(movementAreaSize.x, 1.0f, movementAreaSize.y));
     }
 
